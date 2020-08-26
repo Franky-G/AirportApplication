@@ -22,8 +22,8 @@
      in the project.
 1. __Is it acceptable for some team members to do more work on the assignment in order to get an “A”?__ 
    * I would say that the work should be distributed equally, and if a team member finishes early they should try to help
-     other members in order to reach the goals. If a team member does more work than others, they should definitely 
-     receive a higher grade than the others.
+     other members in order to reach the goals. I believe it is not acceptable that an individual does all the work and the 
+     team is left with minimal work to do, this causes chaos in the team which will derail us from our goals.
 1. __How much time per week do you anticipate it will take to make the project successful?__ 
    * I anticipate it will take around 12-15 hours every week in order to make the project successful.
 1. __How will you decide who should do what on the project and activities?__ 
