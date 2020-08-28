@@ -1,7 +1,7 @@
 # t10 - tech10
 
 ![tech10 Team Picture](https://github.com/csucs314f20/t10/blob/master/team/images/tech10.png)
- **Expected the Unexpected**
+ **Expect the Unexpected**
 
 # Member Information
 
