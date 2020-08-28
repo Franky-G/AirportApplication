@@ -1,8 +1,7 @@
-# Team Information
-
 # t10 - tech10
 
-![tech10 Team Picture](https://github.com/csucs314f20/t10/blob/master/team/images/csuRAMS_3_V3%20(1).jpg)
+![tech10 Team Picture](https://github.com/csucs314f20/t10/blob/master/team/images/tech10.png)
+ **Expected the Unexpected**
 
 # Member Information
 
