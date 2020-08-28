@@ -8,3 +8,4 @@
 
 | Last Name | First Name | CSU eName | GitHub Username | CSU Email Address |
 | --------- | ---------- | --------- | --------------- | ----------------- |
+| Bhalavat | Jimit | jimit | jimitbhalavat | jimit@rams.colostate.edu |
