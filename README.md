@@ -11,3 +11,4 @@
 | Bhalavat | Jimit | jimit | jimitbhalavat | jimit@rams.colostate.edu |
 | Cummings | Kyle  | kc7   | CrepeTown     | kc7@rams.colostate.edu   |
 | Barth | Jake  | jakebart   | jakebart     | jakebart@rams.colostate.edu   |
+| Gansukh | Frank | frankyg | Franky-G | frankyg@rams.colostate.edu |
