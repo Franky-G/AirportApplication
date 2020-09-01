@@ -25,8 +25,9 @@ The solution should clearly identify the team that created the product and a lit
 
 ## Planned Epics
 
-- v1 protocol
-- Team identification
+- v1 protocol: The user would like to view the server capabilities since the client could be connected to a variety of servers with different features.
+- Team identification: Pick a name to identify your team/project to the rest of the organization.
+- About: 
 
 ## Metrics
 
