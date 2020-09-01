@@ -21,3 +21,9 @@ The team also expects to finish the assignments in a timely and in an efficient 
 personal goals are to brush up on teamwork and communication skills. The team is also ready to 
 help other people whenever there is a hiccup, and also want to make sure that we are comfortable with
 one another. The team would also like to learn what it is like to work in a real-world setting.
+
+Some conflicts for the team may be our scheduling conflicts. Additionally, the team may be unfamilliar 
+with some of the software. We believe that the effort put into our project should supercede the grade 
+attached to it. The team has an emphasis on building each other up together as we build our project
+up. We will provide equal distribution amongst the team members as best as we can until things 
+become apparent that we need a leader, not for a better grade, but for the best product.
