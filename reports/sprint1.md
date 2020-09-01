@@ -28,7 +28,7 @@ The solution should clearly identify the team that created the product and a lit
 - v1 protocol: Create a way for the user to view server statistics. These will change from server to server depending on which server the user is connected to.
 - Team identification: Our team name is tech10. This name will be added to our team's website in the header, footer, as well as the browser tab and "tech10" will be 
 the name set for the server and client. 
-- About: Provide the user with information about the team and the people on the team.
+- About: In this epic, the user will have information on our team members and the team itself. Additionally, the user will be able to see the teams mission statement.
 - Where am I?: This epic will carry out tasks that will provide the user to view their current location. It will also allow the user to return to their current location after they have changed their map view.
 - Where is?: This epic will focus on tasks that will allow the user to see their location on map using longitude and latitude. It will also allow them to search   for a place by typing or pasting a string that provides longitude and latitude.
 
