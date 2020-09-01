@@ -27,3 +27,10 @@ with some of the software. We believe that the effort put into our project shoul
 attached to it. The team has an emphasis on building each other up together as we build our project
 up. We will provide equal distribution amongst the team members as best as we can until things 
 become apparent that we need a leader, not for a better grade, but for the best product.
+
+The team estimates that there will be about 75 man hours a week to make the project successful.
+The team will divide the work evenly amoung the team members. The team will use our understanding of
+each persons skillset and background to make a uniform decision on assigning projects and activities
+to teammates. The team will have a contingency plan on the issue, however the team believes that forgiveness
+is necessary. The team also believes that they will be around each other enough that they shouldnt have
+a problem with commitments.
