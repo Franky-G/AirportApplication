@@ -22,11 +22,11 @@ personal goals are to brush up on teamwork and communication skills. The team is
 help other people whenever there is a hiccup, and also want to make sure that we are comfortable with
 one another. The team would also like to learn what it is like to work in a real-world setting.
 
-Some conflicts for the team may be our scheduling conflicts. Additionally, the team may be unfamilliar 
-with some of the software. We believe that the effort put into our project should supercede the grade 
-attached to it. The team has an emphasis on building each other up together as we build our project
-up. We will provide equal distribution amongst the team members as best as we can until things 
-become apparent that we need a leader, not for a better grade, but for the best product.
+Some conflicts for the team may be scheduling conflicts. Additionally, the team may be unfamilliar 
+with some of the software. The team believes that the effort put into our project should supercede the grade 
+attached to it. The team has an emphasis on building each other up together as the team builds the project
+up. The team will provide equal distribution amongst team members as best as possible until things 
+become apparent that a leader is required, not for a better grade, but for the best product.
 
 The team estimates that there will be about 75 man hours a week to make the project successful.
 The team will divide the work evenly amoung the team members. The team will use our understanding of
@@ -40,4 +40,9 @@ of everyones expectations. We will deal with different work habbits by adapting 
 get more out of each team member. If the team has a plan going into each project each member of the team will 
 know what they have to do. The team would like to have meetings outside of class through Discord or MS Teams. 
 Whenever the team feels like a meeting needs to happen it will. Oustide of class the team should meet at least 
-three times per week. Depending on the scenario the team may need to meet more or less and we can adjust off that.   
+three times per week. Depending on the scenario the team may need to meet more or less and we can adjust off that.  
+
+The team will make decisions together and uniformly with respect to the project throughout the semester. If conflicts arise 
+the team will discuss concerns or problems as necessary. The team should bring it up in a discussion and express opinions to 
+find a middle ground again. In the case of concerns with regards to distribution of workloads a team meeting will be 
+facilatated to rectify and resolve any issues.
