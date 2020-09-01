@@ -27,7 +27,8 @@ The solution should clearly identify the team that created the product and a lit
 
 - v1 protocol: The user would like to view the server capabilities since the client could be connected to a variety of servers with different features.
 - Team identification: Pick a name to identify your team/project to the rest of the organization.
-- About: 
+- About: Provide the user with information about the team and the people on the tea
+- Where am I?: The user would like to view their current location when the app starts or return to their current location after they have changed the map view.
 
 ## Metrics
 
