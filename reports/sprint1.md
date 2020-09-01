@@ -26,7 +26,8 @@ The solution should clearly identify the team that created the product and a lit
 ## Planned Epics
 
 - v1 protocol: Create a way for the user to view server statistics. These will change from server to server depending on which server the user is conneced to
-- Team identification: Pick a name to identify your team/project to the rest of the organization.
+- Team identification: Our team name is tech10. This name will be added to our team's website in the header, footer, as well as the browser tab and "tech10" will be 
+the name set for the server and client. 
 - About: Provide the user with information about the team and the people on the team.
 - Where am I?: The user would like to view their current location when the app starts or return to their current location after they have changed the map view.
 - Where is?: The user would like to see a location on the map using latitude and longitude.
