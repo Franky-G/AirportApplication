@@ -30,7 +30,7 @@ The solution should clearly identify the team that created the product and a lit
 the name set for the server and client. 
 - About: Provide the user with information about the team and the people on the team.
 - Where am I?: The user would like to view their current location when the app starts or return to their current location after they have changed the map view.
-- Where is?: The user would like to see a location on the map using latitude and longitude.
+- Where is?: This epic will focus on tasks that will allow the user to see their location on map using longitude and latitude. It will also allow them to search   for a place by typing or pasting a string that provides longitude and latitude.
 
 ## Metrics
 
