@@ -34,3 +34,10 @@ each persons skillset and background to make a uniform decision on assigning pro
 to teammates. The team will have a contingency plan on the issue, however the team believes that forgiveness
 is necessary. The team also believes that they will be around each other enough that they shouldnt have
 a problem with commitments.
+
+If the team has different opinions on the quality of work they team can make an compromise toward the average 
+of everyones expectations. We will deal with different work habbits by adapting all of our styles in order to 
+get more out of each team member. If the team has a plan going into each project each member of the team will 
+know what they have to do. The team would like to have meetings outside of class through Discord or MS Teams. 
+Whenever the team feels like a meeting needs to happen it will. Oustide of class the team should meet at least 
+three times per week. Depending on the scenario the team may need to meet more or less and we can adjust off that.   
