@@ -25,7 +25,7 @@ The solution should clearly identify the team that created the product and a lit
 
 ## Planned Epics
 
-- v1 protocol: The user would like to view the server capabilities since the client could be connected to a variety of servers with different features.
+- v1 protocol: Create a way for the user to view server statistics. These will change from server to server depending on which server the user is conneced to
 - Team identification: Pick a name to identify your team/project to the rest of the organization.
 - About: Provide the user with information about the team and the people on the team.
 - Where am I?: The user would like to view their current location when the app starts or return to their current location after they have changed the map view.
@@ -37,7 +37,7 @@ The solution should clearly identify the team that created the product and a lit
 | --- | ---: | ---: |
 | Epics | *5* | *count* |
 | Tasks |  *14*   | *count* | 
-| Story Points |  *15*  | *count* | 
+| Story Points |  *17*  | *count* | 
 
 
 ## Scrums
