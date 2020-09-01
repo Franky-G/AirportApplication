@@ -25,6 +25,8 @@ The solution should clearly identify the team that created the product and a lit
 
 ## Planned Epics
 
+- v1 protocol
+- Team identification
 
 ## Metrics
 
