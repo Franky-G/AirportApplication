@@ -1,4 +1,4 @@
-# Preferences for _yournamehere_
+# Preferences for _Sean Munoz_
 
 1. __Is it generally easier to reach you by text, electronic mail, voice mail or something else?  What hours?__ 
    * Easier with text or discord.
