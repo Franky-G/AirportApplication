@@ -45,14 +45,20 @@ the name set for the server and client.
 
 | Date | Tasks closed  | Tasks in progress | Impediments |
 | :--- | :--- | :--- | :--- |
-| *date* | *#task, ...* | *#task, ...* | *none* | 
+| *09/04/20* | *3* | *5* | *none* | 
 
 
 ## Review
 
 #### Epics done  
+ - Team Information : "tech10" is integrated into our website's header, footer, as well as the browser tab. Additionally, "tech10" is there in the server and client. 
+the name set for the server and client
 
 #### Epics not done 
+ - v1 protocol
+ - About
+ - Where am I?
+ - Where is?
 
 #### What went well
 
