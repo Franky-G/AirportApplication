@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import img from "../../../../team/images/tech10.png";
 import kylePic from "../../../../team/images/kyle.jpg";
 import jakePic from "../../../../team/images/jake.jpg";
-import jimitPic from "../../../../team/images/jimit.jpg"
 
 import {Container, Row, Col, Button, Card, CardTitle, CardBody, CardText, CardImg, CardDeck, CardHeader, CardColumns, CardGroup, CardFooter} from 'reactstrap';
 
@@ -44,10 +43,10 @@ export default class About extends Component {
                       <CardDeck>
 
                           <Card border= "secondary" style={{ width: '20rem' }}>
-                              <CardImg src = {jimitPic}/>
+                              <CardImg src = {img}/>
                               <CardHeader><h4>Jimit Bhalavat</h4></CardHeader>
-                              <CardBody>Hello, I am Jimit! I am currently a Junior at Colorado State University majoring in Computer Science and minors in Math and Statistics. My hobbies are to play sports and do community service. I also love the outdoors.</CardBody>
-                              <CardFooter className="bg-dark text-white" >jimit@rams.colostate.edu</CardFooter>
+                              <CardBody>Here is some info about me</CardBody>
+                              <CardFooter className="bg-dark text-white" >Insert Email Here</CardFooter>
                           </Card>
                           <Card>
                               <CardImg src = {kylePic}/>
