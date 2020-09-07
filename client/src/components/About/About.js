@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import img from "../../../../team/images/tech10.png";
+import kylePic from "../../../../team/images/kyle.jpg";
+
 import {Container, Row, Col, Button, Card, CardTitle, CardBody, CardText, CardImg, CardDeck, CardHeader, CardColumns, CardGroup, CardFooter} from 'reactstrap';
 
 import {CLIENT_TEAM_NAME} from "../../utils/constants";
@@ -46,10 +48,10 @@ export default class About extends Component {
                               <CardFooter className="bg-dark text-white" >Insert Email Here</CardFooter>
                           </Card>
                           <Card>
-                              <CardImg src = {img}/>
+                              <CardImg src = {kylePic}/>
                               <CardHeader><h4>Kyle Cummings</h4></CardHeader>
-                              <CardBody>Here is some info about me</CardBody>
-                              <CardFooter className="bg-dark text-white" >Insert Email Here</CardFooter>
+                              <CardBody>Hello, my name is Kyle! I am a Junior studying Computer Science at CSU and I plan on continuing in the field far after I graduate. Some of my hobbies include fly fishing and sports! </CardBody>
+                              <CardFooter className="bg-dark text-white" >kc7@rams.colostate.edu</CardFooter>
 
                           </Card>
                           <Card>
@@ -57,6 +59,7 @@ export default class About extends Component {
                               <CardHeader><h4>Jake Barth</h4></CardHeader>
                               <CardBody>Here is some info about me</CardBody>
                               <CardFooter className="bg-dark text-white" >Insert Email Here</CardFooter>
+
                           </Card>
                       </CardDeck>
                       <br/>
