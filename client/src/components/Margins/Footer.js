@@ -3,8 +3,8 @@ import { Container } from "reactstrap";
 
 import ServerSettings from "./ServerSettings";
 
-const UNICODE_LINK_SYMBOL = "\uD83D\uDD17";
-const UNICODE_WARNING_SIGN = "\u26A0";
+const UNICODE_LINK_SYMBOL = '\u2714';
+const UNICODE_WARNING_SIGN = "\u2718";
 const UNICODE_INFO_SYMBOL = "\u24D8";
 const UNKNOWN_SERVER_NAME = "Unknown";
 
