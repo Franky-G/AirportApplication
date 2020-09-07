@@ -31,12 +31,12 @@ export default class About extends Component {
               <div>
                   <div>
                       <h2 align="left">Mission Statement:</h2>
-                      <img src={img} width = "150" height = "125" align = "left" class = "mr-3"/><h4>Our Mission:</h4><p2>Our Mission is to prepare ourselves as Software Engineers
+                      <img src={img} width = "150" height = "125" align = "left" className = "mr-3"/><h4>Our Mission:</h4><p>Our Mission is to prepare ourselves as Software Engineers
                           and for future endeavours in Computer Science. We develop and work on a team based
                           integration method with a range of technologies
                           to build applications, and share skills and knowledge with the community. Our motto is
                           "Expect the Unexpected".
-                      </p2>
+                      </p>
 
                   </div>
                   <br/>
