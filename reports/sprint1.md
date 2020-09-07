@@ -46,17 +46,18 @@ the name set for the server and client.
 | Date | Tasks closed  | Tasks in progress | Impediments |
 | :--- | :--- | :--- | :--- |
 | *09/04/20* | *3* | *5* | *none* | 
+| *09/06/20* | *2* | *7*| *none* |
+| *09/07/20* | *8* | *3* | *IntelliJIDE errors and .JPG versus .jpg usage* |
 
 
 ## Review
 
 #### Epics done  
- - Team Information : "tech10" is integrated into our website's header, footer, as well as the browser tab. Additionally, "tech10" is there in the server and client. 
-the name set for the server and client
+ - Team Information : "tech10" is integrated into our website's header, footer, as well as the browser tab. Additionally, "tech10" is there in the server and client.
+ - About : Page skeleton created and all member's name, biography, and images integrated. Additionally, team picture and team mission statement are present.
 
 #### Epics not done 
  - v1 protocol
- - About
  - Where am I?
  - Where is?
 
