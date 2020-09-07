@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import img from "../../../../team/images/tech10.png";
 import kylePic from "../../../../team/images/kyle.jpg";
+import jakePic from "../../../../team/images/jake.jpg";
 
 import {Container, Row, Col, Button, Card, CardTitle, CardBody, CardText, CardImg, CardDeck, CardHeader, CardColumns, CardGroup, CardFooter} from 'reactstrap';
 
@@ -55,10 +56,10 @@ export default class About extends Component {
 
                           </Card>
                           <Card>
-                              <CardImg src = {img}/>
+                              <CardImg src = {jakePic}/>
                               <CardHeader><h4>Jake Barth</h4></CardHeader>
-                              <CardBody>Here is some info about me</CardBody>
-                              <CardFooter className="bg-dark text-white" >Insert Email Here</CardFooter>
+                              <CardBody>Hey, I'm Jake! I'm a current student at Colorado State University majoring in Computer Science with a minor in Economics. In my free time I enjoy hiking and skiing in the rockies! </CardBody>
+                              <CardFooter className="bg-dark text-white" >jakebart@cs.colostate.edu</CardFooter>
 
                           </Card>
                       </CardDeck>
