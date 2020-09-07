@@ -35,8 +35,11 @@ export default class ServerSettings extends Component {
         return (
             <ModalBody>
                 <Row className="m-2">
-                    <Col>
-                        Name: {currentServerName}
+                    <Col xs={2}>
+                        Name:
+                    </Col>
+                    <Col xs={10}>
+                        {currentServerName}
                     </Col>
                 </Row>
                 <Row className="m-2">
@@ -45,6 +48,22 @@ export default class ServerSettings extends Component {
                     </Col>
                     <Col xs={10}>
                         {this.renderInputField()}
+                    </Col>
+                </Row>
+                <Row className="m-2">
+                    <Col xs={2}>
+                        Type:
+                    </Col>
+                    <Col xs={10}>
+                        config
+                    </Col>
+                </Row>
+                <Row className="m-2">
+                    <Col xs={2}>
+                        Version:
+                    </Col>
+                    <Col xs={10}>
+                        1
                     </Col>
                 </Row>
             </ModalBody>
