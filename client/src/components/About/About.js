@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import img from "../../../../team/images/tech10.png";
 import kylePic from "../../../../team/images/kyle.jpg";
 import jakePic from "../../../../team/images/jake.jpg";
-import jimitPic from "../../../../team/images/jimit.jpg"
+import jimitPic from "../../../../team/images/jimit.jpg";
+import frankPic from "../../../../team/images/Frank.jpg";
 
 import {Container, Row, Col, Button, Card, CardTitle, CardBody, CardText, CardImg, CardDeck, CardHeader, CardColumns, CardGroup, CardFooter} from 'reactstrap';
 
@@ -67,10 +68,10 @@ export default class About extends Component {
                       <br/>
                       <CardColumns>
                           <Card>
-                              <CardImg src = {img}/>
+                              <CardImg src = {frankPic}/>
                               <CardHeader><h4>Frank Gansukh</h4></CardHeader>
-                              <CardBody>Here is some info about me</CardBody>
-                              <CardFooter className="bg-dark text-white" >Insert Email Here</CardFooter>
+                              <CardBody>Hi, my name is Frank Gansukh. I'm an Applied Computing Technology major at Colorado State University with a minor is Business Administration. My hobbies include: playing basketball and skiing.'</CardBody>
+                              <CardFooter className="bg-dark text-white" >frankyg@rams.colostate.edu</CardFooter>
                           </Card>
                           <Card>
                               <CardImg src = {img}/>
