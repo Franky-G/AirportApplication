@@ -23,7 +23,7 @@ The client consists of a minimal index.html file that loads and executes the bun
 The client and server files are bundled into a single JAR file for execution on the Linux server at a specified port.
 The browser fetches the client files from the server on the specified port.
 
-![overview](reports/images/BaseArchitecture.png)
+![overview](https://github.com/csucs314f20/t10/blob/master/reports/images/BaseArchitecture.png)
 
 The browser loads the index.html file (by default) which in turn loads the bundled JavaScript single page application bundle.js.
 * The single page application makes RESTful API requests to the server on the same port using  JavaScript's asynchronous fetch.  
@@ -41,7 +41,7 @@ They will be added later in the semester.
 
 
 ### User Interface
-![base](reports/images/BaseUserInterface.png)
+![base](https://github.com/csucs314f20/t10/blob/master/reports/images/BaseUserInterface.png)
 
 The basic screen in black shows the view on a mobile device, with a header, footer, and map.
 The header contains a earth logo and the team name obtained from the server when the client was loaded.
@@ -81,14 +81,14 @@ The component hierarchy for the base application depicted below shows the our to
 * Atlas renders a map.
 * About renders information about the team.
 
-![base component hierarchy](reports/images/BaseComponentHierarchy.png)
+![base component hierarchy](https://github.com/csucs314f20/t10/blob/master/reports/images/BaseComponentHierarchy.png)
 
 We do not show the many ReactStrap components in this hierarchy, even though they will appear when you are debugging on the client.
 
 ### Class Diagram
 The class diagram for the base application depicted below shows the basic structure of the web server application.
 
-![class diagram](reports/images/BaseClassDiagram.png)
+![class diagram](https://github.com/csucs314f20/t10/blob/master/reports/images/BaseClassDiagram.png)
 
 The classes in blue represent the classes specific to this application.  
 * WebApplication processes command line parameters and creates MicroServer.
@@ -108,7 +108,7 @@ Often there are several related classes but we've listed only one to simplify th
 # Sprint 1
 
 ### User Interface
-![UserInterface](reports/images/Sprint1UserInterface.png)
+![UserInterface](https://github.com/csucs314f20/t10/blob/master/reports/images/Sprint1UserInterface.png)
 
 The basic screen in black shows the view on a mobile device, with a header, footer, and map.
 The header contains a earth logo and the team name obtained from the server when the client was loaded.
@@ -131,7 +131,7 @@ if the URL is valid, the Save button lightens up to allow the User to connect to
 user will have the option to edit the URL again, and also have the option to Cancel to return to the original web page.
 
 ### Component Hierarchy
-![Sprint1 Component Hierarchy](reports/images/Sprint1ComponentHierarchy.png)
+![Sprint1 Component Hierarchy](https://github.com/csucs314f20/t10/blob/master/reports/images/Sprint1ComponentHierarchy.png)
 
 * App renders the major components on the screen.
 * Header renders an icon and a team name in the top banner.
@@ -140,7 +140,7 @@ user will have the option to edit the URL again, and also have the option to Can
 * About renders information about the team along with a mission statement.
 
 ### Class Diagram
-![Sprint1 Class Diagram](reports/images/Sprint1ClassHierarchy.png)
+![Sprint1 Class Diagram](https://github.com/csucs314f20/t10/blob/master/reports/images/Sprint1ClassHierarchy.png)
 
 The class diagram is the same as the Base for Sprint 1.
 
