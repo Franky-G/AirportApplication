@@ -108,7 +108,7 @@ Often there are several related classes but we've listed only one to simplify th
 # Sprint 1
 
 ### User Interface
-![overview](reports/images/Sprint1UserInterface.png)
+![UserInterface](reports/images/Sprint1UserInterface.png)
 
 The basic screen in black shows the view on a mobile device, with a header, footer, and map.
 The header contains a earth logo and the team name obtained from the server when the client was loaded.
@@ -131,7 +131,7 @@ if the URL is valid, the Save button lightens up to allow the User to connect to
 user will have the option to edit the URL again, and also have the option to Cancel to return to the original web page.
 
 ### Component Hierarchy
-![base component hierarchy](reports/images/Sprint1ComponentHierarchy.png)
+![Sprint1 Component Hierarchy](reports/images/Sprint1ComponentHierarchy.png)
 
 * App renders the major components on the screen.
 * Header renders an icon and a team name in the top banner.
@@ -140,7 +140,7 @@ user will have the option to edit the URL again, and also have the option to Can
 * About renders information about the team along with a mission statement.
 
 ### Class Diagram
-![class diagram](reports/images/Sprint1ClassHierarchy.png)
+![Sprint1 Class Diagram](reports/images/Sprint1ClassHierarchy.png)
 
 The class diagram is the same as the Base for Sprint 1.
 
