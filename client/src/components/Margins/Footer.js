@@ -30,8 +30,8 @@ export default class Footer extends Component {
             <div className="vertical-center">
                 <Container>
                     <div className="vertical-center">
-                        <img className="centered" src={linkStatusSymbol} alt="Connection Status"/>
-                        <div className="footerSpacer"></div>
+                        <img className="vertical-center" src={linkStatusSymbol} alt="Connection Status"/>
+                        <div className="footerSpacer"/>
                         <div className="tco-text">
                             Connected to { serverName } &nbsp;
                         </div>
