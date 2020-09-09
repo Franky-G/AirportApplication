@@ -5,8 +5,8 @@ import {Map, Marker, Popup, TileLayer} from 'react-leaflet';
 
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
-
 import 'leaflet/dist/leaflet.css';
+import 'leaflet/dist/leaflet-src.js'
 
 const MAP_BOUNDS = [[-90, -180], [90, 180]];
 const MAP_CENTER_DEFAULT = [40.5734, -105.0865];
@@ -52,7 +52,7 @@ export default class Atlas extends Component {
             minZoom={MAP_MIN_ZOOM}
             maxZoom={MAP_MAX_ZOOM}
             maxBounds={MAP_BOUNDS}
-            center={MAP_CENTER_DEFAULT}
+            center={this.getArrayMarkerLocation()}
             onClick={this.setMarker}
         >
           <TileLayer url={MAP_LAYER_URL} attribution={MAP_LAYER_ATTRIBUTION}/>
@@ -82,6 +82,25 @@ export default class Atlas extends Component {
   }
 
   getStringMarkerPosition() {
-    return this.state.markerPosition.lat.toFixed(2) + ', ' + this.state.markerPosition.lng.toFixed(2);
+    if(this.state.markerPosition)
+    {
+      return +this.state.markerPosition.lat.toFixed(2) + ', ' + this.state.markerPosition.lng.toFixed(2);
+    }
+    if(!this.state.markerPosition)
+    {
+      return MAP_CENTER_DEFAULT;
+    }
+  }
+
+  getArrayMarkerLocation() {
+    var latLngArray = [0,0]
+    if(this.state.markerPosition)
+    {
+      latLngArray[0] = parseFloat(this.state.markerPosition.lat);
+      latLngArray[1] = parseFloat(this.state.markerPosition.lng);
+      return latLngArray;
+    }
+
+    return MAP_CENTER_DEFAULT;
   }
 }
