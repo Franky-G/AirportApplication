@@ -37,8 +37,8 @@ the name set for the server and client.
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
 | Epics | *5* | *count* |
-| Tasks |  *14*   | *count* | 
-| Story Points |  *17*  | *count* | 
+| Tasks |  *16*   | *count* | 
+| Story Points |  *20*  | *count* | 
 
 
 ## Scrums
@@ -47,7 +47,8 @@ the name set for the server and client.
 | :--- | :--- | :--- | :--- |
 | *09/04/20* | *3* | *5* | *none* | 
 | *09/06/20* | *2* | *7*| *none* |
-| *09/07/20* | *8* | *3* | *IntelliJIDE errors and .JPG versus .jpg usage* |
+| *09/07/20* | *8* | *2* | *IntelliJIDE errors and .JPG versus .jpg usage* |
+| *09/08/20* | *1* | *2* | *none* |
 
 
 ## Review
