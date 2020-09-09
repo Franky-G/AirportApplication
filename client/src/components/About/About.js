@@ -45,7 +45,7 @@ export default class About extends Component {
                       <h2>Team Information:</h2>
                       <CardDeck>
 
-                          <Card border= "secondary">
+                          <Card>
                               <CardImg src = {jimitPic}/>
                               <CardHeader><h4>Jimit Bhalavat</h4></CardHeader>
                               <CardBody>Hello, I'm Jimit! I am currently a junior at Colorado State University majoring in Computer Science and minors in Math and Statistics. My hobbies are to play sports and do community service. I also love the outdoors.</CardBody>
