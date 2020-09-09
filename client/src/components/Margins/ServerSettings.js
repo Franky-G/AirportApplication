@@ -43,19 +43,19 @@ export default class ServerSettings extends Component {
                     </Col>
                 </Row>
                 <Row className="m-2">
-                <Col xs={2}>
-                    URL:
-                </Col>
-                <Col xs={10}>
-                    {this.renderInputField()}
-                </Col>
+                    <Col xs={2}>
+                        URL:
+                    </Col>
+                    <Col xs={10}>
+                        {this.renderInputField()}
+                    </Col>
                 </Row>
                 <Row className="m-2">
                     <Col xs={2}>
                         Type:
                     </Col>
                     <Col xs={10}>
-                        {this.getCurrentRequestType()}
+                        {this.props.serverSettings.serverConfig && this.props.serverSettings.serverConfig.requestType}
                     </Col>
                 </Row>
                 <Row className="m-2">
@@ -63,7 +63,7 @@ export default class ServerSettings extends Component {
                         Version:
                     </Col>
                     <Col xs={10}>
-                        {this.getCurrentRequestVersion()}
+                        {this.props.serverSettings.serverConfig && this.props.serverSettings.serverConfig.requestVersion}
                     </Col>
                 </Row>
             </ModalBody>
@@ -107,24 +107,6 @@ export default class ServerSettings extends Component {
             currentServerName = this.state.config.serverName;
         }
         return currentServerName;
-    }
-
-    getCurrentRequestType() {
-        let currentRequestType = this.props.serverSettings.serverConfig && this.state.validServer === null ?
-                                 this.props.serverSettings.serverConfig.requestType : "";
-        if (this.state.config && Object.keys(this.state.config).length > 0) {
-            currentRequestType = this.state.config.requestType;
-        }
-        return currentRequestType;
-    }
-
-    getCurrentRequestVersion() {
-        let currentRequestVersion = this.props.serverSettings.serverConfig && this.state.validServer === null ?
-                                    this.props.serverSettings.serverConfig.requestVersion : "";
-        if (this.state.config && Object.keys(this.state.config).length > 0) {
-            currentRequestVersion = this.state.config.requestVersion;
-        }
-        return currentRequestVersion;
     }
 
     updateInput(value) {
