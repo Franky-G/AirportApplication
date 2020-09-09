@@ -6,7 +6,6 @@ import {Map, Marker, Popup, TileLayer} from 'react-leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
-import 'leaflet/dist/leaflet-src.js'
 
 const MAP_BOUNDS = [[-90, -180], [90, 180]];
 const MAP_CENTER_DEFAULT = [40.5734, -105.0865];
@@ -62,6 +61,7 @@ export default class Atlas extends Component {
   }
 
   setMarker(mapClickInfo) {
+
     this.setState({markerPosition: mapClickInfo.latlng});
   }
 
@@ -100,7 +100,6 @@ export default class Atlas extends Component {
       latLngArray[1] = parseFloat(this.state.markerPosition.lng);
       return latLngArray;
     }
-
     return MAP_CENTER_DEFAULT;
   }
 }
