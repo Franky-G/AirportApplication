@@ -6,7 +6,7 @@ import jimitPic from "../../../../team/images/jimit.jpg";
 import frankPic from "../../../../team/images/Frank.jpg";
 import seanPic from "../../../../team/images/SM_cropped.jpg";
 
-import {Container, Row, Col, Button, Card, CardTitle, CardBody, CardText, CardImg, CardDeck, CardHeader, CardColumns, CardGroup, CardFooter} from 'reactstrap';
+import {Container, Row, Col, Button, Card, CardBody, CardImg, CardDeck, CardHeader, CardColumns, CardFooter} from 'reactstrap';
 
 import {CLIENT_TEAM_NAME} from "../../utils/constants";
 
@@ -31,7 +31,7 @@ export default class About extends Component {
               <div>
                   <div>
                       <h2 align="left">Mission Statement:</h2>
-                      <img src={img} width = "150" height = "125" align = "left" className = "mr-3"/><h4>Our Mission:</h4><p>Our Mission is to prepare ourselves as Software Engineers
+                      <img src={img} width = "125" height = "125" align = "left" className = "mr-3" alt="Team Logo"/><h4>Our Mission:</h4><p>Our Mission is to prepare ourselves as Software Engineers
                           and for future endeavours in Computer Science. We develop and work on a team based
                           integration method with a range of technologies
                           to build applications, and share skills and knowledge with the community. Our motto is
@@ -42,10 +42,10 @@ export default class About extends Component {
                   <br/>
                   <br/>
                   <div>
-                      <h2>Team Infomation:</h2>
+                      <h2>Team Information:</h2>
                       <CardDeck>
 
-                          <Card border= "secondary" style={{ width: '20rem' }}>
+                          <Card>
                               <CardImg src = {jimitPic}/>
                               <CardHeader><h4>Jimit Bhalavat</h4></CardHeader>
                               <CardBody>Hello, I'm Jimit! I am currently a junior at Colorado State University majoring in Computer Science and minors in Math and Statistics. My hobbies are to play sports and do community service. I also love the outdoors.</CardBody>
