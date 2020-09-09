@@ -31,7 +31,7 @@ export default class About extends Component {
               <div>
                   <div>
                       <h2 align="left">Mission Statement:</h2>
-                      <img src={img} width = "150" height = "125" align = "left" className = "mr-3" alt="Team Logo"/><h4>Our Mission:</h4><p>Our Mission is to prepare ourselves as Software Engineers
+                      <img src={img} width = "125" height = "125" align = "left" className = "mr-3" alt="Team Logo"/><h4>Our Mission:</h4><p>Our Mission is to prepare ourselves as Software Engineers
                           and for future endeavours in Computer Science. We develop and work on a team based
                           integration method with a range of technologies
                           to build applications, and share skills and knowledge with the community. Our motto is
@@ -42,7 +42,7 @@ export default class About extends Component {
                   <br/>
                   <br/>
                   <div>
-                      <h2>Team Infomation:</h2>
+                      <h2>Team Information:</h2>
                       <CardDeck>
 
                           <Card border= "secondary">
