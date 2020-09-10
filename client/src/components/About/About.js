@@ -35,6 +35,7 @@ export default class About extends Component {
               </Button>
             </Col>
               <div>
+                  <h2 align ="left">Mission Statement:</h2>
                   <Media>
                       <Media left href="#">
                           <Media object src={img} style={imgStyle} alt="Team Logo"/>
