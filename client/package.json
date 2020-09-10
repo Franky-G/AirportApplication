@@ -19,6 +19,7 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-leaflet": "^2.7.0",
+    "react-native": "^0.63.2",
     "reactstrap": "^8.4.1",
     "ulog": "^1.1.0"
   },

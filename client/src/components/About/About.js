@@ -6,11 +6,10 @@ import jimitPic from "../../../../team/images/jimit.jpg";
 import frankPic from "../../../../team/images/Frank.jpg";
 import seanPic from "../../../../team/images/SM_cropped.jpg";
 
+
 import {Container, Row, Col, Button, Card, CardBody, CardImg, CardDeck, CardHeader, CardColumns, CardFooter} from 'reactstrap';
 
 import {CLIENT_TEAM_NAME} from "../../utils/constants";
-
-
 
 export default class About extends Component {
 
@@ -31,20 +30,28 @@ export default class About extends Component {
               <div>
                   <div>
                       <h2 align="left">Mission Statement:</h2>
-                      <img src={img} width = "125" height = "125" align = "left" className = "mr-3" alt="Team Logo"/><h4>Our Mission:</h4><p>Our Mission is to prepare ourselves as Software Engineers
-                          and for future endeavours in Computer Science. We develop and work on a team based
-                          integration method with a range of technologies
-                          to build applications, and share skills and knowledge with the community. Our motto is
-                          "Expect the Unexpected".
-                      </p>
-
+                      <div className = "card" style={{width: 650}}>
+                          <div className = "row no-gutters">
+                              <div className= "col-sm-5">
+                                  <img className="card-img" src={img} alt="Team Logo"/>
+                              </div>
+                              <div className="col-sm-7">
+                                  <div className="card-body">
+                                      <h5 className="card-title">Our Mission:</h5>
+                                      <p className="card-text">Our Mission is to prepare ourselves as Software Engineers
+                                          and for future endeavours in Computer Science. We develop and work on a team based
+                                          integration method with a range of technologies
+                                          to build applications, and share skills and knowledge with the community. Our motto is
+                                          "Expect the Unexpected".</p>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
                   </div>
-                  <br/>
                   <br/>
                   <div>
                       <h2>Team Information:</h2>
                       <CardDeck>
-
                           <Card>
                               <CardImg src = {jimitPic}/>
                               <CardHeader><h4>Jimit Bhalavat</h4></CardHeader>
