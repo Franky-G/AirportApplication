@@ -114,21 +114,14 @@ The basic screen in black shows the view on a mobile device, with a header, foot
 The header contains a earth logo and the team name obtained from the server when the client was loaded.
 The footer contains a connection icon along with the current server name and server URL the client is connected to is shown when the info button is clicked.
 
+### World Map
+When the user drops a pin on a location the pin is the center of the map, and the location is also zoomed in (Part of Where Am I? epic). 
 
-#### Clicking on the map places a marker.
-Whenever a user clicks on the map, the map shows a point with latitude and longitude at that location.
+### Footer
+The connection status logo is changed and a new logo is displayed when the user makes a successful connection, and a not connected logo appears for unsuccessful connection. The footer also displays the name of the server the user is connected to. There is a buton for more information that displays server name, request type, and request version. The info button also displays an editable URL for the user to change the server. A save button lightens up when the user makes a successful connection, otherwise the usercan continue to edit the URL.
 
-#### Clicking on the team name tells the user more about the team.
-Whenever a user clicks the team name in the header, a collapsible section appears under the header with information about the team.
-The collapsible map disappears so only the about or map are displayed.
-A close button / icon in the top right corner of the about will close the about and return the map to display.
-A mission statement is also displayed.
-
-#### Clicking on the URL in the footer lets the user change the server.
-Whenever a user clicks the Info button in the footer a popup opens which displays the server they are connected to, an 
-editable URL, along with Request Type and Request Version. When the user edits the URL, the server name disappears and 
-if the URL is valid, the Save button lightens up to allow the User to connect to the URL. But if the URL is invalid, the
-user will have the option to edit the URL again, and also have the option to Cancel to return to the original web page.
+### Header
+The header displays the team name. Clicking on the header displays more information about the About page. The About page has the team's mission statment and also displays team information where there is a short bio, image, and contact information for all the teammates.
 
 ### Component Hierarchy
 ![Sprint1 Component Hierarchy](https://github.com/csucs314f20/t10/blob/master/reports/images/Sprint1ComponentHierarchy.png)
