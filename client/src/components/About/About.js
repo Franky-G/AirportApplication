@@ -7,10 +7,17 @@ import frankPic from "../../../../team/images/Frank.jpg";
 import seanPic from "../../../../team/images/SM_cropped.jpg";
 
 
-import {Container, Row, Col, Button, Card, CardBody, CardImg, CardDeck, CardHeader, CardColumns, CardFooter} from 'reactstrap';
+import { Media, Container, Row, Col, Button, Card, CardBody, CardImg, CardDeck, CardHeader, CardColumns, CardFooter} from 'reactstrap';
 
 import {CLIENT_TEAM_NAME} from "../../utils/constants";
 
+const imgStyle = {
+    maxHeight: 200,
+    maxWidth: 200,
+}
+const bodyStyle = {
+    marginLeft: 10
+}
 export default class About extends Component {
 
     render() {
@@ -28,26 +35,19 @@ export default class About extends Component {
               </Button>
             </Col>
               <div>
-                  <div>
-                      <h2 align="left">Mission Statement:</h2>
-                      <div className = "card" style={{width: 650}}>
-                          <div className = "row no-gutters">
-                              <div className= "col-sm-5">
-                                  <img className="card-img" src={img} alt="Team Logo"/>
-                              </div>
-                              <div className="col-sm-7">
-                                  <div className="card-body">
-                                      <h5 className="card-title">Our Mission:</h5>
-                                      <p className="card-text">Our Mission is to prepare ourselves as Software Engineers
-                                          and for future endeavours in Computer Science. We develop and work on a team based
-                                          integration method with a range of technologies
-                                          to build applications, and share skills and knowledge with the community. Our motto is
-                                          "Expect the Unexpected".</p>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div>
+                  <Media>
+                      <Media left href="#">
+                          <Media object src={img} style={imgStyle} alt="Team Logo"/>
+                      </Media>
+                      <Media body style={bodyStyle}>
+                          <Media heading>Our Mission:</Media>
+                          Our Mission is to prepare ourselves as Software Engineers
+                          and for future endeavours in Computer Science. We develop and work on a team based
+                          integration method with a range of technologies
+                          to build applications, and share skills and knowledge with the community. Our motto is
+                          "Expect the Unexpected".
+                      </Media>
+                  </Media>
                   <br/>
                   <div>
                       <h2>Team Information:</h2>
