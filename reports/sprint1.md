@@ -36,9 +36,9 @@ the name set for the server and client.
 
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
-| Epics | *5* | *count* |
-| Tasks |  *16*   | *count* | 
-| Story Points |  *20*  | *count* | 
+| Epics | *5* | *3* |
+| Tasks |  *16*   | *15* | 
+| Story Points |  *20*  | *17* | 
 
 
 ## Scrums
@@ -49,6 +49,7 @@ the name set for the server and client.
 | *09/06/20* | *2* | *7*| *none* |
 | *09/07/20* | *8* | *2* | *IntelliJIDE errors and .JPG versus .jpg usage* |
 | *09/08/20* | *1* | *2* | *none* |
+| *09/09/20* | *1* | *0* | *none* | 
 
 
 ## Review
@@ -56,21 +57,33 @@ the name set for the server and client.
 #### Epics done  
  - Team Information : "tech10" is integrated into our website's header, footer, as well as the browser tab. Additionally, "tech10" is there in the server and client.
  - About : Page skeleton created and all member's name, biography, and images integrated. Additionally, team picture and team mission statement are present.
+ - v1 protocol: Server configuration information shows after clicking the information icon. Server status icons available to signify whether or not someone is connected to the server. 
 
 #### Epics not done 
- - v1 protocol
  - Where am I?
  - Where is?
 
 #### What went well
+- Team was always present when called upon
+- We've gotten through most of things we had in mind
+- The "About" and "Team Information" epics went smoothly
 
 #### Problems encountered and resolutions
-
+- Showing server configuration information was a bit challenging and we eventually figured it out once talking to TAs
+- Importing custom images for server status was confusing. Resolved by formatting custom images to footer instead of replacing current images.
+- Massive struggle with geolocation, however we are very close to finishing the "Where am I?" epic.
 
 ## Retrospective
 
 #### What went well
+- The teams scrum meetings were productive as well as positive
+- Initially, the tools and policies necessary for this sprint were a bit daunting to our group, however we adapted and have become comfortable using them
 
 #### Potential improvements
+- Showing server configuration information as a separate tab
+- After dropping a pin, map should not zoom out unless asked
+- Our team synergy, team organization, and team availibility to help other team members was exceptional.
 
 #### What we will change next time
+- Having a consistent time to meet, as we were very spontaneous during this sprint
+- Coordinate a group calender for Sprint 2
