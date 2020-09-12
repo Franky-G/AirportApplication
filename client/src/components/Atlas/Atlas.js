@@ -7,6 +7,8 @@ import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
 
+
+
 const MAP_BOUNDS = [[-90, -180], [90, 180]];
 const MAP_CENTER_DEFAULT = [40.5734, -105.0865];
 const MARKER_ICON = L.icon({ iconUrl: icon, shadowUrl: iconShadow, iconAnchor: [12, 40] });
@@ -21,6 +23,7 @@ export default class Atlas extends Component {
     super(props);
 
     this.setMarker = this.setMarker.bind(this);
+    this.geoPosition();
 
     this.state = {
       markerPosition: null,
@@ -43,21 +46,40 @@ export default class Atlas extends Component {
 
   renderLeafletMap() {
     return (
-        <Map
-            className={'mapStyle'}
-            boxZoom={false}
-            useFlyTo={true}
-            zoom={15}
-            minZoom={MAP_MIN_ZOOM}
-            maxZoom={MAP_MAX_ZOOM}
-            maxBounds={MAP_BOUNDS}
-            center={this.getArrayMarkerLocation()}
-            onClick={this.setMarker}
-        >
-          <TileLayer url={MAP_LAYER_URL} attribution={MAP_LAYER_ATTRIBUTION}/>
-          {this.getMarker()}
-        </Map>
+        <div>
+
+          <Map
+              className={'mapStyle'}
+              boxZoom={false}
+              useFlyTo={true}
+              zoom={15}
+              minZoom={MAP_MIN_ZOOM}
+              maxZoom={MAP_MAX_ZOOM}
+              maxBounds={MAP_BOUNDS}
+              center={this.getArrayMarkerLocation()}
+              onClick={this.setMarker}
+              id="theMap"
+          >
+            <div id="button-wrapper">
+              <button id="btn" onClick={() => this.setUserLocation()}><img src="https://www.pinclipart.com/picdir/big/44-448226_file-home-icon-svg-wikimedia-commons-free-train.png" height="auto" width="100%"/></button>
+            </div>
+            <TileLayer url={MAP_LAYER_URL} attribution={MAP_LAYER_ATTRIBUTION}/>
+            {this.getMarker()}
+          </Map>
+        </div>
     );
+  }
+
+  geoPosition(){
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(success, error, {enableHighAccuracy:true});
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+    }
+  }
+
+  setUserLocation(){
+    this.setState({markerPosition: myCoords});
   }
 
   setMarker(mapClickInfo) {
@@ -92,7 +114,7 @@ export default class Atlas extends Component {
   }
 
   getArrayMarkerLocation() {
-    var latLngArray = [0,0]
+    var latLngArray = [0.0,0.0]
     if(this.state.markerPosition)
     {
       latLngArray[0] = parseFloat(this.state.markerPosition.lat);
@@ -101,4 +123,19 @@ export default class Atlas extends Component {
     }
     return MAP_CENTER_DEFAULT;
   }
+}
+
+function success(position) {
+  myCoords = L.latLng(position.coords.latitude, position.coords.longitude);
+}
+
+let myCoords = L.latLng(40.5734,-105.0865);
+
+function error(err) {
+  console.warn(`ERROR(${err.code}): ${err.message}`);
+}
+var yourImg = document.getElementById('yourImgId');
+if(yourImg && yourImg.style) {
+  yourImg.style.height = '30px';
+  yourImg.style.width = '30px';
 }

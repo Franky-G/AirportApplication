@@ -3,3 +3,104 @@
     tempted to go all out with the styling of your website. We encourage you not to spend the time styling the pages
     for this class, and to spend that time on styling of your own personal webpage or side project.
  */
+
+/* Add your own styles here. Use of this file should be minimized at all costs. However, if you feel the need to
+    declare your own CSS classes for a small padding fix or whatnot, this is the purpose of this file. You may be
+    tempted to go all out with the styling of your website. We encourage you not to spend the time styling the pages
+    for this class, and to spend that time on styling of your own personal webpage or side project.
+ */
+
+/* Colors
+csu-green: #1E4D2B;
+csu-gold: #C8C372;
+csu-white: #FFFFFF;
+*/
+
+/* Style the tab */
+* {
+  color: #1E4D2B;
+}
+
+body {
+  font-family: sans-serif;
+  background-color: #f7f7f7;
+}
+
+div.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  border-radius: 4px 4px 0 0;
+}
+
+div.tab button {
+  background-color: #fff;
+  box-shadow: 0 10px 160px 0 rgba(0,0,0,0.001), 0 6px 20px 0 rgba(0,0,0,0.25);
+  float: left;
+  border: none;
+  border-top: 3px solid #1E4D2B;
+  border-right: 1px solid #1E4D2B;
+  border-left: 1px solid #1E4D2B;
+  box-sizing: border-box;
+  outline: none;
+  padding: 1em 1.2em;
+  font-size: 1em;
+  width: 25%;
+  border-radius: 5px 5px 0 0;
+  cursor: pointer;
+
+}
+
+div.tab button:hover {
+  background-color: #fff;
+  color: #1E4D2B;
+  border-top: 4px solid #1E4D2B;
+  border-radius: 5px 5px 0 0;
+  margin-bottom: -1px;
+}
+
+div.tab button:active:focus {
+  background-color: #14361e;
+  color: #fff;
+  border-top: 4px solid #C8C372;
+  margin: -1px 0;
+  box-shadow: none;
+
+}
+
+div.tab button:focus {
+  background-color: #1E4D2B;
+  color: #fff;
+  border-top: 4px solid #C8C372;
+  border-radius: 5px 5px 0 0;
+  margin: -1px 0;
+  box-shadow: 0 10px 160px 0 rgba(0,0,0,0.001), 0 6px 20px 0 rgba(0,0,0,0.25);
+  font-weight: bold;
+}
+
+.content {
+  display: none;
+  background-color: #fff;
+  padding: 0.5em 1em;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+}
+
+#btn {
+  position: relative;
+  background-color: #fff;
+  background-size: 60px;
+  color: #000000;
+  margin-top: 71px;
+  margin-left: 10px;
+  z-index: 1001;
+  border-left: 2px solid rgba(0,0,0,0.3) ;
+  border-right: 2px solid rgba(0,0,0,0.3) ;
+  border-bottom: 2px solid rgba(0,0,0,0.3) ;
+  border-top: 1px solid rgba(0,0,0,0.2) ;
+  border-radius: 0 0 4px 4px;
+  width: 34px;
+  height: 33px;
+}
+
