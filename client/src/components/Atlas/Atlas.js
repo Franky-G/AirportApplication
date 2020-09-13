@@ -2,11 +2,9 @@ import React, {Component} from 'react';
 import {Col, Container, Row} from 'reactstrap';
 
 import {Map, Marker, Popup, TileLayer} from 'react-leaflet';
-
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
-
 
 
 const MAP_BOUNDS = [[-90, -180], [90, 180]];
@@ -46,8 +44,10 @@ export default class Atlas extends Component {
 
   renderLeafletMap() {
     return (
-        <div>
-
+        <div >
+          <div id="button-wrapper">
+            <button id="btn" onClick={() => this.setUserLocation()}><img src="https://www.pinclipart.com/picdir/big/44-448226_file-home-icon-svg-wikimedia-commons-free-train.png" height="auto" width="100%" alt={"Home Button"}/></button>
+          </div>
           <Map
               className={'mapStyle'}
               boxZoom={false}
@@ -60,9 +60,7 @@ export default class Atlas extends Component {
               onClick={this.setMarker}
               id="theMap"
           >
-            <div id="button-wrapper">
-              <button id="btn" onClick={() => this.setUserLocation()}><img src="https://www.pinclipart.com/picdir/big/44-448226_file-home-icon-svg-wikimedia-commons-free-train.png" height="auto" width="100%"/></button>
-            </div>
+
             <TileLayer url={MAP_LAYER_URL} attribution={MAP_LAYER_ATTRIBUTION}/>
             {this.getMarker()}
           </Map>
@@ -73,6 +71,7 @@ export default class Atlas extends Component {
   geoPosition(){
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(success, error, {enableHighAccuracy:true});
+
     } else {
       console.log("Geolocation is not supported by this browser.");
     }
@@ -114,7 +113,7 @@ export default class Atlas extends Component {
   }
 
   getArrayMarkerLocation() {
-    var latLngArray = [0.0,0.0]
+    let latLngArray = [0.0,0.0]
     if(this.state.markerPosition)
     {
       latLngArray[0] = parseFloat(this.state.markerPosition.lat);
@@ -133,9 +132,4 @@ let myCoords = L.latLng(40.5734,-105.0865);
 
 function error(err) {
   console.warn(`ERROR(${err.code}): ${err.message}`);
-}
-var yourImg = document.getElementById('yourImgId');
-if(yourImg && yourImg.style) {
-  yourImg.style.height = '30px';
-  yourImg.style.width = '30px';
 }
