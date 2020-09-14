@@ -44,9 +44,16 @@ export default class Atlas extends Component {
 
   renderLeafletMap() {
     return (
-        <div >
-          <div id="button-wrapper">
-            <button id="btn" onClick={() => this.setUserLocation()}><img src="https://www.pinclipart.com/picdir/big/44-448226_file-home-icon-svg-wikimedia-commons-free-train.png" height="auto" width="100%" alt={"Home Button"}/></button>
+        <div id="container">
+          <div id="num1">
+          <button className="home-btn" onClick={() => this.setUserLocation()}>
+            <span>
+            <img src="https://www.pinclipart.com/picdir/big/44-448226_file-home-icon-svg-wikimedia-commons-free-train.png"
+                 height="auto"
+                 width="100%"
+                 alt={"Home Button"}/>
+            </span>
+          </button>
           </div>
           <Map
               className={'mapStyle'}
@@ -58,6 +65,7 @@ export default class Atlas extends Component {
               maxBounds={MAP_BOUNDS}
               center={this.getArrayMarkerLocation()}
               onClick={this.setMarker}
+              viewport={{}}
               id="theMap"
           >
 

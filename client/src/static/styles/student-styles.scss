@@ -103,13 +103,13 @@ div.tab button:focus {
 }
 
 
-.home-btn, .home-btn:active, .home-btn:focus {
+.home-btn, .home-btn:active, .home-btns:focus {
   position: relative;
   background-color: #fff;
-  background-size: 60px;
+  background-size: 34px;
   color: #000000;
-  top: 104px;
-  left: 10px;
+//  top: 104px;
+//  left: 10px;
   z-index: 1001;
   border-left: 2px solid rgba(0,0,0,0.3) ;
   border-right: 2px solid rgba(0,0,0,0.3) ;
@@ -136,4 +136,14 @@ select::-moz-focus-inner {
 select:-moz-focusring {
   color: transparent;
   text-shadow: 0 0 0 #000;
+}
+
+#container{
+  position:relative;
+}
+
+#num1, #num2 {
+  position:absolute;
+  top:69px;
+  left:10px;
 }
