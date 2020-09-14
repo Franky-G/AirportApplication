@@ -28,9 +28,24 @@ body {
 
 div.tab {
   overflow: hidden;
-  border: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
   background-color: #fff;
   border-radius: 4px 4px 0 0;
+}
+
+div.tabs {
+  overflow: hidden;
+  border: none;
+  background-color: #fff;
+  border-radius: 4px 4px 0 0;
+  height: 50px;
+}
+
+#tab-button{
+  position: relative;
+  top: 5px;
+  width: 15%;
+  height: 100%;
 }
 
 div.tab button {
@@ -87,7 +102,8 @@ div.tab button:focus {
   border-radius: 0 0 4px 4px;
 }
 
-#btn {
+
+.home-btn, .home-btn:active, .home-btn:focus {
   position: relative;
   background-color: #fff;
   background-size: 60px;
@@ -102,5 +118,22 @@ div.tab button:focus {
   border-radius: 0 0 4px 4px;
   width: 34px;
   height: 33px;
+  outline:none !important;
 }
 
+.home-btn span {
+  position: absolute;
+  top: 2px;
+  left: 7px;
+  width: 15px;
+  height: auto;
+}
+
+select::-moz-focus-inner {
+  outline: none !important;
+}
+
+select:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #000;
+}
