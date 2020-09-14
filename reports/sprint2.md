@@ -51,7 +51,7 @@
 | Tasks |  *11*   | *0* | 
 | Story Points |  *21*  | *0* | 
 
-- The team's ability to complete the planned tasks/story points based on the previous sprint result is beyond sufficent. 
+- The team's ability to complete the planned tasks/story points based on the previous sprint result is beyond sufficent. The team will use integration methods that will allow each memeber to work efficiently and in a timely manner. The team shares a high confidence to perform well during this sprint. Reflection will be done in regards to the retrospective from sprint 1 and the team will make reasonable attempts to complete any changes.
 
 ## Scrums
 
