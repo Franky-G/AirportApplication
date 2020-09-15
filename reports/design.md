@@ -138,6 +138,44 @@ The header displays the team name. Clicking on the header displays more informat
 The class diagram is the same as the Base for Sprint 1.
 
 # Sprint 2
+
+### User Interface
+![User Interface Sprint 2](https://github.com/csucs314f20/t10/blob/master/reports/images/UserInterface-Sprint2.JPG)
+
+#### Distance
+This feature will allow the user to enter two sets of geographical coordinates and will result in the calculation of the distance between those two locations. For better visualisation, this feature will draw a line between these two locations.
+
+#### Find Places
+This feature will allow the user to find places by names and municipalities around the world and display a short list of relevant places, and will allow the user to select one.
+
+#### Where is?
+This feature will allow the user to see a location on the map using latitude and longitude. The user is allowed to enter any format of the coordinates, and the map will convert them and show the user the location.
+
+#### Where am I?
+This feature will allow the user to look at their current location and there will be a home button present in the left of the map, which will allow the user to return to their current location if they have scrolled away to look at different places on the map. 
+
+### Component Hierarchy
+![Component Hierarchy](https://github.com/csucs314f20/t10/blob/master/reports/images/Component-Sprint2.JPG)
+
+* App renders the major components on the screen.
+* Header renders an icon and a team name in the top banner.
+* Footer renders the current server connection in the bottom footer.
+* Atlas renders a map, it also allows the user to calculate distance between two sets of geographical coordinates, along with searching of places by names and municipalities around the world, and it also allows the user to enter geographical coordinates and search for that place.
+* About renders information about the team, along with team's mission statement and short bios for each teammember, along with their contact inforamtion. 
+
+The state is located in Footer and Atlas. The props passed to child components are:
+* About: closePage
+* Footer: serverSettings and processServerConfigSuccess
+* Header: toggleAbout
+
+### Class Diagram
+![Class Diagram](https://github.com/csucs314f20/t10/blob/master/reports/images/ClassDiagram-Sprint2.JPG)
+
+The changes in class diagram for Sprint 2 are:
+* Config: objects allow the server to provide configuration information to the client.
+* Distance: objects allow the client to request the distance between two geographic locations.
+* Find: objects allow the client to provide the user a list of possible destinations based on some criteria.
+
 # Sprint 3
 # Sprint 4 
 # Sprint 5
