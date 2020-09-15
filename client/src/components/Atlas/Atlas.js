@@ -2,10 +2,10 @@ import React, {Component} from 'react';
 import {Col, Container, Row} from 'reactstrap';
 
 import {Map, Marker, Popup, TileLayer} from 'react-leaflet';
-
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
+
 
 const MAP_BOUNDS = [[-90, -180], [90, 180]];
 const MAP_CENTER_DEFAULT = [40.5734, -105.0865];
@@ -14,6 +14,7 @@ const MAP_LAYER_ATTRIBUTION = "&copy; <a href=&quot;http://osm.org/copyright&quo
 const MAP_LAYER_URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 const MAP_MIN_ZOOM = 1;
 const MAP_MAX_ZOOM = 19;
+const HOME = "\u2302";
 
 export default class Atlas extends Component {
 
@@ -21,6 +22,7 @@ export default class Atlas extends Component {
     super(props);
 
     this.setMarker = this.setMarker.bind(this);
+    this.geoPosition();
 
     this.state = {
       markerPosition: null,
@@ -43,21 +45,51 @@ export default class Atlas extends Component {
 
   renderLeafletMap() {
     return (
-        <Map
-            className={'mapStyle'}
-            boxZoom={false}
-            useFlyTo={true}
-            zoom={15}
-            minZoom={MAP_MIN_ZOOM}
-            maxZoom={MAP_MAX_ZOOM}
-            maxBounds={MAP_BOUNDS}
-            center={this.getArrayMarkerLocation()}
-            onClick={this.setMarker}
-        >
-          <TileLayer url={MAP_LAYER_URL} attribution={MAP_LAYER_ATTRIBUTION}/>
-          {this.getMarker()}
-        </Map>
+        <div id="container">
+          {this.renderOverlayDiv()}
+          <Map
+              className={'mapStyle'}
+              boxZoom={false}
+              useFlyTo={true}
+              zoom={15}
+              minZoom={MAP_MIN_ZOOM}
+              maxZoom={MAP_MAX_ZOOM}
+              maxBounds={MAP_BOUNDS}
+              center={this.getArrayMarkerLocation()}
+              onClick={this.setMarker}
+              viewport={{}}
+              id="theMap"
+          >
+            <TileLayer url={MAP_LAYER_URL} attribution={MAP_LAYER_ATTRIBUTION}/>
+            {this.getMarker()}
+          </Map>
+        </div>
     );
+  }
+
+  renderOverlayDiv(){
+    return(
+        <div id="overlayDiv">
+          <button className="home-btn" onClick={() => this.setUserLocation()}>
+            <span>
+              <p> { HOME }</p>
+            </span>
+          </button>
+        </div>
+    );
+  }
+
+  geoPosition(){
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(success, error, {enableHighAccuracy:true});
+
+    } else {
+      console.log("Geolocation is not supported by this browser.");
+    }
+  }
+
+  setUserLocation(){
+    this.setState({markerPosition: myCoords});
   }
 
   setMarker(mapClickInfo) {
@@ -92,7 +124,7 @@ export default class Atlas extends Component {
   }
 
   getArrayMarkerLocation() {
-    var latLngArray = [0,0]
+    let latLngArray = [0.0,0.0]
     if(this.state.markerPosition)
     {
       latLngArray[0] = parseFloat(this.state.markerPosition.lat);
@@ -101,4 +133,14 @@ export default class Atlas extends Component {
     }
     return MAP_CENTER_DEFAULT;
   }
+}
+
+function success(position) {
+  myCoords = L.latLng(position.coords.latitude, position.coords.longitude);
+}
+
+let myCoords = L.latLng(40.5734,-105.0865);
+
+function error(err) {
+  console.warn(`ERROR(${err.code}): ${err.message}`);
 }

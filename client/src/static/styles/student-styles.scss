@@ -3,3 +3,73 @@
     tempted to go all out with the styling of your website. We encourage you not to spend the time styling the pages
     for this class, and to spend that time on styling of your own personal webpage or side project.
  */
+
+/* Add your own styles here. Use of this file should be minimized at all costs. However, if you feel the need to
+    declare your own CSS classes for a small padding fix or whatnot, this is the purpose of this file. You may be
+    tempted to go all out with the styling of your website. We encourage you not to spend the time styling the pages
+    for this class, and to spend that time on styling of your own personal webpage or side project.
+ */
+
+/* Colors
+csu-green: #1E4D2B;
+csu-gold: #C8C372;
+csu-white: #FFFFFF;
+*/
+
+/* Style the tab */
+* {
+  color: #1E4D2B;
+}
+
+body {
+  font-family: sans-serif;
+  background-color: #f7f7f7;
+}
+
+
+
+
+.home-btn, .home-btn:active, .home-btns:focus {
+  position: relative;
+  background-color: #fff;
+  background-size: 34px;
+  color: #000000;
+  top: 104px;
+  left: 10px;
+  z-index: 1001;
+  border-left: 2px solid rgba(0,0,0,0.3) ;
+  border-right: 2px solid rgba(0,0,0,0.3) ;
+  border-bottom: 2px solid rgba(0,0,0,0.3) ;
+  border-top: 1px solid rgba(0,0,0,0.2) ;
+  border-radius: 0 0 4px 4px;
+  width: 34px;
+  height: 33px;
+  outline:none !important;
+}
+
+.home-btn span {
+  position: absolute;
+  top: 2px;
+  left: 7px;
+  width: 15px;
+  height: auto;
+}
+
+select::-moz-focus-inner {
+  outline: none !important;
+}
+
+select:-moz-focusring {
+  color: transparent;
+  text-shadow: 0 0 0 #000;
+}
+
+#container{
+  position:relative;
+}
+
+#num1, #num2 {
+  position:absolute;
+  top:69px;
+  left:10px;
+}
