@@ -14,6 +14,7 @@ const MAP_LAYER_ATTRIBUTION = "&copy; <a href=&quot;http://osm.org/copyright&quo
 const MAP_LAYER_URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 const MAP_MIN_ZOOM = 1;
 const MAP_MAX_ZOOM = 19;
+const HOME = "\u2302";
 
 export default class Atlas extends Component {
 
@@ -45,16 +46,7 @@ export default class Atlas extends Component {
   renderLeafletMap() {
     return (
         <div id="container">
-          <div id="num1">
-          <button className="home-btn" onClick={() => this.setUserLocation()}>
-            <span>
-            <img src="https://www.pinclipart.com/picdir/big/44-448226_file-home-icon-svg-wikimedia-commons-free-train.png"
-                 height="auto"
-                 width="100%"
-                 alt={"Home Button"}/>
-            </span>
-          </button>
-          </div>
+          {this.renderOverlayDiv()}
           <Map
               className={'mapStyle'}
               boxZoom={false}
@@ -68,10 +60,21 @@ export default class Atlas extends Component {
               viewport={{}}
               id="theMap"
           >
-
             <TileLayer url={MAP_LAYER_URL} attribution={MAP_LAYER_ATTRIBUTION}/>
             {this.getMarker()}
           </Map>
+        </div>
+    );
+  }
+
+  renderOverlayDiv(){
+    return(
+        <div id="overlayDiv">
+          <button className="home-btn" onClick={() => this.setUserLocation()}>
+            <span>
+              <p> { HOME }</p>
+            </span>
+          </button>
         </div>
     );
   }
