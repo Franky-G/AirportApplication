@@ -6,6 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestRequestConfig {
@@ -26,10 +30,10 @@ public class TestRequestConfig {
   }
 
   @Test
-  @DisplayName("Version number is equal to 1")
+  @DisplayName("Version number is equal to 2")
   public void testVersion() {
     int version = conf.getRequestVersion();
-    assertEquals(1, version);
+    assertEquals(2, version);
   }
 
   @Test
@@ -37,5 +41,13 @@ public class TestRequestConfig {
   public void testServerName() {
     String name = conf.getServerName();
     assertEquals("t10 tech10", name);
+  }
+
+  @Test
+  @DisplayName("Supported requests are [\"config\", \"distance\", \"find\"")
+  public void testSupportedRequests(){
+    List<String> temp = Arrays.asList("config", "distance", "find");
+    List<String> suppReq = conf.getSupportedRequests();
+    assertEquals(temp, suppReq);
   }
 }
