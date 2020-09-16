@@ -1,4 +1,4 @@
-# Sprint # - *t10* - *tech10*
+# Sprint 2 - *t10* - *tech10*
 
 ## Goal
 ### Show me the distance
@@ -57,7 +57,8 @@
 
 | Date | Tasks closed  | Tasks in progress | Impediments |
 | :--- | :--- | :--- | :--- |
-| *09/14/20* | *0* | *4* | *none* | 
+| *09/14/20* | *0* | *4* | *none* |
+| *09/15/20* | *1* | *5* | *none* |
 
 
 ## Review
