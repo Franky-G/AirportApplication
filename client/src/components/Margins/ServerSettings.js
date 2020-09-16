@@ -35,23 +35,23 @@ export default class ServerSettings extends Component {
         return (
             <ModalBody>
                 <Row className="m-2">
-                    <Col xs={6}>
+                    <Col xs={2}>
                         <b><em>Name:</em></b>
                     </Col>
-                    <Col xs={25}>
+                    <Col xs={10}>
                         {currentServerName}
                     </Col>
                 </Row>
                 <Row className="m-2">
-                    <Col xs={5}>
+                    <Col xs={2}>
                         <b><em>URL:</em></b>
                     </Col>
-                    <Col xs={25}>
+                    <Col xs={10}>
                         {this.renderInputField()}
                     </Col>
                 </Row>
                 <br></br>
-                <h5><u>Server Configuration Information</u></h5>
+                <h5>Server Configuration Information</h5>
                 <br></br>
                 <Row className="m-2">
                     <Col xs={6}>
