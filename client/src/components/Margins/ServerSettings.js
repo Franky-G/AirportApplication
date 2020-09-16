@@ -34,52 +34,52 @@ export default class ServerSettings extends Component {
     renderSettings(currentServerName) {
         return (
             <ModalBody>
-                <Row>
-                    <Col xs={5}>
-                        Name:
+                <Row className="m-2">
+                    <Col xs={6}>
+                        <b><em>Name:</em></b>
                     </Col>
                     <Col xs={25}>
                         {currentServerName}
                     </Col>
                 </Row>
-                <Row>
+                <Row className="m-2">
                     <Col xs={5}>
-                        URL:
+                        <b><em>URL:</em></b>
                     </Col>
                     <Col xs={25}>
                         {this.renderInputField()}
                     </Col>
                 </Row>
                 <br></br>
-                <h5>Server Configuration Information</h5>
+                <h5><u>Server Configuration Information</u></h5>
                 <br></br>
-                <Row>
-                    <Col xs={5}>
-                        Request Type:
+                <Row className="m-2">
+                    <Col xs={6}>
+                        <b><em>Request Type:</em></b>
                     </Col>
                     <Col xs={25}>
                         {this.props.serverSettings.serverConfig && this.props.serverSettings.serverConfig.requestType}
                     </Col>
                 </Row>
-                <Row>
-                    <Col xs={5}>
-                        Request Version:
+                <Row className="m-2">
+                    <Col xs={6}>
+                        <b><em>Request Version:</em></b>
                     </Col>
                     <Col xs={25}>
                         {this.props.serverSettings.serverConfig && this.props.serverSettings.serverConfig.requestVersion}
                     </Col>
                 </Row>
-                <Row>
-                    <Col xs={5}>
-                        Server Name:
+                <Row className="m-2">
+                    <Col xs={6}>
+                        <b><em>Server Name:</em></b>
                     </Col>
                     <Col xs={25}>
                         {currentServerName}
                     </Col>
                 </Row>
-                <Row>
-                    <Col xs={5}>
-                        Supported Requests:
+                <Row className="m-2">
+                    <Col xs={6}>
+                        <b><em>Supported Requests:</em></b>
                     </Col>
                     <Col xs={25}>
                         {this.props.serverSettings.serverConfig && JSON.stringify(this.props.serverSettings.serverConfig.supportedRequests)}
