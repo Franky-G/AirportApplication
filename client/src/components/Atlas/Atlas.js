@@ -6,7 +6,6 @@ import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
 
-
 const MAP_BOUNDS = [[-90, -180], [90, 180]];
 const MAP_CENTER_DEFAULT = [40.5734, -105.0865];
 const MARKER_ICON = L.icon({ iconUrl: icon, shadowUrl: iconShadow, iconAnchor: [12, 40] });
@@ -81,7 +80,11 @@ export default class Atlas extends Component {
 
   geoPosition(){
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(success, error, {enableHighAccuracy:true});
+      navigator.geolocation.getCurrentPosition(position => {
+        myCoords = {lat: position.coords.latitude, lng: position.coords.longitude};
+        this.setMarker({latlng: myCoords});
+          }
+          , error, {enableHighAccuracy:true});
 
     } else {
       console.log("Geolocation is not supported by this browser.");
@@ -133,10 +136,6 @@ export default class Atlas extends Component {
     }
     return MAP_CENTER_DEFAULT;
   }
-}
-
-function success(position) {
-  myCoords = L.latLng(position.coords.latitude, position.coords.longitude);
 }
 
 let myCoords = L.latLng(40.5734,-105.0865);
