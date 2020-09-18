@@ -13,16 +13,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestRequestDistance {
 
-    private RequestDistance dist;
+
     private Map <String, String> place1;
     private Map <String, String> place2;
+    private RequestDistance dist;
 
     @BeforeEach
     public void createConfigurationForTestCases(){
         dist = new RequestDistance();
-        place1 = new HashMap<>();
-        place2 = new HashMap<>();
-        dist.buildResponse();
+        dist = new RequestDistance(3959f, "41", "-109", "37", "-102");
     }
 
     @Test
@@ -42,34 +41,29 @@ public class TestRequestDistance {
     @Test
     @DisplayName("Earth Radius is 3959.00")
     public void testEarthRadius() {
-        double temp = dist.getEarthRadius();
-        assertEquals(3959.00, temp);
+        Float temp = dist.getEarthRadius();
+        assertEquals(3959f, temp);
     }
 
     @Test
-    public void testPlace1() {
-        this.place1.put("latitude", "40.6");
-        this.place1.put("longitude", "-105.1");
-        double latplace1 = (Double.valueOf(place1.get("latitude"))).doubleValue();
-        double longplace1 = (Double.valueOf(place1.get("longitude"))).doubleValue();
-        assertEquals(40.6, latplace1);
-        assertEquals(-105.1, longplace1);
+    @DisplayName("Place 1 and Place 2")
+    public void testPlace1Place2() {
+        place1 = dist.getPlace1();
+        place2 = dist.getPlace2();
+        Double latplace1 = (Double.valueOf(place1.get("latitude"))).doubleValue();
+        Double longplace1 = (Double.valueOf(place1.get("longitude"))).doubleValue();
+        Double latplace2 = (Double.valueOf(place2.get("latitude"))).doubleValue();
+        Double longplace2 = (Double.valueOf(place2.get("longitude"))).doubleValue();
+        assertEquals(41, latplace1);
+        assertEquals(-109, longplace1);
+        assertEquals(37, latplace2);
+        assertEquals(-102, longplace2);
     }
 
     @Test
-    public void testPlace2() {
-        this.place2.put("latitude", "-33.9");
-        this.place2.put("longitude", "151.2");
-        double latplace2 = (Double.valueOf(place2.get("latitude"))).doubleValue();
-        double longplace2 = (Double.valueOf(place2.get("longitude"))).doubleValue();
-        assertEquals(-33.9, latplace2);
-        assertEquals(151.2, longplace2);
-    }
-
-    /*@Test
+    @DisplayName("Request Type is \"distance\"")
     public void testDistance() {
-        double temp = dist.getDistance();
-        assertEquals(8348, temp);
-    }*/
-
+        dist.buildResponse();
+        assertEquals(466, dist.getDistance());
+    }
 }
