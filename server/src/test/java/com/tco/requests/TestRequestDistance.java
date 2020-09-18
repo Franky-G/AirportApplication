@@ -13,10 +13,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestRequestDistance {
 
-
     private Map <String, String> place1;
     private Map <String, String> place2;
     private RequestDistance dist;
+
 
     @BeforeEach
     public void createConfigurationForTestCases(){
@@ -65,5 +65,13 @@ public class TestRequestDistance {
     public void testDistance() {
         dist.buildResponse();
         assertEquals(466, dist.getDistance());
+    }
+
+    @Test
+    @DisplayName("Test Fort Collins to Sydney")
+    public void testCOSydney() {
+        dist = new RequestDistance(3959f, "40.6", "-105.1", "-33.9", "151.2");
+        dist.buildResponse();
+        assertEquals(8347, dist.getDistance());
     }
 }
