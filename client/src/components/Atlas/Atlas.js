@@ -113,9 +113,29 @@ export default class Atlas extends Component {
     );
   }
 
-  renderSearchFieldTo(){ return( <div>{toSearchField.map(this.getSearchField)}</div> ); }
-  renderSearchBar(){ return( <div>{searchbar.map(this.getSearchField)}</div> ); }
-  getSearchField(field) { return ( <div><Input placeholder={field.hold} className={field.cN} style={field.st} color="primary" /></div> ) }
+  renderSearchFieldTo(){
+    return (
+        <div>
+          {toSearchField.map(this.getSearchField)}
+        </div>
+    );
+  }
+
+  renderSearchBar(){
+    return(
+        <div>
+          {searchbar.map(this.getSearchField)}
+        </div>
+    );
+  }
+
+  getSearchField(field) {
+    return (
+        <div>
+          <Input placeholder={field.hold} className={field.cN} style={field.st} color="primary" />
+        </div>
+    )
+  }
 
   renderOverlayDiv(){
     return(

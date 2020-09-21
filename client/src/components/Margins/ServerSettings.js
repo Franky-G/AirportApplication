@@ -5,20 +5,15 @@ import { sendServerRequest, isJsonResponseValid } from "../../utils/restfulAPI";
 
 import * as configSchema from "../../../schemas/ResponseConfig";
 
-//let serverInfo = [{listName: "Name:", info: this.getCurrentServerName()}, {listName: "URL:", info: this.renderInputField()}]
-
-
 export default class ServerSettings extends Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
             inputText: this.props.serverSettings.serverPort,
             validServer: null,
             config: {}
         };
-
         this.saveInputText = this.state.inputText;
     }
 
@@ -35,63 +30,21 @@ export default class ServerSettings extends Component {
     }
 
     renderSettings(currentServerName) {
+        let serverInfo = [{listName: "Name:", info: currentServerName}, {listName: "URL:", info: this.renderInputField()}]
+        let ConfigInfo = [{configName: "Request Type:", extra: this.props.serverSettings.serverConfig && this.props.serverSettings.serverConfig.requestType},
+            {configName: "Request Version:", extra: this.props.serverSettings.serverConfig && this.props.serverSettings.serverConfig.requestVersion},
+            {configName: "Server Name:", extra: currentServerName},
+            {configName: "Supported Requests:", extra: (this.props.serverSettings.serverConfig && JSON.stringify(this.props.serverSettings.serverConfig.supportedRequests))}]
         return (
             <ModalBody>
-                <Row className="m-2">
-                    <Col xs={2}>
-                        <b><em>Name:</em></b>
-                    </Col>
-                    <Col xs={10}>
-                        {currentServerName}
-                    </Col>
-                </Row>
-                <Row className="m-2">
-                    <Col xs={2}>
-                        <b><em>URL:</em></b>
-                    </Col>
-                    <Col xs={10}>
-                        {this.renderInputField()}
-                    </Col>
-                </Row>
-                <h5>Server Configuration Information</h5>
-                <br></br>
-                <Row className="m-2">
-                    <Col xs={6}>
-                        <b><em>Request Type:</em></b>
-                    </Col>
-                    <Col xs={25}>
-                        {this.props.serverSettings.serverConfig && this.props.serverSettings.serverConfig.requestType}
-                    </Col>
-                </Row>
-                <Row className="m-2">
-                    <Col xs={6}>
-                        <b><em>Request Version:</em></b>
-                    </Col>
-                    <Col xs={25}>
-                        {this.props.serverSettings.serverConfig && this.props.serverSettings.serverConfig.requestVersion}
-                    </Col>
-                </Row>
-                <Row className="m-2">
-                    <Col xs={6}>
-                        <b><em>Server Name:</em></b>
-                    </Col>
-                    <Col xs={25}>
-                        {currentServerName}
-                    </Col>
-                </Row>
-                <Row className="m-2">
-                    <Col xs={6}>
-                        <b><em>Supported Requests:</em></b>
-                    </Col>
-                    <Col xs={25}>
-                        {this.props.serverSettings.serverConfig && JSON.stringify(this.props.serverSettings.serverConfig.supportedRequests)}
-                    </Col>
-                </Row>
+                {serverInfo.map(this.getServerInfo)}
+                <br/><h5>Server Configuration Information</h5><br/>
+                {ConfigInfo.map(this.getServerConfigInfo)}
             </ModalBody>
         );
     }
 
-    /*getServerInfo(info) {
+    getServerInfo(info) {
         return (
             <Row className="m-2">
                 <Col xs={2}>
@@ -115,7 +68,7 @@ export default class ServerSettings extends Component {
                 </Col>
             </Row>
         )
-    }*/
+    }
 
     renderInputField() {
         let valid = this.state.validServer === null ? false : this.state.validServer;
@@ -192,3 +145,56 @@ export default class ServerSettings extends Component {
         });
     }
 }
+
+/*
+<Row className="m-2">
+                    <Col xs={2}>
+                        <b><em>Name:</em></b>
+                    </Col>
+                    <Col xs={10}>
+                        {currentServerName}
+                    </Col>
+                </Row>
+                <Row className="m-2">
+                    <Col xs={2}>
+                        <b><em>URL:</em></b>
+                    </Col>
+                    <Col xs={10}>
+                        {this.renderInputField()}
+                    </Col>
+                </Row>
+ */
+/*
+<Row className="m-2">
+                    <Col xs={6}>
+                        <b><em>Request Type:</em></b>
+                    </Col>
+                    <Col xs={25}>
+                        {this.props.serverSettings.serverConfig && this.props.serverSettings.serverConfig.requestType}
+                    </Col>
+                </Row>
+                <Row className="m-2">
+                    <Col xs={6}>
+                        <b><em>Request Version:</em></b>
+                    </Col>
+                    <Col xs={25}>
+                        {this.props.serverSettings.serverConfig && this.props.serverSettings.serverConfig.requestVersion}
+                    </Col>
+                </Row>
+                <Row className="m-2">
+                    <Col xs={6}>
+                        <b><em>Server Name:</em></b>
+                    </Col>
+                    <Col xs={25}>
+                        {currentServerName}
+                    </Col>
+                </Row>
+                <Row className="m-2">
+                    <Col xs={6}>
+                        <b><em>Supported Requests:</em></b>
+                    </Col>
+                    <Col xs={25}>
+                        {this.props.serverSettings.serverConfig && JSON.stringify(this.props.serverSettings.serverConfig.supportedRequests)}
+                    </Col>
+                </Row>
+ */
