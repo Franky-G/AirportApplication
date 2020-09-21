@@ -40,6 +40,9 @@ const inputFieldStyleSearchBar = {
   position: "absolute",
 }
 
+let toSearchField = [{hold: "To", cN: "inputFieldSearchField", st: inputFieldStyleTo}]
+let searchbar = [{hold: "Search Location", cN: "inputFieldSearchBar", st: inputFieldStyleSearchBar}]
+
 export default class Atlas extends Component {
 
   constructor(props) {
@@ -110,21 +113,9 @@ export default class Atlas extends Component {
     );
   }
 
-  renderSearchFieldTo(){
-    return(
-        <div>
-          <Input placeholder="To" className="inputFieldSearchField" style={inputFieldStyleTo} color="primary"/>
-        </div>
-    );
-  }
-
-  renderSearchBar(){
-    return(
-        <div>
-          <Input placeholder="Search Location" className="inputFieldSearchBar" style={inputFieldStyleSearchBar} color="primary"/>
-        </div>
-    );
-  }
+  renderSearchFieldTo(){ return( <div>{toSearchField.map(this.getSearchField)}</div> ); }
+  renderSearchBar(){ return( <div>{searchbar.map(this.getSearchField)}</div> ); }
+  getSearchField(field) { return ( <div><Input placeholder={field.hold} className={field.cN} style={field.st} color="primary" /></div> ) }
 
   renderOverlayDiv(){
     return(

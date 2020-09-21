@@ -6,15 +6,12 @@ import com.tco.requests.RequestConfig;
 import com.tco.requests.RequestDistance;
 import com.tco.requests.RequestFind;
 import com.tco.requests.RequestHeader;
-
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.google.gson.Gson;
 import static spark.Spark.*;
 
