@@ -5,6 +5,9 @@ import { sendServerRequest, isJsonResponseValid } from "../../utils/restfulAPI";
 
 import * as configSchema from "../../../schemas/ResponseConfig";
 
+//let serverInfo = [{listName: "Name:", info: this.getCurrentServerName()}, {listName: "URL:", info: this.renderInputField()}]
+
+
 export default class ServerSettings extends Component {
 
     constructor(props) {
@@ -50,7 +53,6 @@ export default class ServerSettings extends Component {
                         {this.renderInputField()}
                     </Col>
                 </Row>
-                <br></br>
                 <h5>Server Configuration Information</h5>
                 <br></br>
                 <Row className="m-2">
@@ -88,6 +90,32 @@ export default class ServerSettings extends Component {
             </ModalBody>
         );
     }
+
+    /*getServerInfo(info) {
+        return (
+            <Row className="m-2">
+                <Col xs={2}>
+                    <b><em>{info.listName}</em></b>
+                </Col>
+                <Col xs={10}>
+                    {info.info}
+                </Col>
+            </Row>
+        )
+    }
+
+    getServerConfigInfo(ser) {
+        return (
+            <Row className="m-2">
+                <Col xs={6}>
+                    <b><em>{ser.configName}</em></b>
+                </Col>
+                <Col xs={25}>
+                    {ser.extra}
+                </Col>
+            </Row>
+        )
+    }*/
 
     renderInputField() {
         let valid = this.state.validServer === null ? false : this.state.validServer;
