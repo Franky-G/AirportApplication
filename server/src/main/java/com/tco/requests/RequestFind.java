@@ -1,6 +1,7 @@
 package com.tco.requests;
 
 import com.tco.misc.BadRequestException;
+import com.tco.misc.ProcessFindRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,20 +11,17 @@ import java.util.List;
 import java.util.Map;
 
 public class RequestFind extends RequestHeader {
-
+    private ProcessFindRequest findResult;
     private String match;
     private int limit;
     private int found;
-    private List<Map<String, String>> places = new ArrayList<Map<String, String>>();
-    //private String place1 = get info from database
-    //private String place2 = get info from database
 
     private final transient Logger log = LoggerFactory.getLogger(RequestFind.class);
-
 
     public RequestFind() {
         this.requestType = "find";
         this.requestVersion = RequestHeader.CURRENT_SUPPORTED_VERSION;
+
     }
 
     @Override
