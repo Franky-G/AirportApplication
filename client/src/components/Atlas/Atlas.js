@@ -140,16 +140,14 @@ export default class Atlas extends Component {
   renderOverlayDiv(){
     return(
         <div id="overlayDiv">
-          <button className="home-btn" onClick={() => this.setUserLocation()}>
+          <button className="home-btn" onClick={() => this.setState({markerPosition: myCoords})}>
             <span>
-              <p className="homeImg">{HOME}</p>
+              <p className="homeImg" title = "Go home">{HOME}</p>
             </span>
           </button>
         </div>
     );
   }
-
-
 
   geoPosition(){
     if (navigator.geolocation) {
@@ -162,10 +160,6 @@ export default class Atlas extends Component {
     } else {
       console.log("Geolocation is not supported by this browser.");
     }
-  }
-
-  setUserLocation(){
-    this.setState({markerPosition: myCoords});
   }
 
   setMarker(mapClickInfo) {
