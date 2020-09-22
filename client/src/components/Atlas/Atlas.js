@@ -48,13 +48,16 @@ export default class Atlas extends Component {
   constructor(props) {
     super(props);
 
-    this.setMarker = this.setMarker.bind(this);
     this.geoPosition();
+    this.setMarker = this.setMarker.bind(this);
+
 
     this.state = {
       markerPosition: null,
       searchText: "",
+      homeLocation: homeCoords,
     };
+
   }
 
   render() {
@@ -92,6 +95,7 @@ export default class Atlas extends Component {
               id="theMap"
           >
             <TileLayer url={MAP_LAYER_URL} attribution={MAP_LAYER_ATTRIBUTION}/>
+            {this.getHomeMarker()}
             {this.getMarker()}
           </Map>
         </div>
@@ -137,23 +141,13 @@ export default class Atlas extends Component {
     )
   }
 
-  renderOverlayDiv(){
-    return(
-        <div id="overlayDiv">
-          <button className="home-btn" onClick={() => this.setState({markerPosition: myCoords})}>
-            <span>
-              <p className="homeImg" title = "Go home">{HOME}</p>
-            </span>
-          </button>
-        </div>
-    );
-  }
-
   geoPosition(){
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
             myCoords = {lat: position.coords.latitude, lng: position.coords.longitude};
+            homeCoords = [position.coords.latitude, position.coords.longitude];
             this.setMarker({latlng: myCoords});
+            this.setHomeMarker();
           }
           , error, {enableHighAccuracy:true});
 
@@ -162,8 +156,40 @@ export default class Atlas extends Component {
     }
   }
 
+  renderOverlayDiv(){
+    return(
+        <div id="overlayDiv">
+          <button className="home-btn" onClick={() => this.setState({markerPosition: myCoords, homeLocation: myCoords})}>
+            <span>
+              <p className="homeImg" title = "Go home">{HOME}</p>
+            </span>
+          </button>
+        </div>
+    );
+  }
+
   setMarker(mapClickInfo) {
     this.setState({markerPosition: mapClickInfo.latlng});
+  }
+
+  setHomeMarker(){
+    this.setState({homeLocation: homeCoords});
+  }
+
+  getHomeMarker(){
+    const initMarker = ref => {
+      if (ref) {
+        ref.leafletElement.openPopup()
+      }
+    };
+
+    if (this.state.homeLocation){
+      return(
+          <Marker ref={initMarker} position={this.state.homeLocation} icon={MARKER_ICON}>
+            <Popup offset={[0, -18]} className="font-weight-bold">You are Here</Popup>
+          </Marker>
+      )
+    }
   }
 
   getMarker() {
@@ -172,6 +198,7 @@ export default class Atlas extends Component {
         ref.leafletElement.openPopup()
       }
     };
+
 
     if (this.state.markerPosition) {
       return (
@@ -205,7 +232,9 @@ export default class Atlas extends Component {
   }
 }
 
+
 let myCoords = L.latLng(40.5734,-105.0865);
+let homeCoords;
 
 function error(err) {
   console.warn(`ERROR(${err.code}): ${err.message}`);
