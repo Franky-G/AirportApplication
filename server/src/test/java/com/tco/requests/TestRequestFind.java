@@ -36,17 +36,38 @@ public class TestRequestFind {
     }
 
     @Test
-    @DisplayName("match should be salt%")
+    @DisplayName("match should be %port")
     public void testMatch(){
         String match = fin.getMatch();
         assertEquals("%port", match);
     }
 
     @Test
-    @DisplayName("limit should be 500")
+    @DisplayName("limit should be 150")
     public void testLimit(){
         int limit = fin.getLimit();
         assertEquals(150, limit);
+    }
+
+    @Test
+    @DisplayName("name should be Salt Box Airport via pattern: '%port'")
+    public void testPlacesName(){
+        //fin = new RequestFind("salt%", 150);
+        fin.buildResponse();
+        List<HashMap<String, String>> places = fin.getPlaces();
+        String name = (places.get(0)).get("name");
+
+        assertEquals("'S Gravenvoeren heliport", name);
+    }
+
+    @Test
+    @DisplayName("last name should be Glorioso Islands Airstrip via pattern: salt%")
+    public void testPlacesLatitude(){
+        //fin = new RequestFind("salt%", 150);
+        fin.buildResponse();
+        List<HashMap<String, String>> places = fin.getPlaces();
+        String lat = (places.get(0).get("latitude"));
+        assertEquals("50.764771", lat);
     }
 
     @Test
@@ -57,31 +78,8 @@ public class TestRequestFind {
 
         List<HashMap<String, String>> places = fin.getPlaces();
         String name = (places.get(0)).get("name");
-        int found = fin.getFound();
 
         assertEquals("1669 Diamondview Road Private Strip", name);
-        assertEquals(150, found);
     }
 
-    @Test
-    @DisplayName("name should be Salt Box Airport via pattern: 'salt%'")
-    public void testPlacesName(){
-        fin = new RequestFind("salt%", 5);
-        fin.buildResponse();
-
-        List<HashMap<String, String>> places = fin.getPlaces();
-        String name = (places.get(0)).get("name");
-
-        assertEquals("Salt Box Airport", name);
-    }
-
-    @Test
-    @DisplayName("last name should be Glorioso Islands Airstrip via pattern: salt%")
-    public void testPlacesLatitude(){
-        fin = new RequestFind("salt%", 5);
-        fin.buildResponse();
-        List<HashMap<String, String>> places = fin.getPlaces();
-        String lat = (places.get(0).get("latitude"));
-        assertEquals("41.32426452636719", lat);
-    }
 }
