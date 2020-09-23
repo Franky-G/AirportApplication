@@ -5,20 +5,16 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 public class ProcessFindRequest {
 
-    private static ResultSet result;
+    private String QUERY;
     private static String db_url;
     private static String db_user;
     private static String db_pass;
-    private static String QUERY = "select name,municipality,id,type,latitude,longitude from world where name like 'salt%' order by name limit 5";
 
-    private static HashMap<String, String> location;
-    private static HashMap<String, String> itemsFoundMap;
-
-    private static final ArrayList allLocations = new ArrayList<>();
+    private List<HashMap<String,String>> allLocations = new ArrayList<>();
 
     public static void setServerParameters()
     {
@@ -43,33 +39,34 @@ public class ProcessFindRequest {
         }*/
     }
 
-    public static ArrayList<HashMap<String,String>> processFindServerRequest()
+    public List<HashMap<String,String>> processFindServerRequest(String matchPattern, int limitInt)
     {
         setServerParameters();
-
         try
         {
             Connection con = DriverManager.getConnection(db_url, db_user, db_pass);
             Statement query = con.createStatement();
-            result = query.executeQuery(QUERY);
-            int foundCounter = 0;
+
+            if (limitInt == 0){
+
+                this.QUERY = "select name,latitude,longitude from world where name like '" + matchPattern + "' order by name";
+            }
+            else if (limitInt > 0){
+
+                this.QUERY = "select name,latitude,longitude from world where name like '" + matchPattern + "' order by name limit " + Integer.toString(limitInt);
+            }
+
+            ResultSet result = query.executeQuery(QUERY);
+
             while(result.next())
             {
-                foundCounter++;
-                location = new HashMap<>();
+                HashMap<String, String> location = new HashMap<>();
                 location.put("name", result.getString("name"));
-                location.put("municipality", result.getString("municipality"));
-                location.put("id", result.getString("id"));
-                location.put("type", result.getString("type"));
                 location.put("latitude", result.getString("latitude"));
                 location.put("longitude", result.getString("longitude"));
-                allLocations.add(location);
+                this.allLocations.add(location);
 
             }
-            itemsFoundMap = new HashMap<>();
-            itemsFoundMap.put("itemsFound", Integer.toString(foundCounter));
-            allLocations.add(itemsFoundMap);
-            System.out.println(allLocations);
         }
         catch (Exception e)
         {
@@ -77,5 +74,4 @@ public class ProcessFindRequest {
         }
         return allLocations;
     }
-
 }

@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,7 +18,7 @@ public class TestRequestFind {
     @BeforeEach
     public void createConfigurationForTestCases(){
         fin = new RequestFind();
-        fin.buildResponse();
+        fin = new RequestFind("%port", 500);
     }
 
     @Test
@@ -38,39 +36,52 @@ public class TestRequestFind {
     }
 
     @Test
-    @DisplayName("match should be \"^[a-zA-z0-9_]+$\"")
+    @DisplayName("match should be salt%")
     public void testMatch(){
-        String temp = fin.getMatch();
-        assertEquals("[a-zA-z0-9_]+", temp);
+        String match = fin.getMatch();
+        assertEquals("%port", match);
     }
 
     @Test
-    @DisplayName("limit should be 5")
+    @DisplayName("limit should be 500")
     public void testLimit(){
-        int temp = fin.getLimit();
-        assertEquals(5, temp);
+        int limit = fin.getLimit();
+        assertEquals(500, limit);
     }
 
     @Test
-    @DisplayName("found should be 5")
-    public void testFound(){
-        int temp = fin.getFound();
-        assertEquals(5, temp);
+    @DisplayName("found should be 1759 via pattern: '%strip' with no limit")
+    public void testLimitZero(){
+        fin = new RequestFind("%strip", 0);
+        fin.buildResponse();
+
+        List<HashMap<String, String>> places = fin.getPlaces();
+        String name = (places.get(0)).get("name");
+        int found = fin.getFound();
+
+        assertEquals("1669 Diamondview Road Private Strip", name);
+        assertEquals(1759, found);
     }
 
     @Test
-    @DisplayName("name should be Salt Box Airport via pattern salt%")
+    @DisplayName("name should be Salt Box Airport via pattern: 'salt%'")
     public void testPlacesName(){
-        List<HashMap<String, String>> temp = fin.getPlaces();
-        String temp1 = (temp.get(0)).get("name");
-        assertEquals("Salt Box Airport", temp1);
+        fin = new RequestFind("salt%", 5);
+        fin.buildResponse();
+
+        List<HashMap<String, String>> places = fin.getPlaces();
+        String name = (places.get(0)).get("name");
+
+        assertEquals("Salt Box Airport", name);
     }
 
     @Test
-    @DisplayName("municipality should be Hiram via pattern salt%")
-    public void testPlacesMunicipality(){
-        List<HashMap<String, String>> temp = fin.getPlaces();
-        String temp1 = (temp.get(0)).get("municipality");
-        assertEquals("Hiram", temp1);
+    @DisplayName("last name should be Glorioso Islands Airstrip via pattern: salt%")
+    public void testPlacesLatitude(){
+        fin = new RequestFind("salt%", 5);
+        fin.buildResponse();
+        List<HashMap<String, String>> places = fin.getPlaces();
+        String lat = (places.get(0).get("latitude"));
+        assertEquals("41.32426452636719", lat);
     }
 }
