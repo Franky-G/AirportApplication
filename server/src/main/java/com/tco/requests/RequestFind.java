@@ -29,10 +29,8 @@ public class RequestFind extends RequestHeader {
 
     @Override
     public void buildResponse() {
-        System.out.println("match is: " + this.match + "\n limit is: " + this.limit + "\n");
         this.places = findResult.processFindServerRequest(this.match, this.limit);
         this.found = this.places.size();
-        System.out.println("found is: " + this.found + "\n");
         log.trace("buildResponse -> {}", this);
     }
 

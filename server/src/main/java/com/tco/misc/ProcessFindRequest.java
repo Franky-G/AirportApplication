@@ -20,23 +20,26 @@ public class ProcessFindRequest {
     {
         String hasTunnel = System.getenv("CS314_USE_DATABASE_TUNNEL");
         String hasTravis = System.getenv("TRAVIS");
-        /*if (hasTravis != null && hasTravis.equals("true")) {
+        //In Travis
+        if (hasTravis != null && hasTravis.equals("true")) {
             db_url = "jdbc:mysql://127.0.0.1/cs314";
             db_user = "root";
             db_pass = null;
-        }*/
-        //else if (hasTunnel != null && hasTunnel.equals("true"))
-        //{
-            db_url = "jdbc:mariadb://127.0.0.1:56247/cs314";
+        }
+        //ANY PC not on CSU network
+        else if (hasTunnel == null)
+        {
+            db_url = "jdbc:mysql://127.0.0.1:56247/cs314";
             db_user = "cs314-db";
             db_pass = "eiK5liet1uej";
-        //}
-        /*else
+        }
+        //CSU CS machines
+        else
         {
             db_url = "jdbc:mysql://faure.cs.colostate.edu/cs314";
             db_user = "cs314-db";
             db_pass = "eiK5liet1uej";
-        }*/
+        }
     }
 
     public List<HashMap<String,String>> processFindServerRequest(String matchPattern, int limitInt)
