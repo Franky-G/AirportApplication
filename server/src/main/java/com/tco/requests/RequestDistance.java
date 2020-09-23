@@ -12,7 +12,7 @@ public class RequestDistance extends RequestHeader {
     private Map <String,String> place2;
     private Float earthRadius;
     private Integer distance;
-    private CalculateDistance calc;
+    private CalculateDistance calc = new CalculateDistance();
     private final transient Logger log = LoggerFactory.getLogger(RequestDistance.class);
 
     public RequestDistance() {

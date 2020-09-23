@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 
+import java.util.HashMap;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TestRequestFind {
@@ -15,7 +18,7 @@ public class TestRequestFind {
     @BeforeEach
     public void createConfigurationForTestCases(){
         fin = new RequestFind();
-        fin.buildResponse();
+        fin = new RequestFind("%port", 150);
     }
 
     @Test
@@ -33,9 +36,50 @@ public class TestRequestFind {
     }
 
     @Test
-    @DisplayName("match should be \"^[a-zA-z0-9_]+$\"")
+    @DisplayName("match should be %port")
     public void testMatch(){
-        String temp = fin.getMatch();
-        assertEquals("[a-zA-z0-9_]+", temp);
+        String match = fin.getMatch();
+        assertEquals("%port", match);
     }
+
+    @Test
+    @DisplayName("limit should be 150")
+    public void testLimit(){
+        int limit = fin.getLimit();
+        assertEquals(150, limit);
+    }
+
+    @Test
+    @DisplayName("name should be Salt Box Airport via pattern: '%port'")
+    public void testPlacesName(){
+        //fin = new RequestFind("salt%", 150);
+        fin.buildResponse();
+        List<HashMap<String, String>> places = fin.getPlaces();
+        String name = (places.get(0)).get("name");
+
+        assertEquals("'S Gravenvoeren heliport", name);
+    }
+
+    @Test
+    @DisplayName("last name should be Glorioso Islands Airstrip via pattern: salt%")
+    public void testPlacesLatitude(){
+        //fin = new RequestFind("salt%", 150);
+        fin.buildResponse();
+        List<HashMap<String, String>> places = fin.getPlaces();
+        String lat = (places.get(0).get("latitude"));
+        assertEquals("50.764771", lat);
+    }
+
+    @Test
+    @DisplayName("found should be 1759 via pattern: '%strip' with no limit")
+    public void testLimitZero(){
+        fin = new RequestFind("%strip", 0);
+        fin.buildResponse();
+
+        List<HashMap<String, String>> places = fin.getPlaces();
+        String name = (places.get(0)).get("name");
+
+        assertEquals("1669 Diamondview Road Private Strip", name);
+    }
+
 }

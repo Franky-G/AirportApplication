@@ -5,67 +5,78 @@ import java.sql.Statement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 public class ProcessFindRequest {
 
-    private String db_url;
-    private String db_user;
-    private String db_pass;
-    private String QUERY = "select name,municipality,id,type,latitude,longitude from world where name like 'salt%' order by name limit 5";
+    private String QUERY;
+    private static String db_url;
+    private static String db_user;
+    private static String db_pass;
 
-    private HashMap<String, String> location;
-    private final ArrayList allLocations = new ArrayList<>();
+    private List<HashMap<String,String>> allLocations = new ArrayList<>();
 
-    public void setServerParameters()
+    public static void setServerParameters()
     {
-        String hasTunnel = System.getenv("CS314_USE_DATABASE_TUNNEL");
         String hasTravis = System.getenv("TRAVIS");
+        String hasTunnel = System.getenv("CS314_USE_DATABASE_TUNNEL");
+
+        //In Travis
         if (hasTravis != null && hasTravis.equals("true")) {
-            this.db_url = "jdbc:mysql://127.0.0.1/cs314";
-            this.db_user = "root";
-            this.db_pass = null;
+            db_url = "jdbc:mysql://127.0.0.1/cs314";
+            db_user = "root";
+            db_pass = null;
         }
+        //ANY PC not on CSU network
         else if (hasTunnel != null && hasTunnel.equals("true"))
         {
-            this.db_url = "jdbc:mysql://127.0.0.1:56247/cs314";
-            this.db_user = "cs314-db";
-            this.db_pass = "eiK5liet1uej";
+            db_url = "jdbc:mysql://127.0.0.1:56247/cs314";
+            db_user = "cs314-db";
+            db_pass = "eiK5liet1uej";
         }
+        //CSU CS machines
         else
         {
-            this.db_url = "jdbc:mysql://faure.cs.colostate.edu/cs314";
-            this.db_user = "cs314-db";
-            this.db_pass = "eiK5liet1uej";
+            db_url = "jdbc:mysql://faure.cs.colostate.edu/cs314";
+            db_user = "cs314-db";
+            db_pass = "eiK5liet1uej";
         }
     }
 
-    public ArrayList<HashMap<String,String>> processFindServerRequest()
+    public List<HashMap<String,String>> processFindServerRequest(String matchPattern, int limitInt)
     {
         setServerParameters();
+
         try
         {
-            Connection con = DriverManager.getConnection(this.db_url, this.db_user, this.db_pass);
+            Connection con = DriverManager.getConnection(db_url, db_user, db_pass);
             Statement query = con.createStatement();
-            ResultSet result = query.executeQuery(this.QUERY);
+
+            if (limitInt == 0){
+
+                this.QUERY = "select name,latitude,longitude from world where name like '" + matchPattern + "' order by name limit 150";
+            }
+            else if (limitInt > 0){
+
+                this.QUERY = "select name,latitude,longitude from world where name like '" + matchPattern + "' order by name limit " + Integer.toString(limitInt);
+            }
+
+            ResultSet result = query.executeQuery(QUERY);
+
             while(result.next())
             {
-                this.location = new HashMap<>();
-                this.location.put("name", result.getString("name"));
-                this.location.put("municipality", result.getString("municipality"));
-                this.location.put("id", result.getString("id"));
-                this.location.put("type", result.getString("type"));
-                this.location.put("latitude", result.getString("latitude"));
-                this.location.put("longitude", result.getString("longitude"));
-                this.allLocations.add(this.location);
+                HashMap<String, String> location = new HashMap<>();
+                location.put("name", result.getString("name"));
+                location.put("latitude", result.getString("latitude"));
+                location.put("longitude", result.getString("longitude"));
+                this.allLocations.add(location);
+
             }
-            System.out.println(this.allLocations);
         }
         catch (Exception e)
         {
             System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage());
         }
-        return this.allLocations;
+        return allLocations;
     }
-
 }
