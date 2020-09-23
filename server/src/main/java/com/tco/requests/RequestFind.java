@@ -5,17 +5,16 @@ import com.tco.misc.ProcessFindRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.sql.ResultSet;
+import java.util.*;
 
 public class RequestFind extends RequestHeader {
-    private ProcessFindRequest findResult;
+
+    private List<HashMap<String, String>> places = new ArrayList<>();
     private String match;
     private int limit;
     private int found;
-
+    private ProcessFindRequest findResult;
     private final transient Logger log = LoggerFactory.getLogger(RequestFind.class);
 
     public RequestFind() {
@@ -26,23 +25,24 @@ public class RequestFind extends RequestHeader {
 
     @Override
     public void buildResponse() {
-        this.requestVersion = RequestHeader.CURRENT_SUPPORTED_VERSION;
         this.match = "[a-zA-z0-9_]+";
-        this.limit = 0;
-        this.found = 0;
+        this.limit = 5;
+        this.places = findResult.processFindServerRequest();
+        this.found = Integer.parseInt((places.get(places.size()-1).get("itemsFound")));
         log.trace("buildResponse -> {}", this);
     }
 
     public int getLimit(){
         return limit;
     }
-
     public String getMatch(){
         return match;
     }
-
     public int getFound(){
         return found;
+    }
+    public List<HashMap<String, String>> getPlaces(){
+        return places;
     }
 
 }
