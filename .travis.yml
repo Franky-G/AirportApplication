@@ -15,7 +15,7 @@ before_script:
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
   - mysql -u root -e 'CREATE DATABASE cs314;'
-  - for SQL in server/srs/test/resources/*.sql; do mysql cs314 < $SQL; done
+  - for SQL in server/srs/test/resources/colorado.sql; do mysql cs314 < $SQL; done
 
 install:
   - npm install --prefix client
