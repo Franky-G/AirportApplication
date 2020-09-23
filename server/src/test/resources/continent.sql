@@ -35,6 +35,7 @@ CREATE TABLE `continent` (
 --
 -- Dumping data for table `continent`
 --
+-- WHERE:  1 order by name limit 150
 
 LOCK TABLES `continent` WRITE;
 /*!40000 ALTER TABLE `continent` DISABLE KEYS */;
@@ -51,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-09-23 14:05:28
+-- Dump completed on 2020-09-23 16:45:17
