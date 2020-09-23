@@ -12,7 +12,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 const MAP_BOUNDS = [[-90, -180], [90, 180]];
 const MAP_CENTER_DEFAULT = [40.5734, -105.0865];
 const MARKER_ICON = L.icon({ iconUrl: icon, shadowUrl: iconShadow, iconAnchor: [12, 40] });
-const HOME_MARKER = L.icon({ iconUrl: homeMarker, shadowUrl: iconShadow, iconAnchor: [32, 55], iconSize: [60, 65]});
+const HOME_MARKER = L.icon({ iconUrl: homeMarker, shadowUrl: iconShadow, shadowAnchor: [12, 41], iconAnchor: [32, 55], iconSize: [60, 65]});
 const MAP_LAYER_ATTRIBUTION = "&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors";
 const MAP_LAYER_URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 const MAP_MIN_ZOOM = 1;
@@ -96,7 +96,6 @@ export default class Atlas extends Component {
               maxBounds={MAP_BOUNDS}
               center={this.getArrayMarkerLocation()}
               onClick={this.setMarker}
-              viewport={{}}
               id="theMap"
           >
             <TileLayer url={MAP_LAYER_URL} attribution={MAP_LAYER_ATTRIBUTION}/>
@@ -151,8 +150,9 @@ export default class Atlas extends Component {
       navigator.geolocation.getCurrentPosition(position => {
             myCoords = {lat: position.coords.latitude, lng: position.coords.longitude};
             homeCoords = [position.coords.latitude, position.coords.longitude];
-            this.setMarker({latlng: myCoords});
-            this.setHomeMarker();
+            //this.setMarker({latlng: myCoords});
+            this.setState({homeLocation: homeCoords});
+
           }
           , error, {enableHighAccuracy:true});
     } else {
@@ -163,7 +163,7 @@ export default class Atlas extends Component {
   renderOverlayDiv(){
     return(
         <div id="overlayDiv">
-          <button className="home-btn" onClick={() => this.setState({markerPosition: myCoords, homeLocation: myCoords})}>
+          <button className="home-btn" onClick={() => this.setState({markerPosition: null})}>
             <span>
               <img src={homeIcon} style={homeButtonStyle} alt="Go Home"/>
             </span>
@@ -173,11 +173,7 @@ export default class Atlas extends Component {
   }
 
   setMarker(mapClickInfo) {
-      this.setState({markerPosition: mapClickInfo.latlng});
-  }
-
-  setHomeMarker(){
-    this.setState({homeLocation: homeCoords});
+    this.setState({markerPosition: mapClickInfo.latlng});
   }
 
   getHomeMarker(){
@@ -205,7 +201,7 @@ export default class Atlas extends Component {
     if (this.state.markerPosition) {
       return (
           <Marker ref={initMarker} position={this.state.markerPosition} icon={MARKER_ICON}>
-              <Popup offset={[0, -18]} className="font-weight-bold">{this.getStringMarkerPosition()}</Popup>
+            <Popup offset={[0, -18]} className="font-weight-bold">{this.getStringMarkerPosition()}</Popup>
           </Marker>
       )
     }
@@ -230,10 +226,11 @@ export default class Atlas extends Component {
       latLngArray[1] = parseFloat(this.state.markerPosition.lng);
       return latLngArray;
     }
-    return MAP_CENTER_DEFAULT;
+    latLngArray[0] = parseFloat(myCoords.lat);
+    latLngArray[1] = parseFloat(myCoords.lng);
+    return latLngArray;
   }
 }
-
 
 let myCoords = L.latLng(40.5734,-105.0865);
 let homeCoords;
