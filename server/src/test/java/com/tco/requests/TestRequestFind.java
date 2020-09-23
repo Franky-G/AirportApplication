@@ -18,7 +18,7 @@ public class TestRequestFind {
     @BeforeEach
     public void createConfigurationForTestCases(){
         fin = new RequestFind();
-        fin = new RequestFind("%port", 500);
+        fin = new RequestFind("%port", 150);
     }
 
     @Test
@@ -46,7 +46,7 @@ public class TestRequestFind {
     @DisplayName("limit should be 500")
     public void testLimit(){
         int limit = fin.getLimit();
-        assertEquals(500, limit);
+        assertEquals(150, limit);
     }
 
     @Test
@@ -60,7 +60,7 @@ public class TestRequestFind {
         int found = fin.getFound();
 
         assertEquals("1669 Diamondview Road Private Strip", name);
-        assertEquals(1759, found);
+        assertEquals(150, found);
     }
 
     @Test

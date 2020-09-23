@@ -46,6 +46,7 @@ public class ProcessFindRequest {
     public List<HashMap<String,String>> processFindServerRequest(String matchPattern, int limitInt)
     {
         setServerParameters();
+
         try
         {
             Connection con = DriverManager.getConnection(db_url, db_user, db_pass);
@@ -53,7 +54,7 @@ public class ProcessFindRequest {
 
             if (limitInt == 0){
 
-                this.QUERY = "select name,latitude,longitude from world where name like '" + matchPattern + "' order by name";
+                this.QUERY = "select name,latitude,longitude from world where name like '" + matchPattern + "' order by name limit 150";
             }
             else if (limitInt > 0){
 
