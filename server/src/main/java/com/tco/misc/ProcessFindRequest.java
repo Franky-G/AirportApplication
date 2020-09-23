@@ -18,8 +18,9 @@ public class ProcessFindRequest {
 
     public static void setServerParameters()
     {
-        String hasTunnel = System.getenv("CS314_USE_DATABASE_TUNNEL");
         String hasTravis = System.getenv("TRAVIS");
+        String hasTunnel = System.getenv("CS314_USE_DATABASE_TUNNEL");
+
         //In Travis
         if (hasTravis != null && hasTravis.equals("true")) {
             db_url = "jdbc:mysql://127.0.0.1/cs314";
