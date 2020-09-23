@@ -28,7 +28,7 @@ public class ProcessFindRequest {
             db_pass = null;
         }
         //ANY PC not on CSU network
-        else if (hasTunnel == null)
+        else if (hasTunnel != null && hasTunnel.equals("true"))
         {
             db_url = "jdbc:mysql://127.0.0.1:56247/cs314";
             db_user = "cs314-db";
