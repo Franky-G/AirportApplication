@@ -30,11 +30,11 @@ body {
 
 
 .home-btn, .home-btn:active, .home-btns:focus {
-  position: relative;
+  position: absolute;
   background-color: #fff;
   background-size: 34px;
   color: #000000;
-  top: 104px;
+  top: 71px;
   left: 10px;
   z-index: 1001;
   border-left: 2px solid rgba(0,0,0,0.3) ;
