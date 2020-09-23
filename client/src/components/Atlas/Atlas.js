@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import {Col, Container, Row, Input} from 'reactstrap';
 
+import homeIcon from '../../static/images/homeButtonIcon.png';
+import homeMarker from '../../static/images/youAreHereMarker.png';
 import {Map, Marker, Popup, TileLayer} from 'react-leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
@@ -10,11 +12,11 @@ import 'bootstrap/dist/css/bootstrap.css';
 const MAP_BOUNDS = [[-90, -180], [90, 180]];
 const MAP_CENTER_DEFAULT = [40.5734, -105.0865];
 const MARKER_ICON = L.icon({ iconUrl: icon, shadowUrl: iconShadow, iconAnchor: [12, 40] });
+const HOME_MARKER = L.icon({ iconUrl: homeMarker, shadowUrl: iconShadow, iconAnchor: [32, 55], iconSize: [60, 65]});
 const MAP_LAYER_ATTRIBUTION = "&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors";
 const MAP_LAYER_URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 const MAP_MIN_ZOOM = 1;
 const MAP_MAX_ZOOM = 19;
-const HOME = "\u2302";
 
 const inputFieldStyleFrom = {
   zIndex: 1002,
@@ -40,6 +42,13 @@ const inputFieldStyleSearchBar = {
   position: "absolute",
 }
 
+const homeButtonStyle = {
+  top: 5,
+  left: 1,
+  width: 15,
+  position: "absolute",
+}
+
 let toSearchField = [{hold: "To", cN: "inputFieldSearchField", st: inputFieldStyleTo}]
 let searchbar = [{hold: "Search Location", cN: "inputFieldSearchBar", st: inputFieldStyleSearchBar}]
 
@@ -47,17 +56,14 @@ export default class Atlas extends Component {
 
   constructor(props) {
     super(props);
-
     this.geoPosition();
     this.setMarker = this.setMarker.bind(this);
-
 
     this.state = {
       markerPosition: null,
       searchText: "",
       homeLocation: homeCoords,
     };
-
   }
 
   render() {
@@ -80,7 +86,6 @@ export default class Atlas extends Component {
           {this.renderOverlayDiv()}
           {this.renderSearchFieldFrom()}
           {this.renderSearchBar()}
-
           <Map
               className={'mapStyle'}
               boxZoom={false}
@@ -150,7 +155,6 @@ export default class Atlas extends Component {
             this.setHomeMarker();
           }
           , error, {enableHighAccuracy:true});
-
     } else {
       console.log("Geolocation is not supported by this browser.");
     }
@@ -161,7 +165,7 @@ export default class Atlas extends Component {
         <div id="overlayDiv">
           <button className="home-btn" onClick={() => this.setState({markerPosition: myCoords, homeLocation: myCoords})}>
             <span>
-              <p className="homeImg" title = "Go home">{HOME}</p>
+              <img src={homeIcon} style={homeButtonStyle} alt="Go Home"/>
             </span>
           </button>
         </div>
@@ -169,7 +173,7 @@ export default class Atlas extends Component {
   }
 
   setMarker(mapClickInfo) {
-    this.setState({markerPosition: mapClickInfo.latlng});
+      this.setState({markerPosition: mapClickInfo.latlng});
   }
 
   setHomeMarker(){
@@ -185,9 +189,7 @@ export default class Atlas extends Component {
 
     if (this.state.homeLocation){
       return(
-          <Marker ref={initMarker} position={this.state.homeLocation} icon={MARKER_ICON}>
-            <Popup offset={[0, -18]} className="font-weight-bold">You are Here</Popup>
-          </Marker>
+          <Marker ref={initMarker} position={this.state.homeLocation} icon={HOME_MARKER}/>
       )
     }
   }
@@ -203,9 +205,9 @@ export default class Atlas extends Component {
     if (this.state.markerPosition) {
       return (
           <Marker ref={initMarker} position={this.state.markerPosition} icon={MARKER_ICON}>
-            <Popup offset={[0, -18]} className="font-weight-bold">{this.getStringMarkerPosition()}</Popup>
+              <Popup offset={[0, -18]} className="font-weight-bold">{this.getStringMarkerPosition()}</Popup>
           </Marker>
-      );
+      )
     }
   }
 
