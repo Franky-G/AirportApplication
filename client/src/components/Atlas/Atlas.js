@@ -232,7 +232,6 @@ export default class Atlas extends Component {
   }
 }
 
-
 let myCoords = L.latLng(40.5734,-105.0865);
 let homeCoords;
 
