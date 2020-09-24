@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import {Col, Container, Row, Input, Button, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
-
 import homeIcon from '../../static/images/homeButtonIcon.png';
 import homeMarker from '../../static/images/youAreHereMarker.png';
 import {Map, Marker, Popup, TileLayer} from 'react-leaflet';
@@ -65,17 +64,12 @@ const dropdownStyle = {
   zIndex: 1010,
 }
 
-//let toSearchField = [{hold: "To", cN: "inputFieldSearchField", st: inputFieldStyleTo, name:"searchBarTo", stateName: "searchTextTo"}]
-//let searchbar = [{hold: "Search Location", cN: "inputFieldSearchBar", st: inputFieldStyleSearchBar, name:"searchBar", stateName: "searchBarText"}]
-
 export default class Atlas extends Component {
-
   constructor(props) {
     super(props);
     this.geoPosition();
     this.setMarker = this.setMarker.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
-
     this.state = {
       markerPosition: null,
       searchTextTo: "",
@@ -104,15 +98,11 @@ export default class Atlas extends Component {
 
   render() {
     return (
-        <div>
-          <Container>
-            <Row>
+        <div><Container><Row>
               <Col sm={12} md={{size: 10, offset: 1}}>
                 {this.renderLeafletMap()}
               </Col>
-            </Row>
-          </Container>
-        </div>
+            </Row></Container></div>
     );
   }
 
@@ -132,8 +122,7 @@ export default class Atlas extends Component {
               maxBounds={MAP_BOUNDS}
               center={this.getArrayMarkerLocation()}
               onClick={this.setMarker}
-              id="theMap"
-          >
+              id="theMap" >
             <TileLayer url={MAP_LAYER_URL} attribution={MAP_LAYER_ATTRIBUTION}/>
             {this.getHomeMarker()}
             {this.getMarker()}
@@ -142,21 +131,13 @@ export default class Atlas extends Component {
     );
   }
 
+  helperSetCurrentSearchBar(temp) {
+    return ( <Container><Fade id="searchCollapse" in={temp.info} style={{zIndex: 1010}}>{temp.extra}</Fade></Container> )
+  }
+
   setCurrentSearchBar(){
-    return(
-        <div>
-          <Container>
-            <Fade id="searchCollapse" in={this.state.showDistanceSearch} style={{zIndex: 1010}}>
-              {this.renderSearchField()}
-            </Fade>
-          </Container>
-          <Container>
-            <Fade id="searchCollapse" in={this.state.showLocationSearch} style={{zIndex: 1010}}>
-              {this.renderSearchBar()}
-            </Fade>
-          </Container>
-        </div>
-    );
+    let searchField = [{info: this.state.showDistanceSearch, extra: this.renderSearchField()}, {info: this.state.showLocationSearch, extra: this.renderSearchBar()}]
+    return( <div>{searchField.map(this.helperSetCurrentSearchBar)}</div> );
   }
 
   addDropdownButton(){
@@ -173,85 +154,45 @@ export default class Atlas extends Component {
     );
   }
 
-  toggleSearchDistance(){
-    this.setState({showDistanceSearch: !this.state.showDistanceSearch});
-  }
-
-  toggleSearchLocation(){
-    this.setState({showLocationSearch: !this.state.showLocationSearch});
-  }
-
-  toggleButtonDropdown(){
-    this.setState({buttonDropdown: !this.state.buttonDropdown});
-  }
+  toggleSearchDistance(){ this.setState({showDistanceSearch: !this.state.showDistanceSearch}); }
+  toggleSearchLocation(){ this.setState({showLocationSearch: !this.state.showLocationSearch}); }
+  toggleButtonDropdown(){ this.setState({buttonDropdown: !this.state.buttonDropdown}); }
 
   renderOverlayDiv(){
     return(
-        <div id="overlayDiv">
-          <button className="home-btn" style={{top: 70}} onClick={() => this.setState({markerPosition: null})}>
-            <span><img src={homeIcon} style={homeButtonStyle} alt="Go Home"/></span>
-          </button>
-        </div>
-    );
+        <div id="overlayDiv"><button className="home-btn" style={{top: 70}} onClick={() => this.setState({markerPosition: null})}>
+            <span><img src={homeIcon} style={homeButtonStyle} title="Go Home" alt = "Home"/></span>
+          </button></div> );
+  }
+
+  helperRenderFunction(temp) {
+    return ( <Input name = {temp.name} placeholder = {temp.place} className = {temp.classname} style = {temp.style} color={temp.color} onChange={temp.change}/> )
   }
 
   renderSearchField(){
+    let helpSearchField = [{name: "searchBarFrom", place: "From", classname: "inputFieldSearchField", style: inputFieldStyleFrom, color: "primary", change: this.handleInputChange}]
     return(
-        <div>
-          <Row xs="3">
-            <Col>
-              <Input name="searchBarFrom" placeholder="From" className="inputFieldSearchField"
-                     style={inputFieldStyleFrom} color="primary" onChange={this.handleInputChange}/>
-            </Col >
-            <Col>
-              {this.renderSearchFieldTo()}
-            </Col>
-            <Col>
-              {this.renderCalculateButton()}
-            </Col>
-          </Row>
-        </div>
-    );
-  }
-
-  renderSearchFieldTo(){
-    return (
-          <Input name="searchBarTo" placeholder="To" className="inputFieldSearchField" style={inputFieldStyleFrom} color="primary" onChange={this.handleInputChange}/>
-        /**
-        <div>
-          {toSearchField.map(this.getSearchField)}
-        </div>
-         **/
-    );
+        <div><Row xs="3">
+            <Col>{helpSearchField.map(this.helperRenderFunction)}</Col>
+            <Col>{this.renderSearchFieldTo()}</Col>
+            <Col>{this.renderCalculateButton()}</Col>
+          </Row></div> );
   }
 
   renderSearchBar(){
-    return(
-        <div>
-          <Input name="searchBar" placeholder="Search Location" className="inputFieldSearchBar" style={inputFieldStyleSearchBar} color="primary" onChange={this.handleInputChange}/>
-        </div>
-    );
+    let searchbar = [{name: "searchBar", place: "Search Location", classname: "inputFieldSearchBar", style: inputFieldStyleSearchBar, color: "primary", change: this.handleInputChange}]
+    return( <div>{searchbar.map(this.helperRenderFunction)}</div> );
   }
 
-  getSearchField(field) {
-    return (
-        <div>
-          <Input name={field.name} placeholder={field.hold} className={field.cN} style={field.st} color="primary"/>
-        </div>
-    )
+  renderSearchFieldTo(){
+    return ( <Input name="searchBarTo" placeholder="To" className="inputFieldSearchField" style={inputFieldStyleFrom} color="primary" onChange={this.handleInputChange}/> );
   }
 
   renderCalculateButton(){
-    return(
-        <div>
-          <Button className="p-1" style={distanceButtonStyle} onClick={() => this.calculateDistance()}> Calculate </Button>
-        </div>
-    )
+    return( <div><Button className="p-1" style={distanceButtonStyle} onClick={() => this.calculateDistance()}> Calculate </Button></div> )
   }
 
-  calculateDistance(){
-    console.log("placeholder function");
-  }
+  calculateDistance(){ console.log("placeholder function"); }
 
   geoPosition(){
     if (navigator.geolocation) {
@@ -265,7 +206,6 @@ export default class Atlas extends Component {
       console.log("Geolocation is not supported by this browser.");
     }
   }
-
 
   setMarker(mapClickInfo) {
     this.setState({markerPosition: mapClickInfo.latlng});
@@ -283,51 +223,26 @@ export default class Atlas extends Component {
   }
 
   getHomeMarker(){
-    const initMarker = ref => {
-      if (ref) {
-        ref.leafletElement.openPopup()
-      }
-    };
-
-    if (this.state.homeLocation){
-      return(
-          <Marker ref={initMarker} position={this.state.homeLocation} icon={HOME_MARKER}/>
-      )
-    }
+    const initMarker = ref => { if (ref) { ref.leafletElement.openPopup() } };
+    if (this.state.homeLocation){ return( <Marker ref={initMarker} position={this.state.homeLocation} icon={HOME_MARKER}/> ) }
   }
 
   getMarker() {
-    const initMarker = ref => {
-      if (ref) {
-        ref.leafletElement.openPopup()
-      }
-    };
-
-
+    const initMarker = ref => { if (ref) { ref.leafletElement.openPopup() } };
     if (this.state.markerPosition) {
       return (
           <Marker ref={initMarker} position={this.state.markerPosition} icon={MARKER_ICON}>
             <Popup offset={[0, -18]} className="font-weight-bold">{this.getStringMarkerPosition()}</Popup>
-          </Marker>
-      )
-    }
-  }
+          </Marker> ) } }
 
   getStringMarkerPosition() {
-    if(this.state.markerPosition)
-    {
-      return +this.state.markerPosition.lat.toFixed(2) + ', ' + this.state.markerPosition.lng.toFixed(2);
-    }
-    if(!this.state.markerPosition)
-    {
-      return MAP_CENTER_DEFAULT;
-    }
+    if(this.state.markerPosition) { return +this.state.markerPosition.lat.toFixed(2) + ', ' + this.state.markerPosition.lng.toFixed(2); }
+    if(!this.state.markerPosition) { return MAP_CENTER_DEFAULT; }
   }
 
   getArrayMarkerLocation() {
     let latLngArray = [0.0,0.0]
-    if(this.state.markerPosition)
-    {
+    if(this.state.markerPosition) {
       latLngArray[0] = parseFloat(this.state.markerPosition.lat);
       latLngArray[1] = parseFloat(this.state.markerPosition.lng);
       return latLngArray;
@@ -342,6 +257,4 @@ let myCoords = L.latLng(40.5734,-105.0865);
 let homeCoords;
 let index = 0;
 
-function error(err) {
-  console.warn(`ERROR(${err.code}): ${err.message}`);
-}
+function error(err) { console.warn(`ERROR(${err.code}): ${err.message}`); }
