@@ -77,21 +77,21 @@ body {
 }
 
 /* Home Button Style */
-.home-btn, .home-btn:active, .home-btns:focus {
+.home-btn, .home-btn:active, .home-btn:focus, .home-btn:active:focus,
+.searchButton, .searchButton:active, .searchButton:focus, .searchButton:active:focus{
   position: absolute;
   background-color: #fff;
   background-size: 34px;
   color: #000000;
-  top: 70px;
   left: 10px;
-  z-index: 1001;
+  z-index: 1005;
   border-left: 2px solid rgba(0,0,0,0.3) ;
   border-right: 2px solid rgba(0,0,0,0.3) ;
   border-bottom: 2px solid rgba(0,0,0,0.3) ;
   border-top: 1px solid rgba(0,0,0,0.2) ;
   border-radius: 0 0 4px 4px;
   width: 34px;
-  height: 33px;
+  height: 34px;
   outline:none !important;
 }
 

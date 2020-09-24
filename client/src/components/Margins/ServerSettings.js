@@ -86,8 +86,8 @@ export default class ServerSettings extends Component {
     renderActions() {
         return (
             <ModalFooter>
-                <Button color="primary" onClick={() => this.resetServerSettingsState()}>Cancel</Button>
-                <Button color="primary" onClick={() =>
+                <Button style={{backgroundColor: "#1E4D2B"}} onClick={() => this.resetServerSettingsState()}>Cancel</Button>
+                <Button style={{backgroundColor: "#1E4D2B"}} onClick={() =>
                 {
                     this.props.processServerConfigSuccess(this.state.config, this.state.inputText);
                     this.resetServerSettingsState(this.state.inputText);
