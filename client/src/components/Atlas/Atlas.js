@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Col, Container, Row, Input} from 'reactstrap';
+import {Col, Container, Row, Input, Button, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
 
 import homeIcon from '../../static/images/homeButtonIcon.png';
 import homeMarker from '../../static/images/youAreHereMarker.png';
@@ -8,6 +8,7 @@ import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
 import 'bootstrap/dist/css/bootstrap.css';
+import Fade from "@material-ui/core/Fade";
 
 const MAP_BOUNDS = [[-90, -180], [90, 180]];
 const MAP_CENTER_DEFAULT = [40.5734, -105.0865];
@@ -26,14 +27,6 @@ const inputFieldStyleFrom = {
   position: "absolute",
 }
 
-const inputFieldStyleTo = {
-  zIndex: 1002,
-  height: 34,
-  top: 10,
-  left: 40,
-  position: "absolute",
-}
-
 const inputFieldStyleSearchBar = {
   zIndex: 1002,
   height: 34,
@@ -49,8 +42,31 @@ const homeButtonStyle = {
   position: "absolute",
 }
 
-let toSearchField = [{hold: "To", cN: "inputFieldSearchField", st: inputFieldStyleTo}]
-let searchbar = [{hold: "Search Location", cN: "inputFieldSearchBar", st: inputFieldStyleSearchBar}]
+const distanceButtonStyle = {
+  position: "absolute",
+  top: 11,
+  left: -1,
+  zIndex: 1005,
+  height: 32,
+  fontSize: 12,
+  backgroundColor: "#1E4D2B",
+}
+
+const dropdownStyle = {
+  position: "absolute",
+  left: 10,
+  top: 100,
+  backgroundColor: '#FFFFFF',
+  color: '#000000',
+  borderColor: "rgba(0,0,0,1)",
+  padding: "none",
+  cursor: "pointer",
+  outline: "none",
+  zIndex: 1010,
+}
+
+//let toSearchField = [{hold: "To", cN: "inputFieldSearchField", st: inputFieldStyleTo, name:"searchBarTo", stateName: "searchTextTo"}]
+//let searchbar = [{hold: "Search Location", cN: "inputFieldSearchBar", st: inputFieldStyleSearchBar, name:"searchBar", stateName: "searchBarText"}]
 
 export default class Atlas extends Component {
 
@@ -58,12 +74,32 @@ export default class Atlas extends Component {
     super(props);
     this.geoPosition();
     this.setMarker = this.setMarker.bind(this);
+    this.handleInputChange = this.handleInputChange.bind(this);
 
     this.state = {
       markerPosition: null,
-      searchText: "",
+      searchTextTo: "",
+      searchTextFrom: "",
+      searchBarText: "",
       homeLocation: homeCoords,
+      showDistanceSearch: false,
+      showLocationSearch: false,
+      buttonDropdown: false,
+      prevLocation: [[0,0],[0,0]],
     };
+  }
+
+  handleInputChange = () => {
+    const target = event.target;
+    if(target.name === "searchBarTo"){
+      this.setState({searchTextTo: target.value});
+    }
+    if(target.name === "searchBarFrom"){
+      this.setState({searchTextFrom: target.value});
+    }
+    if(target.name === "searchBar"){
+      this.setState({searchBarText: target.value});
+    }
   }
 
   render() {
@@ -84,8 +120,8 @@ export default class Atlas extends Component {
     return (
         <div id="container">
           {this.renderOverlayDiv()}
-          {this.renderSearchFieldFrom()}
-          {this.renderSearchBar()}
+          {this.addDropdownButton()}
+          {this.setCurrentSearchBar()}
           <Map
               className={'mapStyle'}
               boxZoom={false}
@@ -106,15 +142,72 @@ export default class Atlas extends Component {
     );
   }
 
-  renderSearchFieldFrom(){
+  setCurrentSearchBar(){
+    return(
+        <div>
+          <Container>
+            <Fade id="searchCollapse" in={this.state.showDistanceSearch} style={{zIndex: 1010}}>
+              {this.renderSearchField()}
+            </Fade>
+          </Container>
+          <Container>
+            <Fade id="searchCollapse" in={this.state.showLocationSearch} style={{zIndex: 1010}}>
+              {this.renderSearchBar()}
+            </Fade>
+          </Container>
+        </div>
+    );
+  }
+
+  addDropdownButton(){
+    return(
+        <div style={{position: "absolute"}}>
+          <ButtonDropdown  isOpen={this.state.buttonDropdown} onClick={() => this.toggleButtonDropdown()}>
+            <DropdownToggle caret style={dropdownStyle}>Search</DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem><div onClick={() => this.toggleSearchDistance()}> Distance </div></DropdownItem>
+              <DropdownItem><div onClick={() => this.toggleSearchLocation()}> Location </div></DropdownItem>
+            </DropdownMenu>
+          </ButtonDropdown>
+        </div>
+    );
+  }
+
+  toggleSearchDistance(){
+    this.setState({showDistanceSearch: !this.state.showDistanceSearch});
+  }
+
+  toggleSearchLocation(){
+    this.setState({showLocationSearch: !this.state.showLocationSearch});
+  }
+
+  toggleButtonDropdown(){
+    this.setState({buttonDropdown: !this.state.buttonDropdown});
+  }
+
+  renderOverlayDiv(){
+    return(
+        <div id="overlayDiv">
+          <button className="home-btn" style={{top: 70}} onClick={() => this.setState({markerPosition: null})}>
+            <span><img src={homeIcon} style={homeButtonStyle} alt="Go Home"/></span>
+          </button>
+        </div>
+    );
+  }
+
+  renderSearchField(){
     return(
         <div>
           <Row xs="3">
             <Col>
-              <Input placeholder="From" className="inputFieldSearchField" style={inputFieldStyleFrom} color="primary"/>
+              <Input name="searchBarFrom" placeholder="From" className="inputFieldSearchField"
+                     style={inputFieldStyleFrom} color="primary" onChange={this.handleInputChange}/>
             </Col >
             <Col>
               {this.renderSearchFieldTo()}
+            </Col>
+            <Col>
+              {this.renderCalculateButton()}
             </Col>
           </Row>
         </div>
@@ -123,16 +216,19 @@ export default class Atlas extends Component {
 
   renderSearchFieldTo(){
     return (
+          <Input name="searchBarTo" placeholder="To" className="inputFieldSearchField" style={inputFieldStyleFrom} color="primary" onChange={this.handleInputChange}/>
+        /**
         <div>
           {toSearchField.map(this.getSearchField)}
         </div>
+         **/
     );
   }
 
   renderSearchBar(){
     return(
         <div>
-          {searchbar.map(this.getSearchField)}
+          <Input name="searchBar" placeholder="Search Location" className="inputFieldSearchBar" style={inputFieldStyleSearchBar} color="primary" onChange={this.handleInputChange}/>
         </div>
     );
   }
@@ -140,9 +236,21 @@ export default class Atlas extends Component {
   getSearchField(field) {
     return (
         <div>
-          <Input placeholder={field.hold} className={field.cN} style={field.st} color="primary" />
+          <Input name={field.name} placeholder={field.hold} className={field.cN} style={field.st} color="primary"/>
         </div>
     )
+  }
+
+  renderCalculateButton(){
+    return(
+        <div>
+          <Button className="p-1" style={distanceButtonStyle} onClick={() => this.calculateDistance()}> Calculate </Button>
+        </div>
+    )
+  }
+
+  calculateDistance(){
+    console.log("placeholder function");
   }
 
   geoPosition(){
@@ -150,9 +258,7 @@ export default class Atlas extends Component {
       navigator.geolocation.getCurrentPosition(position => {
             myCoords = {lat: position.coords.latitude, lng: position.coords.longitude};
             homeCoords = [position.coords.latitude, position.coords.longitude];
-            //this.setMarker({latlng: myCoords});
             this.setState({homeLocation: homeCoords});
-
           }
           , error, {enableHighAccuracy:true});
     } else {
@@ -160,20 +266,20 @@ export default class Atlas extends Component {
     }
   }
 
-  renderOverlayDiv(){
-    return(
-        <div id="overlayDiv">
-          <button className="home-btn" onClick={() => this.setState({markerPosition: null})}>
-            <span>
-              <img src={homeIcon} style={homeButtonStyle} alt="Go Home"/>
-            </span>
-          </button>
-        </div>
-    );
-  }
 
   setMarker(mapClickInfo) {
     this.setState({markerPosition: mapClickInfo.latlng});
+    const newIds = this.state.prevLocation.slice();
+    if(index === 1){
+      newIds[1] = mapClickInfo.latlng;
+      this.setState({prevLocation: newIds})
+      index -= 1;
+    } else {
+      newIds[0] = mapClickInfo.latlng;
+      this.setState({prevLocation: newIds})
+      index += 1;
+    }
+    console.log(this.state.prevLocation);
   }
 
   getHomeMarker(){
@@ -234,6 +340,7 @@ export default class Atlas extends Component {
 
 let myCoords = L.latLng(40.5734,-105.0865);
 let homeCoords;
+let index = 0;
 
 function error(err) {
   console.warn(`ERROR(${err.code}): ${err.message}`);

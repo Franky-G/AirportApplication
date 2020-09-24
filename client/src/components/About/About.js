@@ -23,7 +23,6 @@ let aboutList = [
 const names = ['Team Info', 'Jake Barth', 'Jimit Bhalavat', 'Kyle Cummings', 'Frank Gansukh', 'Sean Munoz'];
 
 export default class About extends Component {
-
     constructor(props) {
         super(props);
 
@@ -69,13 +68,11 @@ export default class About extends Component {
         );
     }
 
-
     renderButton(){
         const array = []
         for(let i = 0; i < 6; i++){
             array.push(<Button onClick={() => this.setState({activeTab: i})}> {names[i]} </Button>)
         }
-
         return array;
     }
 }
