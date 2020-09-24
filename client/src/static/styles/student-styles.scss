@@ -26,15 +26,63 @@ body {
   background-color: #f7f7f7;
 }
 
+/* About page tabstyle */
 
+.aboutTab button{
+  background-color: #fff;
+  color: #1E4D2B;
+  float: left;
+  border-top: 3px solid #1E4D2B;
+  border-right: 1px solid #1E4D2B;
+  border-left: 1px solid #1E4D2B;
+  border-bottom: 1px solid #1E4D2B;
+  box-sizing: border-box;
+  outline: none;
+  font-size: 1em;
+  width: 80%;
+  height: 50px;
+  border-radius: 5px 5px 3px 3px;
+  cursor: pointer;
+}
 
+.aboutTab button:hover {
+  background-color: #fff;
+  color: #1E4D2B;
+  border-top: 4px solid #1E4D2B;
+  border-radius: 5px 5px 0 0;
+  margin-bottom: -1px;
+}
 
+.aboutTab button:active:focus {
+  background-color: #14361e;
+  color: #fff;
+  border-top: 4px solid #C8C372;
+  margin: -1px 0;
+  box-shadow: none;
+
+}
+
+.aboutTab button:focus {
+  background-color: #1E4D2B;
+  color: #fff;
+  border-top: 4px solid #C8C372;
+  border-radius: 5px 5px 3px 3px;
+  margin: -1px 0;
+  box-shadow: 0 10px 160px 0 rgba(0,0,0,0.001), 0 6px 20px 0 rgba(0,0,0,0.25);
+  font-weight: bold;
+}
+
+.bottomTab {
+  margin-bottom: 10px;
+}
+
+/* Home Button Style */
 .home-btn, .home-btn:active, .home-btns:focus {
   position: absolute;
   background-color: #fff;
   background-size: 34px;
   color: #000000;
-  top: 71px;
+  top: 70px;
   left: 10px;
   z-index: 1001;
   border-left: 2px solid rgba(0,0,0,0.3) ;
@@ -55,6 +103,13 @@ body {
   height: auto;
 }
 
+.homeImg{
+  position: relative;
+  width: 15px;
+  height: auto;
+}
+
+/* Remove Mozilla specific button outline */
 select::-moz-focus-inner {
   outline: none !important;
 }
@@ -80,10 +135,4 @@ select:-moz-focusring {
 
 .inputFieldSearchField {
   max-width: 70%;
-}
-
-.homeImg{
-  position: relative;
-  width: 15px;
-  height: auto;
 }

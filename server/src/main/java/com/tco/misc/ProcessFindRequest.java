@@ -43,40 +43,28 @@ public class ProcessFindRequest {
         }
     }
 
-    public List<HashMap<String,String>> processFindServerRequest(String matchPattern, int limitInt)
-    {
+    public List<HashMap<String,String>> processFindServerRequest(String matchPattern, int limitInt) {
         setServerParameters();
-
-        try
-        {
+        try {
             Connection con = DriverManager.getConnection(db_url, db_user, db_pass);
             Statement query = con.createStatement();
-
             if (limitInt == 0){
-
                 this.QUERY = "select name,latitude,longitude from world where name like '" + matchPattern + "' order by name limit 150";
             }
             else if (limitInt > 0){
-
                 this.QUERY = "select name,latitude,longitude from world where name like '" + matchPattern + "' order by name limit " + Integer.toString(limitInt);
             }
-
             ResultSet result = query.executeQuery(QUERY);
-
-            while(result.next())
-            {
+            while(result.next()) {
                 HashMap<String, String> location = new HashMap<>();
                 location.put("name", result.getString("name"));
                 location.put("latitude", result.getString("latitude"));
                 location.put("longitude", result.getString("longitude"));
                 this.allLocations.add(location);
-
             }
         }
-        catch (Exception e)
-        {
-            System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage());
-        }
+        catch (Exception e) {
+            System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage()); }
         return allLocations;
     }
 }
