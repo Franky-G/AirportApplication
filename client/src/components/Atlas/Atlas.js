@@ -7,7 +7,7 @@ import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import Fade from "@material-ui/core/Fade";
+import {helperRenderFunction, helperSetCurrentSearchBar, calculateDistance} from "./HelperFunctions"
 
 const MAP_BOUNDS = [[-90, -180], [90, 180]];
 const MAP_CENTER_DEFAULT = [40.5734, -105.0865];
@@ -41,16 +41,6 @@ const homeButtonStyle = {
   position: "absolute",
 }
 
-const distanceButtonStyle = {
-  position: "absolute",
-  top: 11,
-  left: -1,
-  zIndex: 1005,
-  height: 32,
-  fontSize: 12,
-  backgroundColor: "#1E4D2B",
-}
-
 const dropdownStyle = {
   position: "absolute",
   left: 10,
@@ -62,6 +52,16 @@ const dropdownStyle = {
   cursor: "pointer",
   outline: "none",
   zIndex: 1010,
+}
+
+const distanceButtonStyle = {
+  position: "absolute",
+  top: 11,
+  left: -1,
+  zIndex: 1005,
+  height: 32,
+  fontSize: 12,
+  backgroundColor: "#1E4D2B",
 }
 
 export default class Atlas extends Component {
@@ -131,13 +131,9 @@ export default class Atlas extends Component {
     );
   }
 
-  helperSetCurrentSearchBar(temp) {
-    return ( <Container><Fade id="searchCollapse" in={temp.info} style={{zIndex: 1010}}>{temp.extra}</Fade></Container> )
-  }
-
   setCurrentSearchBar(){
     let searchField = [{info: this.state.showDistanceSearch, extra: this.renderSearchField()}, {info: this.state.showLocationSearch, extra: this.renderSearchBar()}]
-    return( <div>{searchField.map(this.helperSetCurrentSearchBar)}</div> );
+    return( <div>{searchField.map(helperSetCurrentSearchBar)}</div> );
   }
 
   addDropdownButton(){
@@ -165,15 +161,11 @@ export default class Atlas extends Component {
           </button></div> );
   }
 
-  helperRenderFunction(temp) {
-    return ( <Input name = {temp.name} placeholder = {temp.place} className = {temp.classname} style = {temp.style} color={temp.color} onChange={temp.change}/> )
-  }
-
   renderSearchField(){
     let helpSearchField = [{name: "searchBarFrom", place: "From", classname: "inputFieldSearchField", style: inputFieldStyleFrom, color: "primary", change: this.handleInputChange}]
     return(
         <div><Row xs="3">
-            <Col>{helpSearchField.map(this.helperRenderFunction)}</Col>
+            <Col>{helpSearchField.map(helperRenderFunction)}</Col>
             <Col>{this.renderSearchFieldTo()}</Col>
             <Col>{this.renderCalculateButton()}</Col>
           </Row></div> );
@@ -181,18 +173,16 @@ export default class Atlas extends Component {
 
   renderSearchBar(){
     let searchbar = [{name: "searchBar", place: "Search Location", classname: "inputFieldSearchBar", style: inputFieldStyleSearchBar, color: "primary", change: this.handleInputChange}]
-    return( <div>{searchbar.map(this.helperRenderFunction)}</div> );
+    return( <div>{searchbar.map(helperRenderFunction)}</div> );
   }
 
   renderSearchFieldTo(){
     return ( <Input name="searchBarTo" placeholder="To" className="inputFieldSearchField" style={inputFieldStyleFrom} color="primary" onChange={this.handleInputChange}/> );
   }
 
-  renderCalculateButton(){
-    return( <div><Button className="p-1" style={distanceButtonStyle} onClick={() => this.calculateDistance()}> Calculate </Button></div> )
+  renderCalculateButton = () => {
+    return( <div><Button className="p-1" style={distanceButtonStyle} onClick={() => calculateDistance}> Calculate </Button></div> )
   }
-
-  calculateDistance(){ console.log("placeholder function"); }
 
   geoPosition(){
     if (navigator.geolocation) {
@@ -233,7 +223,8 @@ export default class Atlas extends Component {
       return (
           <Marker ref={initMarker} position={this.state.markerPosition} icon={MARKER_ICON}>
             <Popup offset={[0, -18]} className="font-weight-bold">{this.getStringMarkerPosition()}</Popup>
-          </Marker> ) } }
+          </Marker> ) }
+  }
 
   getStringMarkerPosition() {
     if(this.state.markerPosition) { return +this.state.markerPosition.lat.toFixed(2) + ', ' + this.state.markerPosition.lng.toFixed(2); }
