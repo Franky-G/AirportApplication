@@ -48,8 +48,8 @@
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
 | Epics | *5* | *0* |
-| Tasks |  *21*   | *0* | 
-| Story Points |  *39*  | *0* | 
+| Tasks |  *22*   | *0* | 
+| Story Points |  *41*  | *0* | 
 
 - The team's ability to complete the planned tasks/story points based on the previous sprint result is beyond sufficent. The team will use integration methods that will allow each memeber to work efficiently and in a timely manner. The team shares a high confidence to perform well during this sprint. Reflection will be done in regards to the retrospective from sprint 1 and the team will make reasonable attempts to complete any changes.
 
@@ -63,6 +63,7 @@
 | *09/18/20* | *10* | *5* | *none* |
 | *09/21/20* | *11* | *5* | *none* |
 | *09/23/20* | *16* | *5* | *none* |
+| *09/25/20* | *16* | *5* | *none* |
 
 
 ## Review
