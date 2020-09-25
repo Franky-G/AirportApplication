@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Col, Container, Row, Input, Button, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
 import homeIcon from '../../static/images/homeButtonIcon.png';
 import homeMarker from '../../static/images/youAreHereMarker.png';
+import searchButtonIcon from '../../static/images/magIcon.png';
 import {Map, Marker, Popup, TileLayer} from 'react-leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
@@ -47,7 +48,8 @@ const dropdownStyle = {
   top: 100,
   backgroundColor: '#FFFFFF',
   color: '#000000',
-  borderColor: "rgba(0,0,0,1)",
+  borderWidth: 2,
+  borderColor: "rgba(0,0,0,0.3)",
   padding: "none",
   cursor: "pointer",
   outline: "none",
@@ -140,7 +142,7 @@ export default class Atlas extends Component {
     return(
         <div style={{position: "absolute"}}>
           <ButtonDropdown  isOpen={this.state.buttonDropdown} onClick={() => this.toggleButtonDropdown()}>
-            <DropdownToggle caret style={dropdownStyle}>Search</DropdownToggle>
+            <DropdownToggle caret style={dropdownStyle}><img className="searchImg" src={searchButtonIcon} alt="S" title="Search"/></DropdownToggle>
             <DropdownMenu>
               <DropdownItem><div onClick={() => this.toggleSearchDistance()}> Distance </div></DropdownItem>
               <DropdownItem><div onClick={() => this.toggleSearchLocation()}> Location </div></DropdownItem>
