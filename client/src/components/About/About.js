@@ -71,7 +71,7 @@ export default class About extends Component {
     renderButton(){
         const array = []
         for(let i = 0; i < 6; i++){
-            array.push(<Button onClick={() => this.setState({activeTab: i})}> {names[i]} </Button>)
+            array.push(<Button key={i} onClick={() => this.setState({activeTab: i})}> {names[i]} </Button>)
         }
         return array;
     }

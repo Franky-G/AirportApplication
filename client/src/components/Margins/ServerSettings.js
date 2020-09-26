@@ -47,10 +47,10 @@ export default class ServerSettings extends Component {
     getServerInfo(info) {
         return (
             <Row className="m-2">
-                <Col xs={2}>
+                <Col key={"1"} xs={2}>
                     <b><em>{info.listName}</em></b>
                 </Col>
-                <Col xs={10}>
+                <Col key={"2"} xs={10}>
                     {info.info}
                 </Col>
             </Row>
