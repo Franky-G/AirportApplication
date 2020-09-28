@@ -1,57 +1,26 @@
-import {Button, ButtonDropdown, Col, Container, DropdownItem, DropdownMenu, DropdownToggle, Input, Row} from "reactstrap";
-import Fade from "@material-ui/core/Fade";
+import {Button, Col, Input, Row, CustomInput, Container} from "reactstrap";
 import React, {Component} from "react";
 import searchButtonIcon from "../../static/images/magIcon.png";
-
-export const helperRenderFunction = (temp) => {
-    return ( <Input key={"HelperFunction"} name = {temp.name} placeholder = {temp.place} className = {temp.classname} style = {temp.style} color={temp.color} onChange={temp.change}/> )
-}
-
-export const helperSetCurrentSearchBar = (temp) => {
-    return ( <Container><Fade id="searchCollapse" in={temp.info} style={{zIndex: 1010}}>{temp.extra}</Fade></Container> )
-}
+import Zoom from "@material-ui/core/Zoom";
 
 export const calculateDistance = () => { console.log("placeholder function"); }
 
-const inputFieldStyleFrom = {
-    zIndex: 1002,
-    height: 34,
-    top: 10,
-    left: 70,
-    position: "absolute",
-}
-
-const inputFieldStyleSearchBar = {
-    zIndex: 1002,
-    height: 34,
-    bottom: 10,
-    left: 50,
-    position: "absolute",
-}
+const inputFieldStyleFrom = {zIndex: 1002, height: 34, top: 10, left: 70, position: "absolute"}
 
 const distanceButtonStyle = {
-    position: "absolute",
-    top: 11,
-    left: -1,
-    zIndex: 1005,
-    height: 32,
-    fontSize: 12,
-    backgroundColor: "#1E4D2B",
+    position: "absolute", top: 11, left: -1, zIndex: 1005, height: 32, fontSize: 12, background: "radial-gradient(#C8C372,#1E4D2B)", color: "#000000", border: "1px solid #C8C372"
 }
 
-const dropdownStyle = {
-    position: "absolute",
-    left: 10,
-    top: 100,
-    backgroundColor: '#FFFFFF',
-    color: '#000000',
-    borderWidth: 2,
-    borderColor: "rgba(0,0,0,0.3)",
-    padding: "none",
-    cursor: "pointer",
-    outline: "none",
-    zIndex: 1010,
+const searchModuleStyle = {
+    position: "absolute", backgroundColor: "#1E4D2B", width: 330, height: 150, borderRadius: "3px 3px 3px 3px",
+    color: "#FFFFFF", borderColor: "rgba(0,0,0,0.3)", bottom: 13, left: 22, zIndex: 1012,
 }
+
+const searchTypeStyle = {
+    position: "absolute", background: "#145906", color:"#FFFFFF", width: 320, height: 65, margin:5, top: 40,
+    borderRadius: "3px 3px 3px 3px", fontSize: 18, textOverflow: "ellipsis", overflow: "hidden", border: "2px solid #000000", borderBottom: "3px solid #000000", borderTop: "3px solid #000000"
+}
+const radioButtonStyle = {color: "#FFFFFF", zIndex: 1100,}
 
 export default class HelperFunctions extends Component {
 
@@ -59,82 +28,127 @@ export default class HelperFunctions extends Component {
         super(props);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.state = {
-            searchTextTo: "",
-            searchTextFrom: "",
-            searchBarText: "",
-            buttonDropdown: false,
             showDistanceSearch: false,
             showLocationSearch: false,
+            searchModule: false,
+            searchTextFrom: "",
+            searchTextTo: "",
+            searchBarText: "",
         }
     }
 
     render() {
         return (
             <div>
-                {this.addDropdownButton()}
-                {this.setCurrentSearchBar()}
+                {this.addSearchButton()}
+                {this.state.searchModule && this.renderSearchModule()}
             </div>
         );
     }
 
-    setCurrentSearchBar(){
-        let searchField = [{info: this.state.showDistanceSearch, extra: this.renderSearchField()}, {info: this.state.showLocationSearch, extra: this.renderSearchBar()}]
-        return( <div>{searchField.map(helperSetCurrentSearchBar)}</div> );
-    }
-
-    renderSearchBar(){
-        let searchbar = [{name: "searchBar", place: "Search Location", classname: "inputFieldSearchBar", style: inputFieldStyleSearchBar, color: "primary", change: this.handleInputChange}]
-        return( <div>{searchbar.map(helperRenderFunction)}</div> );
-    }
-
-    renderSearchField(){
-        let helpSearchField = [{name: "searchBarFrom", place: "From", classname: "inputFieldSearchField", style: inputFieldStyleFrom, color: "primary", change: this.handleInputChange}]
-        return(
-            <div><Row xs="3">
-                <Col>{helpSearchField.map(helperRenderFunction)}</Col>
-                <Col>{this.renderSearchFieldTo()}</Col>
-                <Col>{this.renderCalculateButton()}</Col>
-            </Row></div> );
-    }
-
     renderCalculateButton = () => {
-        return( <div><Button className="p-1" style={distanceButtonStyle} onClick={() => calculateDistance}> Calculate </Button></div> )
+        return (<div><Button className="p-1" style={distanceButtonStyle} onClick={() => {this.updatePrevLocationState()}}> Calculate </Button></div>)
     }
 
-    renderSearchFieldTo(){
-        return ( <Input name="searchBarTo" placeholder="To" className="inputFieldSearchField" style={inputFieldStyleFrom} color="primary" onChange={this.handleInputChange}/> );
+    renderSearchFieldTo() {
+        return (<Input name="searchBarTo" placeholder="To" className="inputFieldSearchField" style={inputFieldStyleFrom}
+                       color="primary" onChange={this.handleInputChange()}/>);
     }
 
-    handleInputChange = () => {
+    handleInputChange(){
         const target = event.target;
-        if(target.name === "searchBarTo"){
+        if (target.name === "searchBarTo") {
             this.setState({searchTextTo: target.value});
         }
-        if(target.name === "searchBarFrom"){
+        if (target.name === "searchBarFrom") {
             this.setState({searchTextFrom: target.value});
         }
-        if(target.name === "searchBar"){
+        if (target.name === "searchBar") {
             this.setState({searchBarText: target.value});
         }
     }
 
-    addDropdownButton(){
-        return(
-            <div style={{position: "absolute"}}>
-                <ButtonDropdown  isOpen={this.state.buttonDropdown} toggle={() => this.toggleButtonDropdown()}>
-                    <DropdownToggle caret style={dropdownStyle}><img className="searchImg" src={searchButtonIcon} alt="S" title="Search"/></DropdownToggle>
-                    <DropdownMenu>
-                        <DropdownItem><div onClick={() => this.toggleSearchDistance()}> Distance </div></DropdownItem>
-                        <DropdownItem><div onClick={() => this.toggleSearchLocation()}> Location </div></DropdownItem>
-                    </DropdownMenu>
-                </ButtonDropdown>
+    addSearchButton() {
+        return (
+            <div>
+                <button className="home-btn" style={{top: 102, left: 25, zIndex: 1013}}
+                        onClick={() => this.toggleShowSearchModule()}>
+                    <span><img src={searchButtonIcon} style={{width: 16, height: "auto"}} title="Search" alt="search"/></span>
+                </button>
             </div>
         );
     }
 
-    toggleSearchDistance(){ this.setState({showDistanceSearch: !this.state.showDistanceSearch}); }
-    toggleSearchLocation(){ this.setState({showLocationSearch: !this.state.showLocationSearch}); }
-    toggleButtonDropdown(){ this.setState({buttonDropdown: !this.state.buttonDropdown}); }
+    toggleShowSearchModule() {this.setState({searchModule: !this.state.searchModule});{this.switchToLocationModule()}}
+    switchToDistanceModule() {this.setState({showDistanceSearch: true, showLocationSearch: false});}
+    switchToLocationModule() {this.setState({showDistanceSearch: false, showLocationSearch: true});}
+
+    renderSearchModule() {
+        return (
+            <Zoom in={true} timeout={350}>
+                <div style={searchModuleStyle}>
+                    {this.state.showDistanceSearch && this.renderDistanceModule()}
+                    {this.state.showLocationSearch && this.renderLocationModule()}
+                    {this.renderRadioButtons()}
+                </div>
+            </Zoom>
+        );
+    }
+
+    renderDistanceModule() {
+        return (
+            <div key="DistancePanel">
+                <Row xs={2} key={"searchDistance"}>
+                    <Col><Input name={"searchBarFrom"} style={{margin: 5, width: "100%"}} placeholder="From"
+                                onChange={() => this.handleInputChange()}/></Col>
+                    <Col style={{left: -20}}><Input name={"searchBarTo"} style={{margin: 5, width: 160}}
+                                                    placeholder="To" onChange={() => this.handleInputChange()}/></Col>
+                </Row>
+                <Col style={{left: 265, top: 55}}>{this.renderCalculateButton()}</Col>
+                <p style={searchTypeStyle}
+                >
+                    Coordinates:[{this.state.searchTextFrom}],[{this.state.searchTextTo}]<br/>
+                    Distance = OVER 9000;
+                </p>
+            </div>
+        );
+    }
+
+    renderLocationModule() {
+        return (
+            <div key="LocationPanel">
+                <Row key={"searchDistance"}>
+                    <Col><Input name={"searchBar"} style={{margin: 5, width: "97%"}}
+                                placeholder="Enter name of place/coordinates"
+                                onChange={() => this.handleInputChange()}/></Col>
+                </Row>
+                <Col style={{position: "absolute", left: 277, top: 103}}>
+                    <div><Button className="p-1" style={distanceButtonStyle}
+                                 onClick={() => calculateDistance}> Search </Button></div>
+                </Col>
+                <p style={searchTypeStyle}
+                >
+                    Location/Coordinates:{this.state.searchBarText}<br/>
+                    Location = UR MUMS HAU5
+                </p>
+            </div>
+        );
+    }
+
+    renderRadioButtons() {
+        return (
+            <Container style={{position: "absolute", top: 120, left: 10}}>
+                <Row>
+                    <CustomInput defaultChecked id="radioLocation" type="radio" name="searchRadioButton"
+                                 onChange={() => {
+                                     this.switchToLocationModule()
+                                 }}/>
+                    <label style={radioButtonStyle}>Location</label>
+                    <div className="px-2"/>
+                    <CustomInput id="radioDistance" type="radio" name="searchRadioButton" onChange={() => {this.switchToDistanceModule()}}/>
+                    <label style={radioButtonStyle}>Distance</label>
+                </Row>
+            </Container>
+        );
+    }
 }
-
-
