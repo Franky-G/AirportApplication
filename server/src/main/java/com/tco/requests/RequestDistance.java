@@ -10,8 +10,8 @@ public class RequestDistance extends RequestHeader {
 
     private Map <String,String> place1;
     private Map <String,String> place2;
-    private Float earthRadius;
-    private Integer distance;
+    private Double earthRadius;
+    private Long distance;
     private CalculateDistance calc = new CalculateDistance();
     private final transient Logger log = LoggerFactory.getLogger(RequestDistance.class);
 
@@ -20,7 +20,7 @@ public class RequestDistance extends RequestHeader {
         this.requestVersion = RequestHeader.CURRENT_SUPPORTED_VERSION;
     }
 
-    public RequestDistance(Float radius, String latplace1, String longplace1, String latplace2, String longplace2) {
+    public RequestDistance(Double radius, String latplace1, String longplace1, String latplace2, String longplace2) {
         this();
         this.distance = null;
         this.earthRadius = radius;
@@ -40,6 +40,6 @@ public class RequestDistance extends RequestHeader {
 
     public Map<String, String> getPlace1() { return place1; }
     public Map<String, String> getPlace2() { return place2; }
-    public Float getEarthRadius() { return earthRadius; }
-    public Integer getDistance() { return this.distance; }
+    public Double getEarthRadius() { return earthRadius; }
+    public Long getDistance() { return this.distance; }
 }
