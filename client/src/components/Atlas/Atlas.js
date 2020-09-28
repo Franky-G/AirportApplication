@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Col, Container, Row} from 'reactstrap';
 import homeIcon from '../../static/images/homeButtonIcon.png';
 import homeMarker from '../../static/images/youAreHereMarker.png';
-import {Map, Marker, Popup, TileLayer} from 'react-leaflet';
+import {Map, Marker, Popup, TileLayer, Polyline} from 'react-leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
@@ -72,6 +72,7 @@ export default class Atlas extends Component {
             <TileLayer url={MAP_LAYER_URL} attribution={MAP_LAYER_ATTRIBUTION}/>
             {this.getHomeMarker()}
             {this.getMarker()}
+            <Polyline positions={this.state.prevLocation} color={'green'}/>
           </Map>
         </div>
     );
