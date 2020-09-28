@@ -1,7 +1,8 @@
-import {Button, ButtonDropdown, Col, Container, DropdownItem, DropdownMenu, DropdownToggle, Input, Row} from "reactstrap";
+import {Button, Col, Container, CustomInput, Input, Row} from "reactstrap";
 import Fade from "@material-ui/core/Fade";
 import React, {Component} from "react";
 import searchButtonIcon from "../../static/images/magIcon.png";
+import Zoom from "@material-ui/core/Zoom";
 
 export const helperRenderFunction = (temp) => {
     return ( <Input key={"HelperFunction"} name = {temp.name} placeholder = {temp.place} className = {temp.classname} style = {temp.style} color={temp.color} onChange={temp.change}/> )
@@ -39,20 +40,6 @@ const distanceButtonStyle = {
     backgroundColor: "#1E4D2B",
 }
 
-const dropdownStyle = {
-    position: "absolute",
-    left: 10,
-    top: 100,
-    backgroundColor: '#FFFFFF',
-    color: '#000000',
-    borderWidth: 2,
-    borderColor: "rgba(0,0,0,0.3)",
-    padding: "none",
-    cursor: "pointer",
-    outline: "none",
-    zIndex: 1010,
-}
-
 export default class HelperFunctions extends Component {
 
     constructor(props) {
@@ -71,7 +58,7 @@ export default class HelperFunctions extends Component {
     render() {
         return (
             <div>
-                {this.addDropdownButton()}
+                {this.addSearchButton()}
                 {this.setCurrentSearchBar()}
             </div>
         );
@@ -118,23 +105,92 @@ export default class HelperFunctions extends Component {
         }
     }
 
-    addDropdownButton(){
-        return(
-            <div style={{position: "absolute"}}>
-                <ButtonDropdown  isOpen={this.state.buttonDropdown} toggle={() => this.toggleButtonDropdown()}>
-                    <DropdownToggle caret style={dropdownStyle}><img className="searchImg" src={searchButtonIcon} alt="S" title="Search"/></DropdownToggle>
-                    <DropdownMenu>
-                        <DropdownItem><div onClick={() => this.toggleSearchDistance()}> Distance </div></DropdownItem>
-                        <DropdownItem><div onClick={() => this.toggleSearchLocation()}> Location </div></DropdownItem>
-                    </DropdownMenu>
-                </ButtonDropdown>
+
+    addSearchButton() {
+        return (
+            <div>
+                <button className="home-btn" style={{top: 102, left: 25, zIndex: 1013}}
+                        onClick={() => this.toggleShowSearchModule()}>
+                    <span><img src={searchButtonIcon} style={{width: 16, height: "auto"}} title="Search" alt="search"/></span>
+                </button>
             </div>
         );
     }
 
-    toggleSearchDistance(){ this.setState({showDistanceSearch: !this.state.showDistanceSearch}); }
-    toggleSearchLocation(){ this.setState({showLocationSearch: !this.state.showLocationSearch}); }
-    toggleButtonDropdown(){ this.setState({buttonDropdown: !this.state.buttonDropdown}); }
+    toggleShowSearchModule() {this.setState({searchModule: !this.state.searchModule});{this.switchToLocationModule()}}
+    switchToDistanceModule() {this.setState({showDistanceSearch: true, showLocationSearch: false});}
+    switchToLocationModule() {this.setState({showDistanceSearch: false, showLocationSearch: true});}
+
+    renderSearchModule() {
+        return (
+            <Zoom in={true} timeout={350}>
+                <div style={searchModuleStyle}>
+                    {this.state.showDistanceSearch && this.renderDistanceModule()}
+                    {this.state.showLocationSearch && this.renderLocationModule()}
+                    {this.renderRadioButtons()}
+                </div>
+            </Zoom>
+        );
+    }
+
+    renderDistanceModule() {
+        return (
+            <div key="DistancePanel">
+                <Row xs={2} key={"searchDistance"}>
+                    <Col><Input name={"searchBarFrom"} style={{margin: 5, width: "100%"}} placeholder="From"
+                                onChange={() => this.handleInputChange()}/></Col>
+                    <Col style={{left: -20}}><Input name={"searchBarTo"} style={{margin: 5, width: 160}}
+                                                    placeholder="To" onChange={() => this.handleInputChange()}/></Col>
+                </Row>
+                <Col style={{left: 265, top: 55}}>{this.renderCalculateButton()}</Col>
+                <p style={searchTypeStyle}
+                >
+                    Coordinates:[{this.props.searchTextFrom}],[{this.props.searchTextTo}]<br/>
+                    Distance = OVER 9000;
+                </p>
+            </div>
+        );
+    }
+
+    renderLocationModule() {
+        return (
+            <div key="LocationPanel">
+                <Row key={"searchDistance"}>
+                    <Col><Input name={"searchBarFrom"} style={{margin: 5, width: "97%"}}
+                                placeholder="Enter name of place/coordinates"
+                                onChange={() => this.handleInputChange()}/></Col>
+                </Row>
+                <Col style={{position: "absolute", left: 277, top: 103}}>
+                    <div><Button className="p-1" style={distanceButtonStyle}
+                                 onClick={() => calculateDistance()}> Search </Button></div>
+                </Col>
+                <p style={searchTypeStyle}
+                >
+                    Location/Coordinates:{this.state.searchTextFrom}<br/>
+                    Location = UR MUMS HAU5
+                </p>
+            </div>
+        );
+    }
+
+    renderRadioButtons() {
+        return (
+            <Container style={{position: "absolute", top: 120, left: 10}}>
+                <Row>
+                    <CustomInput defaultChecked id="radioLocation" type="radio" name="searchRadioButton"
+                                 onChange={() => {
+                                     this.switchToLocationModule()
+                                 }}/>
+                    <label style={radioButtonStyle}>Location</label>
+                    <div className="px-2"/>
+                    <CustomInput id="radioDistance" type="radio" name="searchRadioButton" onChange={() => {
+                        this.switchToDistanceModule()
+                    }}/>
+                    <label style={radioButtonStyle}>Distance</label>
+                </Row>
+            </Container>
+        );
+    }
 }
 
 
