@@ -21,7 +21,7 @@ public class TestRequestDistance {
     @BeforeEach
     public void createConfigurationForTestCases(){
         dist = new RequestDistance();
-        dist = new RequestDistance(3959f, "41", "-109", "37", "-102");
+        dist = new RequestDistance(3959.00, "41", "-109", "37", "-102");
     }
 
     @Test
@@ -41,8 +41,8 @@ public class TestRequestDistance {
     @Test
     @DisplayName("Earth Radius is 3959.00")
     public void testEarthRadius() {
-        Float temp = dist.getEarthRadius();
-        assertEquals(3959f, temp);
+        Double temp = dist.getEarthRadius();
+        assertEquals(3959, temp);
     }
 
     @Test
@@ -70,8 +70,25 @@ public class TestRequestDistance {
     @Test
     @DisplayName("Test Fort Collins to Sydney")
     public void testCOSydney() {
-        dist = new RequestDistance(3959f, "40.6", "-105.1", "-33.9", "151.2");
+        dist = new RequestDistance(3959.00, "40.6", "-105.1", "-33.9", "151.2");
         dist.buildResponse();
-        assertEquals(8347, dist.getDistance());
+        assertEquals(8348, dist.getDistance());
     }
+
+    @Test
+    @DisplayName("Test1")
+    public void test1() {
+        dist = new RequestDistance(6371008771.4, "40.416775", "-3.703790", "-41.276825", "174.777969");
+        dist.buildResponse();
+        assertEquals(19855573534l, dist.getDistance());
+    }
+
+    @Test
+    @DisplayName("test2")
+    public void test2() {
+        dist = new RequestDistance(6378159999999974.00, "40.5734", "-105.0865", "40.5734", "-105.08650000000001");
+        dist.buildResponse();
+        assertEquals(1, dist.getDistance());
+    }
+
 }

@@ -4,11 +4,11 @@ import java.util.Map;
 
 public class CalculateDistance {
 
-    public static Integer ComputeDistance(Map <String, String> place1, Map <String, String> place2, Float earthRadius) {
+    public static Long ComputeDistance(Map <String, String> place1, Map <String, String> place2, Double earthRadius) {
         if (place1 == null || place2 == null) {
-            return -1;
+            return Long.valueOf(-1);
         }
-        Double latplace1 = Math.toRadians((Double.valueOf(place1.get("latitude"))).doubleValue());
+        Double latplace1 = Math.toRadians(Double.valueOf(place1.get("latitude")).doubleValue());
         Double longplace1 = Math.toRadians((Double.valueOf(place1.get("longitude"))).doubleValue());
         Double latplace2 = Math.toRadians((Double.valueOf(place2.get("latitude"))).doubleValue());
         Double longplace2 = Math.toRadians((Double.valueOf(place2.get("longitude"))).doubleValue());
@@ -19,7 +19,7 @@ public class CalculateDistance {
         Double part4 = Math.sqrt(part3);
         Double part5 = Math.sin(latplace1) * Math.sin(latplace2) + Math.cos(latplace1) * Math.cos(latplace2) * similar;
         Double part6 = Math.atan2(part4, part5);
-        Integer finalDistance = (int) (earthRadius * part6);
+        Long finalDistance = (long) Math.round(earthRadius * part6);
         return finalDistance;
     }
 }
