@@ -4,10 +4,6 @@ import React, {Component} from "react";
 import searchButtonIcon from "../../static/images/magIcon.png";
 import Zoom from "@material-ui/core/Zoom";
 
-export const helperRenderFunction = (temp) => {
-    return ( <Input key={"HelperFunction"} name = {temp.name} placeholder = {temp.place} className = {temp.classname} style = {temp.style} color={temp.color} onChange={temp.change}/> )
-}
-
 export const helperSetCurrentSearchBar = (temp) => {
     return ( <Container><Fade id="searchCollapse" in={temp.info} style={{zIndex: 1010}}>{temp.extra}</Fade></Container> )
 }
@@ -15,13 +11,17 @@ export const helperSetCurrentSearchBar = (temp) => {
 export const calculateDistance = () => { console.log("placeholder function"); }
 
 const distanceButtonStyle = {
-    position: "absolute",
-    top: 11,
-    left: -1,
-    zIndex: 1005,
-    height: 32,
-    fontSize: 12,
-    backgroundColor: "#1E4D2B",
+    position: "absolute", top: 11, left: -1, zIndex: 1005, height: 32, fontSize: 12, background: "radial-gradient(#C8C372,#1E4D2B)", color: "#000000", border: "1px solid #C8C372"
+}
+
+const searchModuleStyle = {
+    position: "absolute", backgroundColor: "#1E4D2B", width: 330, height: 150, borderRadius: "3px 3px 3px 3px",
+    color: "#FFFFFF", borderColor: "rgba(0,0,0,0.3)", bottom: 13, left: 22, zIndex: 1012,
+}
+
+const searchTypeStyle = {
+    position: "absolute", background: "#145906", color:"#FFFFFF", width: 320, height: 65, margin:5, top: 40,
+    borderRadius: "3px 3px 3px 3px", fontSize: 18, textOverflow: "ellipsis", overflow: "hidden", border: "2px solid #000000", borderBottom: "3px solid #000000", borderTop: "3px solid #000000"
 }
 
 const radioButtonStyle = {color: "#FFFFFF", zIndex: 1100,}
@@ -107,7 +107,7 @@ export default class HelperFunctions extends Component {
                 <p style={searchTypeStyle}
                 >
                     Coordinates:[{this.props.searchTextFrom}],[{this.props.searchTextTo}]<br/>
-                    Distance = OVER 9000;
+                    Distance = OVER 9000
                 </p>
             </div>
         );
@@ -119,7 +119,7 @@ export default class HelperFunctions extends Component {
                 <Row key={"searchDistance"}>
                     <Col><Input name={"searchBarFrom"} style={{margin: 5, width: "97%"}}
                                 placeholder="Enter name of place/coordinates"
-                                onChange={() => this.handleInputChange()}/></Col>
+                                onChange={() => this.handleInputChange}/></Col>
                 </Row>
                 <Col style={{position: "absolute", left: 277, top: 103}}>
                     <div><Button className="p-1" style={distanceButtonStyle}
