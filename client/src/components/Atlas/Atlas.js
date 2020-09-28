@@ -72,6 +72,7 @@ export default class Atlas extends Component {
             <TileLayer url={MAP_LAYER_URL} attribution={MAP_LAYER_ATTRIBUTION}/>
             {this.getHomeMarker()}
             {this.getMarker()}
+            <Polyline positions={this.state.prevLocation} color={'green'}/>
           </Map>
         </div>
     );
