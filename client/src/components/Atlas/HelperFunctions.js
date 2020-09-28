@@ -14,22 +14,6 @@ export const helperSetCurrentSearchBar = (temp) => {
 
 export const calculateDistance = () => { console.log("placeholder function"); }
 
-const inputFieldStyleFrom = {
-    zIndex: 1002,
-    height: 34,
-    top: 10,
-    left: 70,
-    position: "absolute",
-}
-
-const inputFieldStyleSearchBar = {
-    zIndex: 1002,
-    height: 34,
-    bottom: 10,
-    left: 50,
-    position: "absolute",
-}
-
 const distanceButtonStyle = {
     position: "absolute",
     top: 11,
@@ -40,6 +24,8 @@ const distanceButtonStyle = {
     backgroundColor: "#1E4D2B",
 }
 
+const radioButtonStyle = {color: "#FFFFFF", zIndex: 1100,}
+
 export default class HelperFunctions extends Component {
 
     constructor(props) {
@@ -49,9 +35,9 @@ export default class HelperFunctions extends Component {
             searchTextTo: "",
             searchTextFrom: "",
             searchBarText: "",
-            buttonDropdown: false,
             showDistanceSearch: false,
             showLocationSearch: false,
+            searchModule: false,
         }
     }
 
@@ -59,37 +45,13 @@ export default class HelperFunctions extends Component {
         return (
             <div>
                 {this.addSearchButton()}
-                {this.setCurrentSearchBar()}
+                {this.state.searchModule && this.renderSearchModule()}
             </div>
         );
     }
 
-    setCurrentSearchBar(){
-        let searchField = [{info: this.state.showDistanceSearch, extra: this.renderSearchField()}, {info: this.state.showLocationSearch, extra: this.renderSearchBar()}]
-        return( <div>{searchField.map(helperSetCurrentSearchBar)}</div> );
-    }
-
-    renderSearchBar(){
-        let searchbar = [{name: "searchBar", place: "Search Location", classname: "inputFieldSearchBar", style: inputFieldStyleSearchBar, color: "primary", change: this.handleInputChange}]
-        return( <div>{searchbar.map(helperRenderFunction)}</div> );
-    }
-
-    renderSearchField(){
-        let helpSearchField = [{name: "searchBarFrom", place: "From", classname: "inputFieldSearchField", style: inputFieldStyleFrom, color: "primary", change: this.handleInputChange}]
-        return(
-            <div><Row xs="3">
-                <Col>{helpSearchField.map(helperRenderFunction)}</Col>
-                <Col>{this.renderSearchFieldTo()}</Col>
-                <Col>{this.renderCalculateButton()}</Col>
-            </Row></div> );
-    }
-
     renderCalculateButton = () => {
         return( <div><Button className="p-1" style={distanceButtonStyle} onClick={() => calculateDistance}> Calculate </Button></div> )
-    }
-
-    renderSearchFieldTo(){
-        return ( <Input name="searchBarTo" placeholder="To" className="inputFieldSearchField" style={inputFieldStyleFrom} color="primary" onChange={this.handleInputChange}/> );
     }
 
     handleInputChange = () => {
@@ -104,7 +66,6 @@ export default class HelperFunctions extends Component {
             this.setState({searchBarText: target.value});
         }
     }
-
 
     addSearchButton() {
         return (
