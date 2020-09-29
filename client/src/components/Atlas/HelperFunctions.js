@@ -2,6 +2,8 @@ import {Button, Col, Input, Row, CustomInput, Container} from "reactstrap";
 import React, {Component} from "react";
 import searchButtonIcon from "../../static/images/magIcon.png";
 import Zoom from "@material-ui/core/Zoom";
+import {sendServerRequest} from "../../utils/restfulAPI";
+
 export const calculateDistance = () => { console.log("placeholder function"); }
 
 const inputFieldStyleFrom = {zIndex: 1002, height: 34, top: 10, left: 70, position: "absolute"}
@@ -21,6 +23,8 @@ const searchTypeStyle = {
 }
 const radioButtonStyle = {color: "#FFFFFF", zIndex: 1100,}
 
+let place1, place2, lat1, long1, lat2, long2;
+
 export default class HelperFunctions extends Component {
 
     constructor(props) {
@@ -33,6 +37,8 @@ export default class HelperFunctions extends Component {
             searchTextFrom: "",
             searchTextTo: "",
             searchBarText: "",
+            distance: null,
+            find: null,
         }
     }
 
@@ -46,7 +52,7 @@ export default class HelperFunctions extends Component {
     }
 
     renderCalculateButton = () => {
-        return (<div><Button className="p-1" style={distanceButtonStyle} onClick={() => {this.updatePrevLocationState()}}> Calculate </Button></div>)
+        return (<div><Button className="p-1" style={distanceButtonStyle} onClick={() => {this.calcDist()}}> Calculate </Button></div>)
     }
 
     renderSearchFieldTo() {
@@ -118,8 +124,8 @@ export default class HelperFunctions extends Component {
                 <Col style={{left: 265, top: 55}}>{this.renderCalculateButton()}</Col>
                 <p style={searchTypeStyle}
                 >
-                    Coordinates:[{this.state.searchTextFrom}],[{this.state.searchTextTo}]<br/>
-                    Distance = OVER 9000;
+                    Coordinates:({this.state.searchTextFrom}),({this.state.searchTextTo})<br/>
+                    Distance = {this.state.distance} miles
                 </p>
             </div>
         );
@@ -140,7 +146,7 @@ export default class HelperFunctions extends Component {
                 <p style={searchTypeStyle}
                 >
                     Location/Coordinates:{this.state.searchBarText}<br/>
-                    Location = UR MUMS HAU5
+                    Location = {this.state.find}
                 </p>
             </div>
         );
@@ -161,5 +167,59 @@ export default class HelperFunctions extends Component {
                 </Row>
             </Container>
         );
+    }
+
+    calcDist() {
+        if (this.state.searchTextFrom && this.state.searchTextTo) {
+            this.helperValidFromTo(0)
+        }
+        if (this.state.searchTextFrom && !this.state.searchTextTo) {
+            this.helperValidFromTo(1)
+        }
+        if (!this.state.searchTextFrom && this.state.searchTextTo) {
+            this.helperValidFromTo(2)
+        }
+        if (!this.state.searchTextFrom && !this.state.searchTextTo) {
+            let place1 = this.props.sendFunction
+            let place2 = this.props.sendFunctionPart2
+            let lat1 = place1.lat.toString()
+            let long1 = place1.lng.toString()
+            let lat2 = place2.lat.toString()
+            let long2 = place2.lng.toString()
+            this.sendDistanceServerRequest(lat1, long1, lat2, long2)
+        }
+    }
+
+    sendDistanceServerRequest(lat1, long1, lat2, long2) {
+        sendServerRequest({requestType: "distance", requestVersion: 2, earthRadius: 3959,
+            place1: {latitude: lat1, longitude: long1},
+            place2: {latitude: lat2, longitude: long2}})
+            .then(distance => {
+                if (distance) {
+                    this.setState({distance: distance.data.distance})
+                }
+            });
+    }
+
+    helperValidFromTo(index) {
+        place1 = this.state.searchTextFrom.split(',')
+        place2 = this.state.searchTextTo.split(',')
+        lat1 = place1[0]
+        long1 = place1[1]
+        lat2 = place2[0]
+        long2 = place2[1]
+        if (index == 0) { this.sendDistanceServerRequest(lat1, long1, lat2, long2) }
+        if (index == 1) {
+            place2 = this.props.sendFunction
+            let templat2 = place2.lat.toString()
+            let templong2 = place2.lng.toString()
+            this.sendDistanceServerRequest(lat1, long1, templat2, templong2)
+        }
+        if (index == 2) {
+            place1 = this.props.sendFunction
+            let tolat1 = place1.lat.toString()
+            let tolong1 = place1.lng.toString()
+            this.sendDistanceServerRequest(tolat1, tolong1, lat2, long2)
+        }
     }
 }
