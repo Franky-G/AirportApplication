@@ -37,6 +37,8 @@ export default class HelperFunctions extends Component {
             searchTextFrom: "",
             searchTextTo: "",
             searchBarText: "",
+            searchWhereIsTextTo: "",
+            searchWhereIsTextFrom: "",
             distance: null,
             find: null,
         }
@@ -152,18 +154,49 @@ export default class HelperFunctions extends Component {
         );
     }
 
+    renderWhereIsModule(){
+        return(
+            <div key="whereIsPanel">
+                <Row xs={2} key={"searchWhereIs"}>
+                    <Col><Input name={"searchWhereIsTo"} style={{margin: 5, width: "100%"}} placeholder="Latitude"
+                                onChange={() => this.handleInputChange()}/></Col>
+                    <Col style={{left: -20}}><Input name={"searchWhereIsFrom"} style={{margin: 5, width: 160}}
+                                                    placeholder="Longitude" onChange={() => this.handleInputChange()}/></Col>
+                </Row>
+                <Col style={{left: 283, top: 55}}>
+                    <Button className= "p-1" style={distanceButtonStyle}
+                            onClick={() => this.whereAreTheseCoords()} title="Where Is?"> Go To </Button></Col>
+                <p style={searchTypeStyle}>
+                    Coordinates:[{this.state.searchWhereIsTextFrom}],[{this.state.searchWhereIsTextTo}]<br/>
+                </p>
+            </div>
+        );
+    }
+
+    whereAreTheseCoords(){
+        let regex = "^(-?\\d+(\\.\\d+)?)$"
+        if(this.state.searchWhereIsTextFrom.match(regex) && this.state.searchWhereIsTextTo.match(regex)){
+            console.log(L.latLng(this.state.searchWhereIsTextFrom, this.state.searchWhereIsTextFrom));
+            this.setState({markerPosition: L.latLng(this.state.searchWhereIsTextFrom, this.state.searchWhereIsTextFrom)});
+        }
+    }
+
+    spacer(){
+        return(
+            <div className="px-1"/>
+        );
+    }
+
     renderRadioButtons() {
         return (
             <Container style={{position: "absolute", top: 120, left: 10}}>
-                <Row>
-                    <CustomInput defaultChecked id="radioLocation" type="radio" name="searchRadioButton"
-                                 onChange={() => {
-                                     this.switchToLocationModule()
-                                 }}/>
-                    <label style={radioButtonStyle}>Location</label>
-                    <div className="px-2"/>
+                <Row className="vertical-center">
+                    <CustomInput style={{marginRight: 0, padding: 0}} defaultChecked id="radioLocation" type="radio" name="searchRadioButton" onChange={() => {this.switchToLocationModule()}}/>
+                    <label style={radioButtonStyle}>Location</label>{this.spacer()}
                     <CustomInput id="radioDistance" type="radio" name="searchRadioButton" onChange={() => {this.switchToDistanceModule()}}/>
-                    <label style={radioButtonStyle}>Distance</label>
+                    <label style={radioButtonStyle}>Distance</label>{this.spacer()}
+                    <CustomInput id="radioWhereIs" type="radio" name="searchRadioButton" onChange={() => {this.switchToWhereIsModule()}}/>
+                    <label style={radioButtonStyle}>Where is?</label>{this.spacer()}
                 </Row>
             </Container>
         );
@@ -208,14 +241,14 @@ export default class HelperFunctions extends Component {
         long1 = place1[1]
         lat2 = place2[0]
         long2 = place2[1]
-        if (index == 0) { this.sendDistanceServerRequest(lat1, long1, lat2, long2) }
-        if (index == 1) {
+        if (index === 0) { this.sendDistanceServerRequest(lat1, long1, lat2, long2) }
+        if (index === 1) {
             place2 = this.props.sendFunction
             let templat2 = place2.lat.toString()
             let templong2 = place2.lng.toString()
             this.sendDistanceServerRequest(lat1, long1, templat2, templong2)
         }
-        if (index == 2) {
+        if (index === 2) {
             place1 = this.props.sendFunction
             let tolat1 = place1.lat.toString()
             let tolong1 = place1.lng.toString()
