@@ -79,10 +79,12 @@ export default class Atlas extends Component {
         </div>
     );
   }
+
   getMapZoom()
   {
     zoomLevel = this.map && this.map.leafletElement.getZoom();
   }
+
   renderOverlayDiv(){
     return(
         <div id="overlayDiv">
