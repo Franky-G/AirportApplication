@@ -18,7 +18,7 @@ public class TestRequestFind {
     @BeforeEach
     public void createConfigurationForTestCases(){
         fin = new RequestFind();
-        fin = new RequestFind("port", 150);
+        fin = new RequestFind("gujarat", 100);
     }
 
     @Test
@@ -39,56 +39,67 @@ public class TestRequestFind {
     @DisplayName("match should be port")
     public void testMatch(){
         String match = fin.getMatch();
-        assertEquals("port", match);
+        assertEquals("gujarat", match);
     }
 
     @Test
     @DisplayName("limit should be 150")
     public void testLimit(){
         int limit = fin.getLimit();
-        assertEquals(150, limit);
+        assertEquals(100, limit);
     }
 
     @Test
-    @DisplayName("name should be 'S Gravenvoeren heliport via pattern: '%port'")
+    @DisplayName("name should be Deesa Airport via pattern: 'gujarat'")
     public void testPlacesName(){
         fin.buildResponse();
         List<HashMap<String, String>> places = fin.getPlaces();
         String name = (places.get(0)).get("name");
 
-        assertEquals("'S Gravenvoeren heliport", name);
+        assertEquals("Deesa Airport", name);
     }
 
     @Test
-    @DisplayName("latitude name should be 50.764771 via pattern: port")
+    @DisplayName("latitude name should be 24.267900466918945 via pattern: 'gujarat'")
     public void testPlacesLatitude(){
         //fin = new RequestFind("salt%", 150);
         fin.buildResponse();
         List<HashMap<String, String>> places = fin.getPlaces();
         String lat = (places.get(0).get("latitude"));
-        assertEquals("50.764771", lat);
+        assertEquals("24.267900466918945", lat);
     }
 
     @Test
-    @DisplayName("found should be 1759 via pattern: '%strip' with no limit")
-    public void testLimitZero(){
-        fin = new RequestFind("strip", 0);
+    @DisplayName("name should be Tongliao Airport via pattern: 'mongolia' with no limit")
+    public void testLimitZeroName(){
+        fin = new RequestFind("mongolia", 0);
         fin.buildResponse();
 
         List<HashMap<String, String>> places = fin.getPlaces();
-        String name = (places.get(0)).get("name");
+        String name = (places.get(13)).get("name");
 
-        assertEquals("1669 Diamondview Road Private Strip", name);
+        assertEquals("Tongliao Airport", name);
     }
 
     @Test
-    @DisplayName("found should be 1759 via pattern: '%strip' with no limit")
+    @DisplayName("long should be 122.199997 via pattern: 'mongolia' with no limit")
+    public void testLimitZeroLong(){
+        fin = new RequestFind("mongolia", 0);
+        fin.buildResponse();
+        List<HashMap<String, String>> places = fin.getPlaces();
+        String longitude = (places.get(13)).get("longitude");
+
+        assertEquals("122.199997", longitude);
+    }
+
+    @Test
+    @DisplayName("found should be 44 via pattern: 'san jose' with limit 13")
     public void testFound(){
-        fin = new RequestFind("strip", 5);
+        fin = new RequestFind("san jose", 13);
         fin.buildResponse();
 
         int found = fin.getFound();
 
-        assertEquals(150, found);
+        assertEquals(44, found);
     }
 }
