@@ -69,7 +69,10 @@ export default class HelperFunctions extends Component {
             this.setState({searchTextFrom: target.value});
         }
         if (target.name === "searchBar") {
-            this.setState({searchBarText: target.value});
+            let coords = target.value.split(',');
+            coords[0] = parseInt(coords[0]);
+            coords[1] = parseInt(coords[1]);
+            this.setState({searchBarText: coords});
         }
     }
 
@@ -84,9 +87,18 @@ export default class HelperFunctions extends Component {
         );
     }
 
-    toggleShowSearchModule() {this.setState({searchModule: !this.state.searchModule});{this.switchToLocationModule()}}
-    switchToDistanceModule() {this.setState({showDistanceSearch: true, showLocationSearch: false});}
-    switchToLocationModule() {this.setState({showDistanceSearch: false, showLocationSearch: true});}
+    toggleShowSearchModule() {
+        this.setState({searchModule: !this.state.searchModule});
+        this.switchToLocationModule()
+    }
+
+    switchToDistanceModule() {
+        this.setState({showDistanceSearch: true, showLocationSearch: false});
+    }
+
+    switchToLocationModule() {
+        this.setState({showDistanceSearch: false, showLocationSearch: true});
+    }
 
     renderSearchModule() {
         return (
@@ -129,7 +141,7 @@ export default class HelperFunctions extends Component {
                 </Row>
                 <Col style={{position: "absolute", left: 277, top: 103}}>
                     <div><Button className="p-1" style={distanceButtonStyle}
-                                 onClick={() => calculateDistance}> Search </Button></div>
+                                 onClick = {() =>this.props.setLatLngCoords(this.state.searchBarText)}> Search </Button></div>
                 </Col>
                 <p style={searchTypeStyle}
                 >

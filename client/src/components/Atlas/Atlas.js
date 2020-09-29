@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import  React, {Component} from 'react';
 import {Col, Container, Row} from 'reactstrap';
 import homeIcon from '../../static/images/homeButtonIcon.png';
 import homeMarker from '../../static/images/youAreHereMarker.png';
@@ -34,6 +34,7 @@ export default class Atlas extends Component {
     this.setMarker = this.setMarker.bind(this);
     this.getLastCoordinates = this.getLastCoordinates.bind(this)
     this.getLastCoordinatesPart2 = this.getLastCoordinatesPart2.bind(this)
+    this.setSearchBarCords = this.setSearchBarCords.bind(this);
     this.state = {
       markerPosition: null,
       homeLocation: homeCoords,
@@ -50,6 +51,7 @@ export default class Atlas extends Component {
             <Row>
               <Col sm={12} md={{size: 10, offset: 1}}>
                 <HelperFunctions sendFunction={this.getLastCoordinates()} sendFunctionPart2={this.getLastCoordinatesPart2()}/>
+                <HelperFunctions setLatLngCoords={this.setSearchBarCords}/>
                 {this.renderLeafletMap()}
               </Col>
             </Row>
@@ -84,7 +86,12 @@ export default class Atlas extends Component {
     );
   }
 
-  getMapZoom() {
+  setSearchBarCords (coords)  {
+    console.log(coords);
+    this.setState({mapCenter: coords});
+  }
+
+  getMapZoom(){
     zoomLevel = this.map && this.map.leafletElement.getZoom();
   }
 
