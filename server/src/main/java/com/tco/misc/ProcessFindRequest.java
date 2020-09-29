@@ -9,12 +9,15 @@ import java.util.List;
 
 public class ProcessFindRequest {
 
+    public int foundProcess = 0;
+
     private String QUERY;
     private static String db_url;
     private static String db_user;
     private static String db_pass;
 
     private List<HashMap<String,String>> allLocations = new ArrayList<>();
+    private List<HashMap<String,String>> foundList = new ArrayList<>();
 
     public static void setServerParameters()
     {
@@ -49,10 +52,10 @@ public class ProcessFindRequest {
             Connection con = DriverManager.getConnection(db_url, db_user, db_pass);
             Statement query = con.createStatement();
             if (limitInt == 0){
-                this.QUERY = "select name,latitude,longitude from world where name like '" + matchPattern + "' order by name limit 150";
+                this.QUERY = "select name,latitude,longitude from world where name like '%" + matchPattern + "%' order by name limit 150";
             }
             else if (limitInt > 0){
-                this.QUERY = "select name,latitude,longitude from world where name like '" + matchPattern + "' order by name limit " + Integer.toString(limitInt);
+                this.QUERY = "select name,latitude,longitude from world where name like '%" + matchPattern + "%' order by name limit " + Integer.toString(limitInt);
             }
             ResultSet result = query.executeQuery(QUERY);
             while(result.next()) {
@@ -64,7 +67,29 @@ public class ProcessFindRequest {
             }
         }
         catch (Exception e) {
-            System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage()); }
+            System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage());
+        }
         return allLocations;
+    }
+
+    public int processFound(String matchPattern){
+        setServerParameters();
+        try {
+            Connection con = DriverManager.getConnection(db_url, db_user, db_pass);
+            Statement query = con.createStatement();
+            this.QUERY = "select name,latitude,longitude from world where name like '%" + matchPattern + "%' order by name limit 150";
+
+            ResultSet result = query.executeQuery(QUERY);
+
+            while(result.next()) {
+                HashMap<String, String> location = new HashMap<>();
+                location.put("name", result.getString("name"));
+                this.foundList.add(location);
+            }
+        }
+        catch (Exception e) {
+            System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage());
+        }
+        return foundList.size();
     }
 }

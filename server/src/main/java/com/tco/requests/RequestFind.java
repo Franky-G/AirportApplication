@@ -30,7 +30,7 @@ public class RequestFind extends RequestHeader {
     @Override
     public void buildResponse() {
         this.places = findResult.processFindServerRequest(this.match, this.limit);
-        this.found = this.places.size();
+        this.found = findResult.processFound(this.match);
         log.trace("buildResponse -> {}", this);
     }
 
