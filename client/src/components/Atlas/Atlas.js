@@ -24,12 +24,16 @@ const HOME_BUTTON_STYLE = {
   width: 15,
   position: "absolute",
 }
+
 let zoomLevel = 15;
+
 export default class Atlas extends Component {
   constructor(props) {
     super(props);
     this.geoPosition();
     this.setMarker = this.setMarker.bind(this);
+    this.getLastCoordinates = this.getLastCoordinates.bind(this)
+    this.getLastCoordinatesPart2 = this.getLastCoordinatesPart2.bind(this)
     this.state = {
       markerPosition: null,
       homeLocation: homeCoords,
@@ -45,7 +49,7 @@ export default class Atlas extends Component {
           <Container>
             <Row>
               <Col sm={12} md={{size: 10, offset: 1}}>
-                <HelperFunctions/>
+                <HelperFunctions sendFunction={this.getLastCoordinates()} sendFunctionPart2={this.getLastCoordinatesPart2()}/>
                 {this.renderLeafletMap()}
               </Col>
             </Row>
@@ -73,15 +77,14 @@ export default class Atlas extends Component {
             <TileLayer url={MAP_LAYER_URL} attribution={MAP_LAYER_ATTRIBUTION}/>
             {this.getHomeMarker()}
             {this.getMarker()}
-            {<Polyline positions={this.state.prevLocation} color={'green'}/>}
+            {/*{<Polyline positions={this.state.prevLocation} color={'green'}/>}*/}
             {this.getMapZoom()}
           </Map>
         </div>
     );
   }
 
-  getMapZoom()
-  {
+  getMapZoom() {
     zoomLevel = this.map && this.map.leafletElement.getZoom();
   }
 
@@ -94,8 +97,7 @@ export default class Atlas extends Component {
         </div> );
   }
 
-  homeButtonSetStateVars()
-  {
+  homeButtonSetStateVars() {
     this.setState({markerPosition: null});
     this.setState({mapCenter: this.state.homeLocation});
   }
@@ -151,6 +153,14 @@ export default class Atlas extends Component {
   getStringMarkerPosition() {
     if(this.state.markerPosition) { return +this.state.markerPosition.lat.toFixed(2) + ', ' + this.state.markerPosition.lng.toFixed(2); }
     if(!this.state.markerPosition) { return MAP_CENTER_DEFAULT; }
+  }
+
+  getLastCoordinates() {
+    return this.state.prevLocation[0];
+  }
+
+  getLastCoordinatesPart2() {
+    return this.state.prevLocation[1];
   }
 
 }
