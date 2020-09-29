@@ -32,8 +32,8 @@ export default class Atlas extends Component {
     super(props);
     this.geoPosition();
     this.setMarker = this.setMarker.bind(this);
-    this.getLastCoordinates = this.getLastCoordinates.bind(this)
-    this.getLastCoordinatesPart2 = this.getLastCoordinatesPart2.bind(this)
+    this.getLastCoordinates = this.getLastCoordinates.bind(this);
+    this.getLastCoordinatesPart2 = this.getLastCoordinatesPart2.bind(this);
     this.setSearchBarCords = this.setSearchBarCords.bind(this);
     this.state = {
       markerPosition: null,
@@ -50,8 +50,7 @@ export default class Atlas extends Component {
           <Container>
             <Row>
               <Col sm={12} md={{size: 10, offset: 1}}>
-                <HelperFunctions sendFunction={this.getLastCoordinates()} sendFunctionPart2={this.getLastCoordinatesPart2()}/>
-                <HelperFunctions setLatLngCoords={this.setSearchBarCords}/>
+                <HelperFunctions sendFunction={this.getLastCoordinates()} sendFunctionPart2={this.getLastCoordinatesPart2()} setLatLngCoords={this.setSearchBarCords}/>
                 {this.renderLeafletMap()}
               </Col>
             </Row>
