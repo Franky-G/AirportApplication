@@ -25,7 +25,7 @@ const homeButtonStyle = {
   width: 15,
   position: "absolute",
 }
-
+let zoomLevel = 15;
 export default class Atlas extends Component {
   constructor(props) {
     super(props);
@@ -62,22 +62,27 @@ export default class Atlas extends Component {
               className={'mapStyle'}
               boxZoom={false}
               useFlyTo={true}
-              zoom={15}
+              zoom={zoomLevel}
               minZoom={MAP_MIN_ZOOM}
               maxZoom={MAP_MAX_ZOOM}
               maxBounds={MAP_BOUNDS}
               center={this.getArrayMarkerLocation()}
               onClick={this.setMarker}
-              id="theMap" >
+              id="theMap"
+              viewport = {{}}>
             <TileLayer url={MAP_LAYER_URL} attribution={MAP_LAYER_ATTRIBUTION}/>
             {this.getHomeMarker()}
             {this.getMarker()}
             <Polyline positions={this.state.prevLocation} color={'green'}/>
+            {this.getMapZoom()}
           </Map>
         </div>
     );
   }
-
+  getMapZoom()
+  {
+    zoomLevel = this.map && this.map.leafletElement.getZoom();
+  }
   renderOverlayDiv(){
     return(
         <div id="overlayDiv">
