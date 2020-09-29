@@ -35,6 +35,7 @@ export default class Atlas extends Component {
       homeLocation: homeCoords,
       buttonDropdown: false,
       prevLocation: [[0,0],[0,0]],
+      mapCenter: MAP_CENTER_DEFAULT
     };
   }
 
@@ -65,14 +66,14 @@ export default class Atlas extends Component {
               minZoom={MAP_MIN_ZOOM}
               maxZoom={MAP_MAX_ZOOM}
               maxBounds={MAP_BOUNDS}
-              center={this.getArrayMarkerLocation()}
+              center={this.state.mapCenter}
               onClick={this.setMarker}
               id="theMap"
               viewport = {{}}>
             <TileLayer url={MAP_LAYER_URL} attribution={MAP_LAYER_ATTRIBUTION}/>
             {this.getHomeMarker()}
             {this.getMarker()}
-            <Polyline positions={this.state.prevLocation} color={'green'}/>
+            {<Polyline positions={this.state.prevLocation} color={'green'}/>}
             {this.getMapZoom()}
           </Map>
         </div>
@@ -87,16 +88,22 @@ export default class Atlas extends Component {
   renderOverlayDiv(){
     return(
         <div id="overlayDiv">
-          <button className="home-btn" style={{top: 70}} onClick={() => this.setState({markerPosition: null})}>
+          <button className="home-btn" style={{top: 70}} onClick={() => this.homeButtonSetStateVars()}>
             <span><img src={homeIcon} style={HOME_BUTTON_STYLE} title="Go Home" alt = "Home"/></span>
           </button>
         </div> );
   }
 
+  homeButtonSetStateVars()
+  {
+    this.setState({markerPosition: null});
+    this.setState({mapCenter: this.state.homeLocation});
+  }
+
   geoPosition(){
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
-            myCoords = {lat: position.coords.latitude, lng: position.coords.longitude};
+            this.setState({mapCenter: [position.coords.latitude, position.coords.longitude]})
             homeCoords = [position.coords.latitude, position.coords.longitude];
             this.setState({homeLocation: homeCoords});
           }
@@ -108,6 +115,7 @@ export default class Atlas extends Component {
 
   setMarker(mapClickInfo) {
     this.setState({markerPosition: mapClickInfo.latlng});
+    this.setState({mapCenter: mapClickInfo.latlng})
     const newIds = this.state.prevLocation.slice();
     if(index === 1){
       newIds[1] = mapClickInfo.latlng;
@@ -145,20 +153,8 @@ export default class Atlas extends Component {
     if(!this.state.markerPosition) { return MAP_CENTER_DEFAULT; }
   }
 
-  getArrayMarkerLocation() {
-    let latLngArray = [0.0,0.0]
-    if(this.state.markerPosition) {
-      latLngArray[0] = parseFloat(this.state.markerPosition.lat);
-      latLngArray[1] = parseFloat(this.state.markerPosition.lng);
-      return latLngArray;
-    }
-    latLngArray[0] = parseFloat(myCoords.lat);
-    latLngArray[1] = parseFloat(myCoords.lng);
-    return latLngArray;
-  }
 }
 
-let myCoords = L.latLng(40.5734,-105.0865);
 let homeCoords;
 let index = 0;
 
