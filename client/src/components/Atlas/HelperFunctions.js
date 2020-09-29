@@ -21,7 +21,7 @@ const searchTypeStyle = {
     position: "absolute", background: "#145906", color:"#FFFFFF", width: 320, height: 65, margin:5, top: 40,
     borderRadius: "3px 3px 3px 3px", fontSize: 18, textOverflow: "ellipsis", overflow: "hidden", border: "2px solid #000000", borderBottom: "3px solid #000000", borderTop: "3px solid #000000"
 }
-const radioButtonStyle = {color: "#FFFFFF", zIndex: 1100,}
+const radioButtonStyle = {margin: 0, color: "#FFFFFF", zIndex: 1100, fontSize:13, textAlign: "center"}
 
 let place1, place2, lat1, long1, lat2, long2;
 
