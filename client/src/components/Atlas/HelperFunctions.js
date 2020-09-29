@@ -33,6 +33,7 @@ export default class HelperFunctions extends Component {
         this.state = {
             showDistanceSearch: false,
             showLocationSearch: false,
+            showWhereIsSearch: false,
             searchModule: false,
             searchTextFrom: "",
             searchTextTo: "",
@@ -71,10 +72,13 @@ export default class HelperFunctions extends Component {
             this.setState({searchTextFrom: target.value});
         }
         if (target.name === "searchBar") {
-            let coords = target.value.split(',');
-            coords[0] = parseInt(coords[0]);
-            coords[1] = parseInt(coords[1]);
-            this.setState({searchBarText: coords});
+            this.setState({searchBarText: target.value});
+        }
+        if (target.name === "searchWhereIsFrom"){
+            this.setState({searchWhereIsTextFrom: target.value});
+        }
+        if (target.name === "searchWhereIsTo"){
+            this.setState({searchWhereIsTextTo: target.value});
         }
     }
 
@@ -90,16 +94,19 @@ export default class HelperFunctions extends Component {
     }
 
     toggleShowSearchModule() {
-        this.setState({searchModule: !this.state.searchModule});
-        this.switchToLocationModule()
+        this.setState({searchModule: !this.state.searchModule});{this.switchToLocationModule()}
     }
 
     switchToDistanceModule() {
-        this.setState({showDistanceSearch: true, showLocationSearch: false});
+        this.setState({showDistanceSearch: true, showLocationSearch: false, showWhereIsSearch: false});
     }
 
     switchToLocationModule() {
-        this.setState({showDistanceSearch: false, showLocationSearch: true});
+        this.setState({showDistanceSearch: false, showLocationSearch: true, showWhereIsSearch: false});
+    }
+
+    switchToWhereIsModule() {
+        this.setState({showDistanceSearch: false, showLocationSearch: false, showWhereIsSearch: true});
     }
 
     renderSearchModule() {
@@ -108,6 +115,7 @@ export default class HelperFunctions extends Component {
                 <div style={searchModuleStyle}>
                     {this.state.showDistanceSearch && this.renderDistanceModule()}
                     {this.state.showLocationSearch && this.renderLocationModule()}
+                    {this.state.showWhereIsSearch && this.renderWhereIsModule()}
                     {this.renderRadioButtons()}
                 </div>
             </Zoom>
@@ -181,11 +189,7 @@ export default class HelperFunctions extends Component {
         }
     }
 
-    spacer(){
-        return(
-            <div className="px-1"/>
-        );
-    }
+    spacer(){return(<div className="px-1"/>);}
 
     renderRadioButtons() {
         return (
