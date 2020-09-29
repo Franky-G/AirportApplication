@@ -146,7 +146,7 @@ export default class HelperFunctions extends Component {
             <div key="LocationPanel">
                 <Row key={"searchDistance"}>
                     <Col><Input name={"searchBar"} style={{margin: 5, width: "97%"}}
-                                placeholder="Enter name of place/coordinates"
+                                placeholder="Enter name of place"
                                 onChange={() => this.handleInputChange()}/></Col>
                 </Row>
                 <Col style={{position: "absolute", left: 277, top: 103}}>
@@ -155,8 +155,8 @@ export default class HelperFunctions extends Component {
                 </Col>
                 <p style={searchTypeStyle}
                 >
-                    Location/Coordinates:{this.state.searchBarText}<br/>
-                    Location = {this.state.find}
+                    Location = {this.state.searchBarText}<br/>
+                    Found = {this.state.find}
                 </p>
             </div>
         );
@@ -166,16 +166,16 @@ export default class HelperFunctions extends Component {
         return(
             <div key="whereIsPanel">
                 <Row xs={2} key={"searchWhereIs"}>
-                    <Col><Input name={"searchWhereIsTo"} style={{margin: 5, width: "100%"}} placeholder="Latitude"
+                    <Col><Input name={"searchWhereIsFrom"} style={{margin: 5, width: "100%"}} placeholder="Latitude"
                                 onChange={() => this.handleInputChange()}/></Col>
-                    <Col style={{left: -20}}><Input name={"searchWhereIsFrom"} style={{margin: 5, width: 160}}
+                    <Col style={{left: -20}}><Input name={"searchWhereIsTo"} style={{margin: 5, width: 160}}
                                                     placeholder="Longitude" onChange={() => this.handleInputChange()}/></Col>
                 </Row>
                 <Col style={{left: 283, top: 55}}>
                     <Button className= "p-1" style={distanceButtonStyle}
                             onClick={() => this.whereAreTheseCoords()} title="Where Is?"> Go To </Button></Col>
                 <p style={searchTypeStyle}>
-                    Coordinates:[{this.state.searchWhereIsTextFrom}],[{this.state.searchWhereIsTextTo}]<br/>
+                    Coordinates:({this.state.searchWhereIsTextFrom}),({this.state.searchWhereIsTextTo})<br/>
                 </p>
             </div>
         );
