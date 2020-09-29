@@ -63,9 +63,9 @@ export default class HelperFunctions extends Component {
             this.setState({searchTextFrom: target.value});
         }
         if (target.name === "searchBar") {
-            let coords = target.value.split(',')
-            coords[0] = parseInt(coords[0])
-            coords[1] = parseInt(coords[1])
+            let coords = target.value.split(',');
+            coords[0] = parseInt(coords[0]);
+            coords[1] = parseInt(coords[1]);
             this.setState({searchBarText: coords});
         }
     }
@@ -83,11 +83,13 @@ export default class HelperFunctions extends Component {
 
     toggleShowSearchModule() {
         this.setState({searchModule: !this.state.searchModule});
-        {this.switchToLocationModule()}
+        this.switchToLocationModule()
     }
+
     switchToDistanceModule() {
         this.setState({showDistanceSearch: true, showLocationSearch: false});
     }
+
     switchToLocationModule() {
         this.setState({showDistanceSearch: false, showLocationSearch: true});
     }

@@ -82,8 +82,8 @@ export default class Atlas extends Component {
   }
 
   setSearchBarCords (coords)  {
-    console.log(coords)
-    this.setState({mapCenter: coords})
+    console.log(coords);
+    this.setState({mapCenter: coords});
   }
 
   getMapZoom()
