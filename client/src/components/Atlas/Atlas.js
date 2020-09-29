@@ -115,10 +115,7 @@ export default class Atlas extends Component {
 
   setMarker(mapClickInfo) {
     this.setState({markerPosition: mapClickInfo.latlng});
-    if(this.state.markerPosition)
-    {
-      this.setState({mapCenter: mapClickInfo.latlng})
-    }
+    this.setState({mapCenter: mapClickInfo.latlng})
     const newIds = this.state.prevLocation.slice();
     if(index === 1){
       newIds[1] = mapClickInfo.latlng;
