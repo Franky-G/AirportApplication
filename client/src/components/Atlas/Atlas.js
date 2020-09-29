@@ -18,14 +18,13 @@ const MAP_LAYER_ATTRIBUTION = "&copy; <a href=&quot;http://osm.org/copyright&quo
 const MAP_LAYER_URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 const MAP_MIN_ZOOM = 1;
 const MAP_MAX_ZOOM = 19;
-
-const homeButtonStyle = {
+const HOME_BUTTON_STYLE = {
   top: 5,
   left: 1,
   width: 15,
   position: "absolute",
 }
-
+let zoomLevel = 15;
 export default class Atlas extends Component {
   constructor(props) {
     super(props);
@@ -62,27 +61,34 @@ export default class Atlas extends Component {
               className={'mapStyle'}
               boxZoom={false}
               useFlyTo={true}
-              zoom={15}
+              zoom={zoomLevel}
               minZoom={MAP_MIN_ZOOM}
               maxZoom={MAP_MAX_ZOOM}
               maxBounds={MAP_BOUNDS}
               center={this.getArrayMarkerLocation()}
               onClick={this.setMarker}
-              id="theMap" >
+              id="theMap"
+              viewport = {{}}>
             <TileLayer url={MAP_LAYER_URL} attribution={MAP_LAYER_ATTRIBUTION}/>
             {this.getHomeMarker()}
             {this.getMarker()}
             <Polyline positions={this.state.prevLocation} color={'green'}/>
+            {this.getMapZoom()}
           </Map>
         </div>
     );
+  }
+
+  getMapZoom()
+  {
+    zoomLevel = this.map && this.map.leafletElement.getZoom();
   }
 
   renderOverlayDiv(){
     return(
         <div id="overlayDiv">
           <button className="home-btn" style={{top: 70}} onClick={() => this.setState({markerPosition: null})}>
-            <span><img src={homeIcon} style={homeButtonStyle} title="Go Home" alt = "Home"/></span>
+            <span><img src={homeIcon} style={HOME_BUTTON_STYLE} title="Go Home" alt = "Home"/></span>
           </button>
         </div> );
   }
