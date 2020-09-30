@@ -107,8 +107,7 @@ export default class Atlas extends Component {
   }
 
   homeButtonSetStateVars() {
-    this.setState({markerPosition: null});
-    this.setState({mapCenter: this.state.homeLocation});
+    this.setState({markerPosition: null, prevLocation: [null,null], mapCenter: this.state.homeLocation});
   }
 
   geoPosition(){
@@ -125,18 +124,11 @@ export default class Atlas extends Component {
   }
 
   setMarker(mapClickInfo) {
-    this.setState({markerPosition: mapClickInfo.latlng});
-    this.setState({mapCenter: mapClickInfo.latlng})
+    this.setState({markerPosition: mapClickInfo.latlng, mapCenter: mapClickInfo.latlng});
     const newIds = this.state.prevLocation.slice();
-    if(index === 1){
-      newIds[1] = mapClickInfo.latlng;
-      this.setState({prevLocation: newIds})
-      index -= 1;
-    } else {
-      newIds[0] = mapClickInfo.latlng;
-      this.setState({prevLocation: newIds})
-      index += 1;
-    }
+    newIds[1] = newIds[0];
+    newIds[0] = mapClickInfo.latlng;
+    this.setState({prevLocation: newIds})
     console.log(this.state.prevLocation);
   }
 
@@ -145,17 +137,37 @@ export default class Atlas extends Component {
     if (this.state.homeLocation){
       return (
           <Marker ref={initMarker} position={this.state.homeLocation} icon={HOME_MARKER}/>
-          )
+      )
     }
   }
 
   getMarker() {
+    let markerArray = [];
+    for (let i = 0; i < 2; ++i) {
+      if (this.state.prevLocation[i] !== null) { markerArray.push(this.markerSet(i)); }
+    }
+    return ( <div>{markerArray.map((element, index) => (<div key={index}>{element}</div>))} </div>);
+  }
+
+  markerSet(markerType){
     const initMarker = ref => { if (ref) { ref.leafletElement.openPopup() } };
-    if (this.state.markerPosition) {
-      return (
-          <Marker ref={initMarker} position={this.state.markerPosition} icon={MARKER_ICON}>
-            <Popup offset={[0, -18]} className="font-weight-bold">{this.getStringMarkerPosition()}</Popup>
-          </Marker> )
+    let currentMarkerString = this.getStringMarkerPosition();
+    let positionMarker = this.state.markerPosition;
+    if(markerType === 0 || markerType === 1){ positionMarker = this.state.prevLocation[markerType]; currentMarkerString = this.popupCoordsString(markerType)}
+    return(
+        <div>
+          <Marker key={markerType} ref={initMarker} position={positionMarker} icon={MARKER_ICON}>
+            <Popup offset={[0, -18]} className="font-weight-bold">{currentMarkerString}</Popup>
+          </Marker>
+        </div>
+    );
+  }
+
+  popupCoordsString(markerType){
+    if(markerType !== 0 || markerType !== 1){
+      return MAP_CENTER_DEFAULT;
+    } else {
+      return this.state.prevLocation[markerType].latlng.toFixed(5);
     }
   }
 
@@ -175,6 +187,5 @@ export default class Atlas extends Component {
 }
 
 let homeCoords;
-let index = 0;
 
 function error(err) { console.warn(`ERROR(${err.code}): ${err.message}`); }
