@@ -37,12 +37,14 @@ export default class Atlas extends Component {
     this.setSearchBarCords = this.setSearchBarCords.bind(this);
     this.setPrevLocationState = this.setPrevLocationState.bind(this);
     this.getMarkerPosition = this.getMarkerPosition.bind(this);
+    this.setSearchResults = this.setSearchResults.bind(this);
     this.state = {
       markerPosition: null,
       homeLocation: homeCoords,
       prevLocation: [null,null],
       mapCenter: MAP_CENTER_DEFAULT,
       whereIsMarker: null,
+      searchResults: [],
     };
   }
 
@@ -54,7 +56,7 @@ export default class Atlas extends Component {
               <Col sm={12} md={{size: 10, offset: 1}}>
                 <HelperFunctions sendFunction={this.getLastCoordinates()} sendFunctionPart2={this.getLastCoordinatesPart2()}
                                  setLatLngCoords={this.setSearchBarCords} setPrevLocationState={this.setPrevLocationState}
-                                 getMarkerPosition={this.getMarkerPosition}/>
+                                 getMarkerPosition={this.getMarkerPosition} setSearchResults={this.setSearchResults}/>
                 {this.renderLeafletMap()}
               </Col>
             </Row>
@@ -84,8 +86,21 @@ export default class Atlas extends Component {
             {this.getMarker()}
             {this.getMapZoom()}
             {this.makePolyline()}
+            {this.state.whereIsMarker && this.renderWhereIsMarker()}
           </Map>
         </div>
+    );
+  }
+
+  setSearchResults(_state){
+    console.log(_state);
+    this.setState({searchResults: _state})
+  }
+
+  renderWhereIsMarker(){
+    const initMarker = ref => { if (ref) { ref.leafletElement.openPopup() } };
+    return (
+        <Marker ref={initMarker} position={this.state.whereIsMarker} icon={MARKER_ICON}/>
     );
   }
 
@@ -93,7 +108,7 @@ export default class Atlas extends Component {
     let latLngCords = coords.split(',');
     latLngCords[0] = parseFloat(latLngCords[0]);
     latLngCords[1] = parseFloat(latLngCords[1]);
-    this.setState({mapCenter: latLngCords, markerPosition: null, whereIsMarker: latLngCords});
+    this.setState({mapCenter: latLngCords, markerPosition: null, whereIsMarker: L.latLng(latLngCords[0], latLngCords[1])});
   }
 
   makePolyline(){
@@ -122,7 +137,7 @@ export default class Atlas extends Component {
   }
 
   homeButtonSetStateVars() {
-    this.setState({markerPosition: null, prevLocation: [null,null], mapCenter: this.state.homeLocation});
+    this.setState({markerPosition: null, prevLocation: [null,null], mapCenter: this.state.homeLocation, whereIsMarker: null});
   }
 
   geoPosition(){
