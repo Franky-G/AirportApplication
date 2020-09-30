@@ -47,24 +47,13 @@ public class ProcessFindRequest {
     }
 
     public List<HashMap<String,String>> processFindServerRequest(String matchPattern, int limitInt) {
+        this.QUERY = "SELECT world.name, world.latitude, world.longitude, world.id, world.altitude, world.municipality, world.type FROM continent " + "INNER JOIN country ON continent.id = country.continent INNER JOIN region ON country.id = region.iso_country " + "INNER JOIN world on region.id = world.iso_region WHERE country.name LIKE '%" + matchPattern + "%' OR " + "region.name like '%" + matchPattern + "%' OR world.name like '%" + matchPattern + "%' OR world.municipality like '%" + matchPattern + "%' " + "ORDER BY world.name ASC LIMIT ";
         setServerParameters();
         try {
             Connection con = DriverManager.getConnection(db_url, db_user, db_pass);
             Statement query = con.createStatement();
-            if (limitInt == 0){
-                this.QUERY = "SELECT world.name, world.latitude, world.longitude, world.id, world.altitude, world.municipality, world.type FROM continent " +
-                        "INNER JOIN country ON continent.id = country.continent INNER JOIN region ON country.id = region.iso_country " +
-                        "INNER JOIN world on region.id = world.iso_region WHERE country.name LIKE '%" + matchPattern + "%' OR " +
-                        "region.name like '%" + matchPattern + "%' OR world.name like '%" + matchPattern + "%' OR world.municipality like '%" + matchPattern + "%' " +
-                        "ORDER BY world.name ASC LIMIT 150";
-            }
-            else if (limitInt > 0){
-                this.QUERY = "SELECT world.name, world.latitude, world.longitude, world.id, world.altitude, world.municipality, world.type FROM continent " +
-                        "INNER JOIN country ON continent.id = country.continent INNER JOIN region ON country.id = region.iso_country " +
-                        "INNER JOIN world on region.id = world.iso_region WHERE country.name LIKE '%" + matchPattern + "%' OR " +
-                        "region.name like '%" + matchPattern + "%' OR world.name like '%" + matchPattern + "%' OR world.municipality like '%" + matchPattern + "%' " +
-                        "ORDER BY world.name ASC LIMIT " + Integer.toString(limitInt);
-            }
+            if (limitInt == 0){ this.QUERY = this.QUERY + Integer.toString(150); }
+            else if (limitInt > 0){ this.QUERY = this.QUERY + Integer.toString(limitInt); }
             ResultSet result = query.executeQuery(QUERY);
             while(result.next()) {
                 HashMap<String, String> location = new HashMap<>();
@@ -75,12 +64,9 @@ public class ProcessFindRequest {
                 location.put("altitude", result.getString("altitude"));
                 location.put("municipality", result.getString("municipality"));
                 location.put("type", result.getString("type"));
-                this.allLocations.add(location);
-            }
+                this.allLocations.add(location); }
         }
-        catch (Exception e) {
-            System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage());
-        }
+        catch (Exception e) { System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage()); }
         return allLocations;
     }
 
