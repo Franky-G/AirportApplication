@@ -31,17 +31,12 @@ export default class HelperFunctions extends Component {
         super(props);
         this.handleInputChange = this.handleInputChange.bind(this);
         this.state = {
-            showDistanceSearch: false,
-            showLocationSearch: false,
-            showWhereIsSearch: false,
-            searchModule: false,
-            searchTextFrom: "",
-            searchTextTo: "",
-            searchBarText: "",
-            searchWhereIsTextTo: "",
-            searchWhereIsTextFrom: "",
-            distance: null,
-            find: null,
+            showDistanceSearch: false, showLocationSearch: false, showWhereIsSearch: false, searchModule: false, searchTextFrom: "", searchTextTo: "", searchBarText: "", searchWhereIsTextTo: "", searchWhereIsTextFrom: "", distance: null,
+            find1: ["", "", ""],
+            find2: ["", "", ""],
+            find3: ["", "", ""],
+            find4: ["", "", ""],
+            find5: ["", "", ""],
         }
     }
 
@@ -221,8 +216,8 @@ export default class HelperFunctions extends Component {
     }
 
     returnPlaces(){
-        let matchPattern = this.state.searchBarText;
-        let limitInt = 5;
+        matchPattern = this.state.searchBarText;
+        limitInt = 5;
         this.sendFindServerRequest(matchPattern, limitInt)
     }
 
@@ -230,8 +225,16 @@ export default class HelperFunctions extends Component {
         sendServerRequest({requestType: "find", requestVersion: 2, match: matchPattern, limit: limitInt})
             .then(places => {
                 if (places) {
-                    console.log(places.data);
-                    this.setState({find: find.data.places})
+                    try {
+                        this.setState({find1: [places.data.places[0].name, places.data.places[0].latitude, places.data.places[0].longitude]})
+                        this.setState({find2: [places.data.places[1].name, places.data.places[1].latitude, places.data.places[1].longitude]})
+                        this.setState({find3: [places.data.places[2].name, places.data.places[2].latitude, places.data.places[2].longitude]})
+                        this.setState({find4: [places.data.places[3].name, places.data.places[3].latitude, places.data.places[3].longitude]})
+                        this.setState({find5: [places.data.places[4].name, places.data.places[4].latitude, places.data.places[4].longitude]})
+                    }
+                    catch(error){
+                        console.error(error)
+                    }
                 }
             });
     }
