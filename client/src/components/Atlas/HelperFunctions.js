@@ -80,7 +80,7 @@ export default class HelperFunctions extends Component {
     addSearchButton() {
         return (
             <div>
-                <button className="home-btn" style={{top: 102, left: 25, zIndex: 1013}}
+                <button className="home-btn" style={{top: 100, left: 25, zIndex: 1014}}
                         onClick={() => this.toggleShowSearchModule()}>
                     <span><img src={searchButtonIcon} style={{width: 16, height: "auto"}} title="Search" alt="search"/></span>
                 </button>
