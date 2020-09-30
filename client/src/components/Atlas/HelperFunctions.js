@@ -23,7 +23,7 @@ const searchTypeStyle = {
 }
 const radioButtonStyle = {margin: 0, color: "#FFFFFF", zIndex: 1100, fontSize:13, textAlign: "center"}
 
-let place1, place2, lat1, long1, lat2, long2, matchPattern, limitInt;
+let place1, place2, matchPattern, limitInt;
 
 export default class HelperFunctions extends Component {
 
@@ -120,10 +120,8 @@ export default class HelperFunctions extends Component {
         return (
             <div key="DistancePanel">
                 <Row xs={2} key={"searchDistance"}>
-                    <Col><Input name={"searchBarFrom"} style={{margin: 5, width: "100%"}} placeholder="From: (#,#)"
-                                onChange={() => this.handleInputChange()}/></Col>
-                    <Col style={{left: -20}}><Input name={"searchBarTo"} style={{margin: 5, width: 160}}
-                                                    placeholder="To (#,#)" onChange={() => this.handleInputChange()}/></Col>
+                    <Col><Input name={"searchBarFrom"} style={{margin: 5, width: "100%"}} placeholder="From: (#,#)" onChange={() => this.handleInputChange()}/></Col>
+                    <Col style={{left: -20}}><Input name={"searchBarTo"} style={{margin: 5, width: 160}} placeholder="To (#,#)" onChange={() => this.handleInputChange()}/></Col>
                 </Row>
                 <Col style={{left: 265, top: 55}}>{this.renderCalculateButton()}</Col>
                 <p style={searchTypeStyle}>
@@ -136,11 +134,9 @@ export default class HelperFunctions extends Component {
 
     renderLocationModule() {
         return (
-            <div key="LocationPanel">
-                <Row key={"searchDistance"}>
-                    <Col><Input name={"searchBar"} style={{margin: 5, width: "97%"}}
-                                placeholder="Enter name of place"
-                                onChange={() => this.handleInputChange()}/></Col>
+            <div>
+                <Row>
+                    <Col><Input name={"searchBar"} style={{margin: 5, width: "97%"}} placeholder="Enter name of place" onChange={() => this.handleInputChange()}/></Col>
                 </Row>
                 <Col style={{position: "absolute", left: 277, top: 103}}>
                     <div><Button className="p-1" style={distanceButtonStyle}
@@ -192,23 +188,13 @@ export default class HelperFunctions extends Component {
     }
 
     calcDist() {
-        if (this.state.searchTextFrom && this.state.searchTextTo) {
-            this.helperValidFromTo(0)
-        }
-        if (this.state.searchTextFrom && !this.state.searchTextTo) {
-            this.helperValidFromTo(1)
-        }
-        if (!this.state.searchTextFrom && this.state.searchTextTo) {
-            this.helperValidFromTo(2)
-        }
+        if (this.state.searchTextFrom && this.state.searchTextTo) {this.helperValidFromTo(0)}
+        if (this.state.searchTextFrom && !this.state.searchTextTo) {this.helperValidFromTo(1)}
+        if (!this.state.searchTextFrom && this.state.searchTextTo) {this.helperValidFromTo(2)}
         if (!this.state.searchTextFrom && !this.state.searchTextTo) {
             let place1 = this.props.sendFunction
             let place2 = this.props.sendFunctionPart2
-            let lat1 = place1.lat.toString()
-            let long1 = place1.lng.toString()
-            let lat2 = place2.lat.toString()
-            let long2 = place2.lng.toString()
-            this.sendDistanceServerRequest(lat1, long1, lat2, long2)
+            this.sendDistanceServerRequest(place1.lat.toString(), place1.lng.toString(), place2.lat.toString(), place2.lng.toString())
         }
     }
 
@@ -259,22 +245,14 @@ export default class HelperFunctions extends Component {
     helperValidFromTo(index) {
         place1 = this.state.searchTextFrom.split(',')
         place2 = this.state.searchTextTo.split(',')
-        lat1 = place1[0]
-        long1 = place1[1]
-        lat2 = place2[0]
-        long2 = place2[1]
-        if (index === 0) { this.sendDistanceServerRequest(lat1, long1, lat2, long2) }
+        if (index === 0) { this.sendDistanceServerRequest(place1[0], place1[1], place2[0], place2[1]) }
         if (index === 1) {
             place2 = this.props.sendFunction
-            let templat2 = place2.lat.toString()
-            let templong2 = place2.lng.toString()
-            this.sendDistanceServerRequest(lat1, long1, templat2, templong2)
+            this.sendDistanceServerRequest(place1[0], place1[1], place2.lat.toString(), place2.lng.toString())
         }
         if (index === 2) {
             place1 = this.props.sendFunction
-            let tolat1 = place1.lat.toString()
-            let tolong1 = place1.lng.toString()
-            this.sendDistanceServerRequest(tolat1, tolong1, lat2, long2)
+            this.sendDistanceServerRequest(place1.lat.toString(), place1.lng.toString(), place2[0], place2[1])
         }
     }
 }

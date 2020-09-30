@@ -93,7 +93,6 @@ export default class Atlas extends Component {
   }
 
   setSearchResults(_state){
-    console.log(_state);
     this.setState({searchResults: _state})
   }
 
@@ -228,5 +227,4 @@ export default class Atlas extends Component {
 }
 
 let homeCoords;
-
 function error(err) { console.warn(`ERROR(${err.code}): ${err.message}`); }
