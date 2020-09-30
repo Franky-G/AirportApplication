@@ -81,7 +81,7 @@ public class TestRequestFind {
         String name = (places.get(1)).get("name");
 
         if (!hasTravis) { assertEquals("'s Gravenwezel heliport", name); }
-        else { assertEquals("b", name); }
+        else { assertEquals("Aappilattoq (Qaasuitsup) Heliport", name); }
     }
 
     @Test
@@ -93,7 +93,7 @@ public class TestRequestFind {
         String longitude = (places.get(1)).get("longitude");
 
         if (!hasTravis) { assertEquals("4.542778015136719", longitude); }
-        else { assertEquals("a", longitude); }
+        else { assertEquals("-55.5962866545", longitude); }
     }
 
     @Test
@@ -104,6 +104,6 @@ public class TestRequestFind {
         int found = fin.getFound();
 
         if (!hasTravis) { assertEquals(150, found); }
-        else { assertEquals(0, found) ;}
+        else { assertEquals(3, found) ;}
     }
 }
