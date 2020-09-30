@@ -58,21 +58,11 @@ export default class HelperFunctions extends Component {
 
     handleInputChange(){
         const target = event.target;
-        if (target.name === "searchBarTo") {
-            this.setState({searchTextTo: target.value});
-        }
-        if (target.name === "searchBarFrom") {
-            this.setState({searchTextFrom: target.value});
-        }
-        if (target.name === "searchBar") {
-            this.setState({searchBarText: target.value});
-        }
-        if (target.name === "searchWhereIsFrom"){
-            this.setState({searchWhereIsTextFrom: target.value});
-        }
-        if (target.name === "searchWhereIsTo"){
-            this.setState({searchWhereIsTextTo: target.value});
-        }
+        if (target.name === "searchBarTo") {this.setState({searchTextTo: target.value});}
+        if (target.name === "searchBarFrom") {this.setState({searchTextFrom: target.value});}
+        if (target.name === "searchBar") {this.setState({searchBarText: target.value});}
+        if (target.name === "searchWhereIsFrom"){this.setState({searchWhereIsTextFrom: target.value});}
+        if (target.name === "searchWhereIsTo"){this.setState({searchWhereIsTextTo: target.value});}
     }
 
     addSearchButton() {
