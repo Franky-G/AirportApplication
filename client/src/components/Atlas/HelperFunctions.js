@@ -21,7 +21,7 @@ const searchTypeStyle = {
     position: "absolute", background: "#145906", color:"#FFFFFF", width: 320, height: 65, margin:5, top: 40,
     borderRadius: "3px 3px 3px 3px", fontSize: 18, textOverflow: "ellipsis", overflow: "hidden", border: "2px solid #000000", borderBottom: "3px solid #000000", borderTop: "3px solid #000000"
 }
-const radioButtonStyle = {color: "#FFFFFF", zIndex: 1100,}
+const radioButtonStyle = {margin: 0, color: "#FFFFFF", zIndex: 1100, fontSize:13, textAlign: "center"}
 
 let place1, place2, lat1, long1, lat2, long2;
 
@@ -33,10 +33,13 @@ export default class HelperFunctions extends Component {
         this.state = {
             showDistanceSearch: false,
             showLocationSearch: false,
+            showWhereIsSearch: false,
             searchModule: false,
             searchTextFrom: "",
             searchTextTo: "",
             searchBarText: "",
+            searchWhereIsTextTo: "",
+            searchWhereIsTextFrom: "",
             distance: null,
             find: null,
         }
@@ -69,10 +72,13 @@ export default class HelperFunctions extends Component {
             this.setState({searchTextFrom: target.value});
         }
         if (target.name === "searchBar") {
-            let coords = target.value.split(',');
-            coords[0] = parseInt(coords[0]);
-            coords[1] = parseInt(coords[1]);
-            this.setState({searchBarText: coords});
+            this.setState({searchBarText: target.value});
+        }
+        if (target.name === "searchWhereIsFrom"){
+            this.setState({searchWhereIsTextFrom: target.value});
+        }
+        if (target.name === "searchWhereIsTo"){
+            this.setState({searchWhereIsTextTo: target.value});
         }
     }
 
@@ -88,16 +94,19 @@ export default class HelperFunctions extends Component {
     }
 
     toggleShowSearchModule() {
-        this.setState({searchModule: !this.state.searchModule});
-        this.switchToLocationModule()
+        this.setState({searchModule: !this.state.searchModule});{this.switchToLocationModule()}
     }
 
     switchToDistanceModule() {
-        this.setState({showDistanceSearch: true, showLocationSearch: false});
+        this.setState({showDistanceSearch: true, showLocationSearch: false, showWhereIsSearch: false});
     }
 
     switchToLocationModule() {
-        this.setState({showDistanceSearch: false, showLocationSearch: true});
+        this.setState({showDistanceSearch: false, showLocationSearch: true, showWhereIsSearch: false});
+    }
+
+    switchToWhereIsModule() {
+        this.setState({showDistanceSearch: false, showLocationSearch: false, showWhereIsSearch: true});
     }
 
     renderSearchModule() {
@@ -106,6 +115,7 @@ export default class HelperFunctions extends Component {
                 <div style={searchModuleStyle}>
                     {this.state.showDistanceSearch && this.renderDistanceModule()}
                     {this.state.showLocationSearch && this.renderLocationModule()}
+                    {this.state.showWhereIsSearch && this.renderWhereIsModule()}
                     {this.renderRadioButtons()}
                 </div>
             </Zoom>
@@ -136,7 +146,7 @@ export default class HelperFunctions extends Component {
             <div key="LocationPanel">
                 <Row key={"searchDistance"}>
                     <Col><Input name={"searchBar"} style={{margin: 5, width: "97%"}}
-                                placeholder="Enter name of place/coordinates"
+                                placeholder="Enter name of place"
                                 onChange={() => this.handleInputChange()}/></Col>
                 </Row>
                 <Col style={{position: "absolute", left: 277, top: 103}}>
@@ -145,25 +155,52 @@ export default class HelperFunctions extends Component {
                 </Col>
                 <p style={searchTypeStyle}
                 >
-                    Location/Coordinates:{this.state.searchBarText}<br/>
-                    Location = {this.state.find}
+                    Location = {this.state.searchBarText}<br/>
+                    Found = {this.state.find}
                 </p>
             </div>
         );
     }
 
+    renderWhereIsModule(){
+        return(
+            <div key="whereIsPanel">
+                <Row xs={2} key={"searchWhereIs"}>
+                    <Col><Input name={"searchWhereIsFrom"} style={{margin: 5, width: "100%"}} placeholder="Latitude"
+                                onChange={() => this.handleInputChange()}/></Col>
+                    <Col style={{left: -20}}><Input name={"searchWhereIsTo"} style={{margin: 5, width: 160}}
+                                                    placeholder="Longitude" onChange={() => this.handleInputChange()}/></Col>
+                </Row>
+                <Col style={{left: 283, top: 55}}>
+                    <Button className= "p-1" style={distanceButtonStyle}
+                            onClick={() => this.whereAreTheseCoords()} title="Where Is?"> Go To </Button></Col>
+                <p style={searchTypeStyle}>
+                    Coordinates:({this.state.searchWhereIsTextFrom}),({this.state.searchWhereIsTextTo})<br/>
+                </p>
+            </div>
+        );
+    }
+
+    whereAreTheseCoords(){
+        let regex = "^(-?\\d+(\\.\\d+)?)$"
+        if(this.state.searchWhereIsTextFrom.match(regex) && this.state.searchWhereIsTextTo.match(regex)){
+            console.log(L.latLng(this.state.searchWhereIsTextFrom, this.state.searchWhereIsTextFrom));
+            this.setState({markerPosition: L.latLng(this.state.searchWhereIsTextFrom, this.state.searchWhereIsTextFrom)});
+        }
+    }
+
+    spacer(){return(<div className="px-1"/>);}
+
     renderRadioButtons() {
         return (
             <Container style={{position: "absolute", top: 120, left: 10}}>
-                <Row>
-                    <CustomInput defaultChecked id="radioLocation" type="radio" name="searchRadioButton"
-                                 onChange={() => {
-                                     this.switchToLocationModule()
-                                 }}/>
-                    <label style={radioButtonStyle}>Location</label>
-                    <div className="px-2"/>
+                <Row className="vertical-center">
+                    <CustomInput style={{marginRight: 0, padding: 0}} defaultChecked id="radioLocation" type="radio" name="searchRadioButton" onChange={() => {this.switchToLocationModule()}}/>
+                    <label style={radioButtonStyle}>Location</label>{this.spacer()}
                     <CustomInput id="radioDistance" type="radio" name="searchRadioButton" onChange={() => {this.switchToDistanceModule()}}/>
-                    <label style={radioButtonStyle}>Distance</label>
+                    <label style={radioButtonStyle}>Distance</label>{this.spacer()}
+                    <CustomInput id="radioWhereIs" type="radio" name="searchRadioButton" onChange={() => {this.switchToWhereIsModule()}}/>
+                    <label style={radioButtonStyle}>Where is?</label>{this.spacer()}
                 </Row>
             </Container>
         );
@@ -208,14 +245,14 @@ export default class HelperFunctions extends Component {
         long1 = place1[1]
         lat2 = place2[0]
         long2 = place2[1]
-        if (index == 0) { this.sendDistanceServerRequest(lat1, long1, lat2, long2) }
-        if (index == 1) {
+        if (index === 0) { this.sendDistanceServerRequest(lat1, long1, lat2, long2) }
+        if (index === 1) {
             place2 = this.props.sendFunction
             let templat2 = place2.lat.toString()
             let templong2 = place2.lng.toString()
             this.sendDistanceServerRequest(lat1, long1, templat2, templong2)
         }
-        if (index == 2) {
+        if (index === 2) {
             place1 = this.props.sendFunction
             let tolat1 = place1.lat.toString()
             let tolong1 = place1.lng.toString()
