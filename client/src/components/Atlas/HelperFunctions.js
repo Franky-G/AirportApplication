@@ -173,8 +173,8 @@ export default class HelperFunctions extends Component {
                 </Row>
                 <Col style={{left: 283, top: 55}}>
                     <Button className= "p-1" style={distanceButtonStyle}
-                            onClick={() => this.whereAreTheseCoords()} title="Where Is?"> Go To </Button></Col>
-                <p style={searchTypeStyle}>
+                            onClick={() => this.props.setLatLngCoords(this.state.searchWhereIsTextFrom+','+this.state.searchWhereIsTextTo)} title="Where Is?"> Go To </Button></Col>
+                <p style={searchTypeStyle}>1
                     Coordinates:({this.state.searchWhereIsTextFrom}),({this.state.searchWhereIsTextTo})<br/>
                 </p>
             </div>
