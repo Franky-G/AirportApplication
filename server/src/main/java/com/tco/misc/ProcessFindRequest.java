@@ -56,14 +56,14 @@ public class ProcessFindRequest {
                         "INNER JOIN country ON continent.id = country.continent INNER JOIN region ON country.id = region.iso_country " +
                         "INNER JOIN world on region.id = world.iso_region WHERE country.name LIKE '%" + matchPattern + "%' OR " +
                         "region.name like '%" + matchPattern + "%' OR world.name like '%" + matchPattern + "%' OR world.municipality like '%" + matchPattern + "%' " +
-                        "ORDER BY continent.name, country.name, region.name, world.municipality, world.name ASC LIMIT 150";
+                        "ORDER BY world.name ASC LIMIT 150";
             }
             else if (limitInt > 0){
                 this.QUERY = "SELECT world.name, world.latitude, world.longitude, world.id, world.altitude, world.municipality, world.type FROM continent " +
                         "INNER JOIN country ON continent.id = country.continent INNER JOIN region ON country.id = region.iso_country " +
                         "INNER JOIN world on region.id = world.iso_region WHERE country.name LIKE '%" + matchPattern + "%' OR " +
                         "region.name like '%" + matchPattern + "%' OR world.name like '%" + matchPattern + "%' OR world.municipality like '%" + matchPattern + "%' " +
-                        "ORDER BY continent.name, country.name, region.name, world.municipality, world.name ASC LIMIT " + Integer.toString(limitInt);
+                        "ORDER BY world.name ASC LIMIT " + Integer.toString(limitInt);
             }
             ResultSet result = query.executeQuery(QUERY);
             while(result.next()) {
