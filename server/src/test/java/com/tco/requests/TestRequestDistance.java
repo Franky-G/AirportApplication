@@ -91,4 +91,27 @@ public class TestRequestDistance {
         assertEquals(1, dist.getDistance());
     }
 
+    @Test
+    @DisplayName("test3")
+    public void test3() {
+        dist = new RequestDistance(6371.0, "44.868164", "-25.403585", "49.262695", "-12.254128");
+        dist.buildResponse();
+        assertEquals(1107, dist.getDistance());
+    }
+
+    @Test
+    @DisplayName("test4")
+    public void test4() {
+        dist = new RequestDistance(6371.0, "13.37", "7.07", "54.2332", "76.32904");
+        dist.buildResponse();
+        assertEquals(7462, dist.getDistance());
+    }
+
+    @Test
+    @DisplayName("test5")
+    public void test5() {
+        dist = new RequestDistance(42069.0, "45.8625", "103.8467", "22.2587", "71.1924");
+        dist.buildResponse();
+        assertEquals(26040, dist.getDistance());
+    }
 }
