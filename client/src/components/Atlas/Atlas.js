@@ -105,10 +105,15 @@ export default class Atlas extends Component {
   }
 
   setSearchBarCords (coords)  {
-    let latLngCords = coords.split(',');
-    latLngCords[0] = parseFloat(latLngCords[0]);
-    latLngCords[1] = parseFloat(latLngCords[1]);
-    this.setState({mapCenter: latLngCords, markerPosition: null, whereIsMarker: L.latLng(latLngCords[0], latLngCords[1])});
+    try {
+      let cordParse = require('coordinate-parser')
+      let cordLocation = new cordParse(coords);
+      let cordLat = cordLocation.getLatitude();
+      let cordLng = cordLocation.getLongitude();
+      this.setState({mapCenter: [cordLat, cordLng], markerPosition: null, whereIsMarker: L.latLng(cordLat, cordLng)});
+    } catch (error) {
+      alert("Invalid Coordinate Input!")
+    }
   }
 
   makePolyline(){
