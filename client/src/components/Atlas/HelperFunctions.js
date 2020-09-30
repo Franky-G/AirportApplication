@@ -173,13 +173,20 @@ export default class HelperFunctions extends Component {
                 </Row>
                 <Col style={{left: 283, top: 55}}>
                     <Button className= "p-1" style={distanceButtonStyle}
-                            onClick={() => this.props.setLatLngCoords(this.state.searchWhereIsTextFrom+','+this.state.searchWhereIsTextTo)}
-                                    title="Where Is?"> Go To </Button></Col>
-                <p style={searchTypeStyle}>1
+                            onClick={() => this.whereAreTheseCoords()} title="Where Is?"> Go To </Button></Col>
+                <p style={searchTypeStyle}>
                     Coordinates:({this.state.searchWhereIsTextFrom}),({this.state.searchWhereIsTextTo})<br/>
                 </p>
             </div>
         );
+    }
+
+    whereAreTheseCoords(){
+        let regex = "^(-?\\d+(\\.\\d+)?)$"
+        if(this.state.searchWhereIsTextFrom.match(regex) && this.state.searchWhereIsTextTo.match(regex)){
+            console.log(L.latLng(this.state.searchWhereIsTextFrom, this.state.searchWhereIsTextFrom));
+            this.setState({markerPosition: L.latLng(this.state.searchWhereIsTextFrom, this.state.searchWhereIsTextFrom)});
+        }
     }
 
     spacer(){return(<div className="px-1"/>);}
@@ -221,6 +228,8 @@ export default class HelperFunctions extends Component {
     }
 
     sendDistanceServerRequest(lat1, long1, lat2, long2) {
+        let markerArray = [L.latLng(lat1, long1), L.latLng(lat2, long2)];
+        this.props.setPrevLocationState(markerArray);
         sendServerRequest({requestType: "distance", requestVersion: 2, earthRadius: 3959,
             place1: {latitude: lat1, longitude: long1},
             place2: {latitude: lat2, longitude: long2}})
