@@ -1,11 +1,10 @@
 import React, { Component } from "react";
-import { Container } from "reactstrap";
+import { Container, Button } from "reactstrap";
 
 import ServerSettings from "./ServerSettings";
 import isConnectedIcon from "../../static/images/FooterIcon_3D_30pix.png";
 import notConnectedIcon from "../../static/images/FooterIcon_3D_red.png";
 
-const UNICODE_INFO_SYMBOL = "\u24D8";
 const UNKNOWN_SERVER_NAME = "Unknown";
 
 export default class Footer extends Component {
@@ -36,7 +35,7 @@ export default class Footer extends Component {
                             Connected to { serverName } &nbsp;
                         </div>
                         <a className="tco-text" onClick={() => this.setState({serverSettingsOpen: true})}>
-                            { UNICODE_INFO_SYMBOL } Info
+                            <Button style={{background: "radial-gradient(#C8C372, #1E4D2B)", color: "#000000", border: "2px solid #C8C372"}}>Server Info</Button>
                         </a>
                         {this.renderServerSettings()}
                     </div>

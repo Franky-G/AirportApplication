@@ -173,20 +173,12 @@ export default class HelperFunctions extends Component {
                 </Row>
                 <Col style={{left: 283, top: 55}}>
                     <Button className= "p-1" style={distanceButtonStyle}
-                            onClick={() => this.whereAreTheseCoords()} title="Where Is?"> Go To </Button></Col>
+                            onClick={() => this.props.setLatLngCoords(this.state.searchWhereIsTextFrom+','+this.state.searchWhereIsTextTo)} title="Where Is?"> Go To </Button></Col>
                 <p style={searchTypeStyle}>
-                    Coordinates:({this.state.searchWhereIsTextFrom}),({this.state.searchWhereIsTextTo})<br/>
+                    Coordinates:({this.state.searchWhereIsTextFrom},{this.state.searchWhereIsTextTo})<br/>
                 </p>
             </div>
         );
-    }
-
-    whereAreTheseCoords(){
-        let regex = "^(-?\\d+(\\.\\d+)?)$"
-        if(this.state.searchWhereIsTextFrom.match(regex) && this.state.searchWhereIsTextTo.match(regex)){
-            console.log(L.latLng(this.state.searchWhereIsTextFrom, this.state.searchWhereIsTextFrom));
-            this.setState({markerPosition: L.latLng(this.state.searchWhereIsTextFrom, this.state.searchWhereIsTextFrom)});
-        }
     }
 
     spacer(){return(<div className="px-1"/>);}

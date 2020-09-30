@@ -40,10 +40,9 @@ export default class Atlas extends Component {
     this.state = {
       markerPosition: null,
       homeLocation: homeCoords,
-      buttonDropdown: false,
       prevLocation: [null,null],
       mapCenter: MAP_CENTER_DEFAULT,
-      showPolyline: false,
+      whereIsMarker: null,
     };
   }
 
@@ -55,7 +54,7 @@ export default class Atlas extends Component {
               <Col sm={12} md={{size: 10, offset: 1}}>
                 <HelperFunctions sendFunction={this.getLastCoordinates()} sendFunctionPart2={this.getLastCoordinatesPart2()}
                                  setLatLngCoords={this.setSearchBarCords} setPrevLocationState={this.setPrevLocationState}
-                                 getMarkerPosition={this.getMarkerPosition} setSearchBarCords={this.setSearchBarCords}/>
+                                 getMarkerPosition={this.getMarkerPosition}/>
                 {this.renderLeafletMap()}
               </Col>
             </Row>
@@ -94,8 +93,7 @@ export default class Atlas extends Component {
     let latLngCords = coords.split(',');
     latLngCords[0] = parseFloat(latLngCords[0]);
     latLngCords[1] = parseFloat(latLngCords[1]);
-    this.setState({mapCenter: latLngCords});
-    this.setState({markerPosition: null});
+    this.setState({mapCenter: latLngCords, markerPosition: null, whereIsMarker: latLngCords});
   }
 
   makePolyline(){
@@ -146,7 +144,6 @@ export default class Atlas extends Component {
     newIds[1] = newIds[0];
     newIds[0] = mapClickInfo.latlng;
     this.setState({prevLocation: newIds})
-    console.log(this.state.prevLocation);
   }
 
   getHomeMarker(){
@@ -161,15 +158,15 @@ export default class Atlas extends Component {
   getMarker() {
     let markerArray = [];
     for (let i = 0; i < 2; ++i) {
-      if (this.state.prevLocation[i] !== null) { markerArray.push(this.markerSet(i)); }
+      if (this.state.prevLocation[i] !== null) { markerArray.push(this.addAMarker(i)); }
     }
     return ( <div>{markerArray.map((element, index) => (<div key={index}>{element}</div>))} </div>);
   }
 
-  markerSet(markerType){
+  addAMarker(markerType){
     const initMarker = ref => { if (ref) { ref.leafletElement.openPopup() } };
     let currentMarkerString = this.getStringMarkerPosition();
-    let positionMarker = this.state.markerPosition;
+    let positionMarker = MAP_CENTER_DEFAULT;
     if(markerType === 0 || markerType === 1){ positionMarker = this.state.prevLocation[markerType]; currentMarkerString = this.popupCoordsString(markerType)}
     return(
         <div>
@@ -180,11 +177,15 @@ export default class Atlas extends Component {
     );
   }
 
+  addWhereIsMarker(coords){
+    this.setState({whereIsMarker: coords});
+  }
+
   popupCoordsString(markerType){
     if(markerType !== 0 || markerType !== 1){
       return MAP_CENTER_DEFAULT;
     } else {
-      return this.state.prevLocation[markerType].latlng.toFixed(5);
+      return ("the latlng: " + this.state.prevLocation[markerType].lat.toString().toFixed(5) + ',' + this.state.prevLocation[markerType].lng.toString().toFixed(5));
     }
   }
 
