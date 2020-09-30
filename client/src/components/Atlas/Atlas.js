@@ -35,12 +35,15 @@ export default class Atlas extends Component {
     this.getLastCoordinates = this.getLastCoordinates.bind(this);
     this.getLastCoordinatesPart2 = this.getLastCoordinatesPart2.bind(this);
     this.setSearchBarCords = this.setSearchBarCords.bind(this);
+    this.setPrevLocationState = this.setPrevLocationState.bind(this);
+    this.getMarkerPosition = this.getMarkerPosition.bind(this);
     this.state = {
       markerPosition: null,
       homeLocation: homeCoords,
       buttonDropdown: false,
-      prevLocation: [[0,0],[0,0]],
-      mapCenter: MAP_CENTER_DEFAULT
+      prevLocation: [null,null],
+      mapCenter: MAP_CENTER_DEFAULT,
+      showPolyline: false,
     };
   }
 
@@ -50,7 +53,9 @@ export default class Atlas extends Component {
           <Container>
             <Row>
               <Col sm={12} md={{size: 10, offset: 1}}>
-                <HelperFunctions sendFunction={this.getLastCoordinates()} sendFunctionPart2={this.getLastCoordinatesPart2()} setLatLngCoords={this.setSearchBarCords}/>
+                <HelperFunctions sendFunction={this.getLastCoordinates()} sendFunctionPart2={this.getLastCoordinatesPart2()}
+                                 setLatLngCoords={this.setSearchBarCords} setPrevLocationState={this.setPrevLocationState}
+                                 getMarkerPosition={this.getMarkerPosition} setSearchBarCords={this.setSearchBarCords}/>
                 {this.renderLeafletMap()}
               </Col>
             </Row>
@@ -78,8 +83,8 @@ export default class Atlas extends Component {
             <TileLayer url={MAP_LAYER_URL} attribution={MAP_LAYER_ATTRIBUTION}/>
             {this.getHomeMarker()}
             {this.getMarker()}
-            {/*{<Polyline positions={this.state.prevLocation} color={'green'}/>}*/}
             {this.getMapZoom()}
+            {this.makePolyline()}
           </Map>
         </div>
     );
@@ -91,6 +96,18 @@ export default class Atlas extends Component {
     latLngCords[1] = parseFloat(latLngCords[1]);
     this.setState({mapCenter: latLngCords});
     this.setState({markerPosition: null});
+  }
+
+  makePolyline(){
+    if(this.state.prevLocation[1] !== null && this.state.prevLocation[0] !== null) {
+      return (
+          <Polyline color="green" positions={this.state.prevLocation}/>
+      );
+    }
+  }
+
+  setPrevLocationState(markerArray){
+    this.setState({prevLocation: markerArray});
   }
 
   getMapZoom(){
@@ -184,6 +201,9 @@ export default class Atlas extends Component {
     return this.state.prevLocation[1];
   }
 
+  getMarkerPosition(){
+    return this.state.markerPosition;
+  }
 }
 
 let homeCoords;
