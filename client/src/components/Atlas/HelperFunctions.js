@@ -4,8 +4,6 @@ import searchButtonIcon from "../../static/images/magIcon.png";
 import Zoom from "@material-ui/core/Zoom";
 import {sendServerRequest} from "../../utils/restfulAPI";
 
-export const calculateDistance = () => { console.log("placeholder function"); }
-
 const inputFieldStyleFrom = {zIndex: 1002, height: 34, top: 10, left: 70, position: "absolute"}
 
 const distanceButtonStyle = {
@@ -34,7 +32,7 @@ export default class HelperFunctions extends Component {
         this.handleInputChange = this.handleInputChange.bind(this);
         this.state = {
             showDistanceSearch: false, showLocationSearch: false, showWhereIsSearch: false, searchModule: false, searchIsOn: false, searchTextFrom: "", searchTextTo: "",
-            searchBarText: "", searchWhereIsTextTo: "", searchWhereIsTextFrom: "", distance: null, found: 0, searchArray: [],
+            searchBarText: "", searchWhereIsTextTo: "", searchWhereIsTextFrom: "", distance: null, numberFound: 0, searchArray: [],
         }
     }
 
@@ -77,7 +75,7 @@ export default class HelperFunctions extends Component {
     }
 
     toggleShowSearchModule() {this.setState({searchModule: !this.state.searchModule, showDistanceSearch: false, showLocationSearch: false, showWhereIsSearch: false,
-        searchIsOn: false, searchTextFrom: "", searchTextTo: "", searchBarText: "", searchWhereIsTextTo: "", searchWhereIsTextFrom: "", distance: null, found: 0, searchArray: [],});{this.switchToLocationModule()}}
+        searchIsOn: false, searchTextFrom: "", searchTextTo: "", searchBarText: "", searchWhereIsTextTo: "", searchWhereIsTextFrom: "", distance: null, numberFound: 0, searchArray: [],});{this.switchToLocationModule()}}
     switchToDistanceModule() {this.setState({showDistanceSearch: true, showLocationSearch: false, showWhereIsSearch: false});}
     switchToLocationModule() {this.setState({showDistanceSearch: false, showLocationSearch: true, showWhereIsSearch: false});}
     switchToWhereIsModule() {this.setState({showDistanceSearch: false, showLocationSearch: false, showWhereIsSearch: true});}
@@ -98,7 +96,8 @@ export default class HelperFunctions extends Component {
 
     renderSearchList(){
         let searchListArray = []
-        for(let i = 0; i < this.state.found; ++i){
+        for(let i = 0; i < this.state.numberFound; ++i){
+            if(i >= 5){break;}
             searchListArray.push(this.addListGroupItem(i));
         }
         return(
@@ -149,11 +148,12 @@ export default class HelperFunctions extends Component {
                 </Col>
                 <p style={searchTypeStyle}>
                     Location = {this.state.searchBarText}<br/>
-                    Found = {this.state.found}
+                    Found = {this.state.numberFound}
                 </p>
             </div>
         );
     }
+
 
     renderWhereIsModule(){
         return(
@@ -223,7 +223,6 @@ export default class HelperFunctions extends Component {
             .then(places => {
                 if (places) {
                     try {
-                        let count = 0;
                         let outerArray = [];
                         for(let i = 0; i < 5; ++i){
                             let elementArray = []
@@ -231,13 +230,11 @@ export default class HelperFunctions extends Component {
                                 elementArray.push(places.data.places[i].name);
                                 elementArray.push(places.data.places[i].latitude);
                                 elementArray.push(places.data.places[i].longitude);
-                                count++;
                             }
                             outerArray.push(elementArray);
                         }
-                        this.setState({found: count});
                         this.props.setSearchResults(outerArray);
-                        this.setState({searchArray: outerArray, searchIsOn: true});
+                        this.setState({searchArray: outerArray, searchIsOn: true, numberFound: places.data.found});
                     }
                     catch(error){
                         console.error(error)
