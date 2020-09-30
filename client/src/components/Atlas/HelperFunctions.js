@@ -23,7 +23,7 @@ const searchTypeStyle = {
 }
 const radioButtonStyle = {margin: 0, color: "#FFFFFF", zIndex: 1100, fontSize:13, textAlign: "center"}
 
-let place1, place2, lat1, long1, lat2, long2;
+let place1, place2, lat1, long1, lat2, long2, matchPattern, limitInt;
 
 export default class HelperFunctions extends Component {
 
@@ -151,7 +151,7 @@ export default class HelperFunctions extends Component {
                 </Row>
                 <Col style={{position: "absolute", left: 277, top: 103}}>
                     <div><Button className="p-1" style={distanceButtonStyle}
-                                 onClick = {() =>this.props.setLatLngCoords(this.state.searchBarText)}> Search </Button></div>
+                                 onClick = {() => {this.returnPlaces()}}> Search </Button></div>
                 </Col>
                 <p style={searchTypeStyle}
                 >
@@ -218,6 +218,22 @@ export default class HelperFunctions extends Component {
             let long2 = place2.lng.toString()
             this.sendDistanceServerRequest(lat1, long1, lat2, long2)
         }
+    }
+
+    returnPlaces(){
+        let matchPattern = this.state.searchBarText;
+        let limitInt = 5;
+        this.sendFindServerRequest(matchPattern, limitInt)
+    }
+
+    sendFindServerRequest(matchPattern, limitInt) {
+        sendServerRequest({requestType: "find", requestVersion: 2, match: matchPattern, limit: limitInt})
+            .then(places => {
+                if (places) {
+                    console.log(places.data);
+                    this.setState({find: find.data.places})
+                }
+            });
     }
 
     sendDistanceServerRequest(lat1, long1, lat2, long2) {
