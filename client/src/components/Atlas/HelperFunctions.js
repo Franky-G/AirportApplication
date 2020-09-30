@@ -12,7 +12,7 @@ const distanceButtonStyle = {
     position: "absolute", top: 11, left: -1, zIndex: 1005, height: 32, fontSize: 12, background: "radial-gradient(#C8C372,#1E4D2B)", color: "#000000", border: "1px solid #C8C372"
 }
 
-const searchListStyle = {height: "100%", color: "#FFFFFF", zIndex: 1005, fontSize: 13, borderRadius: "3px 3px 3px 3px", background: "#002b0c"}
+const searchListStyle = {height: "100%", color: "#FFFFFF", zIndex: 1005, fontSize: 13, borderRadius: "3px 3px 3px 3px", border: "2px solid #1E4D2B", background: "#002b0c"}
 
 const searchModuleStyle = {
     position: "absolute", backgroundColor: "#1E4D2B", width: 330, height: 150, borderRadius: "3px 3px 3px 3px",
@@ -112,7 +112,7 @@ export default class HelperFunctions extends Component {
             searchListArray.push(this.addListGroupItem(i));
         }
         return(
-            <Container style={{position: "absolute", zIndex: 1015, bottom:148, left:40, width: "90%"}}>
+            <Container style={{position: "absolute", bottom:148, left:40, width: "90%"}}>
                 <ListGroup onClick={() => this.setState({searchIsOn: false})}>
                     <div>{searchListArray.map((element, index) => (<div key={index}>{element}</div>))} </div>
                 </ListGroup>
@@ -131,10 +131,10 @@ export default class HelperFunctions extends Component {
         return (
             <div key="DistancePanel">
                 <Row xs={2} key={"searchDistance"}>
-                    <Col><Input name={"searchBarFrom"} style={{margin: 5, width: "100%"}} placeholder="From"
+                    <Col><Input name={"searchBarFrom"} style={{margin: 5, width: "100%"}} placeholder="From: (#,#)"
                                 onChange={() => this.handleInputChange()}/></Col>
                     <Col style={{left: -20}}><Input name={"searchBarTo"} style={{margin: 5, width: 160}}
-                                                    placeholder="To" onChange={() => this.handleInputChange()}/></Col>
+                                                    placeholder="To (#,#)" onChange={() => this.handleInputChange()}/></Col>
                 </Row>
                 <Col style={{left: 265, top: 55}}>{this.renderCalculateButton()}</Col>
                 <p style={searchTypeStyle}>
