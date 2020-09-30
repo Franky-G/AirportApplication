@@ -86,11 +86,9 @@ export default class Atlas extends Component {
   }
 
   setSearchBarCords (coords)  {
-    console.log(coords)
-    let latLngCords = coords.split(',')
-    latLngCords[0] = parseFloat(latLngCords[0])
-    latLngCords[1] = parseFloat(latLngCords[1])
-    console.log(latLngCords)
+    let latLngCords = coords.split(',');
+    latLngCords[0] = parseFloat(latLngCords[0]);
+    latLngCords[1] = parseFloat(latLngCords[1]);
     this.setState({mapCenter: latLngCords});
     this.setState({markerPosition: null});
   }
