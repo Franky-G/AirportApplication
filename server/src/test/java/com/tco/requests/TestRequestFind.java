@@ -57,7 +57,8 @@ public class TestRequestFind {
         List<HashMap<String, String>> places = fin.getPlaces();
         String name = (places.get(0)).get("name");
 
-        assertEquals("'S Gravenvoeren heliport", name);
+        if (!hasTravis) { assertEquals("'S Gravenvoeren heliport", name);}
+        else{ assertEquals("Aappilattoq (Kujalleq) Heliport", name);}
     }
 
     @Test
@@ -66,7 +67,8 @@ public class TestRequestFind {
         fin.buildResponse();
         List<HashMap<String, String>> places = fin.getPlaces();
         String lat = (places.get(0).get("latitude"));
-        assertEquals("50.764771", lat);
+        if (!hasTravis) { assertEquals("50.764771", lat); }
+        else { assertEquals("60.148357", lat); }
     }
 
     @Test
@@ -76,9 +78,9 @@ public class TestRequestFind {
         fin.buildResponse();
 
         List<HashMap<String, String>> places = fin.getPlaces();
-        String name = (places.get(8)).get("name");
+        String name = (places.get(0)).get("name");
 
-        assertEquals("?eská T?ebová Airstrip", name);
+        assertEquals("1669 Diamondview Road Private Strip", name);
     }
 
     @Test
@@ -87,9 +89,9 @@ public class TestRequestFind {
         fin = new RequestFind("strip", 0);
         fin.buildResponse();
         List<HashMap<String, String>> places = fin.getPlaces();
-        String longitude = (places.get(8)).get("longitude");
+        String longitude = (places.get(0)).get("longitude");
 
-        assertEquals("16.455278", longitude);
+        assertEquals("-76.05599975585938", longitude);
     }
 
     @Test
@@ -100,6 +102,7 @@ public class TestRequestFind {
 
         int found = fin.getFound();
 
-        assertEquals(150, found);
+        if (!hasTravis) { assertEquals(150, found); }
+        else { assertEquals(0, found) ;}
     }
 }
