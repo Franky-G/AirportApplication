@@ -74,24 +74,24 @@ public class TestRequestFind {
     @Test
     @DisplayName("name should be ?eská T?ebová Airstrip: 'strip' with no limit")
     public void testLimitZeroName(){
-        fin = new RequestFind("strip", 0);
+        //fin = new RequestFind("strip", 0);
         fin.buildResponse();
 
         List<HashMap<String, String>> places = fin.getPlaces();
-        String name = (places.get(0)).get("name");
+        String name = (places.get(21)).get("name");
 
-        assertEquals("1669 Diamondview Road Private Strip", name);
+        assertEquals("3-M's Airport", name);
     }
 
     @Test
-    @DisplayName("long should be 16.455278 via pattern: 'casas' with no limit")
+    @DisplayName("long should be 16.455278 via pattern: 'strip' with no limit")
     public void testLimitZeroLong(){
-        fin = new RequestFind("strip", 0);
+        //fin = new RequestFind("strip", 0);
         fin.buildResponse();
         List<HashMap<String, String>> places = fin.getPlaces();
-        String longitude = (places.get(0)).get("longitude");
+        String longitude = (places.get(21)).get("longitude");
 
-        assertEquals("-76.05599975585938", longitude);
+        assertEquals("-84.36810302734375", longitude);
     }
 
     @Test

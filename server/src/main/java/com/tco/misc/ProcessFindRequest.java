@@ -47,7 +47,8 @@ public class ProcessFindRequest {
     }
 
     public List<HashMap<String,String>> processFindServerRequest(String matchPattern, int limitInt) {
-        this.QUERY = "SELECT world.name, world.latitude, world.longitude, world.id, world.altitude, world.municipality, world.type FROM continent " + "INNER JOIN country ON continent.id = country.continent INNER JOIN region ON country.id = region.iso_country " + "INNER JOIN world on region.id = world.iso_region WHERE country.name LIKE '%" + matchPattern + "%' OR " + "region.name like '%" + matchPattern + "%' OR world.name like '%" + matchPattern + "%' OR world.municipality like '%" + matchPattern + "%' " + "ORDER BY world.name ASC LIMIT ";
+        matchPattern = "'%" + matchPattern + "%'";
+        this.QUERY = "SELECT world.name, world.latitude, world.longitude, world.id, world.altitude, world.municipality, world.type FROM continent INNER JOIN country ON continent.id = country.continent INNER JOIN region ON country.id = region.iso_country INNER JOIN world on region.id = world.iso_region WHERE country.name LIKE " + matchPattern + " OR region.name like " + matchPattern + " OR world.name like " + matchPattern + " OR world.municipality like " + matchPattern + " ORDER BY world.name ASC LIMIT ";
         setServerParameters();
         try {
             Connection con = DriverManager.getConnection(db_url, db_user, db_pass);
@@ -71,27 +72,19 @@ public class ProcessFindRequest {
     }
 
     public int processFound(String matchPattern){
+        matchPattern = "'%" + matchPattern + "%'";
         setServerParameters();
         try {
             Connection con = DriverManager.getConnection(db_url, db_user, db_pass);
             Statement query = con.createStatement();
-            this.QUERY = "SELECT world.name FROM continent " +
-                    "INNER JOIN country ON continent.id = country.continent INNER JOIN region ON country.id = region.iso_country " +
-                    "INNER JOIN world on region.id = world.iso_region WHERE country.name LIKE '%" + matchPattern + "%' OR " +
-                    "region.name like '%" + matchPattern + "%' OR world.name like '%" + matchPattern + "%' OR world.municipality like '%" + matchPattern + "%' " +
-                    "ORDER BY continent.name, country.name, region.name, world.municipality, world.name ASC LIMIT 150";
-
+            this.QUERY = "SELECT world.name FROM continent INNER JOIN country ON continent.id = country.continent INNER JOIN region ON country.id = region.iso_country INNER JOIN world on region.id = world.iso_region WHERE country.name LIKE " + matchPattern + " OR region.name like " + matchPattern + " OR world.name like " + matchPattern + " OR world.municipality like " + matchPattern + " ORDER BY continent.name, country.name, region.name, world.municipality, world.name ASC LIMIT 150";
             ResultSet result = query.executeQuery(QUERY);
-
             while(result.next()) {
                 HashMap<String, String> location = new HashMap<>();
                 location.put("name", result.getString("name"));
-                this.foundList.add(location);
-            }
+                this.foundList.add(location); }
         }
-        catch (Exception e) {
-            System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage());
-        }
+        catch (Exception e) { System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage()); }
         return foundList.size();
     }
 }
