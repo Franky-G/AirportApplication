@@ -125,7 +125,7 @@ export default class HelperFunctions extends Component {
                 </Row>
                 <Col style={{left: 265, top: 55}}>{this.renderCalculateButton()}</Col>
                 <p style={searchTypeStyle}>
-                    Coordinates:({this.state.searchTextFrom}),({this.state.searchTextTo})<br/>
+                    Use search bars or click on map<br/>
                     Distance = {this.state.distance} miles
                 </p>
             </div>
@@ -155,10 +155,10 @@ export default class HelperFunctions extends Component {
         return(
             <div key="whereIsPanel">
                 <Row xs={2} key={"searchWhereIs"}>
-                    <Col><Input name={"searchWhereIsFrom"} style={{margin: 5, width: "100%"}} placeholder="Latitude"
+                    <Col><Input name={"searchWhereIsFrom"} style={{margin: 5, width: "100%"}} placeholder="N 47°38' 56.26"
                                 onChange={() => this.handleInputChange()}/></Col>
                     <Col style={{left: -20}}><Input name={"searchWhereIsTo"} style={{margin: 5, width: 160}}
-                                                    placeholder="Longitude" onChange={() => this.handleInputChange()}/></Col>
+                                                    placeholder="W 122.34811" onChange={() => this.handleInputChange()}/></Col>
                 </Row>
                 <Col style={{left: 283, top: 55}}>
                     <Button className= "p-1" style={distanceButtonStyle}
