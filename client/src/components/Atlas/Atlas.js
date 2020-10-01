@@ -181,6 +181,16 @@ export default class Atlas extends Component {
     }
   }
 
+  checkPrevArray(){
+    if(this.state.prevLocation[1] !== null){
+      return (
+          <div>
+            execute=(comment)=>{this.child.current.calcDist()}
+          </div>
+      );
+    }
+  }
+
   setMarker(mapClickInfo) {
     const newIds = this.state.prevLocation.slice();
     newIds[1] = newIds[0];
@@ -191,9 +201,7 @@ export default class Atlas extends Component {
       this.setState({prevLocation: newIds, markerPosition: mapClickInfo.latlng, mapCenter: mapClickInfo.latlng})
     }
     return(
-        <div>
-          execute=(comment)=>{this.child.current.calcDist()}
-        </div>
+        this.checkPrevArray()
     );
   }
 
