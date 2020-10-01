@@ -19,7 +19,7 @@ const searchModuleStyle = {
 
 const searchTypeStyle = {
     position: "absolute", background: "#145906", color:"#FFFFFF", width: 320, height: 65, margin:5, top: 40,
-    borderRadius: "3px 3px 3px 3px", fontSize: 18, textOverflow: "ellipsis", overflow: "hidden", border: "2px solid #000000", borderBottom: "3px solid #000000", borderTop: "3px solid #000000"
+    borderRadius: "3px 3px 3px 3px", fontSize: 16, textOverflow: "ellipsis", overflow: "hidden", border: "2px solid #000000", borderBottom: "3px solid #000000", borderTop: "3px solid #000000"
 }
 const radioButtonStyle = {margin: 0, color: "#FFFFFF", zIndex: 1100, fontSize:13, textAlign: "center"}
 
@@ -120,12 +120,12 @@ export default class HelperFunctions extends Component {
         return (
             <div key="DistancePanel">
                 <Row xs={2} key={"searchDistance"}>
-                    <Col><Input name={"searchBarFrom"} style={{margin: 5, width: "100%"}} placeholder="From: (#,#)" onChange={() => this.handleInputChange()}/></Col>
-                    <Col style={{left: -20}}><Input name={"searchBarTo"} style={{margin: 5, width: 160}} placeholder="To (#,#)" onChange={() => this.handleInputChange()}/></Col>
+                    <Col><Input name={"searchBarFrom"} style={{margin: 5, width: "100%"}} placeholder="From: (Lat,Lng)" onChange={() => this.handleInputChange()}/></Col>
+                    <Col style={{left: -20}}><Input name={"searchBarTo"} style={{margin: 5, width: 160}} placeholder="To: (Lat,Lng)" onChange={() => this.handleInputChange()}/></Col>
                 </Row>
                 <Col style={{left: 265, top: 55}}>{this.renderCalculateButton()}</Col>
                 <p style={searchTypeStyle}>
-                    Use search bars or click on map<br/>
+                    Use Search Bars Or Click On Map<br/>
                     Distance = {this.state.distance} miles
                 </p>
             </div>
@@ -164,7 +164,7 @@ export default class HelperFunctions extends Component {
                     <Button className= "p-1" style={distanceButtonStyle}
                             onClick={() => this.props.setLatLngCoords(this.state.searchWhereIsTextFrom+','+this.state.searchWhereIsTextTo)} title="Where Is?"> Go To </Button></Col>
                 <p style={searchTypeStyle}>
-                    Coordinates:({this.state.searchWhereIsTextFrom},{this.state.searchWhereIsTextTo})<br/>
+                    Coordinates: ({this.state.searchWhereIsTextFrom},{this.state.searchWhereIsTextTo})<br/>
                 </p>
             </div>
         );
@@ -192,16 +192,16 @@ export default class HelperFunctions extends Component {
         if (this.state.searchTextFrom && !this.state.searchTextTo) {this.helperValidFromTo(1)}
         if (!this.state.searchTextFrom && this.state.searchTextTo) {this.helperValidFromTo(2)}
         if (!this.state.searchTextFrom && !this.state.searchTextTo) {
-            let place1 = this.props.sendFunction
-            let place2 = this.props.sendFunctionPart2
-            this.sendDistanceServerRequest(place1.lat.toString(), place1.lng.toString(), place2.lat.toString(), place2.lng.toString())
+            let place1 = this.props.sendFunction;
+            let place2 = this.props.sendFunctionPart2;
+            this.sendDistanceServerRequest(place1.lat.toString(), place1.lng.toString(), place2.lat.toString(), place2.lng.toString());
         }
     }
 
     returnPlaces(){
         matchPattern = this.state.searchBarText;
         limitInt = 5;
-        this.sendFindServerRequest(matchPattern, limitInt)
+        this.sendFindServerRequest(matchPattern, limitInt);
     }
 
     sendFindServerRequest(matchPattern, limitInt) {

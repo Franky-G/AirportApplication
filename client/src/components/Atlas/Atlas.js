@@ -122,7 +122,8 @@ export default class Atlas extends Component {
   }
 
   setPrevLocationState(markerArray){
-    this.setState({prevLocation: markerArray});
+    let parseArr = [markerArray[1].lat.toString(), markerArray[1].lng.toString()]
+    this.setState({prevLocation: markerArray, mapCenter: parseArr});
   }
 
   getMapZoom(){
