@@ -139,7 +139,7 @@ export default class Atlas extends Component {
             <Polyline ref={initMarker} color="green" positions={this.state.prevLocation} >
               <Popup autoPan={false} className="popupStyle">
                 ({this.state.prevLocation[0].lat.toFixed(1).toString()},{this.state.prevLocation[0].lng.toFixed(1).toString()}),
-                ({this.state.prevLocation[1].lat.toFixed(1).toString()},{this.state.prevLocation[1].lng.toFixed(1).toString()})]<br/>
+                ({this.state.prevLocation[1].lat.toFixed(1).toString()},{this.state.prevLocation[1].lng.toFixed(1).toString()})<br/>
                 Distance: {this.state.polyDistance} Miles
               </Popup>
             </Polyline>
