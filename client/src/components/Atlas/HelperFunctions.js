@@ -165,6 +165,7 @@ export default class HelperFunctions extends Component {
                             onClick={() => this.props.setLatLngCoords(this.state.searchWhereIsTextFrom+','+this.state.searchWhereIsTextTo)} title="Where Is?"> Go To </Button></Col>
                 <p style={searchTypeStyle}>
                     Coordinates: ({this.state.searchWhereIsTextFrom},{this.state.searchWhereIsTextTo})<br/>
+                    Enter Any Format
                 </p>
             </div>
         );

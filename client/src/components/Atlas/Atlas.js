@@ -2,7 +2,7 @@ import  React, {Component} from 'react';
 import {Col, Container, Row} from 'reactstrap';
 import homeIcon from '../../static/images/homeButtonIcon.png';
 import homeMarker from '../../static/images/youAreHereMarker.png';
-import {Map, Marker, TileLayer, Polyline, Popup} from 'react-leaflet';
+import {Map, Marker, TileLayer, Polyline} from 'react-leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
@@ -146,9 +146,8 @@ export default class Atlas extends Component {
   geoPosition(){
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
-            this.setState({mapCenter: [position.coords.latitude, position.coords.longitude]})
             homeCoords = [position.coords.latitude, position.coords.longitude];
-            this.setState({homeLocation: homeCoords});
+            this.setState({homeLocation: homeCoords, mapCenter: [position.coords.latitude, position.coords.longitude]});
           }
           , error, {enableHighAccuracy:true});
     } else {
@@ -157,11 +156,10 @@ export default class Atlas extends Component {
   }
 
   setMarker(mapClickInfo) {
-    this.setState({markerPosition: mapClickInfo.latlng, mapCenter: mapClickInfo.latlng});
     const newIds = this.state.prevLocation.slice();
     newIds[1] = newIds[0];
     newIds[0] = mapClickInfo.latlng;
-    this.setState({prevLocation: newIds})
+    this.setState({prevLocation: newIds, markerPosition: mapClickInfo.latlng, mapCenter: mapClickInfo.latlng})
   }
 
   getHomeMarker(){
@@ -183,33 +181,17 @@ export default class Atlas extends Component {
 
   addAMarker(markerType){
     const initMarker = ref => { if (ref) { ref.leafletElement.openPopup() } };
-    let currentMarkerString = this.getStringMarkerPosition();
     let positionMarker = MAP_CENTER_DEFAULT;
-    if(markerType === 0 || markerType === 1){ positionMarker = this.state.prevLocation[markerType]; currentMarkerString = this.popupCoordsString(markerType)}
+    if(markerType === 0 || markerType === 1){ positionMarker = this.state.prevLocation[markerType]}
     return(
         <div>
-          <Marker key={markerType} ref={initMarker} position={positionMarker} icon={MARKER_ICON}>
-            <Popup offset={[0, -18]} className="font-weight-bold">{currentMarkerString}</Popup>
-          </Marker>
+          <Marker key={markerType} ref={initMarker} position={positionMarker} icon={MARKER_ICON}/>
         </div>
     );
   }
 
   addWhereIsMarker(coords){
     this.setState({whereIsMarker: coords});
-  }
-
-  popupCoordsString(markerType){
-    if(markerType === 0 || markerType === 1){
-      return ""+this.state.prevLocation[markerType].lat.toFixed(4).toString() + ',' + this.state.prevLocation[markerType].lng.toFixed(4).toString();
-    } else {
-      return MAP_CENTER_DEFAULT;
-    }
-  }
-
-  getStringMarkerPosition() {
-    if(this.state.markerPosition) { return +this.state.markerPosition.lat.toFixed(2) + ', ' + this.state.markerPosition.lng.toFixed(2); }
-    if(!this.state.markerPosition) { return MAP_CENTER_DEFAULT; }
   }
 
   getLastCoordinates() {
