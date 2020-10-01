@@ -51,6 +51,7 @@ export default class Atlas extends Component {
       searchResults: [],
       polyDistance: [0,0],
       searchTextToIsEmpty: true,
+      hasUserLocation: null
     };
   }
 
@@ -168,14 +169,15 @@ export default class Atlas extends Component {
   }
 
   homeButtonSetStateVars() {
-    this.setState({markerPosition: null, prevLocation: [null,null], mapCenter: this.state.homeLocation, whereIsMarker: null});
+    if(this.state.hasUserLocation) { this.setState({markerPosition: null, prevLocation: [null,null], mapCenter: this.state.homeLocation, whereIsMarker: null}); }
+    else{ this.setState( {markerPosition: null, prevLocation: [null,null], mapCenter: MAP_CENTER_DEFAULT, whereIsMarker: null}); }
   }
 
   geoPosition(){
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
             homeCoords = [position.coords.latitude, position.coords.longitude];
-            this.setState({homeLocation: homeCoords, mapCenter: [position.coords.latitude, position.coords.longitude]});
+            this.setState({homeLocation: homeCoords, mapCenter: [position.coords.latitude, position.coords.longitude], hasUserLocation: true});
           }
           , error, {enableHighAccuracy:true});
     } else {
@@ -235,17 +237,9 @@ export default class Atlas extends Component {
     );
   }
 
-  getLastCoordinates() {
-    return this.state.prevLocation[0];
-  }
-
-  getLastCoordinatesPart2() {
-    return this.state.prevLocation[1];
-  }
-
-  getMarkerPosition(){
-    return this.state.markerPosition;
-  }
+  getLastCoordinates() { return this.state.prevLocation[0]; }
+  getLastCoordinatesPart2() { return this.state.prevLocation[1]; }
+  getMarkerPosition(){ return this.state.markerPosition; }
 }
 
 let homeCoords;
