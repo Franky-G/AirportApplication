@@ -233,6 +233,9 @@ export default class HelperFunctions extends Component {
 
     sendDistanceServerRequest(lat1, long1, lat2, long2) {
         let markerArray = [L.latLng(lat1, long1), L.latLng(lat2, long2)];
+        if(this.state.searchTextFrom !== ""){
+            this.props.setSearchTextIsEmpty(false);
+        }
         sendServerRequest({requestType: "distance", requestVersion: 2, earthRadius: 3959,
             place1: {latitude: lat1, longitude: long1},
             place2: {latitude: lat2, longitude: long2}})
