@@ -1,8 +1,8 @@
 import  React, {Component} from 'react';
-import {Col, Container, Row, Tooltip} from 'reactstrap';
+import {Col, Container, Row} from 'reactstrap';
 import homeIcon from '../../static/images/homeButtonIcon.png';
 import homeMarker from '../../static/images/youAreHereMarker.png';
-import Popup, {Map, Marker, TileLayer, Polyline} from 'react-leaflet';
+import {Map, Marker, TileLayer, Polyline, Tooltip} from 'react-leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
@@ -39,6 +39,8 @@ export default class Atlas extends Component {
     this.getMarkerPosition = this.getMarkerPosition.bind(this);
     this.setSearchResults = this.setSearchResults.bind(this);
     this.setDistanceState = this.setDistanceState.bind(this);
+    this.child = React.createRef();
+
     this.state = {
       markerPosition: null,
       homeLocation: homeCoords,
@@ -58,7 +60,8 @@ export default class Atlas extends Component {
               <Col sm={12} md={{size: 10, offset: 1}}>
                 <HelperFunctions sendFunction={this.getLastCoordinates()} sendFunctionPart2={this.getLastCoordinatesPart2()}
                                  setLatLngCoords={this.setSearchBarCords} setPrevLocationState={this.setPrevLocationState}
-                                 getMarkerPosition={this.getMarkerPosition} setSearchResults={this.setSearchResults} setDistanceState={this.setDistanceState}/>
+                                 getMarkerPosition={this.getMarkerPosition} setSearchResults={this.setSearchResults} setDistanceState={this.setDistanceState}
+                                 ref={this.child} comment={this.state.polyDistance}/>
                 {this.renderLeafletMap()}
               </Col>
             </Row>
@@ -120,17 +123,20 @@ export default class Atlas extends Component {
   }
 
   makePolyline(){
-    console.log(this.state.distance)
     if(this.state.prevLocation[1] !== null && this.state.prevLocation[0] !== null) {
       return (
-          <Polyline color="green" positions={this.state.prevLocation}>
-            <Popup position={this.state.prevLocation[0]}>test</Popup>
-          </Polyline>
+          <div>
+            <Polyline color="green" positions={this.state.prevLocation}>
+              <Tooltip autoPan={false} className="tooltipPoly" style={{fontSize: 16}} direction="top" opacity={1}>
+                Distance: {this.state.polyDistance}
+              </Tooltip>
+            </Polyline>
+          </div>
       );
     }
   }
   setPrevLocationState(markerArray){
-    let parseArr = [markerArray[1].lat.toString(), markerArray[1].lng.toString()]
+    let parseArr = [markerArray[0].lat.toString(), markerArray[0].lng.toString()]
     this.setState({prevLocation: markerArray, mapCenter: parseArr});
   }
 
@@ -168,6 +174,11 @@ export default class Atlas extends Component {
     newIds[1] = newIds[0];
     newIds[0] = mapClickInfo.latlng;
     this.setState({prevLocation: newIds, markerPosition: mapClickInfo.latlng, mapCenter: mapClickInfo.latlng})
+    return(
+        <div>
+          execute=(comment)=>{this.child.current.calcDist()}
+        </div>
+    );
   }
 
   getHomeMarker(){
