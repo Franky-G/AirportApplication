@@ -239,6 +239,7 @@ export default class HelperFunctions extends Component {
             .then(distance => {
                 if (distance) {
                     this.setState({distance: distance.data.distance})
+                    this.props.setDistanceState(distance.data.distance);
                 }
             });
     }
