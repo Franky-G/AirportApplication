@@ -2,7 +2,7 @@ import  React, {Component} from 'react';
 import {Col, Container, Row} from 'reactstrap';
 import homeIcon from '../../static/images/homeButtonIcon.png';
 import homeMarker from '../../static/images/youAreHereMarker.png';
-import {Map, Marker, Popup, TileLayer, Polyline} from 'react-leaflet';
+import {Map, Marker, TileLayer, Polyline, Popup} from 'react-leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
@@ -107,9 +107,7 @@ export default class Atlas extends Component {
     try {
       let cordParse = require('coordinate-parser')
       let cordLocation = new cordParse(coords);
-      let cordLat = cordLocation.getLatitude();
-      let cordLng = cordLocation.getLongitude();
-      this.setState({mapCenter: [cordLat, cordLng], markerPosition: null, whereIsMarker: L.latLng(cordLat, cordLng)});
+      this.setState({mapCenter: [cordLocation.getLatitude(), cordLocation.getLongitude()], markerPosition: null, whereIsMarker: L.latLng(cordLocation.getLatitude(), cordLocation.getLongitude())});
     } catch (error) {
       alert("Invalid Coordinate Input!")
     }
@@ -202,10 +200,10 @@ export default class Atlas extends Component {
   }
 
   popupCoordsString(markerType){
-    if(markerType !== 0 || markerType !== 1){
-      return MAP_CENTER_DEFAULT;
+    if(markerType === 0 || markerType === 1){
+      return ""+this.state.prevLocation[markerType].lat.toFixed(4).toString() + ',' + this.state.prevLocation[markerType].lng.toFixed(4).toString();
     } else {
-      return ("the latlng: " + this.state.prevLocation[markerType].lat.toString().toFixed(5) + ',' + this.state.prevLocation[markerType].lng.toString().toFixed(5));
+      return MAP_CENTER_DEFAULT;
     }
   }
 
