@@ -139,7 +139,7 @@ export default class Atlas extends Component {
             <Polyline ref={initMarker} color="green" positions={this.state.prevLocation} >
               <Popup autoPan={false} className="popupStyle">
                 ({this.state.prevLocation[0].lat.toFixed(1).toString()},{this.state.prevLocation[0].lng.toFixed(1).toString()}),
-                ({this.state.prevLocation[1].lat.toFixed(1).toString()},{this.state.prevLocation[1].lng.toFixed(1).toString()})]<br/>
+                ({this.state.prevLocation[1].lat.toFixed(1).toString()},{this.state.prevLocation[1].lng.toFixed(1).toString()})<br/>
                 Distance: {this.state.polyDistance} Miles
               </Popup>
             </Polyline>
@@ -147,6 +147,7 @@ export default class Atlas extends Component {
       );
     }
   }
+
   setPrevLocationState(markerArray){
     let parseArr = [markerArray[0].lat.toString(), markerArray[0].lng.toString()]
     this.setState({prevLocation: markerArray, mapCenter: parseArr});
@@ -205,7 +206,6 @@ export default class Atlas extends Component {
     );
   }
 
-
   getHomeMarker(){
     const initMarker = ref => { if (ref) { ref.leafletElement.openPopup() } };
     if (this.state.homeLocation){
@@ -232,11 +232,6 @@ export default class Atlas extends Component {
           <Marker key={markerType} ref={initMarker} position={positionMarker} icon={MARKER_ICON}/>
         </div>
     );
-  }
-
-  addWhereIsMarker(coords){
-    console.log([coords.lat.toString(), coords.lng.toString()])
-    this.setState({whereIsMarker: coords, markerPosition: coords, mapCenter: [coords.lat.toString(), coords.lng.toString()]});
   }
 
   getLastCoordinates() {
