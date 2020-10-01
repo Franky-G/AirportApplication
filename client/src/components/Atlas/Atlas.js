@@ -45,6 +45,7 @@ export default class Atlas extends Component {
       mapCenter: MAP_CENTER_DEFAULT,
       whereIsMarker: null,
       searchResults: [],
+      hasUserLocation: null
     };
   }
 
@@ -140,7 +141,12 @@ export default class Atlas extends Component {
   }
 
   homeButtonSetStateVars() {
-    this.setState({markerPosition: null, prevLocation: [null,null], mapCenter: this.state.homeLocation, whereIsMarker: null});
+    if(this.state.hasUserLocation) {
+      this.setState({markerPosition: null, prevLocation: [null,null], mapCenter: this.state.homeLocation, whereIsMarker: null});
+    }
+    else{
+      this.setState({markerPosition: null, prevLocation: [null,null], mapCenter: MAP_CENTER_DEFAULT, whereIsMarker: null});
+    }
   }
 
   geoPosition(){
@@ -148,7 +154,7 @@ export default class Atlas extends Component {
       navigator.geolocation.getCurrentPosition(position => {
             this.setState({mapCenter: [position.coords.latitude, position.coords.longitude]})
             homeCoords = [position.coords.latitude, position.coords.longitude];
-            this.setState({homeLocation: homeCoords});
+            this.setState({homeLocation: homeCoords, hasUserLocation: true});
           }
           , error, {enableHighAccuracy:true});
     } else {
