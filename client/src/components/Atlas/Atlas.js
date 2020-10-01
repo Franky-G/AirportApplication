@@ -38,6 +38,10 @@ export default class Atlas extends Component {
     this.setPrevLocationState = this.setPrevLocationState.bind(this);
     this.getMarkerPosition = this.getMarkerPosition.bind(this);
     this.setSearchResults = this.setSearchResults.bind(this);
+    this.setDistanceState = this.setDistanceState.bind(this);
+    this.setSearchTextIsEmpty = this.setSearchTextIsEmpty.bind(this);
+    this.child = React.createRef();
+
     this.state = {
       markerPosition: null,
       homeLocation: homeCoords,
@@ -45,6 +49,8 @@ export default class Atlas extends Component {
       mapCenter: MAP_CENTER_DEFAULT,
       whereIsMarker: null,
       searchResults: [],
+      polyDistance: [0,0],
+      searchTextToIsEmpty: true,
       hasUserLocation: null
     };
   }
@@ -57,7 +63,8 @@ export default class Atlas extends Component {
               <Col sm={12} md={{size: 10, offset: 1}}>
                 <HelperFunctions sendFunction={this.getLastCoordinates()} sendFunctionPart2={this.getLastCoordinatesPart2()}
                                  setLatLngCoords={this.setSearchBarCords} setPrevLocationState={this.setPrevLocationState}
-                                 getMarkerPosition={this.getMarkerPosition} setSearchResults={this.setSearchResults}/>
+                                 getMarkerPosition={this.getMarkerPosition} setSearchResults={this.setSearchResults} setDistanceState={this.setDistanceState}
+                                 ref={this.child} comment={this.state.polyDistance} setSearchTextIsEmpty={this.setSearchTextIsEmpty}/>
                 {this.renderLeafletMap()}
               </Col>
             </Row>
@@ -93,8 +100,16 @@ export default class Atlas extends Component {
     );
   }
 
+  setSearchTextIsEmpty(_state){
+    this.setState({searchTextFromIsEmpty: _state})
+  }
+
   setSearchResults(_state){
     this.setState({searchResults: _state})
+  }
+
+  setDistanceState(distanceState){
+    this.setState({polyDistance: distanceState});
   }
 
   renderWhereIsMarker(){
@@ -115,15 +130,28 @@ export default class Atlas extends Component {
   }
 
   makePolyline(){
+    const initMarker = ref => {
+      if (ref) {
+        ref.leafletElement.openPopup()
+      }
+    }
     if(this.state.prevLocation[1] !== null && this.state.prevLocation[0] !== null) {
       return (
-          <Polyline color="green" positions={this.state.prevLocation}/>
+          <div>
+            <Polyline ref={initMarker} color="green" positions={this.state.prevLocation} >
+              <Popup autoPan={false} className="popupStyle">
+                ({this.state.prevLocation[0].lat.toFixed(1).toString()},{this.state.prevLocation[0].lng.toFixed(1).toString()}),
+                ({this.state.prevLocation[1].lat.toFixed(1).toString()},{this.state.prevLocation[1].lng.toFixed(1).toString()})<br/>
+                Distance: {this.state.polyDistance} Miles
+              </Popup>
+            </Polyline>
+          </div>
       );
     }
   }
 
   setPrevLocationState(markerArray){
-    let parseArr = [markerArray[1].lat.toString(), markerArray[1].lng.toString()]
+    let parseArr = [markerArray[0].lat.toString(), markerArray[0].lng.toString()]
     this.setState({prevLocation: markerArray, mapCenter: parseArr});
   }
 
@@ -141,20 +169,15 @@ export default class Atlas extends Component {
   }
 
   homeButtonSetStateVars() {
-    if(this.state.hasUserLocation) {
-      this.setState({markerPosition: null, prevLocation: [null,null], mapCenter: this.state.homeLocation, whereIsMarker: null});
-    }
-    else{
-      this.setState({markerPosition: null, prevLocation: [null,null], mapCenter: MAP_CENTER_DEFAULT, whereIsMarker: null});
-    }
+    if(this.state.hasUserLocation) { this.setState({markerPosition: null, prevLocation: [null,null], mapCenter: this.state.homeLocation, whereIsMarker: null}); }
+    else{ this.setState( {markerPosition: null, prevLocation: [null,null], mapCenter: MAP_CENTER_DEFAULT, whereIsMarker: null}); }
   }
 
   geoPosition(){
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
-            this.setState({mapCenter: [position.coords.latitude, position.coords.longitude]})
             homeCoords = [position.coords.latitude, position.coords.longitude];
-            this.setState({homeLocation: homeCoords, hasUserLocation: true});
+            this.setState({homeLocation: homeCoords, mapCenter: [position.coords.latitude, position.coords.longitude], hasUserLocation: true});
           }
           , error, {enableHighAccuracy:true});
     } else {
@@ -162,12 +185,28 @@ export default class Atlas extends Component {
     }
   }
 
+  checkPrevArray(){
+    if(this.state.prevLocation[1] !== null){
+      return (
+          <div>
+            execute=(comment)=>{this.child.current.calcDist()}
+          </div>
+      );
+    }
+  }
+
   setMarker(mapClickInfo) {
-    this.setState({markerPosition: mapClickInfo.latlng, mapCenter: mapClickInfo.latlng});
     const newIds = this.state.prevLocation.slice();
     newIds[1] = newIds[0];
     newIds[0] = mapClickInfo.latlng;
-    this.setState({prevLocation: newIds})
+    if(!this.state.searchTextFromIsEmpty && this.state.prevLocation[0] !== null && this.state.prevLocation[1] !== null){
+      this.setState({prevLocation: newIds, markerPosition: mapClickInfo.latlng, mapCenter: [this.state.prevLocation[0].lat.toString(),this.state.prevLocation[0].lng.toString()]})
+    } else {
+      this.setState({prevLocation: newIds, markerPosition: mapClickInfo.latlng, mapCenter: mapClickInfo.latlng})
+    }
+    return(
+        this.checkPrevArray()
+    );
   }
 
   getHomeMarker(){
@@ -189,46 +228,18 @@ export default class Atlas extends Component {
 
   addAMarker(markerType){
     const initMarker = ref => { if (ref) { ref.leafletElement.openPopup() } };
-    let currentMarkerString = this.getStringMarkerPosition();
     let positionMarker = MAP_CENTER_DEFAULT;
-    if(markerType === 0 || markerType === 1){ positionMarker = this.state.prevLocation[markerType]; currentMarkerString = this.popupCoordsString(markerType)}
+    if(markerType === 0 || markerType === 1){ positionMarker = this.state.prevLocation[markerType]}
     return(
         <div>
-          <Marker key={markerType} ref={initMarker} position={positionMarker} icon={MARKER_ICON}>
-            <Popup offset={[0, -18]} className="font-weight-bold">{currentMarkerString}</Popup>
-          </Marker>
+          <Marker key={markerType} ref={initMarker} position={positionMarker} icon={MARKER_ICON}/>
         </div>
     );
   }
 
-  addWhereIsMarker(coords){
-    this.setState({whereIsMarker: coords});
-  }
-
-  popupCoordsString(markerType){
-    if(markerType === 0 || markerType === 1){
-      return ""+this.state.prevLocation[markerType].lat.toFixed(4).toString() + ',' + this.state.prevLocation[markerType].lng.toFixed(4).toString();
-    } else {
-      return MAP_CENTER_DEFAULT;
-    }
-  }
-
-  getStringMarkerPosition() {
-    if(this.state.markerPosition) { return +this.state.markerPosition.lat.toFixed(2) + ', ' + this.state.markerPosition.lng.toFixed(2); }
-    if(!this.state.markerPosition) { return MAP_CENTER_DEFAULT; }
-  }
-
-  getLastCoordinates() {
-    return this.state.prevLocation[0];
-  }
-
-  getLastCoordinatesPart2() {
-    return this.state.prevLocation[1];
-  }
-
-  getMarkerPosition(){
-    return this.state.markerPosition;
-  }
+  getLastCoordinates() { return this.state.prevLocation[0]; }
+  getLastCoordinatesPart2() { return this.state.prevLocation[1]; }
+  getMarkerPosition(){ return this.state.markerPosition; }
 }
 
 let homeCoords;

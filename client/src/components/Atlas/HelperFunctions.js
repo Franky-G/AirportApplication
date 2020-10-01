@@ -165,6 +165,7 @@ export default class HelperFunctions extends Component {
                             onClick={() => this.props.setLatLngCoords(this.state.searchWhereIsTextFrom+','+this.state.searchWhereIsTextTo)} title="Where Is?"> Go To </Button></Col>
                 <p style={searchTypeStyle}>
                     Coordinates: ({this.state.searchWhereIsTextFrom},{this.state.searchWhereIsTextTo})<br/>
+                    Enter Any Format
                 </p>
             </div>
         );
@@ -194,7 +195,8 @@ export default class HelperFunctions extends Component {
         if (!this.state.searchTextFrom && !this.state.searchTextTo) {
             let place1 = this.props.sendFunction;
             let place2 = this.props.sendFunctionPart2;
-            this.sendDistanceServerRequest(place1.lat.toString(), place1.lng.toString(), place2.lat.toString(), place2.lng.toString());
+            if(this.props.sendFunctionPart2 !== null)
+                this.sendDistanceServerRequest(place1.lat.toString(), place1.lng.toString(), place2.lat.toString(), place2.lng.toString());
         }
     }
 
@@ -231,14 +233,18 @@ export default class HelperFunctions extends Component {
 
     sendDistanceServerRequest(lat1, long1, lat2, long2) {
         let markerArray = [L.latLng(lat1, long1), L.latLng(lat2, long2)];
-        this.props.setPrevLocationState(markerArray);
+        if(this.state.searchTextFrom !== ""){
+            this.props.setSearchTextIsEmpty(false);
+        }
         sendServerRequest({requestType: "distance", requestVersion: 2, earthRadius: 3959,
             place1: {latitude: lat1, longitude: long1},
             place2: {latitude: lat2, longitude: long2}})
             .then(distance => {
                 if (distance) {
                     this.setState({distance: distance.data.distance})
+                    this.props.setDistanceState(distance.data.distance);
                 }
+                this.props.setPrevLocationState(markerArray);
             });
     }
 
