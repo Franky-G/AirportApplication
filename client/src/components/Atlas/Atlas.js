@@ -98,6 +98,7 @@ export default class Atlas extends Component {
         </div>
     );
   }
+
   setSearchTextIsEmpty(_state){
     this.setState({searchTextFromIsEmpty: _state})
   }
