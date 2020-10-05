@@ -40,25 +40,18 @@
 
 ## Planned Epics
 
-- v3 Protocol: For this epic, the team will add trip to supported requests in config. It also adds thr trip type. This epic wll update the requestVersion to 3. It 
-will also modify the find behavior when no match is specified.
-- Build a Trip: This epic will allow the user to create a trip with support of unlimited number of destinations. It will also allow the user to name the trip. The
-user will be shown the round trip distance of their selected destinations. For better visualization, the trip will be displayed on the map. It shows an itinerary with 
-leg and cumulative distances for the round trip. It will also allow the user to save the trip, along with the functionality of loading a save trip.
-- Modify Trip: After the user develops a trip, this epic will allow the user to select a new starting location while maintaining the order of the destinations. It will
-allow the user to reverse the order of the destinations from the starting location. It will also allow the user to reorder the destinations in their trip. It will allow
-them to modify the trip by removing destinations of their choice. It will also allow the user to add notes to their trip and correct mistakes in the existing information
-for the trip.
-- Filter Trip: This epic will allow the user to find destination in their trip if the number of destination grows in their trip. It will only display the desired places
-in the itinerary.
+- v3 Protocol: For this epic, the team will add trip to supported requests in config. It also adds the trip type. This epic will update the requestVersion to 3. It will also modify the find behavior when no match is specified.
+- Build a Trip: This epic will allow the user to create a trip with support of unlimited number of destinations. It will also allow the user to name the trip. The user will be shown the round trip distance of their selected destinations. For better visualization, the trip will be displayed on the map. It shows an itinerary with leg and cumulative distances for the round trip. It will also allow the user to save the trip, along with the functionality of loading a save trip.
+- Modify Trip: After the user develops a trip, this epic will allow the user to select a new starting location while maintaining the order of the destinations. It will allow the user to reverse the order of the destinations from the starting location. It will also allow the user to reorder the destinations in their trip. It will allow them to modify the trip by removing destinations of their choice. It will also allow the user to add notes to their trip and correct mistakes in the existing information for the trip.
+- Filter Trip: This epic will allow the user to find destination in their trip if the number of destination grows in their trip. It will only display the desired places in the itinerary.
 
 ## Metrics
 
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
 | Epics | *4* | *count* |
-| Tasks |  *24*   | *count* | 
-| Story Points |  *45*  | *sum* | 
+| Tasks |  *26*   | *count* | 
+| Story Points |  *52*  | *sum* | 
 
 - The team's ability to complete the planned tasks/story points based on the previous sprint result is beyond sufficent. The team will use integration methods 
 that will allow each memeber to work efficiently and in a timely manner. The team shares a high confidence to perform well during this sprint. 
