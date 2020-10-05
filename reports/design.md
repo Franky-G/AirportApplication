@@ -180,5 +180,45 @@ The changes in class diagram for Sprint 2 are:
 For Sprint 2, it also adds request for Distance and Find in the Microserver.
 
 # Sprint 3
+
+### User Interface
+![User Interface Sprint 3](https://github.com/csucs314f20/t10/blob/master/reports/images/Sprint3UserInterface.png)
+
+#### Build a Trip
+This option will allow the user to create a trip with support of unlimited number of destinations. It also allows the user to name the trip. For the user's convenience, the trip will be displayed on the map along with round trip distance. It also shows an itinerary with leg and cumulative distances for the round trip. There is also a functionality for the user to save the trip and load a saved trip.
+
+#### Modify a Trip
+This option will allow the user to modify a saved trip. It will allow the user to chose a different starting location while maintaning the order of the destinations. It will also allow the user to reverse the order of the destinations from the starting location. It will also allow the user to reorder individual destinations. It will allow the user to remove destinations, along with the functionality of adding notes to the trip, also correct their mistakes on the existing information.
+
+#### Filter a Trip
+This option will allow the user to filter their trip when the number of destination grows, it will only display the desired places in the itinerary. 
+
+### Component Hierarchy
+![Component Hierarchy Sprint 3](https://github.com/csucs314f20/t10/blob/master/reports/images/Sprint3ComponentHierarchy.png)
+
+* App renders the major components on the screen.
+* Header renders an icon and a team name in the top banner.
+* Footer renders the current server connection in the bottom footer.
+* Atlas renders a map, it also allows the user to calculate distance between two sets of geographical coordinates, along with searching of places by names and municipalities around the world, and it also allows the user to enter geographical coordinates and search for that place.
+* About renders information about the team, along with team's mission statement and short bios for each teammember, along with their contact inforamtion. 
+* Helper Functions renders the search buttton on the screen and as soon as the user clicks the button, it opens up a box which allows the user to work on the above options. HelperFunctions also sends server request for Distance and Find.
+* Trip will allow the user to build a trip, modify a trip, and filter a trip. The functionality of each of this parts is described above. This functions will allow the user to build a trip with support of unlimited destinations, modify their existing trip with multiple functionality, and will allow them to filter an existing trip with selected destinations.
+
+The state is located in Footer and Atlas. The props passed to child components are:
+* About: closePage
+* Footer: serverSettings and processServerConfigSuccess
+* Header: toggleAbout
+
+### Class Diagram
+![Class Diagram Sprint 3](https://github.com/csucs314f20/t10/blob/master/reports/images/Sprint3ClassDiagram.png)
+
+The changes in class diagram for Sprint 2 are:
+* Config: objects allow the server to provide configuration information to the client.
+* Distance: objects allow the client to request the distance between two geographic locations.
+* Find: objects allow the client to provide the user a list of possible destinations based on some criteria.
+* Trip: objects allow the client to build a trip with support of unlimited destinations.
+
+For Sprint 3, it adds request for Trip in the Microserver.
+
 # Sprint 4 
 # Sprint 5
