@@ -50,8 +50,8 @@
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
 | Epics | *4* | *count* |
-| Tasks |  *26*   | *count* | 
-| Story Points |  *52*  | *sum* | 
+| Tasks |  *27*   | *count* | 
+| Story Points |  *57*  | *sum* | 
 
 - The team's ability to complete the planned tasks/story points based on the previous sprint result is beyond sufficent. The team will use integration methods 
 that will allow each memeber to work efficiently and in a timely manner. The team shares a high confidence to perform well during this sprint. 
