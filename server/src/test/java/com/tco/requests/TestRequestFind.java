@@ -106,4 +106,26 @@ public class TestRequestFind {
         if (!hasTravis) { assertEquals(150, found); }
         else { assertEquals(3, found) ;}
     }
+
+    @Test
+    @DisplayName("found should be 44 via pattern: 'san jose' with limit 13")
+    public void testNoMatchANDLimit(){
+        fin = new RequestFind("", 0);
+        fin.buildResponse();
+        int found = fin.getFound();
+
+        if (!hasTravis) { assertEquals(1, found); }
+        else { assertEquals(150, found) ;}
+    }
+
+    @Test
+    @DisplayName("found should be 44 via pattern: 'san jose' with limit 13")
+    public void testNoMatchHASLimit(){
+        fin = new RequestFind("", 14);
+        fin.buildResponse();
+        int found = fin.getFound();
+
+        if (!hasTravis) { assertEquals(14, found); }
+        else { assertEquals(150, found) ;}
+    }
 }

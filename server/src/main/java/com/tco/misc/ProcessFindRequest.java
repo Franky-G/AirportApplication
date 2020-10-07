@@ -16,8 +16,8 @@ public class ProcessFindRequest {
     private static String db_user;
     private static String db_pass;
 
-    private List<HashMap<String,String>> allLocations = new ArrayList<>();
-    private List<HashMap<String,String>> foundList = new ArrayList<>();
+    private final List<HashMap<String,String>> allLocations = new ArrayList<>();
+    private final List<HashMap<String,String>> foundList = new ArrayList<>();
 
     public static void setServerParameters()
     {
@@ -46,45 +46,54 @@ public class ProcessFindRequest {
         }
     }
 
-    public List<HashMap<String,String>> processFindServerRequest(String matchPattern, int limitInt) {
-        matchPattern = "'%" + matchPattern + "%'";
-        this.QUERY = "SELECT world.name, world.latitude, world.longitude, world.id, world.altitude, world.municipality, world.type FROM continent INNER JOIN country ON continent.id = country.continent INNER JOIN region ON country.id = region.iso_country INNER JOIN world on region.id = world.iso_region WHERE country.name LIKE " + matchPattern + " OR region.name like " + matchPattern + " OR world.name like " + matchPattern + " OR world.municipality like " + matchPattern + " ORDER BY world.name ASC LIMIT ";
+    public List<HashMap<String,String>> processPlaces(String matchPattern, int limitInt) {
+        this.QUERY = getQUERY(matchPattern, limitInt);
         setServerParameters();
         try {
             Connection con = DriverManager.getConnection(db_url, db_user, db_pass);
             Statement query = con.createStatement();
-            if (limitInt == 0){ this.QUERY = this.QUERY + Integer.toString(150); }
-            else if (limitInt > 0){ this.QUERY = this.QUERY + Integer.toString(limitInt); }
+            if (limitInt == 0 && !matchPattern.isEmpty()){ this.QUERY += Integer.toString(150); }
+            else if (limitInt > 0 && !matchPattern.isEmpty()){ this.QUERY += Integer.toString(limitInt); }
             ResultSet result = query.executeQuery(QUERY);
             while(result.next()) {
                 HashMap<String, String> location = new HashMap<>();
                 location.put("name", result.getString("name"));
                 location.put("latitude", result.getString("latitude"));
                 location.put("longitude", result.getString("longitude"));
-                location.put("id", result.getString("id"));
-                location.put("altitude", result.getString("altitude"));
-                location.put("municipality", result.getString("municipality"));
-                location.put("type", result.getString("type"));
                 this.allLocations.add(location); }
         }
         catch (Exception e) { System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage()); }
         return allLocations;
     }
 
-    public int processFound(String matchPattern){
-        matchPattern = "'%" + matchPattern + "%'";
+    public int processFound(String matchPattern, int limitInt){
+//        this.QUERY = "SELECT world.name, world.latitude, world.longitude FROM continent INNER JOIN country ON continent.id = country.continent INNER JOIN region ON country.id = region.iso_country INNER JOIN world on region.id = world.iso_region ";
+//        if (matchPattern.isEmpty() && limitInt == 0) { this.QUERY += "ORDER BY RAND() LIMIT 1"; }
+//        else if (matchPattern.isEmpty()) { this.QUERY += "ORDER BY RAND() LIMIT " + limitInt; }
+//        else { this.QUERY += "WHERE country.name LIKE '%" + matchPattern + "%' OR region.name like '%" + matchPattern + "%' OR world.name like '%" + matchPattern + "%' OR world.municipality like '%" + matchPattern + "%' ORDER BY world.name ASC LIMIT 150"; }
+        this.QUERY = getQUERY(matchPattern, limitInt);
         setServerParameters();
         try {
             Connection con = DriverManager.getConnection(db_url, db_user, db_pass);
             Statement query = con.createStatement();
-            this.QUERY = "SELECT world.name FROM continent INNER JOIN country ON continent.id = country.continent INNER JOIN region ON country.id = region.iso_country INNER JOIN world on region.id = world.iso_region WHERE country.name LIKE " + matchPattern + " OR region.name like " + matchPattern + " OR world.name like " + matchPattern + " OR world.municipality like " + matchPattern + " ORDER BY continent.name, country.name, region.name, world.municipality, world.name ASC LIMIT 150";
+            if (!matchPattern.isEmpty()) { this.QUERY += "150"; }
             ResultSet result = query.executeQuery(QUERY);
             while(result.next()) {
                 HashMap<String, String> location = new HashMap<>();
                 location.put("name", result.getString("name"));
+                location.put("latitude", result.getString("latitude"));
+                location.put("longitude", result.getString("longitude"));
                 this.foundList.add(location); }
         }
         catch (Exception e) { System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage()); }
         return foundList.size();
+    }
+
+    public String getQUERY(String matchPattern, int limitInt){
+        this.QUERY = "SELECT world.name, world.latitude, world.longitude FROM continent INNER JOIN country ON continent.id = country.continent INNER JOIN region ON country.id = region.iso_country INNER JOIN world on region.id = world.iso_region ";
+        if (matchPattern.isEmpty() && limitInt == 0) { this.QUERY += "ORDER BY RAND() LIMIT 1"; }
+        else if (matchPattern.isEmpty() && limitInt != 0) { this.QUERY += "ORDER BY RAND() LIMIT " + limitInt; }
+        else { this.QUERY += "WHERE country.name LIKE '%" + matchPattern + "%' OR region.name like '%" + matchPattern + "%' OR world.name like '%" + matchPattern + "%' OR world.municipality like '%" + matchPattern + "%' ORDER BY world.name ASC LIMIT "; }
+        return this.QUERY;
     }
 }

@@ -29,8 +29,8 @@ public class RequestFind extends RequestHeader {
 
     @Override
     public void buildResponse() {
-        this.places = findResult.processFindServerRequest(this.match, this.limit);
-        this.found = findResult.processFound(this.match);
+        this.places = findResult.processPlaces(this.match, this.limit);
+        this.found = findResult.processFound(this.match, this.limit);
         log.trace("buildResponse -> {}", this);
     }
 
@@ -40,10 +40,7 @@ public class RequestFind extends RequestHeader {
     public String getMatch(){
         return match;
     }
-    public int getFound(){
-        return found;
-        //return findResult.getPlacesSize(this.places);
-    }
+    public int getFound(){ return found; }
     public List<HashMap<String, String>> getPlaces(){
         return places;
     }
