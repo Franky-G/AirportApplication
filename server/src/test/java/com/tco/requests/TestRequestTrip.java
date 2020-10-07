@@ -105,6 +105,31 @@ public class TestRequestTrip {
         assertEquals("40.6", testPlaces[2].get("latitude"));
         assertEquals("-105.1", testPlaces[2].get("longitude"));
     }
+
+    @Test
+    @DisplayName("Test Trip Denver to Boulder")
+    public void testTrip() {
+        trip.buildResponse();
+        Long [] getDistance = trip.getTripDistance();
+        assertEquals(30, getDistance[0]);
+    }
+
+    @Test
+    @DisplayName("Test Trip Boulder to Fort Collins")
+    public void testTrip2() {
+        trip.buildResponse();
+        Long [] getDistance = trip.getTripDistance();
+        assertEquals(44, getDistance[1]);
+    }
+
+    @Test
+    @DisplayName("Test Trip Fort Collins to Denver")
+    public void testTrip3() {
+        trip.buildResponse();
+        Long[] getDistance = trip.getTripDistance();
+        assertEquals(62, getDistance[2]);
+    }
+
     @Test
     @DisplayName("Version number is equal to 3 Trip 2")
     public void testVersionTrip2() {
@@ -151,7 +176,6 @@ public class TestRequestTrip {
         assertEquals("-118.3959402004257", testPlaces[1].get("longitude"));
     }
 
-    @Disabled //TODO: Remove to work on distance
     @Test
     @DisplayName("Distance Trip 2")
     public void testDistanceTrip2() {
