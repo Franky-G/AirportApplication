@@ -40,6 +40,6 @@ public class RequestDistance extends RequestHeader {
 
     public Map<String, String> getPlace1() { return place1; }
     public Map<String, String> getPlace2() { return place2; }
-    public Double getEarthRadius() { return earthRadius; }
+    public Double getEarthRadius() { return this.earthRadius; }
     public Long getDistance() { return this.distance; }
 }

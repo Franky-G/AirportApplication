@@ -9,20 +9,20 @@ import java.util.Map;
 
 public class RequestTrip extends RequestHeader {
 
-//    private Map<String, String>[] places;
-    private HashMap[] places;
+    private Map<String, String>[] places;
     private Map <String, String> options;
     private String title;
     private String earthRadius;
     private Long distance[];
     private CalculateDistance calc = new CalculateDistance();
+    private final transient Logger log = LoggerFactory.getLogger(RequestTrip.class);
 
     public RequestTrip() {
         this.requestType = "trip";
         this.requestVersion = RequestHeader.CURRENT_SUPPORTED_VERSION;
     }
 
-    public RequestTrip(String title, String earthRadius, HashMap[] places) {
+    public RequestTrip(String title, String earthRadius, Map<String, String>[] places) {
         this();
         this.options = new HashMap<>();
         this.options.put("title", title);
@@ -43,10 +43,11 @@ public class RequestTrip extends RequestHeader {
             Long tempDist = calc.ComputeDistance(this.places[i], this.places[i+1], Double.parseDouble(this.earthRadius));
             this.distance[i] = tempDist;
         }
+        log.trace("buildResponse -> {}", this);
     }
 
     public Map<String, String>  getOptions() { return this.options; }
-    public HashMap[] getPlaces() { return this.places; }
+    public Map<String, String>[] getPlaces() { return this.places; }
     public String getEarthRadius() {return this.earthRadius; }
     public Long [] getTripDistance() { return this.distance; }
     public String getTitle() { return this.title; }
