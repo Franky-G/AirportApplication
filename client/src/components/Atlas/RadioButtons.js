@@ -22,7 +22,7 @@ export default class SearchModule extends Component {
     }
 
     renderRadioButtons() {
-        let radioArray = [{id: "distance", state: this.props.switchToDistanceModule()}, {id: "whereIs", state: this.props.switchToWhereIsModule()}]
+        let radioArray = [{id: "distance", state: () => this.props.switchToDistanceModule()}, {id: "whereIs", state: () => this.props.switchToWhereIsModule()}]
         return (
             <Container style={{position: "absolute", bottom: 20, left: 31, maxWidth: 260, zIndex: 1016}}>
                 <Row className="vertical-center">
@@ -41,7 +41,9 @@ export default class SearchModule extends Component {
 
     addInputButton(array){
         return(
-            <CustomInput id={array.id} type="radio" name="searchRadioButton" onChange={array.state}/>
+            <div>
+                <CustomInput id={array.id} type="radio" name="searchRadioButton" onChange={array.state}/>
+            </div>
         );
     }
 }
