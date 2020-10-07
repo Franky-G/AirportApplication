@@ -37,7 +37,6 @@ export default class Atlas extends Component {
     this.setMarker = this.setMarker.bind(this);
     this.setSearchBarCoords = this.setSearchBarCoords.bind(this);
     this.setPrevLocationState = this.setPrevLocationState.bind(this);
-    this.setDistanceState = this.setDistanceState.bind(this);
     this.setSearchTextIsEmpty = this.setSearchTextIsEmpty.bind(this);
     this.child = React.createRef();
 
@@ -56,13 +55,13 @@ export default class Atlas extends Component {
   render() {
     return (
         <div>
+          {console.log("render")}
           <Container>
             <Row>
               <Col sm={12} md={{size: 10, offset: 1}}>
                 <SearchModule
                     {...this.state}
                     setSearchBarCoords={this.setSearchBarCoords} setPrevLocationState={this.setPrevLocationState}
-                    getMarkerPosition={this.getMarkerPosition} setSearchResults={this.setSearchResults} setDistanceState={this.setDistanceState}
                     ref={(ref) => this.searchREF=ref} setSearchTextIsEmpty={this.setSearchTextIsEmpty}/>
                 {this.renderLeafletMap()}
               </Col>
@@ -193,10 +192,6 @@ export default class Atlas extends Component {
     );
   }
 
-  setDistanceState(distanceState){
-    this.setState({polyDistance: distanceState});
-  }
-
   setMarker(mapClickInfo) {
     const slicedArray = this.state.prevLocation.slice();
     slicedArray[1] = slicedArray[0];
@@ -211,9 +206,9 @@ export default class Atlas extends Component {
     );
   }
 
-  setPrevLocationState(markerArray){
+  setPrevLocationState(markerArray, distanceVal){
     let parseArr = [markerArray[0].lat.toString(), markerArray[0].lng.toString()]
-    this.setState({prevLocation: markerArray, mapCenter: parseArr});
+    this.setState({prevLocation: markerArray, mapCenter: parseArr, polyDistance: distanceVal});
   }
 
   setSearchBarCoords (coords)  {

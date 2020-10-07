@@ -176,10 +176,8 @@ export default class SearchModule extends Component {
             place1: {latitude: lat1, longitude: long1},
             place2: {latitude: lat2, longitude: long2}})
             .then(distance => {
-                if (distance) {
-                    this.props.setDistanceState(distance.data.distance);
-                }
-                this.props.setPrevLocationState(markerArray);
+                this.props.setPrevLocationState(markerArray, distance.data.distance);
+                this.setState({distance: distance.data.distance})
             });
     }
 
