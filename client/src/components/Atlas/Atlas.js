@@ -38,7 +38,7 @@ export default class Atlas extends Component {
     this.setSearchBarCoords = this.setSearchBarCoords.bind(this);
     this.setPrevLocationState = this.setPrevLocationState.bind(this);
     this.setSearchTextIsEmpty = this.setSearchTextIsEmpty.bind(this);
-    this.child = React.createRef();
+    this.setWhereIsMarker = this.setWhereIsMarker.bind(this);
 
     this.state = {
       markerPosition: null,
@@ -62,7 +62,8 @@ export default class Atlas extends Component {
                 <SearchModule
                     {...this.state}
                     setSearchBarCoords={this.setSearchBarCoords} setPrevLocationState={this.setPrevLocationState}
-                    ref={(ref) => this.searchREF=ref} setSearchTextIsEmpty={this.setSearchTextIsEmpty}/>
+                    ref={(ref) => this.searchREF=ref} setSearchTextIsEmpty={this.setSearchTextIsEmpty}
+                    setWhereIsMarker={this.setWhereIsMarker}/>
                 {this.renderLeafletMap()}
               </Col>
             </Row>
@@ -223,6 +224,10 @@ export default class Atlas extends Component {
 
   setSearchTextIsEmpty(_state){
     this.setState({searchTextToIsEmpty: _state})
+  }
+
+  setWhereIsMarker(_pos){
+    this.setState({whereIsMarker: _pos, mapCenter: [_pos.lat, _pos.lng]})
   }
 }
 

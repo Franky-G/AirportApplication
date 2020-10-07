@@ -16,7 +16,7 @@ export default class SearchModule extends Component {
     render(){
         return(
             <div>
-                {this.props.coreModule && this.renderRadioButtons()}
+                {this.props.searchModule && this.renderRadioButtons()}
             </div>
         );
     }
