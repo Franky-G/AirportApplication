@@ -44,9 +44,9 @@ public class TestRequestConfig {
   }
 
   @Test
-  @DisplayName("Supported requests are [\"config\", \"distance\", \"find\"")
+  @DisplayName("Supported requests are [\"config\", \"distance\", \"find\", \"trip\"")
   public void testSupportedRequests(){
-    List<String> temp = Arrays.asList("config", "distance", "find");
+    List<String> temp = Arrays.asList("config", "distance", "find", "trip");
     List<String> suppReq = conf.getSupportedRequests();
     assertEquals(temp, suppReq);
   }

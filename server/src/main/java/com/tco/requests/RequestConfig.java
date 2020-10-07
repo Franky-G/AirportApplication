@@ -23,7 +23,7 @@ public class RequestConfig extends RequestHeader {
   public void buildResponse() {
     this.serverName = "t10 tech10";
     this.requestVersion = RequestHeader.CURRENT_SUPPORTED_VERSION;
-    this.supportedRequests = Arrays.asList("config", "distance", "find");
+    this.supportedRequests = Arrays.asList("config", "distance", "find", "trip");
     log.trace("buildResponse -> {}", this);
   }
 

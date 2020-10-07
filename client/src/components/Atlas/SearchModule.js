@@ -94,8 +94,6 @@ export default class SearchModule_old extends Component {
         );
     }
 
-
-
     renderDistanceModule() {
         return (
             <div key="DistancePanel">
@@ -165,6 +163,7 @@ export default class SearchModule_old extends Component {
         })
             .then(distance => {
                 this.props.setPrevLocationState(markerArray, distance.data.distance);
+                this.setState({distance: distance.data.distance})
             });
     }
 }
