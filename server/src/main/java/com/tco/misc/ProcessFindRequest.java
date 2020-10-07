@@ -1,8 +1,5 @@
 package com.tco.misc;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.Statement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,21 +35,16 @@ public class ProcessFindRequest {
 
     public List<HashMap<String,String>> processPlaces(String matchPattern, int limitInt) {
         this.QUERY = getQUERY(matchPattern, limitInt);
+        if (!matchPattern.isEmpty()) {
+            if (limitInt == 0) { this.QUERY += "150"; }
+            else{ this.QUERY += limitInt; }
+        }
         setServerParameters();
         try {
             Connection con = DriverManager.getConnection(db_url, db_user, db_pass);
             Statement query = con.createStatement();
-            if (!matchPattern.isEmpty()) {
-                if (limitInt == 0) { this.QUERY += "150"; }
-                else{ this.QUERY += limitInt; }
-            }
             ResultSet result = query.executeQuery(QUERY);
-            while(result.next()) {
-                HashMap<String, String> location = new HashMap<>();
-                location.put("name", result.getString("name"));
-                location.put("latitude", result.getString("latitude"));
-                location.put("longitude", result.getString("longitude"));
-                this.allLocations.add(location); }
+            while(result.next()) { this.allLocations.add(getHashMap(result)); }
         }
         catch (Exception e) { System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage()); }
         return allLocations;
@@ -60,18 +52,13 @@ public class ProcessFindRequest {
 
     public int processFound(String matchPattern, int limitInt){
         this.QUERY = getQUERY(matchPattern, limitInt);
+        if (!matchPattern.isEmpty()) { this.QUERY += "150"; }
         setServerParameters();
         try {
             Connection con = DriverManager.getConnection(db_url, db_user, db_pass);
             Statement query = con.createStatement();
-            if (!matchPattern.isEmpty()) { this.QUERY += "150"; }
             ResultSet result = query.executeQuery(QUERY);
-            while(result.next()) {
-                HashMap<String, String> location = new HashMap<>();
-                location.put("name", result.getString("name"));
-                location.put("latitude", result.getString("latitude"));
-                location.put("longitude", result.getString("longitude"));
-                this.foundList.add(location); }
+            while(result.next()) { this.foundList.add(getHashMap(result)); }
         }
         catch (Exception e) { System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage()); }
         return foundList.size();
@@ -83,5 +70,13 @@ public class ProcessFindRequest {
         else if (matchPattern.isEmpty()) { this.QUERY += "ORDER BY RAND() LIMIT " + limitInt; }
         else { this.QUERY += "WHERE country.name LIKE '%" + matchPattern + "%' OR region.name like '%" + matchPattern + "%' OR world.name like '%" + matchPattern + "%' OR world.municipality like '%" + matchPattern + "%' ORDER BY world.name ASC LIMIT "; }
         return this.QUERY;
+    }
+
+    public HashMap<String,String> getHashMap(ResultSet result) throws SQLException {
+        HashMap<String, String> location = new HashMap<>();
+        location.put("name", result.getString("name"));
+        location.put("latitude", result.getString("latitude"));
+        location.put("longitude", result.getString("longitude"));
+        return location;
     }
 }
