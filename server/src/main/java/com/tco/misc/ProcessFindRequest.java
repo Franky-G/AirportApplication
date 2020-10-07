@@ -40,12 +40,7 @@ public class ProcessFindRequest {
             else{ this.QUERY += limitInt; }
         }
         setServerParameters();
-        try {
-            Connection con = DriverManager.getConnection(db_url, db_user, db_pass);
-            Statement query = con.createStatement();
-            ResultSet result = query.executeQuery(QUERY);
-            while(result.next()) { this.allLocations.add(getHashMap(result)); }
-        }
+        try { runQuery(this.QUERY, this.allLocations); }
         catch (Exception e) { System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage()); }
         return allLocations;
     }
@@ -54,12 +49,7 @@ public class ProcessFindRequest {
         this.QUERY = getQUERY(matchPattern, limitInt);
         if (!matchPattern.isEmpty()) { this.QUERY += "150"; }
         setServerParameters();
-        try {
-            Connection con = DriverManager.getConnection(db_url, db_user, db_pass);
-            Statement query = con.createStatement();
-            ResultSet result = query.executeQuery(QUERY);
-            while(result.next()) { this.foundList.add(getHashMap(result)); }
-        }
+        try { runQuery(this.QUERY, this.foundList); }
         catch (Exception e) { System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage()); }
         return foundList.size();
     }
@@ -69,6 +59,8 @@ public class ProcessFindRequest {
         if (matchPattern.isEmpty() && limitInt == 0) { this.QUERY += "ORDER BY RAND() LIMIT 1"; }
         else if (matchPattern.isEmpty()) { this.QUERY += "ORDER BY RAND() LIMIT " + limitInt; }
         else { this.QUERY += "WHERE country.name LIKE '%" + matchPattern + "%' OR region.name like '%" + matchPattern + "%' OR world.name like '%" + matchPattern + "%' OR world.municipality like '%" + matchPattern + "%' ORDER BY world.name ASC LIMIT "; }
+
+
         return this.QUERY;
     }
 
@@ -78,5 +70,12 @@ public class ProcessFindRequest {
         location.put("latitude", result.getString("latitude"));
         location.put("longitude", result.getString("longitude"));
         return location;
+    }
+
+    public void runQuery(String QUERY, List<HashMap<String,String>> list) throws SQLException {
+        Connection con = DriverManager.getConnection(db_url, db_user, db_pass);
+        Statement query = con.createStatement();
+        ResultSet result = query.executeQuery(QUERY);
+        while(result.next()) { list.add(getHashMap(result)); }
     }
 }
