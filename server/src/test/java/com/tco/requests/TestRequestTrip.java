@@ -3,6 +3,8 @@ package com.tco.requests;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
+
+import java.lang.reflect.Array;
 import java.util.HashMap;
 import java.util.Map;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -10,31 +12,25 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class TestRequestTrip {
 
     private RequestTrip trip;
-    private HashMap <String, String> temp;
-    private HashMap <String, String> temp3;
-    private HashMap <String, String> temp4;
-    private HashMap[] temp2;
+    private Map<String, String>[] places;
 
     @BeforeEach
     public void createConfigurationForTestCases(){
         trip = new RequestTrip();
-        temp2 = new HashMap[3];
-        temp = new HashMap<>();
-        temp3 = new HashMap<>();
-        temp4 = new HashMap<>();
-        temp.put("name", "Denver");
-        temp.put("latitude", "39.7");
-        temp.put("longitude", "-105.0");
-        temp2[0] = temp;
-        temp3.put("name", "Boulder");
-        temp3.put("latitude", "40.0");
-        temp3.put("longitude", "-105.4");
-        temp2[1] = temp3;
-        temp4.put("name", "Fort Collins");
-        temp4.put("latitude", "40.6");
-        temp4.put("longitude", "-105.1");
-        temp2[2] = temp4;
-        trip = new RequestTrip("test", "3959.0", temp2);
+        this.places = new HashMap[3];
+        this.places[0] = new HashMap<>();
+        this.places[0].put("name", "Denver");
+        this.places[0].put("latitude", "39.7");
+        this.places[0].put("longitude", "-105.0");
+        this.places[1] = new HashMap<>();
+        this.places[1].put("name", "Boulder");
+        this.places[1].put("latitude", "40.0");
+        this.places[1].put("longitude", "-105.4");
+        this.places[2] = new HashMap<>();
+        this.places[2].put("name", "Fort Collins");
+        this.places[2].put("latitude", "40.6");
+        this.places[2].put("longitude", "-105.1");
+        trip = new RequestTrip("test", "3959.0", this.places);
     }
 
     @Test
