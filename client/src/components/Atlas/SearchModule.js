@@ -143,7 +143,7 @@ export default class SearchModule extends Component {
         return(
             <Container style={{position: "absolute", bottom:148, left:40, width: "90%"}}>
                 <ListGroup onClick={() => this.setState({searchIsOn: false})}>
-                    <div>{searchListArray.map((element, index) => (<div key={index}>{element}</div>))} </div>
+                    {searchListArray.map((element, index) => (<div key={index}>{element}</div>))}
                 </ListGroup>
             </Container>
         );

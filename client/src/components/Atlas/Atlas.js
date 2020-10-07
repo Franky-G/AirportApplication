@@ -7,10 +7,7 @@ import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import 'leaflet/dist/leaflet.css';
 import 'bootstrap/dist/css/bootstrap.css';
-
 import SearchModule from "./SearchModule";
-
-
 
 const MAP_BOUNDS = [[-90, -180], [90, 180]];
 const MAP_CENTER_DEFAULT = [40.5734, -105.0865];
@@ -63,7 +60,7 @@ export default class Atlas extends Component {
             <Row>
               <Col sm={12} md={{size: 10, offset: 1}}>
                 <SearchModule
-                    {...this.props}
+                    {...this.state}
                     setSearchBarCoords={this.setSearchBarCoords} setPrevLocationState={this.setPrevLocationState}
                     getMarkerPosition={this.getMarkerPosition} setSearchResults={this.setSearchResults} setDistanceState={this.setDistanceState}
                     ref={(ref) => this.searchREF=ref} setSearchTextIsEmpty={this.setSearchTextIsEmpty}/>
