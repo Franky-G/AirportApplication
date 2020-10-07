@@ -49,6 +49,8 @@ public class RequestTrip extends RequestHeader {
     public Map<String, String>  getOptions() { return this.options; }
     public Map<String, String>[] getPlaces() { return this.places; }
     public String getEarthRadius() {return this.earthRadius; }
-    public Long [] getTripDistance() { return this.distance; }
+    public Long [] getTripDistance() {
+        System.out.println(this.distance.toString());
+        return this.distance; }
     public String getTitle() { return this.title; }
 }

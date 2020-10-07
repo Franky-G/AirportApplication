@@ -1,5 +1,6 @@
 package com.tco.requests;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -13,6 +14,9 @@ public class TestRequestTrip {
 
     private RequestTrip trip;
     private Map<String, String>[] places;
+
+    private RequestTrip trip2;
+    private HashMap[] trip2Trips;
 
     @BeforeEach
     public void createConfigurationForTestCases(){
@@ -31,6 +35,20 @@ public class TestRequestTrip {
         this.places[2].put("latitude", "40.6");
         this.places[2].put("longitude", "-105.1");
         trip = new RequestTrip("test", "3959.0", this.places);
+
+        trip2 = new RequestTrip();
+        trip2Trips = new HashMap[2];
+        HashMap<String, String> trip2Dest = new HashMap<>();
+        trip2Dest.put("name", "New York");
+        trip2Dest.put("latitude", "40.743970970422126");
+        trip2Dest.put("longitude", "-73.98034986457789");
+        trip2Trips[0] = trip2Dest;
+        HashMap<String, String> trip2Dest1 = new HashMap<>();
+        trip2Dest1.put("name", "Redondo Beach");
+        trip2Dest1.put("latitude", "33.84470872576988");
+        trip2Dest1.put("longitude", "-118.3959402004257");
+        trip2Trips[1] = trip2Dest1;
+        trip2 = new RequestTrip("2 dest test", "3959.0", trip2Trips);
     }
 
     @Test
@@ -86,5 +104,60 @@ public class TestRequestTrip {
         assertEquals("Fort Collins", testPlaces[2].get("name"));
         assertEquals("40.6", testPlaces[2].get("latitude"));
         assertEquals("-105.1", testPlaces[2].get("longitude"));
+    }
+    @Test
+    @DisplayName("Version number is equal to 3 Trip 2")
+    public void testVersionTrip2() {
+        int version = trip2.getRequestVersion();
+        assertEquals(3, version);
+    }
+
+    @Test
+    @DisplayName("Request type is \"trip\" Trip 2")
+    public void testTypeTrip2() {
+        String type = trip2.getRequestType();
+        assertEquals("trip", type);
+    }
+
+    @Test
+    @DisplayName("Trip Title Trip 2")
+    public void testTitleTrip2() {
+        String title = trip2.getTitle();
+        assertEquals("2 dest test", title);
+    }
+
+    @Test
+    @DisplayName("Earth Radius Trip 2")
+    public void testEarthRadiusTrip2() {
+        String earthRadius = trip2.getEarthRadius();
+        assertEquals("3959.0", earthRadius);
+    }
+
+    @Test
+    @DisplayName("Place 1 Trip 2")
+    public void testPlace1Trip2() {
+        Map <String, String> testPlaces[] = trip2.getPlaces();
+        assertEquals("New York", testPlaces[0].get("name"));
+        assertEquals("40.743970970422126", testPlaces[0].get("latitude"));
+        assertEquals("-73.98034986457789", testPlaces[0].get("longitude"));
+    }
+
+    @Test
+    @DisplayName("Place 2 Trip 2")
+    public void testPlace2Trip2() {
+        Map <String, String> testPlaces[] = trip2.getPlaces();
+        assertEquals("Redondo Beach", testPlaces[1].get("name"));
+        assertEquals("33.84470872576988", testPlaces[1].get("latitude"));
+        assertEquals("-118.3959402004257", testPlaces[1].get("longitude"));
+    }
+
+    @Disabled //TODO: Remove to work on distance
+    @Test
+    @DisplayName("Distance Trip 2")
+    public void testDistanceTrip2() {
+        trip2.buildResponse();
+        Long[] distances = new Long[trip2.getTripDistance().length];
+        distances[0] = trip2.getTripDistance()[0];
+        assertEquals(2461, distances[0]);
     }
 }
