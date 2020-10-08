@@ -14,6 +14,8 @@ public class TestRequestTrip {
 
     private RequestTrip trip;
     private Map<String, String>[] places;
+    private Map<String, String> options;
+    private Map<String, String> optionsTest2;
 
     private RequestTrip trip2;
     private HashMap[] trip2Trips;
@@ -21,6 +23,9 @@ public class TestRequestTrip {
     @BeforeEach
     public void createConfigurationForTestCases(){
         trip = new RequestTrip();
+        this.options = new HashMap<>();
+        this.options.put("title", "test");
+        this.options.put("earthRadius", "3959.0");
         this.places = new HashMap[3];
         this.places[0] = new HashMap<>();
         this.places[0].put("name", "Denver");
@@ -34,10 +39,13 @@ public class TestRequestTrip {
         this.places[2].put("name", "Fort Collins");
         this.places[2].put("latitude", "40.6");
         this.places[2].put("longitude", "-105.1");
-        trip = new RequestTrip("test", "3959.0", this.places);
+        trip = new RequestTrip(this.options, this.places);
 
         trip2 = new RequestTrip();
+        this.optionsTest2 = new HashMap<>();
         trip2Trips = new HashMap[2];
+        this.optionsTest2.put("title", "2 dest test");
+        this.optionsTest2.put("earthRadius", "3959.0");
         HashMap<String, String> trip2Dest = new HashMap<>();
         trip2Dest.put("name", "New York");
         trip2Dest.put("latitude", "40.743970970422126");
@@ -48,7 +56,7 @@ public class TestRequestTrip {
         trip2Dest1.put("latitude", "33.84470872576988");
         trip2Dest1.put("longitude", "-118.3959402004257");
         trip2Trips[1] = trip2Dest1;
-        trip2 = new RequestTrip("2 dest test", "3959.0", trip2Trips);
+        trip2 = new RequestTrip(this.optionsTest2, trip2Trips);
     }
 
     @Test

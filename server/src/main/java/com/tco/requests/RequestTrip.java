@@ -22,11 +22,9 @@ public class RequestTrip extends RequestHeader {
         this.requestVersion = RequestHeader.CURRENT_SUPPORTED_VERSION;
     }
 
-    public RequestTrip(String title, String earthRadius, Map<String, String>[] places) {
+    public RequestTrip(Map<String, String> options, Map<String, String>[] places) {
         this();
-        this.options = new HashMap<>();
-        this.options.put("title", title);
-        this.options.put("earthRadius", earthRadius);
+        this.options = options;
         this.title = this.options.get("title");
         this.earthRadius = this.options.get("earthRadius");
         this.places = places;
