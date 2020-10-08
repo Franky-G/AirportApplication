@@ -62,7 +62,7 @@ Reflection will be done in regards to the retrospective from sprint 2 and the te
 | Date | Tasks closed  | Tasks in progress | Impediments |
 | :--- | :--- | :--- | :--- |
 | *10/05/20* | *0* | *5* | *none* | 
-| *10/07/20* | *4* | *3* | *none* | 
+| *10/07/20* | *7* | *5* | *none* | 
 
 
 ## Review
