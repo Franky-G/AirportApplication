@@ -12,6 +12,7 @@ import Input from "@material-ui/core/Input";
 
 const labelStyle = {opacity: 0.2, overflow:"hidden"}
 const inputArray = [{width: 211, label: "Add Place", width2: 70}, {width: 229, label: "Filter", width2: 50}]
+const placesAndTrips = [{height: 175, text: "Places"}, {height: 90, text: "Trips"}]
 
 export default class SearchModule extends Component {
 
@@ -23,6 +24,7 @@ export default class SearchModule extends Component {
             myclass: '',
             searchPlaces: "",
             filter: "",
+
         }
     }
 
@@ -45,6 +47,16 @@ export default class SearchModule extends Component {
         );
     }
 
+    addPlaceOrDistance(array){
+        return(
+            <div>
+                <Row id="placePanel" className="justify-content-center">
+                    <div className="tripBackdrop" style={{width:280, height: array.height, fontSize: 40}} ><label style={labelStyle} className="vertical-center justify-content-center" >{array.text}</label></div>
+                </Row>
+            </div>
+        );
+    }
+
     addASpace(){
         return(
             <Row style={{height:5}}/>
@@ -63,10 +75,10 @@ export default class SearchModule extends Component {
         }
     }
 
-    handleTripInputs(){
+    updateInputState(){
         const input = event.target;
-        if (input.name === "searchPlaces"){this.setState({searchWhereIsTextFrom: input.value});}
-        if (input.name === "filter"){this.setState({searchWhereIsTextTo: input.value});}
+        if (input.name === "searchPlaces"){this.setState({searchPlaces: input.value});}
+        if (input.name === "filter"){this.setState({filter: input.value});}
     }
 
     renderPopover(){
@@ -93,15 +105,15 @@ export default class SearchModule extends Component {
         );
     }
 
-    renderPlacesAndTrips(){
+    renderPlacesAndTrips(array){
         return(
             <div>
                 <Row id="placePanel" className="justify-content-center">
-                    <div className="tripBackdrop" style={{width:280, height:175, fontSize: 40}} ><label style={labelStyle} className="vertical-center justify-content-center" >Places</label></div>
+                    <div className="tripBackdrop" style={{width:280, height: array[0].height, fontSize: 40}} ><label style={labelStyle} className="vertical-center justify-content-center" >Places</label></div>
                 </Row>
                 <Row style={{height: 5}}/>
                 <Row id={"savedTripsPanel"} className="justify-content-center">
-                    <div className="tripBackdrop" style={{width:280, height: 90, fontSize: 40}}><label style={labelStyle} className="vertical-center justify-content-center">Saved Trips</label></div>
+                    <div className="tripBackdrop" style={{width:280, height: array[1].height, fontSize: 40}}><label style={labelStyle} className="vertical-center justify-content-center">Saved Trips</label></div>
 
                 </Row>
             </div>
@@ -123,7 +135,8 @@ export default class SearchModule extends Component {
                     {this.addInputField(inputArray[0])}
                 </div>
                 {this.addASpace()}
-                    {this.renderPlacesAndTrips()}
+                {this.addPlaceOrDistance(placesAndTrips[0])}
+                {this.addPlaceOrDistance(placesAndTrips[1])}
                 {this.addASpace()}
                 <Row style={{top:5}}>
                     {this.addInputField(inputArray[1])}
