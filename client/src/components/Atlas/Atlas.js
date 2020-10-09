@@ -153,7 +153,7 @@ export default class Atlas extends Component {
           </DropdownToggle>
           <DropdownMenu>
             <DropdownItem onClick={() => this.tripREF.divclicked()}>Open Trip Designer</DropdownItem>
-            <DropdownItem onClick={() => this.setTripRecord()}> Toggle Trip Recording <Badge color={this.tripClicked()}>R</Badge></DropdownItem>
+            <DropdownItem onClick={() => this.setTripRecord()}> Toggle Trip Recording <Badge style={{borderRadius: 30}} color={this.tripClicked()}>R</Badge></DropdownItem>
           </DropdownMenu>
         </ButtonDropdown>
     );
