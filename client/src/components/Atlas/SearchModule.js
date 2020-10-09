@@ -121,24 +121,6 @@ export default class SearchModule_old extends Component {
         this.props.setSearchBarCoords(coords);
     }
 
-    async formatDistanceCoords() {
-        try {
-            let cordParse = require('coordinate-parser');
-            if(this.state.searchTextFrom){
-                let cordLocationFrom = new cordParse(this.state.searchTextFrom);
-                await this.setState({searchTextFrom: cordLocationFrom.getLatitude()+','+cordLocationFrom.getLongitude()})
-           }
-            if(this.state.searchTextTo){
-                let cordLocationTo = new cordParse(this.state.searchTextTo)
-                await this.setState({searchTextTo: cordLocationTo.getLatitude()+','+cordLocationTo.getLongitude()})
-           }
-            this.calcDist()
-        }
-        catch (error){
-            alert("Invalid Coordinate Input!")
-        }
-    }
-
     calcDist() {
         if (this.state.searchTextFrom && this.state.searchTextTo) {
             this.helperValidFromTo(0)
@@ -188,4 +170,24 @@ export default class SearchModule_old extends Component {
                 this.setState({distance: distance.data.distance})
             });
     }
+
+    async formatDistanceCoords() {
+        try {
+            let cordParse = require('coordinate-parser');
+            if(this.state.searchTextFrom){
+                let cordLocationFrom = new cordParse(this.state.searchTextFrom);
+                await this.setState({searchTextFrom: cordLocationFrom.getLatitude()+','+cordLocationFrom.getLongitude()})
+            }
+            if(this.state.searchTextTo){
+                let cordLocationTo = new cordParse(this.state.searchTextTo)
+                await this.setState({searchTextTo: cordLocationTo.getLatitude()+','+cordLocationTo.getLongitude()})
+            }
+            this.calcDist()
+        }
+        catch (error){
+            alert("Invalid Coordinate Input!")
+        }
+    }
 }
+
+
