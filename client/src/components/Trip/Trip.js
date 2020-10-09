@@ -23,11 +23,14 @@ export default class SearchModule extends Component {
         this.divclicked = this.divclicked.bind(this);
         this.resetTripPlaces = this.resetTripPlaces.bind(this);
         this.removeATrip = this.removeATrip.bind(this);
+        this.removeAPlace = this.removeAPlace.bind(this);
+        this.addATrip = this.addATrip.bind(this);
+
         this.state = {
             myclass: '',
             searchPlaces: "",
             filter: "",
-            trips: [[L.latLng(40,-105), L.latLng(40,-105) ], [L.latLng(30,-105), L.latLng(35,-105) ]],
+            trips: [],
             tripPlaces: [],
             index: 0,
 
@@ -43,7 +46,13 @@ export default class SearchModule extends Component {
     }
 
     addATrip(){
-        let tripsArray = []
+        let tripsArray = this.state.trips.slice();
+        if(this.state.trips.size === 1) {
+            tripsArray.push(this.state.tripPlaces)
+        } else {
+            tripsArray.push([])
+        }
+        this.setState({trips: tripsArray})
     }
 
     addToTrips(){
@@ -70,7 +79,7 @@ export default class SearchModule extends Component {
             <ListGroupItem style={searchListStyle} tag="button" action
                            onClick={() => this.setState({tripPlaces: this.state.trips[index], index: index})}>
                 {index}
-                <Button style={{position: "absolute", top: 3, right: 3, backgroundColor: "#1E4D2B", color: "#FFFFFF"}} size="sm" onClick={this.removeATrip}> X </Button>
+                <div className="justify-content-center vertical-center" style={{borderRadius: 5, border: "1px solid #FFFFFF", padding: 2, margin: 0, width: 25, height: 25, position: "absolute",top: 5, right: 3, backgroundColor: "#1E4D2B", color: "#FFFFFF"}} onClick={this.removeATrip}> X </div>
             </ListGroupItem>
         );
     }
@@ -212,7 +221,7 @@ export default class SearchModule extends Component {
             <div tabIndex="1">
                 <Container>
                     <ListGroup>
-                        <div style={{position: "absolute", width: 300, height: 90, top: 293, left: 10, zIndex: 1100}}>
+                        <div style={{position: "absolute", width: 300, height: 90, top: 293, left: 10, overflow:"auto"}}>
                             {searchListArray.map((element, index) => (<div key={index}>{element}</div>))}
                         </div>
                     </ListGroup>
@@ -222,22 +231,24 @@ export default class SearchModule extends Component {
     }
 
     removeAPlace(index){
-        let thisArray = this.state.tripPlaces;
-        thisArray = thisArray.slice(0, index)
+        let thisArray = this.state.tripPlaces.slice();
+        thisArray = thisArray.splice(index, 1)
         this.setState({tripPlaces: thisArray})
     }
 
     removeATrip(index){
-        console.log("removeTrip")
         let tripsArray = this.state.trips.slice();
-        tripsArray = tripsArray.slice(index, 1)
-        this.setState({trips:tripsArray})
+        if(this.state.trips.size === 1){
+            this.setState({tripPlaces: []})
+        } else {
+            tripsArray = tripsArray.splice(index, 1)
+            this.setState({trips: tripsArray})
+        }
     }
 
     resetTripPlaces(){
         let tripsArray = this.state.trips;
         tripsArray[this.state.index] = [];
-        console.log(tripsArray)
         this.setState({tripPlaces: [], trips: tripsArray})
     }
 
