@@ -3,7 +3,6 @@ package com.tco.requests;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.tco.misc.CalculateDistance;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,26 +22,23 @@ public class RequestTrip extends RequestHeader {
 
     public RequestTrip(Map<String, String> options, Map<String, String>[] places) {
         this();
+        this.options = new HashMap<>();
         this.options = options;
         this.title = this.options.get("title");
         this.earthRadius = this.options.get("earthRadius");
+        this.places = new HashMap[places.length];
         this.places = places;
-        this.distance = new Long[this.places.length];
+        this.distance = new Long[places.length];
     }
 
     @Override
     public void buildResponse() {
-        for (int i = 0; i < this.places.length; i++) {
-            if (i == this.places.length - 1) {
-                Long tempDist = CalculateDistance.ComputeDistance(this.places[i], this.places[0], Double.parseDouble(this.earthRadius));
-                this.distance[i] = tempDist;
-            }
-            else {
-                Long tempDist = CalculateDistance.ComputeDistance(this.places[i], this.places[i+1], Double.parseDouble(this.earthRadius));
-                this.distance[i] = tempDist;
-            }
+        this. distance = new Long[this.places.length];
+        for (int i = 0; i < this.places.length - 1; i++) {
+            this.distance[i] = CalculateDistance.ComputeDistance(this.places[i], this.places[i+1], Double.parseDouble(this.options.get("earthRadius")));
         }
-        log.trace("buildResponse -> {}", this.distance);
+        this.distance[this.places.length - 1] = CalculateDistance.ComputeDistance(this.places[this.places.length - 1], this.places[0], Double.parseDouble(this.options.get("earthRadius")));;
+        log.trace("buildResponse -> {}", this);
     }
 
     public Map<String, String>[] getPlaces() { return this.places; }
