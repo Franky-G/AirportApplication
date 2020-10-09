@@ -22,8 +22,8 @@ export default class SearchModule_old extends Component {
         this.searchBarCoordsIntermediate = this.searchBarCoordsIntermediate.bind(this);
         this.state = {
             showDistanceSearch: false, showLocationSearch: false, showWhereIsSearch: false,
-            searchModule: false, searchTextFrom: "", searchTextTo: "",
-            distance: null, searchPrevLocation: [null, null]
+            searchModule: true, searchTextFrom: " ", searchTextTo: " ",
+            distance: 0, searchPrevLocation: [null, null]
         }
     }
 
@@ -41,6 +41,10 @@ export default class SearchModule_old extends Component {
                 {this.state.searchModule && this.renderSearchModule()}
             </div>
         );
+    }
+
+    componentDidMount() {
+        this.toggleShowSearchModule()
     }
 
     addSearchButton() {
@@ -76,7 +80,7 @@ export default class SearchModule_old extends Component {
 
 
     renderCalculateButton = () => {
-        return (<div><Button className="p-1 distanceButtonStyle" style={{color: "#000000", fontSize: 12, border: "1px solid #C8C372"}} onClick={() => {this.calcDist()}}> Calculate </Button></div>)
+        return (<div><Button className="p-1 distanceButtonStyle" style={{color: "#000000", fontSize: 12, border: "1px solid #C8C372"}} onClick={() => {this.formatDistanceCoords()}}> Calculate </Button></div>)
     }
 
     renderSearchFieldTo() {
@@ -115,6 +119,24 @@ export default class SearchModule_old extends Component {
 
     searchBarCoordsIntermediate(coords){
         this.props.setSearchBarCoords(coords);
+    }
+
+    async formatDistanceCoords() {
+        try {
+            let cordParse = require('coordinate-parser');
+            if(this.state.searchTextFrom){
+                let cordLocationFrom = new cordParse(this.state.searchTextFrom);
+                await this.setState({searchTextFrom: cordLocationFrom.getLatitude()+','+cordLocationFrom.getLongitude()})
+           }
+            if(this.state.searchTextTo){
+                let cordLocationTo = new cordParse(this.state.searchTextTo)
+                await this.setState({searchTextTo: cordLocationTo.getLatitude()+','+cordLocationTo.getLongitude()})
+           }
+            this.calcDist()
+        }
+        catch (error){
+            alert("Invalid Coordinate Input!")
+        }
     }
 
     calcDist() {

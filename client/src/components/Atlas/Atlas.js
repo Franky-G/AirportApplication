@@ -169,7 +169,7 @@ export default class Atlas extends Component {
           <div>
             <Polyline ref={initMarker} color="green" positions={this.state.prevLocation} >
               <Popup autoPan={false} className="popupStyle">
-                Distance: {this.state.polyDistance} M
+                Distance: {this.state.polyDistance}
               </Popup>
             </Polyline>
           </div>
@@ -214,7 +214,7 @@ export default class Atlas extends Component {
 
   setSearchBarCoords (coords)  {
     try {
-      let cordParse = require('coordinate-parser')
+      let cordParse = require('coordinate-parser');
       let cordLocation = new cordParse(coords);
       this.setState({mapCenter: [cordLocation.getLatitude(), cordLocation.getLongitude()], markerPosition: null, whereIsMarker: L.latLng(cordLocation.getLatitude(), cordLocation.getLongitude())});
     } catch (error) {
