@@ -4,8 +4,8 @@ import homeIcon from '../../static/images/homeButtonIcon.png';
 import {Map, TileLayer} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import SearchModule from "./SearchModule";
-import Trip from "./Trip"
+import SearchModule from "../SearchModule/SearchModule";
+import Trip from "../Trip/Trip"
 import WorldMarkers from "./WorldMarkers";
 
 const MAP_BOUNDS = [[-90, -180], [90, 180]];
@@ -21,7 +21,7 @@ const HOME_BUTTON_STYLE = {
   position: "absolute",
 }
 
-let zoomLevel = 15, homeCoords;
+let zoomLevel = 15;
 function error(err) { console.warn(`ERROR(${err.code}): ${err.message}`); }
 
 export default class Atlas extends Component {
@@ -37,7 +37,7 @@ export default class Atlas extends Component {
 
     this.state = {
       markerPosition: null,
-      homeLocation: homeCoords,
+      homeLocation: MAP_CENTER_DEFAULT,
       prevLocation: [null,null],
       mapCenter: MAP_CENTER_DEFAULT,
       whereIsMarker: null,
@@ -45,7 +45,6 @@ export default class Atlas extends Component {
       searchTextToIsEmpty: true,
       hasUserLocation: null,
       tripRecord: false,
-      tripPlaces: [],
       dropdownOpen: false,
       recordingTrip: 0,
       tripStyle: "",
@@ -154,6 +153,7 @@ export default class Atlas extends Component {
           <DropdownMenu>
             <DropdownItem onClick={() => this.tripREF.divclicked()}>Open Trip Designer</DropdownItem>
             <DropdownItem onClick={() => this.setTripRecord()}> Toggle Trip Recording <Badge style={{borderRadius: 30}} color={this.tripClicked()}>R</Badge></DropdownItem>
+            <DropdownItem onClick={() => this.tripREF.resetTripPlaces()}>Reset Trip List</DropdownItem>
           </DropdownMenu>
         </ButtonDropdown>
     );
@@ -169,8 +169,7 @@ export default class Atlas extends Component {
       this.setState({prevLocation: slicedArray, markerPosition: mapClickInfo.latlng, mapCenter: mapClickInfo.latlng})
     }
     if(this.state.tripRecord){
-      this.state.tripPlaces.push(mapClickInfo.latlng);
-      console.log("tripPlaces: " + this.state.tripPlaces)
+      this.tripREF.setTripPlaces(mapClickInfo)
     }
     return(
         this.checkPrevArray()
