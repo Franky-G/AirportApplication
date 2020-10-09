@@ -7,11 +7,10 @@ import java.util.*;
 
 public class RequestFind extends RequestHeader {
 
-    private List<HashMap<String, String>> places = new ArrayList<>();
+    private List<LinkedHashMap<String, String>> places = new ArrayList<>();
     private String match;
     private int limit;
     private int found;
-    private ProcessFindRequest findResult = new ProcessFindRequest();
     private final transient Logger log = LoggerFactory.getLogger(RequestFind.class);
 
     public RequestFind() {
@@ -29,8 +28,8 @@ public class RequestFind extends RequestHeader {
 
     @Override
     public void buildResponse() {
-        this.places = findResult.processPlaces(this.match, this.limit);
-        this.found = findResult.processFound(this.match, this.limit);
+        this.places = ProcessFindRequest.processPlaces(this.match, this.limit);
+        this.found = ProcessFindRequest.processFound(this.match, this.limit);
         log.trace("buildResponse -> {}", this);
     }
 
@@ -41,7 +40,7 @@ public class RequestFind extends RequestHeader {
         return match;
     }
     public int getFound(){ return found; }
-    public List<HashMap<String, String>> getPlaces(){
+    public List<LinkedHashMap<String, String>> getPlaces(){
         return places;
     }
 
