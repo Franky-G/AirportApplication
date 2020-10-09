@@ -11,7 +11,7 @@ import {
 import Input from "@material-ui/core/Input";
 
 const labelStyle = {opacity: 0.2, overflow:"hidden"}
-const inputArray = [{width: 211, label: "Add Place", width2: 70}, {width: 229, label: "Filter", width2: 50}]
+const inputArray = [{width: 211, label: "Add Place", width2: 70, name: "searchPlaces"}, {width: 229, label: "Filter", width2: 50, name: "filter"}]
 const placesAndTrips = [{height: 175, text: "Places"}, {height: 90, text: "Trips"}]
 
 export default class SearchModule extends Component {
@@ -40,7 +40,7 @@ export default class SearchModule extends Component {
         return(
             <div>
                 <InputGroup>
-                    <Input className="justify-content-center" style={{backgroundColor: "#FFFFFF", width: array.width, borderRadius: "3px 0 0 3px", border: "1px solid #FFFFFF", left: 27, height: 30, boxShadow: "1px 1px 1px 0 #000000", overflow: "hidden"}} />
+                    <Input className="justify-content-center" name={array.name} style={{backgroundColor: "#FFFFFF", width: array.width, borderRadius: "3px 0 0 3px", border: "1px solid #FFFFFF", left: 27, height: 30, boxShadow: "1px 1px 1px 0 #000000", overflow: "hidden"}} onChange={() => this.updateInputState()}/>
                     <InputGroupAddon addonType="append"><Button style={{ background: "linear-gradient(#1E4D2B, #002b0c)", padding: 2, color: "#FFFFFF", borderRadius: "0 3px 3px 0", border: "1px solid #FFFFFF", left: 27, fontSize: 11, width: array.width2, boxShadow: "1px 1px 1px 0 #000000", overflow:"hidden"}} title="Add location">{array.label}</Button></InputGroupAddon>
                 </InputGroup>
             </div>
@@ -76,9 +76,8 @@ export default class SearchModule extends Component {
     }
 
     updateInputState(){
-        const input = event.target;
-        if (input.name === "searchPlaces"){this.setState({searchPlaces: input.value});}
-        if (input.name === "filter"){this.setState({filter: input.value});}
+        if (event.target.name === "searchPlaces"){this.setState({searchPlaces: event.target.value});}
+        else {this.setState({filter: event.target.value});}
     }
 
     renderPopover(){
@@ -105,17 +104,13 @@ export default class SearchModule extends Component {
         );
     }
 
-    renderPlacesAndTrips(array){
+    renderPlacesAndTrips(){
         return(
             <div>
-                <Row id="placePanel" className="justify-content-center">
-                    <div className="tripBackdrop" style={{width:280, height: array[0].height, fontSize: 40}} ><label style={labelStyle} className="vertical-center justify-content-center" >Places</label></div>
-                </Row>
-                <Row style={{height: 5}}/>
-                <Row id={"savedTripsPanel"} className="justify-content-center">
-                    <div className="tripBackdrop" style={{width:280, height: array[1].height, fontSize: 40}}><label style={labelStyle} className="vertical-center justify-content-center">Saved Trips</label></div>
-
-                </Row>
+                {this.addASpace()}
+                {this.addPlaceOrDistance(placesAndTrips[0])}
+                {this.addPlaceOrDistance(placesAndTrips[1])}
+                {this.addASpace()}
             </div>
         );
     }
@@ -134,10 +129,7 @@ export default class SearchModule extends Component {
                 <div style={{position: "relative", left: -17}}>
                     {this.addInputField(inputArray[0])}
                 </div>
-                {this.addASpace()}
-                {this.addPlaceOrDistance(placesAndTrips[0])}
-                {this.addPlaceOrDistance(placesAndTrips[1])}
-                {this.addASpace()}
+                {this.renderPlacesAndTrips()}
                 <Row style={{top:5}}>
                     {this.addInputField(inputArray[1])}
                 </Row>

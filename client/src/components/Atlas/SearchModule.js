@@ -55,13 +55,11 @@ export default class SearchModule extends Component {
     async formatDistanceCoords() {
         try {
             let cordParse = require('coordinate-parser');
-            let cordLocationFrom = new cordParse(this.state.searchTextFrom);
-            let cordLocationTo = new cordParse(this.state.searchTextTo)
             if(this.state.searchTextFrom){
-                await this.setState({searchTextFrom: cordLocationFrom.getLatitude()+','+cordLocationFrom.getLongitude()})
+                await this.setState({searchTextFrom: new cordParse(this.state.searchTextFrom).getLatitude()+','+new cordParse(this.state.searchTextFrom).getLongitude()})
             }
             if(this.state.searchTextTo){
-                await this.setState({searchTextTo: cordLocationTo.getLatitude()+','+cordLocationTo.getLongitude()})
+                await this.setState({searchTextTo: new cordParse(this.state.searchTextTo).getLatitude()+','+new cordParse(this.state.searchTextTo).getLongitude()})
             }
             this.calcDist()
         }
@@ -74,8 +72,7 @@ export default class SearchModule extends Component {
         const target = event.target;
         if (target.name === "searchBarTo") {
             this.setState({searchTextTo: target.value});
-        }
-        if (target.name === "searchBarFrom") {
+        } if (target.name === "searchBarFrom") {
             this.setState({searchTextFrom: target.value});
         }
     }
