@@ -20,7 +20,7 @@ export default class SearchModule extends Component {
         );
     }
 
-    handleInputChange(){
+    InputChange(){
         const target = event.target;
         if (target.name === "searchWhereIsFrom"){this.setState({searchWhereIsTextFrom: target.value});}
         if (target.name === "searchWhereIsTo"){this.setState({searchWhereIsTextTo: target.value});}
@@ -32,9 +32,9 @@ export default class SearchModule extends Component {
                 <div className="searchModuleStyle" style={{zIndex: 1012}}>
                     <Row xs={2}>
                         <Col><Input name={"searchWhereIsFrom"} style={{margin: 5, width: "100%"}} placeholder="N 47°38' 56.26"
-                                    onChange={() => this.handleInputChange()}/></Col>
+                                    onChange={() => this.InputChange()}/></Col>
                         <Col style={{left: -20}}><Input name={"searchWhereIsTo"} style={{margin: 5, width: 160}}
-                                                        placeholder="W 122.34811" onChange={() => this.handleInputChange()}/></Col>
+                                                        placeholder="W 122.34811" onChange={() => this.InputChange()}/></Col>
                     </Row>
                     <Col style={{left: 283, top: 55}}>
                         <Button className="p-1 distanceButtonStyle" style={{background: "radial-gradient(#C8C372,#1E4D2B)", color: "#000000", border: "1px solid #C8C372", fontSize:12,}}

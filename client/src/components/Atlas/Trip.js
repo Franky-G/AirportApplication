@@ -10,6 +10,9 @@ import {
 } from "reactstrap";
 import Input from "@material-ui/core/Input";
 
+const labelStyle = {opacity: 0.2, overflow:"hidden"}
+const inputArray = [{width: 211, label: "Add Place", width2: 70}, {width: 229, label: "Filter", width2: 50}]
+
 export default class SearchModule extends Component {
 
     constructor(props) {
@@ -31,6 +34,23 @@ export default class SearchModule extends Component {
         );
     }
 
+    addInputField(array){
+        return(
+            <div>
+                <InputGroup>
+                    <Input className="justify-content-center" style={{backgroundColor: "#FFFFFF", width: array.width, borderRadius: "3px 0 0 3px", border: "1px solid #FFFFFF", left: 27, height: 30, boxShadow: "1px 1px 1px 0 #000000", overflow: "hidden"}} />
+                    <InputGroupAddon addonType="append"><Button style={{ background: "linear-gradient(#1E4D2B, #002b0c)", padding: 2, color: "#FFFFFF", borderRadius: "0 3px 3px 0", border: "1px solid #FFFFFF", left: 27, fontSize: 11, width: array.width2, boxShadow: "1px 1px 1px 0 #000000", overflow:"hidden"}} title="Add location">{array.label}</Button></InputGroupAddon>
+                </InputGroup>
+            </div>
+        );
+    }
+
+    addASpace(){
+        return(
+            <Row style={{height:5}}/>
+        );
+    }
+
     divclicked() {
         if (this.state.myclass === '') {
             this.setState({
@@ -44,9 +64,9 @@ export default class SearchModule extends Component {
     }
 
     handleTripInputs(){
-        const target = event.target;
-        if (target.name === "searchPlaces"){this.setState({searchWhereIsTextFrom: target.value});}
-        if (target.name === "filter"){this.setState({searchWhereIsTextTo: target.value});}
+        const input = event.target;
+        if (input.name === "searchPlaces"){this.setState({searchWhereIsTextFrom: input.value});}
+        if (input.name === "filter"){this.setState({searchWhereIsTextTo: input.value});}
     }
 
     renderPopover(){
@@ -76,19 +96,12 @@ export default class SearchModule extends Component {
     renderPlacesAndTrips(){
         return(
             <div>
-                <Row>
-                    <InputGroup style={{top:15}}>
-                        <Input className="justify-content-center" style={{backgroundColor: "#FFFFFF", width: 211, borderRadius: "3px 0 0 3px", border: "1px solid #FFFFFF", left: 27, height: 30, boxShadow: "1px 1px 1px 0 #000000", overflow: "hidden"}} />
-                        <InputGroupAddon addonType="append"><Button style={{ background: "linear-gradient(#1E4D2B, #002b0c)", padding: 2, color: "#FFFFFF", borderRadius: "0 3px 3px 0", border: "1px solid #FFFFFF", left: 27, fontSize: 11, width: 70, boxShadow: "1px 1px 1px 0 #000000", overflow:"hidden"}} title="Add location">Add Place</Button></InputGroupAddon>
-                    </InputGroup>
-                </Row>
-                <br/>
-                <Row className="justify-content-center">
-                    <div className="tripBackdrop" style={{width:280, height:175, fontSize: 40}} ><label style={{opacity: 0.2, overflow:"hidden"}} className="vertical-center justify-content-center" >Places</label></div>
+                <Row id="placePanel" className="justify-content-center">
+                    <div className="tripBackdrop" style={{width:280, height:175, fontSize: 40}} ><label style={labelStyle} className="vertical-center justify-content-center" >Places</label></div>
                 </Row>
                 <Row style={{height: 5}}/>
-                <Row className="justify-content-center">
-                    <div className="tripBackdrop" style={{width:280, height: 90, fontSize: 40}}><label style={{opacity: 0.2, overflow:"hidden"}} className="vertical-center justify-content-center">Saved Trips</label></div>
+                <Row id={"savedTripsPanel"} className="justify-content-center">
+                    <div className="tripBackdrop" style={{width:280, height: 90, fontSize: 40}}><label style={labelStyle} className="vertical-center justify-content-center">Saved Trips</label></div>
 
                 </Row>
             </div>
@@ -105,16 +118,17 @@ export default class SearchModule extends Component {
                     <h4 style={{background: "linear-gradient(#1E4D2B, #002b0c)", padding: 4, left: 50,
                         border:"2px ridge #FFFFFF", borderRadius: "3px 3px 3px 3px", boxShadow: "1px 2px 1px 0 #000000", overflow:"hidden"}}>Trip Designer</h4>
                 </Row>
-                {this.renderPopover()}
-                {this.renderPlacesAndTrips()}
-                <Row>
-                    <InputGroup style={{top:5}}>
-                        <Input className="justify-content-center" style={{backgroundColor: "#FFFFFF", width: 229, borderRadius: "3px 0 0 3px", border: "1px solid #FFFFFF", left: 27, height: 30, boxShadow: "1px 1px 1px 0 #000000", overflow:"hidden"}}/>
-                        <InputGroupAddon addonType="append"><Button style={{ background: "linear-gradient(#1E4D2B, #002b0c)", padding: 2, color: "#FFFFFF", borderRadius: "0 3px 3px 0", border: "1px solid #FFFFFF", left: 27, fontSize: 11, width: 50, boxShadow: "1px 1px 1px 0 #000000", overflow:"hidden"}}>Filter</Button></InputGroupAddon>
-                    </InputGroup>
+                <Row style={{height:15}}/>
+                <div style={{position: "relative", left: -17}}>
+                    {this.addInputField(inputArray[0])}
+                </div>
+                {this.addASpace()}
+                    {this.renderPlacesAndTrips()}
+                {this.addASpace()}
+                <Row style={{top:5}}>
+                    {this.addInputField(inputArray[1])}
                 </Row>
             </div>
         );
     }
-
 }
