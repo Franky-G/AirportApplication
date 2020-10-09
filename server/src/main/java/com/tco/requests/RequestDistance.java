@@ -12,7 +12,6 @@ public class RequestDistance extends RequestHeader {
     private Map <String,String> place2;
     private Double earthRadius;
     private Long distance;
-    private CalculateDistance calc = new CalculateDistance();
     private final transient Logger log = LoggerFactory.getLogger(RequestDistance.class);
 
     public RequestDistance() {
@@ -34,7 +33,7 @@ public class RequestDistance extends RequestHeader {
 
     @Override
     public void buildResponse() {
-        this.distance = calc.ComputeDistance(this.place1, this.place2, earthRadius);
+        this.distance = CalculateDistance.ComputeDistance(this.place1, this.place2, earthRadius);
         log.trace("buildResponse -> {}", this);
     }
 
