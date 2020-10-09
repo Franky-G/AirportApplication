@@ -30,8 +30,7 @@ public class ProcessFindRequest {
 
     public static List<LinkedHashMap<String,String>> processPlaces(String matchPattern, int limitInt) {
         List<LinkedHashMap<String, String>> allLocations = new ArrayList<>();
-        setQUERY(matchPattern, limitInt);
-        setQUERYHelper(limitInt, true, false);
+        setQUERY(matchPattern, limitInt, true, false);
         setServerParameters();
         try { runQuery(QUERY, allLocations); }
         catch (Exception e) { System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage()); }
@@ -40,19 +39,21 @@ public class ProcessFindRequest {
 
     public static int processFound(String matchPattern, int limitInt){
         List<LinkedHashMap<String,String>> foundList = new ArrayList<>();
-        setQUERY(matchPattern, limitInt);
-        setQUERYHelper(limitInt, false, true);
+        setQUERY(matchPattern, limitInt, false, true);
         setServerParameters();
         try { runQuery(QUERY, foundList); }
         catch (Exception e) { System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage()); }
         return foundList.size();
     }
 
-    public static void setQUERY(String matchPattern, int limitInt){
+    public static void setQUERY(String matchPattern, int limitInt, boolean isPlaces, boolean isFound){
         QUERY = "SELECT world.name AS name, world.latitude AS latitude, world.longitude AS longitude, world.id AS id, world.altitude AS altitude, world.municipality AS municipality, world.type AS type, region.name AS region, country.name AS country FROM continent INNER JOIN country ON continent.id = country.continent INNER JOIN region ON country.id = region.iso_country INNER JOIN world on region.id = world.iso_region ";
         if (matchPattern.isEmpty() && limitInt == 0) { QUERY += "ORDER BY RAND() LIMIT 1"; }
         else if (matchPattern.isEmpty()) { QUERY += "ORDER BY RAND() LIMIT " + limitInt; }
-        else { QUERY += "WHERE country.name LIKE '%" + matchPattern + "%' OR region.name like '%" + matchPattern + "%' OR world.name like '%" + matchPattern + "%' OR world.municipality like '%" + matchPattern + "%' ORDER BY world.name ASC LIMIT "; }
+        else {
+            QUERY += "WHERE country.name LIKE '%" + matchPattern + "%' OR region.name like '%" + matchPattern + "%' OR world.name like '%" + matchPattern + "%' OR world.municipality like '%" + matchPattern + "%' ORDER BY world.name ASC LIMIT ";
+            setQUERYHelper(limitInt, isPlaces, isFound);
+        }
     }
 
     public static void setQUERYHelper(int limitInt, boolean isPlaces, boolean isFound){
