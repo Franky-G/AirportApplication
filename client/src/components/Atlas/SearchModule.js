@@ -9,8 +9,6 @@ import Find from "./Find";
 
 const inputFieldStyleFrom = {zIndex: 1002, height: 34, top: 10, left: 70, position: "absolute"}
 
-let place1, place2;
-
 export default class SearchModule extends Component {
 
     constructor(props) {
@@ -57,12 +55,12 @@ export default class SearchModule extends Component {
     async formatDistanceCoords() {
         try {
             let cordParse = require('coordinate-parser');
+            let cordLocationFrom = new cordParse(this.state.searchTextFrom);
+            let cordLocationTo = new cordParse(this.state.searchTextTo)
             if(this.state.searchTextFrom){
-                let cordLocationFrom = new cordParse(this.state.searchTextFrom);
                 await this.setState({searchTextFrom: cordLocationFrom.getLatitude()+','+cordLocationFrom.getLongitude()})
             }
             if(this.state.searchTextTo){
-                let cordLocationTo = new cordParse(this.state.searchTextTo)
                 await this.setState({searchTextTo: cordLocationTo.getLatitude()+','+cordLocationTo.getLongitude()})
             }
             this.calcDist()
@@ -137,35 +135,19 @@ export default class SearchModule extends Component {
 
     calcDist() {
         if (this.state.searchTextFrom && this.state.searchTextTo) {
-            this.helperValidFromTo(0)
+            this.sendDistanceServerRequest(this.state.searchTextFrom.split(',')[0], this.state.searchTextFrom.split(',')[1], this.state.searchTextTo.split(',')[0], this.state.searchTextTo.split(',')[1])
         }
         if (this.state.searchTextFrom && !this.state.searchTextTo) {
-            this.helperValidFromTo(1)
+            this.sendDistanceServerRequest(this.state.searchTextFrom.split(',')[0], this.state.searchTextFrom.split(',')[1], this.props.prevLocation[1].lat.toString(), this.state.prevLocation[1].lng.toString())
         }
         if (!this.state.searchTextFrom && this.state.searchTextTo) {
-            this.helperValidFromTo(2)
+            this.sendDistanceServerRequest(this.props.prevLocation[0].lat.toString(), this.state.prevLocation[0].lng.toString(), this.state.searchTextFrom.split(',')[0], this.state.searchTextFrom.split(',')[1])
         }
         if (!this.state.searchTextFrom && !this.state.searchTextTo) {
             let place1 = this.props.prevLocation[0];
             let place2 = this.props.prevLocation[1];
             if (this.props.prevLocation[1] !== null)
                 this.sendDistanceServerRequest(place1.lat.toString(), place1.lng.toString(), place2.lat.toString(), place2.lng.toString());
-        }
-    }
-
-    helperValidFromTo(index) {
-        place1 = this.state.searchTextFrom.split(',')
-        place2 = this.state.searchTextTo.split(',')
-        if (index === 0) {
-            this.sendDistanceServerRequest(place1[0], place1[1], place2[0], place2[1])
-        }
-        if (index === 1) {
-            place2 = this.props.prevLocation[0];
-            this.sendDistanceServerRequest(place1[0], place1[1], place2.lat.toString(), place2.lng.toString())
-        }
-        if (index === 2) {
-            place1 = this.props.prevLocation[0];
-            this.sendDistanceServerRequest(place1.lat.toString(), place1.lng.toString(), place2[0], place2[1])
         }
     }
 
