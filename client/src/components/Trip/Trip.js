@@ -22,6 +22,7 @@ export default class SearchModule extends Component {
 
         this.divclicked = this.divclicked.bind(this);
         this.resetTripPlaces = this.resetTripPlaces.bind(this);
+        this.removeATrip = this.removeATrip.bind(this);
         this.state = {
             myclass: '',
             searchPlaces: "",
@@ -69,7 +70,7 @@ export default class SearchModule extends Component {
             <ListGroupItem style={searchListStyle} tag="button" action
                            onClick={() => this.setState({tripPlaces: this.state.trips[index], index: index})}>
                 {index}
-                <Button style={{position: "absolute", top: 3, right: 3, backgroundColor: "#1E4D2B", color: "#FFFFFF"}} size="sm" onClick={this.addATrip}> X </Button>
+                <Button style={{position: "absolute", top: 3, right: 3, backgroundColor: "#1E4D2B", color: "#FFFFFF"}} size="sm" onClick={this.removeATrip}> X </Button>
             </ListGroupItem>
         );
     }
@@ -224,6 +225,13 @@ export default class SearchModule extends Component {
         let thisArray = this.state.tripPlaces;
         thisArray = thisArray.slice(0, index)
         this.setState({tripPlaces: thisArray})
+    }
+
+    removeATrip(index){
+        console.log("removeTrip")
+        let tripsArray = this.state.trips.slice();
+        tripsArray = tripsArray.slice(index, 1)
+        this.setState({trips:tripsArray})
     }
 
     resetTripPlaces(){
