@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -54,7 +54,7 @@ public class TestRequestFind {
     @DisplayName("name should be 'S Gravenvoeren heliport: 'port'")
     public void testPlacesName(){
         fin.buildResponse();
-        List<HashMap<String, String>> places = fin.getPlaces();
+        List<LinkedHashMap<String, String>> places = fin.getPlaces();
         String name = (places.get(0)).get("name");
 
         if (!hasTravis) { assertEquals("'S Gravenvoeren heliport", name);}
@@ -65,7 +65,7 @@ public class TestRequestFind {
     @DisplayName("latitude name should be 50.764771 via pattern: 'port'")
     public void testPlacesLatitude(){
         fin.buildResponse();
-        List<HashMap<String, String>> places = fin.getPlaces();
+        List<LinkedHashMap<String, String>> places = fin.getPlaces();
         String lat = (places.get(0).get("latitude"));
 
         if (!hasTravis) { assertEquals("50.764771", lat); }
@@ -77,7 +77,7 @@ public class TestRequestFind {
     public void test1Name(){
         //fin = new RequestFind("strip", 0);
         fin.buildResponse();
-        List<HashMap<String, String>> places = fin.getPlaces();
+        List<LinkedHashMap<String, String>> places = fin.getPlaces();
         String name = (places.get(1)).get("name");
 
         if (!hasTravis) { assertEquals("'s Gravenwezel heliport", name); }
@@ -89,7 +89,7 @@ public class TestRequestFind {
     public void test1Long(){
         //fin = new RequestFind("strip", 0);
         fin.buildResponse();
-        List<HashMap<String, String>> places = fin.getPlaces();
+        List<LinkedHashMap<String, String>> places = fin.getPlaces();
         String longitude = (places.get(1)).get("longitude");
 
         if (!hasTravis) { assertEquals("4.542778015136719", longitude); }
