@@ -1,18 +1,15 @@
 import  React, {Component} from 'react';
-import {Col, Container, Row} from 'reactstrap';
+import {Col, Container, Row, DropdownItem, DropdownMenu, ButtonDropdown, DropdownToggle, Badge} from 'reactstrap';
 import homeIcon from '../../static/images/homeButtonIcon.png';
-import homeMarker from '../../static/images/youAreHereMarker.png';
-import {Map, Marker, TileLayer, Polyline, Popup} from 'react-leaflet';
-import icon from 'leaflet/dist/images/marker-icon.png';
-import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+import {Map, TileLayer} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import SearchModule from "./SearchModule";
+import Trip from "./Trip"
+import WorldMarkers from "./Marker";
 
 const MAP_BOUNDS = [[-90, -180], [90, 180]];
 const MAP_CENTER_DEFAULT = [40.5734, -105.0865];
-const MARKER_ICON = L.icon({ iconUrl: icon, shadowUrl: iconShadow, iconAnchor: [12, 40] });
-const HOME_MARKER = L.icon({ iconUrl: homeMarker, shadowUrl: iconShadow, shadowAnchor: [12, 41], iconAnchor: [32, 55], iconSize: [60, 65]});
 const MAP_LAYER_ATTRIBUTION = "&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors";
 const MAP_LAYER_URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 const MAP_MIN_ZOOM = 1;
@@ -24,9 +21,7 @@ const HOME_BUTTON_STYLE = {
   position: "absolute",
 }
 
-let zoomLevel = 15;
-
-let homeCoords;
+let zoomLevel = 15, homeCoords;
 function error(err) { console.warn(`ERROR(${err.code}): ${err.message}`); }
 
 export default class Atlas extends Component {
@@ -48,23 +43,27 @@ export default class Atlas extends Component {
       whereIsMarker: null,
       polyDistance: [0,0],
       searchTextToIsEmpty: true,
-      hasUserLocation: null
+      hasUserLocation: null,
+      tripRecord: false,
+      tripPlaces: [],
+      dropdownOpen: false,
+      recordingTrip: 0,
+      tripStyle: "",
     };
   }
 
   render() {
     return (
         <div>
-          {console.log("render")}
           <Container>
             <Row>
               <Col sm={12} md={{size: 10, offset: 1}}>
                 <SearchModule
-                    {...this.state}
-                    setSearchBarCoords={this.setSearchBarCoords} setPrevLocationState={this.setPrevLocationState}
-                    ref={(ref) => this.searchREF=ref} setSearchTextIsEmpty={this.setSearchTextIsEmpty}
-                    setWhereIsMarker={this.setWhereIsMarker}/>
-                {this.renderLeafletMap()}
+                    {...this.state} setSearchBarCoords={this.setSearchBarCoords}
+                    setPrevLocationState={this.setPrevLocationState} ref={(ref) => this.searchREF=ref}
+                    setSearchTextIsEmpty={this.setSearchTextIsEmpty} setWhereIsMarker={this.setWhereIsMarker}/>
+                <Trip {...this.state} ref={(ref) => this.tripREF=ref} setWhereIsMarker={this.setWhereIsMarker}/>
+                {this.renderLeafletMap() }
               </Col>
             </Row>
           </Container>
@@ -76,6 +75,7 @@ export default class Atlas extends Component {
     return (
         <div id="container">
           {this.renderHomeButton()}
+          {this.renderTripButton()}
           <Map
               className={'mapStyle'}
               boxZoom={false}
@@ -89,23 +89,9 @@ export default class Atlas extends Component {
               id="theMap"
               viewport = {{}}>
             <TileLayer url={MAP_LAYER_URL} attribution={MAP_LAYER_ATTRIBUTION}/>
-            {this.getHomeMarker()}
-            {this.getMarker()}
+            <WorldMarkers {...this.state}/>
             {this.getMapZoom()}
-            {this.makePolyline()}
-            {this.state.whereIsMarker && this.renderWhereIsMarker()}
           </Map>
-        </div>
-    );
-  }
-
-  addAMarker(markerType){
-    const initMarker = ref => { if (ref) { ref.leafletElement.openPopup() } };
-    let positionMarker = MAP_CENTER_DEFAULT;
-    if(markerType === 0 || markerType === 1){ positionMarker = this.state.prevLocation[markerType]}
-    return(
-        <div>
-          <Marker key={markerType} ref={initMarker} position={positionMarker} icon={MARKER_ICON}/>
         </div>
     );
   }
@@ -120,7 +106,6 @@ export default class Atlas extends Component {
     }
   }
 
-
   geoPosition(){
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
@@ -132,25 +117,8 @@ export default class Atlas extends Component {
     }
   }
 
-  getHomeMarker(){
-    const initMarker = ref => { if (ref) { ref.leafletElement.openPopup() } };
-    if (this.state.homeLocation){
-      return (
-          <Marker ref={initMarker} position={this.state.homeLocation} icon={HOME_MARKER}/>
-      )
-    }
-  }
-
   getMapZoom(){
     zoomLevel = this.map && this.map.leafletElement.getZoom();
-  }
-
-  getMarker() {
-    let markerSet = [];
-    for (let i = 0; i < 2; ++i) {
-      if (this.state.prevLocation[i] !== null) { markerSet.push(this.addAMarker(i)); }
-    }
-    return ( <div>{markerSet.map((element, index) => (<div key={index}>{element}</div>))} </div> );
   }
 
   homeButtonSetStateVars() {
@@ -158,23 +126,12 @@ export default class Atlas extends Component {
     else{ this.setState( {markerPosition: null, prevLocation: [null,null], mapCenter: MAP_CENTER_DEFAULT, whereIsMarker: null}); }
   }
 
-  makePolyline(){
-    const initMarker = ref => {
-      if (ref) {
-        ref.leafletElement.openPopup()
-      }
-    }
-    if(this.state.prevLocation[1] !== null && this.state.prevLocation[0] !== null) {
-      return (
-          <div>
-            <Polyline ref={initMarker} color="green" positions={this.state.prevLocation} >
-              <Popup autoPan={false} className="popupStyle">
-                Distance: {this.state.polyDistance}
-              </Popup>
-            </Polyline>
-          </div>
-      );
-    }
+  openTrip(){
+    return(
+        <div>
+          {this.tripREF.divclicked()}
+        </div>
+    );
   }
 
   renderHomeButton(){
@@ -186,10 +143,19 @@ export default class Atlas extends Component {
         </div> );
   }
 
-  renderWhereIsMarker(){
-    const initMarker = ref => { if (ref) { ref.leafletElement.openPopup() } };
-    return (
-        <Marker ref={initMarker} position={this.state.whereIsMarker} icon={MARKER_ICON}/>
+  renderTripButton(){
+    return(
+        <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={() => this.setDropdown()}
+                        style={{position: "absolute", top: 130, zIndex: 1016, padding: 0, margin: 0, fontSize: 9}}>
+          <DropdownToggle id="tripRecording" className={this.state.tripStyle} caret size="sm" style={{borderLeft: "2px solid rgba(0,0,0,0.3)", borderRight: "2px solid rgba(0,0,0,0.3)",
+            borderBottom: "2px solid rgba(0,0,0,0.3)", borderTop: "1px solid rgba(0,0,0,0.2)", borderRadius: "0 0 4px 4px", outline: 0}}>
+            T
+          </DropdownToggle>
+          <DropdownMenu>
+            <DropdownItem onClick={() => this.tripREF.divclicked()}>Open Trip Designer</DropdownItem>
+            <DropdownItem onClick={() => this.setTripRecord()}> Toggle Trip Recording <Badge color={this.tripClicked()}>R</Badge></DropdownItem>
+          </DropdownMenu>
+        </ButtonDropdown>
     );
   }
 
@@ -202,9 +168,17 @@ export default class Atlas extends Component {
     } else {
       this.setState({prevLocation: slicedArray, markerPosition: mapClickInfo.latlng, mapCenter: mapClickInfo.latlng})
     }
+    if(this.state.tripRecord){
+      this.state.tripPlaces.push(mapClickInfo.latlng);
+      console.log("tripPlaces: " + this.state.tripPlaces)
+    }
     return(
         this.checkPrevArray()
     );
+  }
+
+  setDropdown(){
+    this.setState({dropdownOpen: !this.state.dropdownOpen})
   }
 
   setPrevLocationState(markerArray, distanceVal){
@@ -212,9 +186,17 @@ export default class Atlas extends Component {
     this.setState({prevLocation: markerArray, mapCenter: parseArr, polyDistance: distanceVal});
   }
 
+  setTripRecord(){
+    if(this.state.recordingTrip === 0) {
+      this.setState({recordingTrip: 1, tripRecord: !this.state.tripRecord})
+    } else {
+      this.setState({recordingTrip: 0, tripRecord: !this.state.tripRecord})
+    }
+  }
+
   setSearchBarCoords (coords)  {
     try {
-      let cordParse = require('coordinate-parser');
+      let cordParse = require('coordinate-parser')
       let cordLocation = new cordParse(coords);
       this.setState({mapCenter: [cordLocation.getLatitude(), cordLocation.getLongitude()], markerPosition: null, whereIsMarker: L.latLng(cordLocation.getLatitude(), cordLocation.getLongitude())});
     } catch (error) {
@@ -228,6 +210,14 @@ export default class Atlas extends Component {
 
   setWhereIsMarker(_pos){
     this.setState({whereIsMarker: _pos, mapCenter: [_pos.lat, _pos.lng]})
+  }
+
+  tripClicked() {
+    if (this.state.recordingTrip === 1) {
+      return "success"
+    } else {
+      return "danger"
+    }
   }
 }
 
