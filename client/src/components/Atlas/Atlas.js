@@ -6,7 +6,7 @@ import 'leaflet/dist/leaflet.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import SearchModule from "./SearchModule";
 import Trip from "./Trip"
-import WorldMarkers from "./WorldMarkers";
+import WorldMarkers from "./Marker";
 
 const MAP_BOUNDS = [[-90, -180], [90, 180]];
 const MAP_CENTER_DEFAULT = [40.5734, -105.0865];
