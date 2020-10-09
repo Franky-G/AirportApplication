@@ -14,7 +14,6 @@ public class RequestTrip extends RequestHeader {
     private String title;
     private String earthRadius;
     private Long distance[];
-    private CalculateDistance calc = new CalculateDistance();
     private final transient Logger log = LoggerFactory.getLogger(RequestTrip.class);
 
     public RequestTrip() {
@@ -35,15 +34,15 @@ public class RequestTrip extends RequestHeader {
     public void buildResponse() {
         for (int i = 0; i < this.places.length; i++) {
             if (i == this.places.length - 1) {
-                Long tempDist = calc.ComputeDistance(this.places[i], this.places[0], Double.parseDouble(this.earthRadius));
+                Long tempDist = CalculateDistance.ComputeDistance(this.places[i], this.places[0], Double.parseDouble(this.earthRadius));
                 this.distance[i] = tempDist;
             }
             else {
-                Long tempDist = calc.ComputeDistance(this.places[i], this.places[i+1], Double.parseDouble(this.earthRadius));
+                Long tempDist = CalculateDistance.ComputeDistance(this.places[i], this.places[i+1], Double.parseDouble(this.earthRadius));
                 this.distance[i] = tempDist;
             }
         }
-        log.trace("buildResponse -> {}", this);
+        log.trace("buildResponse -> {}", this.distance);
     }
 
     public Map<String, String>[] getPlaces() { return this.places; }
