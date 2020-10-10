@@ -146,7 +146,7 @@ export default class SearchModule extends Component {
                     <PopoverBody style={{maxWidth: 300}}>
                         <p>
                             Create a trip!<br/>
-                            - Toggle the trip manager on/off from the dropdown button to start recording places via mouse clicks, or input coordinates / locations in the search bar and add place<br/><br/>
+                            - Toggle the trip manager on/off to start recording places via mouse clicks, or input coordinates / locations in the search bar and add place<br/><br/>
                             - Manage places with add or remove buttons <br/><br/>
                             - Manage trips with add or remove buttons <br/><br/>
                             - Filter results at the bottom
@@ -166,6 +166,7 @@ export default class SearchModule extends Component {
                 <Row style={{height: 30}}>
                     <Button style={{position: "absolute", left: 10}} color={this.toggleButtonColor()} size="sm" onClick={this.props.setTripRecord}>Record</Button>
                     <Button style={{position: "absolute", right: 10}} size="sm" onClick={() => this.addATrip()}>Add Trip</Button>
+                    <Button style={{position: "absolute", left: 80}} size="sm" onClick={() => this.resetTripPlaces()}> Reset </Button>
                 </Row>
                 {this.addASpace()}
                 {this.addPlaceOrDistance(placesAndTrips[1])}
