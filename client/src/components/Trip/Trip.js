@@ -45,6 +45,11 @@ export default class SearchModule extends Component {
         );
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        {this.renderTripList()}
+        {this.renderSearchList()}
+    }
+
     addATrip(){
         let tripsArray = this.state.trips.slice();
         if(this.state.trips.size === 1) {
@@ -159,7 +164,8 @@ export default class SearchModule extends Component {
                 {this.addPlaceOrDistance(placesAndTrips[0])}
                 {this.addASpace()}
                 <Row style={{height: 30}}>
-                    <Button style={{position: "absolute", right: 10}} size="sm" onClick={this.addATrip}>Add Trip</Button>
+                    <Button style={{position: "absolute", left: 10}} color={this.toggleButtonColor()} size="sm" onClick={this.props.setTripRecord}>Record</Button>
+                    <Button style={{position: "absolute", right: 10}} size="sm" onClick={() => this.addATrip()}>Add Trip</Button>
                 </Row>
                 {this.addASpace()}
                 {this.addPlaceOrDistance(placesAndTrips[1])}
@@ -238,12 +244,11 @@ export default class SearchModule extends Component {
 
     removeATrip(index){
         let tripsArray = this.state.trips.slice();
-        if(this.state.trips.size === 1){
+        if(tripsArray[0].size < 2){
             this.setState({tripPlaces: []})
-        } else {
-            tripsArray = tripsArray.splice(index, 1)
-            this.setState({trips: tripsArray})
         }
+        tripsArray = tripsArray.splice(index, 1)
+        this.setState({trips: tripsArray})
     }
 
     resetTripPlaces(){
@@ -255,5 +260,13 @@ export default class SearchModule extends Component {
     setTripPlaces(mapClickInfo){
         this.state.tripPlaces.push(mapClickInfo.latlng);
         console.log(this.state.tripPlaces)
+    }
+
+    toggleButtonColor(){
+        if(this.props.recordingTrip === 1){
+            return "success"
+        } else {
+            return "danger"
+        }
     }
 }
