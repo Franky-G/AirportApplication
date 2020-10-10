@@ -63,6 +63,7 @@ Reflection will be done in regards to the retrospective from sprint 2 and the te
 | :--- | :--- | :--- | :--- |
 | *10/05/20* | *0* | *5* | *none* | 
 | *10/07/20* | *7* | *5* | *none* | 
+| *10/09/20* | *7* | *5* | *none* | 
 
 
 ## Review
