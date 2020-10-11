@@ -41,8 +41,19 @@ public class RequestTrip extends RequestHeader {
         log.trace("buildResponse -> {}", this);
     }
 
+    public Long getTotalTripDistance() {
+        this.buildResponse();
+        Long[] distances = this.getTripDistance();
+        Long total = 0L;
+        for (Long dist:distances) {
+            total = Long.sum(total, dist);
+        }
+        return total;
+    }
+
     public Map<String, String>[] getPlaces() { return this.places; }
     public String getEarthRadius() {return this.earthRadius; }
     public Long [] getTripDistance() { return this.distance; }
     public String getTitle() { return this.title; }
+
 }

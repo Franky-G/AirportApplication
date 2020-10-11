@@ -189,4 +189,9 @@ public class TestRequestTrip {
         distances[0] = trip2.getTripDistance()[0];
         assertEquals(2461, distances[0]);
     }
+    @Test
+    @DisplayName("Total Distance Trip 2")
+    public void testTotalDistanceTrip2() {
+        assertEquals(2461, trip2.getTotalTripDistance());
+    }
 }
