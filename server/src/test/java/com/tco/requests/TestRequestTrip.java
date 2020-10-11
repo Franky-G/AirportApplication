@@ -1,6 +1,7 @@
 package com.tco.requests;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 import java.util.HashMap;
@@ -189,9 +190,18 @@ public class TestRequestTrip {
         distances[0] = trip2.getTripDistance()[0];
         assertEquals(2461, distances[0]);
     }
+
     @Test
     @DisplayName("Total Distance Trip 2")
     public void testTotalDistanceTrip2() {
+        trip2.buildResponse();
         assertEquals(2461, trip2.getTotalTripDistance());
+    }
+
+    @Test
+    @DisplayName("Total Distance Trip 1")
+    public void testTotalDistanceTrip1() {
+        trip.buildResponse();
+        assertEquals(136, trip.getTotalTripDistance());
     }
 }

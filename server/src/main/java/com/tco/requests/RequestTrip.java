@@ -42,11 +42,13 @@ public class RequestTrip extends RequestHeader {
     }
 
     public Long getTotalTripDistance() {
-        this.buildResponse();
         Long[] distances = this.getTripDistance();
         Long total = 0L;
         for (Long dist:distances) {
             total = Long.sum(total, dist);
+        }
+        if (this.places.length == 2) {
+            total = Long.sum(total, -1*distances[1]);
         }
         return total;
     }
