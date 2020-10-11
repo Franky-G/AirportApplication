@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import {Button, Col, Input, Row} from "reactstrap";
 import Fade from "@material-ui/core/Fade";
 
+const inputStyle = [{margin: 5, width: "100%"}, {margin: 5, width: 160}]
+
 export default class SearchModule extends Component {
 
     constructor(props) {
@@ -21,9 +23,8 @@ export default class SearchModule extends Component {
     }
 
     InputChange(){
-        const target = event.target;
-        if (target.name === "searchWhereIsFrom"){this.setState({searchWhereIsTextFrom: target.value});}
-        if (target.name === "searchWhereIsTo"){this.setState({searchWhereIsTextTo: target.value});}
+        if (event.target.name === "searchWhereIsFrom"){this.setState({searchWhereIsTextFrom: event.target.value});}
+        if (event.target.name === "searchWhereIsTo"){this.setState({searchWhereIsTextTo: event.target.value});}
     }
 
     renderWhereIsPanel(){
@@ -32,10 +33,10 @@ export default class SearchModule extends Component {
                 <div className="searchModuleStyle" style={{zIndex: 1012}}>
                     <Row xs={2}>
                         <Col>
-                            <Input name={"searchWhereIsFrom"} style={{margin: 5, width: "100%"}} placeholder="N 47°38' 56.26" onChange={() => this.InputChange()}/>
+                            <Input name="searchWhereIsFrom" style={inputStyle[0]} placeholder="N 47°38' 56.26" onChange={() => this.InputChange()}/>
                         </Col>
                         <Col style={{left: -20}}>
-                            <Input name={"searchWhereIsTo"} style={{margin: 5, width: 160}} placeholder="W 122.34811" onChange={() => this.InputChange()}/>
+                            <Input name="searchWhereIsTo" style={inputStyle[2]} placeholder="W 122.34811" onChange={() => this.InputChange()}/>
                         </Col>
                     </Row>
                     <Col style={{left: 283, top: 55}}>

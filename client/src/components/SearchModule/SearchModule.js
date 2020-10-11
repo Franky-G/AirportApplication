@@ -53,14 +53,16 @@ export default class SearchModule extends Component {
     }
 
     async formatDistanceCoords() {
+        let fromCoords = "", toCoords = "";
         try {
             let cordParse = require('coordinate-parser');
             if(this.state.searchTextFrom){
-                await this.setState({searchTextFrom: new cordParse(this.state.searchTextFrom).getLatitude()+','+new cordParse(this.state.searchTextFrom).getLongitude()})
+                fromCoords = new cordParse(this.state.searchTextFrom).getLatitude()+','+new cordParse(this.state.searchTextFrom).getLongitude()
             }
             if(this.state.searchTextTo){
-                await this.setState({searchTextTo: new cordParse(this.state.searchTextTo).getLatitude()+','+new cordParse(this.state.searchTextTo).getLongitude()})
+                toCoords = new cordParse(this.state.searchTextTo).getLatitude()+','+new cordParse(this.state.searchTextTo).getLongitude()
             }
+            await this.setState({searchTextFrom: fromCoords, searchTextTo: toCoords})
             this.calcDist()
         }
         catch (error){
@@ -133,14 +135,11 @@ export default class SearchModule extends Component {
     calcDist() {
         if (this.state.searchTextFrom && this.state.searchTextTo) {
             this.sendDistanceServerRequest(this.state.searchTextFrom.split(',')[0], this.state.searchTextFrom.split(',')[1], this.state.searchTextTo.split(',')[0], this.state.searchTextTo.split(',')[1])
-        }
-        if (this.state.searchTextFrom && !this.state.searchTextTo) {
+        } else if (this.state.searchTextFrom && !this.state.searchTextTo) {
             this.sendDistanceServerRequest(this.state.searchTextFrom.split(',')[0], this.state.searchTextFrom.split(',')[1], this.props.prevLocation[1].lat.toString(), this.state.prevLocation[1].lng.toString())
-        }
-        if (!this.state.searchTextFrom && this.state.searchTextTo) {
+        } else if (!this.state.searchTextFrom && this.state.searchTextTo) {
             this.sendDistanceServerRequest(this.props.prevLocation[0].lat.toString(), this.state.prevLocation[0].lng.toString(), this.state.searchTextFrom.split(',')[0], this.state.searchTextFrom.split(',')[1])
-        }
-        if (!this.state.searchTextFrom && !this.state.searchTextTo) {
+        } else {
             let place1 = this.props.prevLocation[0];
             let place2 = this.props.prevLocation[1];
             if (this.props.prevLocation[1] !== null)
