@@ -238,8 +238,9 @@ export default class SearchModule extends Component {
     }
 
     removeAPlace(index){
+
         let thisArray = this.state.tripPlaces.slice();
-        thisArray = thisArray.splice(index, 1)
+        thisArray.splice(index, 1)
         this.setState({tripPlaces: thisArray})
     }
 
@@ -248,7 +249,7 @@ export default class SearchModule extends Component {
         if(tripsArray[0].size < 2){
             this.setState({tripPlaces: []})
         }
-        tripsArray = tripsArray.splice(index, 1)
+        tripsArray.splice(index, 1)
         this.setState({trips: tripsArray})
     }
 
