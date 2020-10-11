@@ -14,8 +14,8 @@ const searchListStyle = {margin: 0, padding: 8, height: "100%", width: 279, colo
 const labelStyle = {opacity: 0.2, overflow:"hidden"}
 const inputArray = [{width: 211, label: "Add Place", width2: 70, name: "searchPlaces"}, {width: 229, label: "Filter", width2: 50, name: "filter"}]
 const placesAndTrips = [{height: 150, text: "Places"}, {height: 90, text: "Trips"}]
-const buttonList = [{style: {position: "absolute", right: 10}, click: () => this.addATrip(), label: "Add Place"},
-                    {style: {position: "absolute", left: 80}, click: () => this.resetTripPlaces(), label: "Reset"}]
+const buttonList = [{style: {position: "absolute", right: 10}, label: "Add Place"},
+                    {style: {position: "absolute", left: 80}, label: "Reset"}]
 
 export default class SearchModule extends Component {
 
