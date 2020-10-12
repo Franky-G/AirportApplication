@@ -97,7 +97,6 @@ public class TestRequestFind {
     }
 
     @Test
-    @DisplayName("found should be 44 via pattern: 'san jose' with limit 13")
     public void testFound(){
         //fin = new RequestFind("strip", 2);
         fin.buildResponse();
@@ -108,7 +107,6 @@ public class TestRequestFind {
     }
 
     @Test
-    @DisplayName("found should be 44 via pattern: 'san jose' with limit 13")
     public void testNoMatchANDLimit(){
         fin = new RequestFind("", 0);
         fin.buildResponse();
@@ -119,7 +117,6 @@ public class TestRequestFind {
     }
 
     @Test
-    @DisplayName("found should be 44 via pattern: 'san jose' with limit 13")
     public void testNoMatchHASLimit(){
         fin = new RequestFind("", 14);
         fin.buildResponse();
@@ -127,5 +124,15 @@ public class TestRequestFind {
 
         if (!hasTravis) { assertEquals(14, found); }
         else { assertEquals(3, found) ;}
+    }
+
+    @Test
+    public void testInvalidChar(){
+        fin = new RequestFind("dave+s airport", 0);
+        fin.buildResponse();
+        List<LinkedHashMap<String, String>> places = fin.getPlaces();
+        String name = (places.get(0)).get("name");
+
+        assertEquals("Dave's Airport", name);
     }
 }
