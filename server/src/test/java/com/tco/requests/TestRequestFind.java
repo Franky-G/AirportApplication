@@ -128,11 +128,11 @@ public class TestRequestFind {
 
     @Test
     public void testInvalidChar(){
-        fin = new RequestFind("dave+s airport", 0);
+        fin = new RequestFind("+", 0);
         fin.buildResponse();
         List<LinkedHashMap<String, String>> places = fin.getPlaces();
-        String name = (places.get(0)).get("name");
+        String country = (places.get(0)).get("country");
 
-        assertEquals("Dave's Airport", name);
+        assertEquals("Germany", country);
     }
 }

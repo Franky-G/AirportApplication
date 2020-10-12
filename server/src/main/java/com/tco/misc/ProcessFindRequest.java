@@ -52,7 +52,7 @@ public class ProcessFindRequest {
         String temp = "";
         for (int i=0; i<matchPattern.length(); i++){
             char c = matchPattern.charAt(i);
-            if (!Character.isDigit(c) && !Character.isLetter(c)){ c = '_'; }
+            if (!Character.isDigit(c) && !Character.isLetter(c) && Character.isSpaceChar(c)){ c = '_'; }
             temp += c;
         }
         return temp;
