@@ -4,7 +4,7 @@ import homeIcon from '../../static/images/homeButtonIcon.png';
 import {Map, TileLayer} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import SearchModule from "../SearchModule/SearchModule";
+import SearchModule from "./SearchModule";
 import Trip from "../Trip/Trip"
 import WorldMarkers from "./WorldMarkers";
 

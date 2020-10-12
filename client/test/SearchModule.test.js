@@ -1,7 +1,7 @@
 import './jestConfig/enzyme.config.js';
 import React from 'react'
 import { shallow } from 'enzyme';
-import SearchModule from "../src/components/SearchModule/SearchModule";
+import SearchModule from "../src/components/Atlas/SearchModule";
 import {sendServerRequest} from "../src/utils/restfulAPI";
 
 function testShowDistanceSearch() {
