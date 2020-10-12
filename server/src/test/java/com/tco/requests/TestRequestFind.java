@@ -125,14 +125,4 @@ public class TestRequestFind {
         if (!hasTravis) { assertEquals(14, found); }
         else { assertEquals(3, found) ;}
     }
-
-    @Test
-    public void testInvalidChar(){
-        fin = new RequestFind("+", 0);
-        fin.buildResponse();
-        List<LinkedHashMap<String, String>> places = fin.getPlaces();
-        String country = (places.get(0)).get("country");
-
-        assertEquals("Germany", country);
-    }
 }
