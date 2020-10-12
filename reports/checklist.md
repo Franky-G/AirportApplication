@@ -52,3 +52,5 @@ The checklist will be updated as we identify new faults in our code that we wish
 ### Code formatting
 * Is every line able to be viewed without scrolling horizontally?
 * Is every code block easily distinguishable(with spacing)?
+* Are function calls directed downward to the next function?
+* Is indenting consistent?
