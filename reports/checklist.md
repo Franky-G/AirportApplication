@@ -42,6 +42,13 @@ The checklist will be updated as we identify new faults in our code that we wish
 ### Exception faults
 * Have all possible error conditions been considered?
 
+### Coding Best Practices
+* Ensure there is no hard coding. Use constants/configuration values.
+* Avoid multiple if/else blocks.
+* Use framework features or react components whenever possible, instead of writing custom code.
+* Comment as much as needed but not more. 
+* Make sure to follow proper naming convention and guidelines, and make sure there are meaningful names.
+
 ### Code formatting
 * Is every line able to be viewed without scrolling horizontally?
 * Is every code block easily distinguishable(with spacing)?
