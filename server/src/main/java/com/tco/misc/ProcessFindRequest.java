@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 public class ProcessFindRequest {
-    private static String QUERY, db_url, db_user, db_pass;
+    private static String QUERY, matcher, db_url, db_user, db_pass;
 
     public static void setServerParameters() {
         String hasTravis = System.getenv("TRAVIS");
@@ -30,7 +30,8 @@ public class ProcessFindRequest {
 
     public static List<LinkedHashMap<String,String>> processPlaces(String matchPattern, int limitInt) {
         List<LinkedHashMap<String, String>> allLocations = new ArrayList<>();
-        setQUERY(matchPattern, limitInt, true, false);
+        matcher = setMatch(matchPattern);
+        setQUERY(matcher, limitInt, true, false);
         setServerParameters();
         try { runQuery(QUERY, allLocations); }
         catch (Exception e) { System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage()); }
@@ -39,11 +40,22 @@ public class ProcessFindRequest {
 
     public static int processFound(String matchPattern, int limitInt){
         List<LinkedHashMap<String,String>> foundList = new ArrayList<>();
-        setQUERY(matchPattern, limitInt, false, true);
+        matcher = setMatch(matchPattern);
+        setQUERY(matcher, limitInt, false, true);
         setServerParameters();
         try { runQuery(QUERY, foundList); }
         catch (Exception e) { System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage()); }
         return foundList.size();
+    }
+
+    private static String setMatch(String matchPattern) {
+        String temp = "";
+        for (int i=0; i<matchPattern.length(); i++){
+            char c = matchPattern.charAt(i);
+            if (!Character.isDigit(c) && !Character.isLetter(c) && Character.isSpaceChar(c)){ c = '_'; }
+            temp += c;
+        }
+        return temp;
     }
 
     public static void setQUERY(String matchPattern, int limitInt, boolean isPlaces, boolean isFound){
