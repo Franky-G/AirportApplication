@@ -12,6 +12,7 @@ The checklist will be updated as we identify new faults in our code that we wish
 * Should the upper bound of arrays be equal to the size of the array or size-1?
 * If character strings are used, is a delimiter explicitly assigned?
 * Is there any possibility of a buffer overflow?
+* Are all data structures used initialized properly?
 
 ### Control faults
 * For each conditional statement, is the condition correct?
@@ -30,6 +31,8 @@ The checklist will be updated as we identify new faults in our code that we wish
 * Do formal and actual parameter types match?
 * Are the parameters in the right order?
 * Do all components use a consistent model for shared memory structure?
+* Do all functions serve a unique purpose?
+* Are all functions serving their purpose in the best way?
 
 ### Storage faults
 * If a linked structure is modified, have all links been correctly diagnosed?
