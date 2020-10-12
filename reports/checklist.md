@@ -41,3 +41,7 @@ The checklist will be updated as we identify new faults in our code that we wish
 
 ### Exception faults
 * Have all possible error conditions been considered?
+
+### Code formatting
+* Is every line able to be viewed without scrolling horizontally?
+* Is every code block easily distinguishable(with spacing)?
