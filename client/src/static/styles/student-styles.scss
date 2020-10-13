@@ -122,3 +122,15 @@ select:-moz-focusring {
   color: transparent;
   text-shadow: 0 0 0 #000;
 }
+
+.styleSearchList {
+  margin: 0;
+  padding: 8px;
+  height: 100%;
+  color: #FFFFFF;
+  z-index: 1009;
+  font-size: 13px;
+  border-radius: 3px 3px 3px 3px;
+  border: 2px solid #1E4D2B;
+  background: #002b0c;
+}

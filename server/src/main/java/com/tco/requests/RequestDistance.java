@@ -33,7 +33,7 @@ public class RequestDistance extends RequestHeader {
 
     @Override
     public void buildResponse() {
-        this.distance = CalculateDistance.ComputeDistance(this.place1, this.place2, earthRadius);
+        this.distance = CalculateDistance.ComputeDistance(this.place1, this.place2, this.earthRadius);
         log.trace("buildResponse -> {}", this);
     }
 

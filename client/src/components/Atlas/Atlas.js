@@ -111,7 +111,8 @@ export default class Atlas extends Component {
   geoPosition(){
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
-            this.setState({homeLocation: [position.coords.latitude, position.coords.longitude], mapCenter: [position.coords.latitude, position.coords.longitude], hasUserLocation: true});
+            this.setState({homeLocation: [position.coords.latitude, position.coords.longitude],
+              mapCenter: [position.coords.latitude, position.coords.longitude], hasUserLocation: true});
           }
           , error, {enableHighAccuracy:true});
     } else {
@@ -124,8 +125,12 @@ export default class Atlas extends Component {
   }
 
   homeButtonSetStateVars() {
-    if(this.state.hasUserLocation) { this.setState({markerPosition: null, prevLocation: [null,null], mapCenter: this.state.homeLocation, whereIsMarker: null}); }
-    else{ this.setState( {markerPosition: null, prevLocation: [null,null], mapCenter: MAP_CENTER_DEFAULT, whereIsMarker: null}); }
+    if(this.state.hasUserLocation) {
+      this.setState({markerPosition: null, prevLocation: [null,null], mapCenter: this.state.homeLocation, whereIsMarker: null});
+    }
+    else{
+      this.setState( {markerPosition: null, prevLocation: [null,null], mapCenter: MAP_CENTER_DEFAULT, whereIsMarker: null});
+    }
     if(this.state.tripRecord){
       this.tripREF.setTripPlaces()
     }
@@ -152,13 +157,15 @@ export default class Atlas extends Component {
     return(
         <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={() => this.setDropdown()}
                         style={{position: "absolute", top: 130, zIndex: 1016, padding: 0, margin: 0, fontSize: 9, outline: 0}}>
-          <DropdownToggle id="tripRecording" className={this.state.tripStyle} caret size="sm" style={{borderLeft: "2px solid rgba(0,0,0,0.3)", borderRight: "2px solid rgba(0,0,0,0.3)",
+          <DropdownToggle id="tripRecording" className={this.state.tripStyle} caret size="sm"
+                          style={{borderLeft: "2px solid rgba(0,0,0,0.3)", borderRight: "2px solid rgba(0,0,0,0.3)",
             borderBottom: "2px solid rgba(0,0,0,0.3)", borderTop: "1px solid rgba(0,0,0,0.2)", borderRadius: "0 0 4px 4px", outline: 0}}>
             T
           </DropdownToggle>
           <DropdownMenu>
             <DropdownItem onClick={() => this.tripREF.divclicked()}>Open Trip Designer</DropdownItem>
-            <DropdownItem onClick={() => this.setTripRecord()}> Toggle Trip Recording <Badge style={{borderRadius: 30}} color={this.tripClicked()}>R</Badge></DropdownItem>
+            <DropdownItem onClick={() => this.setTripRecord()}> Toggle Trip Recording
+              <Badge style={{borderRadius: 30}} color={this.tripClicked()}>R</Badge></DropdownItem>
             <DropdownItem onClick={() => this.tripREF.resetTripPlaces()}>Reset Trip List</DropdownItem>
           </DropdownMenu>
         </ButtonDropdown>
@@ -170,7 +177,8 @@ export default class Atlas extends Component {
     slicedArray[1] = slicedArray[0];
     slicedArray[0] = mapClickInfo.latlng;
     if(!this.state.searchTextToIsEmpty && this.state.prevLocation[0] !== null && this.state.prevLocation[1] !== null){
-      this.setState({prevLocation: slicedArray, markerPosition: mapClickInfo.latlng, mapCenter: [this.state.prevLocation[0].lat.toString(),this.state.prevLocation[0].lng.toString()]})
+      this.setState({prevLocation: slicedArray, markerPosition: mapClickInfo.latlng,
+        mapCenter: [this.state.prevLocation[0].lat.toString(),this.state.prevLocation[0].lng.toString()]})
     } else {
       this.setState({prevLocation: slicedArray, markerPosition: mapClickInfo.latlng, mapCenter: mapClickInfo.latlng})
     }
@@ -203,7 +211,8 @@ export default class Atlas extends Component {
     try {
       let cordParse = require('coordinate-parser')
       let cordLocation = new cordParse(coords);
-      this.setState({mapCenter: [cordLocation.getLatitude(), cordLocation.getLongitude()], markerPosition: null, whereIsMarker: L.latLng(cordLocation.getLatitude(), cordLocation.getLongitude())});
+      this.setState({mapCenter: [cordLocation.getLatitude(), cordLocation.getLongitude()], markerPosition: null,
+        whereIsMarker: L.latLng(cordLocation.getLatitude(), cordLocation.getLongitude())});
     } catch (error) {
       alert("Invalid Coordinate Input!")
     }

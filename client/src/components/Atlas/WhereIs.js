@@ -31,7 +31,8 @@ export default class SearchModule extends Component {
 
     renderInputFromTo(index){
         return(
-            <Input name={fromToStyle[index].name} style={fromToStyle[index].style} placeholder={fromToStyle[index].placeholder} onChange={() => this.InputChange()}/>
+            <Input name={fromToStyle[index].name} style={fromToStyle[index].style}
+                   placeholder={fromToStyle[index].placeholder} onChange={() => this.InputChange()}/>
         );
     }
 
@@ -48,8 +49,10 @@ export default class SearchModule extends Component {
                         </Col>
                     </Row>
                     <Col style={{left: 283, top: 55}}>
-                        <Button className="p-1 distanceButtonStyle" style={{background: "radial-gradient(#C8C372,#1E4D2B)", color: "#000000", border: "1px solid #C8C372", fontSize:12,}}
-                                onClick={() => this.props.searchBarCoordsIntermediate(this.state.searchWhereIsTextFrom+','+this.state.searchWhereIsTextTo)} title="Where Is?"> Go To </Button></Col>
+                        <Button className="p-1 distanceButtonStyle" style={{background: "radial-gradient(#C8C372,#1E4D2B)",
+                            color: "#000000", border: "1px solid #C8C372", fontSize:12,}}
+                                onClick={() => this.props.searchBarCoordsIntermediate(this.state.searchWhereIsTextFrom +
+                                    ','+this.state.searchWhereIsTextTo)} title="Where Is?"> Go To </Button></Col>
                     <p className="searchTypeStyle">
                         Coordinates: ({this.state.searchWhereIsTextFrom},{this.state.searchWhereIsTextTo})<br/>
                         Enter Any Format

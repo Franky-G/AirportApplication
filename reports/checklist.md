@@ -54,3 +54,17 @@ The checklist will be updated as we identify new faults in our code that we wish
 * Is every code block easily distinguishable(with spacing)?
 * Are function calls directed downward to the next function?
 * Is indenting consistent?
+
+### Test Coverage and Test Quality
+* Is every code block testable?
+* Has said code block been tested/covered?
+* Are they testing the right thing?
+* Are the tests targetting the intended functionality?
+
+### Arrays
+* Are there any off-by-one errors in array indexing?
+* Can array indexes ever go out-of-bounds?
+* Is a constructor called when a new array item is desired?
+* Are array declarations syntactically correct?
+* Are the row and column being indexed in the right order for a 2D array
+
