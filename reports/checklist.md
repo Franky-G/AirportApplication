@@ -54,3 +54,9 @@ The checklist will be updated as we identify new faults in our code that we wish
 * Is every code block easily distinguishable(with spacing)?
 * Are function calls directed downward to the next function?
 * Is indenting consistent?
+
+### Test Coverage and Test Quality
+* Is every code block testable?
+* Has said code block been tested/covered?
+* Are they testing the right thing?
+* Are the tests targetting the intended functionality?
