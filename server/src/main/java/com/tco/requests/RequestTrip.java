@@ -12,7 +12,7 @@ public class RequestTrip extends RequestHeader {
     private Map <String, String> options;
     private String title;
     private String earthRadius;
-    private Long distance[];
+    private Long distances[];
     private final transient Logger log = LoggerFactory.getLogger(RequestTrip.class);
 
     public RequestTrip() {
@@ -28,16 +28,16 @@ public class RequestTrip extends RequestHeader {
         this.earthRadius = this.options.get("earthRadius");
         this.places = new HashMap[places.length];
         this.places = places;
-        this.distance = new Long[places.length];
+        this.distances = new Long[places.length];
     }
 
     @Override
     public void buildResponse() {
-        this. distance = new Long[this.places.length];
+        this.distances = new Long[this.places.length];
         for (int i = 0; i < this.places.length - 1; i++) {
-            this.distance[i] = CalculateDistance.ComputeDistance(this.places[i], this.places[i+1], Double.parseDouble(this.options.get("earthRadius")));
+            this.distances[i] = CalculateDistance.ComputeDistance(this.places[i], this.places[i+1], Double.parseDouble(this.options.get("earthRadius")));
         }
-        this.distance[this.places.length - 1] = CalculateDistance.ComputeDistance(this.places[this.places.length - 1], this.places[0], Double.parseDouble(this.options.get("earthRadius")));;
+        this.distances[this.places.length - 1] = CalculateDistance.ComputeDistance(this.places[this.places.length - 1], this.places[0], Double.parseDouble(this.options.get("earthRadius")));;
         log.trace("buildResponse -> {}", this);
     }
 
@@ -55,7 +55,7 @@ public class RequestTrip extends RequestHeader {
 
     public Map<String, String>[] getPlaces() { return this.places; }
     public String getEarthRadius() {return this.earthRadius; }
-    public Long [] getTripDistance() { return this.distance; }
+    public Long [] getTripDistance() { return this.distances; }
     public String getTitle() { return this.title; }
 
 }

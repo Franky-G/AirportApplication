@@ -2,14 +2,18 @@ import React, {Component} from "react";
 import {Button, Col, Input, Row} from "reactstrap";
 import Fade from "@material-ui/core/Fade";
 
+const inputStyle = [{margin: 5, width: "100%"}, {margin: 5, width: 160}]
+const fromToStyle = [{name: "searchWhereIsFrom", style: inputStyle[0], placeholder: "N 47°38' 56.26"},
+                     {name:"searchWhereIsTo", style:inputStyle[1], placeholder:"W 122.34811"}]
+
 export default class SearchModule extends Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
 
         }
+
     }
 
     render(){
@@ -20,10 +24,15 @@ export default class SearchModule extends Component {
         );
     }
 
-    handleInputChange(){
-        const target = event.target;
-        if (target.name === "searchWhereIsFrom"){this.setState({searchWhereIsTextFrom: target.value});}
-        if (target.name === "searchWhereIsTo"){this.setState({searchWhereIsTextTo: target.value});}
+    InputChange(){
+        if (event.target.name === "searchWhereIsFrom"){this.setState({searchWhereIsTextFrom: event.target.value});}
+        if (event.target.name === "searchWhereIsTo"){this.setState({searchWhereIsTextTo: event.target.value});}
+    }
+
+    renderInputFromTo(index){
+        return(
+            <Input name={fromToStyle[index].name} style={fromToStyle[index].style} placeholder={fromToStyle[index].placeholder} onChange={() => this.InputChange()}/>
+        );
     }
 
     renderWhereIsPanel(){
@@ -31,10 +40,12 @@ export default class SearchModule extends Component {
             <Fade in={true} timeout={350}>
                 <div className="searchModuleStyle" style={{zIndex: 1012}}>
                     <Row xs={2}>
-                        <Col><Input name={"searchWhereIsFrom"} style={{margin: 5, width: "100%"}} placeholder="N 47°38' 56.26"
-                                    onChange={() => this.handleInputChange()}/></Col>
-                        <Col style={{left: -20}}><Input name={"searchWhereIsTo"} style={{margin: 5, width: 160}}
-                                                        placeholder="W 122.34811" onChange={() => this.handleInputChange()}/></Col>
+                        <Col>
+                            {this.renderInputFromTo(0)}
+                        </Col>
+                        <Col style={{left: -20}}>
+                            {this.renderInputFromTo(1)}
+                        </Col>
                     </Row>
                     <Col style={{left: 283, top: 55}}>
                         <Button className="p-1 distanceButtonStyle" style={{background: "radial-gradient(#C8C372,#1E4D2B)", color: "#000000", border: "1px solid #C8C372", fontSize:12,}}

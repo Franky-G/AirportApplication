@@ -1,0 +1,98 @@
+/* Trip Styles */
+.tripBackground {
+  position: fixed;
+  background-color: #1E4D2B;
+  color: #FFFFFF;
+  width: 300px;
+  height: 430px;
+  z-index: 1017;
+  border: 3px ridge #C8C372;
+  border-radius: 10px 10px 10px 10px;
+  padding: 0;
+  box-shadow: 2px 3px 5px 0 #000000;
+}
+
+.tripBackdrop{
+  background: linear-gradient(#1E4D2B, #002b0c);
+  border: 1px ridge #002b0c;
+  border-radius: 3px 3px 3px 3px;
+  box-shadow: 1px 1px 1px 0 #000000;
+}
+
+.tripInputStyle{
+  background-color: #FFFFFF;
+  border-radius: 0 3px 3px 0;
+  border: 1px solid #FFFFFF;
+  left: 22px; height: 30px;
+  box-shadow: 1px 1px 1px 0 #000000;
+}
+
+/* Sliding Menu */
+
+#tripDiv.coolclass{
+  position: fixed;
+  left: 60px;
+  background-color: #1E4D2B;
+  color: #FFFFFF;
+  width: 300px;
+  height: 430px;
+  z-index: 1017;
+  border: none;
+  border-radius: 10px 10px 10px 10px;
+  padding: 0;
+  box-shadow: 2px 3px 5px 0 #000000;
+  max-width: 100%;
+  transition: 2s;
+}
+
+#tripDiv {
+  max-width: 0;
+  transition: 1s;
+  left: 60px;
+  overflow: hidden;
+  position: fixed;
+  background-color: #1E4D2B;
+  color: #FFFFFF;
+  width: 300px;
+  height: 430px;
+  z-index: 1017;
+  border: none;
+  border-radius: 10px 10px 10px 10px;
+  padding: 0;
+  box-shadow: 2px 3px 5px 0 #000000;
+}
+
+#tripRecording, #tripRecording:focus, #tripRecording:active, #tripRecording:active:focus{
+  position: absolute;
+  background-color: #fff;
+  background-size: 34px;
+  color: #000000;
+  left: 10px;
+  z-index: 1005;
+  border-left: 2px solid rgba(0,0,0,0.3) ;
+  border-right: 2px solid rgba(0,0,0,0.3) ;
+  border-bottom: 2px solid rgba(0,0,0,0.3) ;
+  border-top: 1px solid rgba(0,0,0,0.2) ;
+  border-radius: 0 0 4px 4px;
+  width: 34px;
+  height: 34px;
+  outline:none !important;
+}
+
+.searchListStyle{
+  margin: 0;
+  padding: 8px;
+  height: 100%;
+  width: 279px;
+  color: #FFFFFF;
+  z-index: 1009;
+  font-size: 13px;
+  border-radius: 3px 3px 3px 3px;
+  border: 2px solid #1E4D2B;
+  background: #002b0c
+}
+
+select {
+  outline: 0;
+  border: 0;
+}

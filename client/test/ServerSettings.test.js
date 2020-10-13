@@ -71,7 +71,7 @@ test("onChangeEvent should update the component's state", testUpdateInputText);
 function testUpdateServerPort() {
     mockConfigResponse();
 
-    const page = mount(<Page />);
+    const page = shallow(<Page />);
     const settings = shallow(
         <ServerSettings
             isOpen={startProperties.isOpen}
