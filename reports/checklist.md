@@ -60,3 +60,11 @@ The checklist will be updated as we identify new faults in our code that we wish
 * Has said code block been tested/covered?
 * Are they testing the right thing?
 * Are the tests targetting the intended functionality?
+
+### Arrays
+* Are there any off-by-one errors in array indexing?
+* Can array indexes ever go out-of-bounds?
+* Is a constructor called when a new array item is desired?
+* Are array declarations syntactically correct?
+* Are the row and column being indexed in the right order for a 2D array
+
