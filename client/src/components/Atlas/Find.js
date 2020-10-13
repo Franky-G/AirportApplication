@@ -5,7 +5,8 @@ import Fade from "@material-ui/core/Fade";
 
 
 const distanceButtonStyle = {
-    position: "absolute", top: 11, left: -1, zIndex: 1005, height: 32, fontSize: 12, background: "radial-gradient(#C8C372,#1E4D2B)", color: "#000000", border: "1px solid #C8C372"
+    position: "absolute", top: 11, left: -1, zIndex: 1005, height: 32, fontSize: 12,
+    background: "radial-gradient(#C8C372,#1E4D2B)", color: "#000000", border: "1px solid #C8C372"
 }
 
 // const searchListStyle = {margin: 0, padding: 8, height: "100%", maxWidth: 268, color: "#FFFFFF", zIndex: 1009, fontSize: 13, borderRadius: "3px 3px 3px 3px", border: "2px solid #1E4D2B", background: "#002b0c"}
@@ -60,7 +61,8 @@ export default class Find extends Component {
     addListGroupItem(index){
         return (
             <ListGroupItem className="styleSearchList" style={{maxWidth: 268}} tag="button" action
-                           onClick={() => this.props.setWhereIsMarker(L.latLng(this.state.searchArray[index][1], this.state.searchArray[index][2]))}>{this.state.searchArray[index][0]}</ListGroupItem>
+                           onClick={() => this.props.setWhereIsMarker(L.latLng(this.state.searchArray[index][1],
+                               this.state.searchArray[index][2]))}>{this.state.searchArray[index][0]}</ListGroupItem>
         );
     }
 
@@ -81,11 +83,13 @@ export default class Find extends Component {
                 <div style={searchModuleStyle}>
                     <Row>
                         <Col>
-                            <Input name={SBArray[0].name} style={SBArray[0].style} placeholder={SBArray[0].placeholder} onChange={() => this.handleInputChange()}/>
+                            <Input name={SBArray[0].name} style={SBArray[0].style} placeholder={SBArray[0].placeholder}
+                                   onChange={() => this.handleInputChange()}/>
                         </Col>
                     </Row>
                     <Col style={{position: "absolute", left: 277, top: 103}}>
-                        <Button className="p-1" style={distanceButtonStyle} onClick = {() => {this.returnPlaces()}}> Search </Button>
+                        <Button className="p-1" style={distanceButtonStyle}
+                                onClick = {() => {this.returnPlaces()}}> Search </Button>
                     </Col>
                     <p style={searchTypeStyle}>
                         Location = {this.state.searchBarText}<br/>
@@ -104,7 +108,8 @@ export default class Find extends Component {
         }
         return(
             <div ref={this.setWrapperRef} tabIndex="0">
-                <Container style={{padding: 0, position: "absolute", bottom: 162, left: 84, width: 280, maxHeight: 230, overflow: "auto", zIndex: 1015}}>
+                <Container style={{padding: 0, position: "absolute", bottom: 162, left: 84, width: 280,
+                    maxHeight: 230, overflow: "auto", zIndex: 1015}}>
                     <ListGroup onBlur={() => this.setState({searchIsOn: false})}>
                         <div onClick={() => this.setState({searchIsOn: false})}>
                             {searchListArray.map((element, index) => (<div key={index}>{element}</div>))} </div>
