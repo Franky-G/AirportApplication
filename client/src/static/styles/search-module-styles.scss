@@ -1,0 +1,74 @@
+#container{
+  position:relative;
+}
+
+#num1, #num2 {
+  position:absolute;
+  top:69px;
+  left:10px;
+}
+
+.inputFieldSearchBar{
+  max-width: 50%;
+}
+
+.inputFieldSearchField {
+  max-width: 70%;
+}
+
+.searchImg {
+  width: 16px;
+  height: 16px;
+}
+
+.distanceButtonStyle{
+  position: absolute;
+  top: 11px;
+  left: -1px;
+  z-index: 1005;
+  height: 32px;
+  font-size: 12px;
+  background: radial-gradient(#C8C372,#1E4D2B);
+  color: #000000;
+  border: 1px solid #C8C372;
+}
+
+.searchListStyle {
+  height: 100%;
+  color: #FFFFFF;
+  z-index: 1005;
+  font-size: 13px;
+  border-radius: 3px 3px 3px 3px;
+  border: 2px solid #1E4D2B;
+  background: #002b0c
+}
+
+.searchModuleStyle{
+  position: absolute;
+  background-color: #1E4D2B;
+  width: 330px;
+  height: 150px;
+  border-radius: 3px 3px 3px 3px;
+  color: #FFFFFF;
+  border-color: rgba(0,0,0,0.3);
+  bottom: 13px;
+  left: 22px;
+  z-index: 1011;
+}
+
+.searchTypeStyle{
+  position: absolute;
+  background: #145906;
+  color:#FFFFFF;
+  width: 320px;
+  height: 65px;
+  margin:5px;
+  top: 40px;
+  border-radius: 3px 3px 3px 3px;
+  font-Size: 16px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  border: 2px solid #000000;
+  border-bottom: 3px solid #000000;
+  border-top: 3px solid #000000;
+}

@@ -9,9 +9,7 @@ import Find from "./Find";
 
 const inputFieldStyleFrom = {zIndex: 1002, height: 34, top: 10, left: 70, position: "absolute"}
 
-let place1, place2;
-
-export default class SearchModule_old extends Component {
+export default class SearchModule extends Component {
 
     constructor(props) {
         super(props);
@@ -22,8 +20,8 @@ export default class SearchModule_old extends Component {
         this.searchBarCoordsIntermediate = this.searchBarCoordsIntermediate.bind(this);
         this.state = {
             showDistanceSearch: false, showLocationSearch: false, showWhereIsSearch: false,
-            searchModule: true, searchTextFrom: " ", searchTextTo: " ",
-            distance: 0, searchPrevLocation: [null, null]
+            searchModule: false, searchTextFrom: "", searchTextTo: "",
+            distance: null, searchPrevLocation: [null, null]
         }
     }
 
@@ -43,10 +41,6 @@ export default class SearchModule_old extends Component {
         );
     }
 
-    componentDidMount() {
-        this.toggleShowSearchModule()
-    }
-
     addSearchButton() {
         return (
             <div>
@@ -58,12 +52,29 @@ export default class SearchModule_old extends Component {
         );
     }
 
+    async formatDistanceCoords() {
+        let fromCoords = "", toCoords = "";
+        try {
+            let cordParse = require('coordinate-parser');
+            if(this.state.searchTextFrom){
+                fromCoords = new cordParse(this.state.searchTextFrom).getLatitude()+','+new cordParse(this.state.searchTextFrom).getLongitude()
+            }
+            if(this.state.searchTextTo){
+                toCoords = new cordParse(this.state.searchTextTo).getLatitude()+','+new cordParse(this.state.searchTextTo).getLongitude()
+            }
+            await this.setState({searchTextFrom: fromCoords, searchTextTo: toCoords})
+            this.calcDist()
+        }
+        catch (error){
+            alert("Invalid Coordinate Input!")
+        }
+    }
+
     handleInputChange() {
         const target = event.target;
         if (target.name === "searchBarTo") {
             this.setState({searchTextTo: target.value});
-        }
-        if (target.name === "searchBarFrom") {
+        } if (target.name === "searchBarFrom") {
             this.setState({searchTextFrom: target.value});
         }
     }
@@ -80,7 +91,7 @@ export default class SearchModule_old extends Component {
 
 
     renderCalculateButton = () => {
-        return (<div><Button className="p-1 distanceButtonStyle" style={{color: "#000000", fontSize: 12, border: "1px solid #C8C372"}} onClick={() => {this.formatDistanceCoords()}}> Calculate </Button></div>)
+        return (<div><Button className="p-1 distanceButtonStyle" style={{color: "#000000", fontSize: 12, border: "1px solid #C8C372"}} onClick={() => {this.calcDist()}}> Calculate </Button></div>)
     }
 
     renderSearchFieldTo() {
@@ -121,55 +132,18 @@ export default class SearchModule_old extends Component {
         this.props.setSearchBarCoords(coords);
     }
 
-    async formatDistanceCoords() {
-        try {
-            let cordParse = require('coordinate-parser');
-            if(this.state.searchTextFrom){
-                let cordLocationFrom = new cordParse(this.state.searchTextFrom);
-                await this.setState({searchTextFrom: cordLocationFrom.getLatitude()+','+cordLocationFrom.getLongitude()})
-           }
-            if(this.state.searchTextTo){
-                let cordLocationTo = new cordParse(this.state.searchTextTo)
-                await this.setState({searchTextTo: cordLocationTo.getLatitude()+','+cordLocationTo.getLongitude()})
-           }
-            this.calcDist()
-        }
-        catch (error){
-            alert("Invalid Coordinate Input!")
-        }
-    }
-
     calcDist() {
         if (this.state.searchTextFrom && this.state.searchTextTo) {
-            this.helperValidFromTo(0)
-        }
-        if (this.state.searchTextFrom && !this.state.searchTextTo) {
-            this.helperValidFromTo(1)
-        }
-        if (!this.state.searchTextFrom && this.state.searchTextTo) {
-            this.helperValidFromTo(2)
-        }
-        if (!this.state.searchTextFrom && !this.state.searchTextTo) {
+            this.sendDistanceServerRequest(this.state.searchTextFrom.split(',')[0], this.state.searchTextFrom.split(',')[1], this.state.searchTextTo.split(',')[0], this.state.searchTextTo.split(',')[1])
+        } else if (this.state.searchTextFrom && !this.state.searchTextTo) {
+            this.sendDistanceServerRequest(this.state.searchTextFrom.split(',')[0], this.state.searchTextFrom.split(',')[1], this.props.prevLocation[1].lat.toString(), this.state.prevLocation[1].lng.toString())
+        } else if (!this.state.searchTextFrom && this.state.searchTextTo) {
+            this.sendDistanceServerRequest(this.props.prevLocation[0].lat.toString(), this.state.prevLocation[0].lng.toString(), this.state.searchTextFrom.split(',')[0], this.state.searchTextFrom.split(',')[1])
+        } else {
             let place1 = this.props.prevLocation[0];
             let place2 = this.props.prevLocation[1];
             if (this.props.prevLocation[1] !== null)
                 this.sendDistanceServerRequest(place1.lat.toString(), place1.lng.toString(), place2.lat.toString(), place2.lng.toString());
-        }
-    }
-
-    helperValidFromTo(index) {
-        place1 = this.state.searchTextFrom.split(',')
-        place2 = this.state.searchTextTo.split(',')
-        if (index === 0) {
-            this.sendDistanceServerRequest(place1[0], place1[1], place2[0], place2[1])
-        }
-        if (index === 1) {
-            place2 = this.props.prevLocation[0];
-            this.sendDistanceServerRequest(place1[0], place1[1], place2.lat.toString(), place2.lng.toString())
-        }
-        if (index === 2) {
-            place1 = this.props.prevLocation[0];
-            this.sendDistanceServerRequest(place1.lat.toString(), place1.lng.toString(), place2[0], place2[1])
         }
     }
 
@@ -189,3 +163,5 @@ export default class SearchModule_old extends Component {
             });
     }
 }
+
+
