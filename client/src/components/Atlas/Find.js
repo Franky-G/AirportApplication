@@ -10,6 +10,8 @@ const distanceButtonStyle = {
 
 // const searchListStyle = {margin: 0, padding: 8, height: "100%", maxWidth: 268, color: "#FFFFFF", zIndex: 1009, fontSize: 13, borderRadius: "3px 3px 3px 3px", border: "2px solid #1E4D2B", background: "#002b0c"}
 
+const searchBarArray = [{name: "searchBar", style: {margin: 5, width: "97%"}, placeholder: "Enter name of place"}];
+
 const searchModuleStyle = {
     position: "absolute", backgroundColor: "#1E4D2B", width: 330, height: 150, borderRadius: "3px 3px 3px 3px",
     color: "#FFFFFF", borderColor: "rgba(0,0,0,0.3)", bottom: 13, left: 22, zIndex: 1013,
@@ -39,7 +41,7 @@ export default class Find extends Component {
     render() {
         return (
             <div>
-                {this.props.showLocationSearch && this.props.searchModule && this.renderLocationModule()}
+                {this.props.showLocationSearch && this.props.searchModule && this.renderLocationModule(searchBarArray)}
                 {this.state.searchIsOn && this.renderSearchList()}
             </div>
         );
@@ -73,13 +75,13 @@ export default class Find extends Component {
         if (target.name === "searchBar") {this.setState({searchBarText: target.value});}
     }
 
-    renderLocationModule() {
+    renderLocationModule(SBArray) {
         return (
             <Fade in={true} timeout={350}>
                 <div style={searchModuleStyle}>
                     <Row>
                         <Col>
-                            <Input name={"searchBar"} style={{margin: 5, width: "97%"}} placeholder="Enter name of place" onChange={() => this.handleInputChange()}/>
+                            <Input name={SBArray[0].name} style={SBArray[0].style} placeholder={SBArray[0].placeholder} onChange={() => this.handleInputChange()}/>
                         </Col>
                     </Row>
                     <Col style={{position: "absolute", left: 277, top: 103}}>
