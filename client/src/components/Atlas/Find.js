@@ -8,7 +8,7 @@ const distanceButtonStyle = {
     position: "absolute", top: 11, left: -1, zIndex: 1005, height: 32, fontSize: 12, background: "radial-gradient(#C8C372,#1E4D2B)", color: "#000000", border: "1px solid #C8C372"
 }
 
-const searchListStyle = {margin: 0, padding: 8, height: "100%", maxWidth: 268, color: "#FFFFFF", zIndex: 1009, fontSize: 13, borderRadius: "3px 3px 3px 3px", border: "2px solid #1E4D2B", background: "#002b0c"}
+// const searchListStyle = {margin: 0, padding: 8, height: "100%", maxWidth: 268, color: "#FFFFFF", zIndex: 1009, fontSize: 13, borderRadius: "3px 3px 3px 3px", border: "2px solid #1E4D2B", background: "#002b0c"}
 
 const searchModuleStyle = {
     position: "absolute", backgroundColor: "#1E4D2B", width: 330, height: 150, borderRadius: "3px 3px 3px 3px",
@@ -57,7 +57,7 @@ export default class Find extends Component {
 
     addListGroupItem(index){
         return (
-            <ListGroupItem style={searchListStyle} tag="button" action
+            <ListGroupItem className="styleSearchList" style={{maxWidth: 268}} tag="button" action
                            onClick={() => this.props.setWhereIsMarker(L.latLng(this.state.searchArray[index][1], this.state.searchArray[index][2]))}>{this.state.searchArray[index][0]}</ListGroupItem>
         );
     }
