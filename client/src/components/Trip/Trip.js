@@ -1,13 +1,5 @@
 import React, {Component} from "react";
-import {
-    Row,
-    InputGroup,
-    InputGroupAddon,
-    PopoverHeader,
-    PopoverBody,
-    UncontrolledPopover,
-    Button, ListGroupItem, Container, ListGroup,
-} from "reactstrap";
+import { Row, InputGroup, InputGroupAddon, PopoverHeader, PopoverBody, UncontrolledPopover, Button, ListGroupItem, Container, ListGroup} from "reactstrap";
 import Input from "@material-ui/core/Input";
 
 const searchListStyle = {margin: 0, padding: 8, height: "100%", width: 279, color: "#FFFFFF", zIndex: 1009, fontSize: 13, borderRadius: "3px 3px 3px 3px", border: "2px solid #1E4D2B", background: "#002b0c"}
@@ -21,7 +13,6 @@ export default class SearchModule extends Component {
 
     constructor(props) {
         super(props);
-
         this.divclicked = this.divclicked.bind(this);
         this.resetTripPlaces = this.resetTripPlaces.bind(this);
         this.removeATrip = this.removeATrip.bind(this);
@@ -121,21 +112,12 @@ export default class SearchModule extends Component {
         );
     }
 
-    addASpace(){
-        return(
-            <Row style={{height:5}}/>
-        );
-    }
+    addASpace(){ return( <Row style={{height:5}}/>);}
 
     divclicked() {
         if (this.state.myclass === '') {
-            this.setState({
-                myclass: 'coolclass'
-            })
-        } else {
-            this.setState({
-                myclass: '',
-            })
+            this.setState({myclass: 'coolclass'})
+        } else {this.setState({myclass: '',})
         }
     }
 
@@ -273,9 +255,7 @@ export default class SearchModule extends Component {
         this.setState({tripPlaces: [], trips: tripsArray})
     }
 
-    setTripPlaces(mapClickInfo){
-        this.state.tripPlaces.push(mapClickInfo.latlng);
-    }
+    setTripPlaces(mapClickInfo){ this.state.tripPlaces.push(mapClickInfo.latlng);}
 
     toggleButtonColor(){
         if(this.props.recordingTrip === 1){
