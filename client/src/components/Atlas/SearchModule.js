@@ -91,7 +91,8 @@ export default class SearchModule extends Component {
 
 
     renderCalculateButton = () => {
-        return (<div><Button className="p-1 distanceButtonStyle" style={{color: "#000000", fontSize: 12, border: "1px solid #C8C372"}} onClick={() => {this.calcDist()}}> Calculate </Button></div>)
+        return (<div><Button className="p-1 distanceButtonStyle" style={{color: "#000000", fontSize: 12, border: "1px solid #C8C372"}}
+                             onClick={() => {this.calcDist()}}> Calculate </Button></div>)
     }
 
     renderSearchFieldTo() {
@@ -134,11 +135,14 @@ export default class SearchModule extends Component {
 
     calcDist() {
         if (this.state.searchTextFrom && this.state.searchTextTo) {
-            this.sendDistanceServerRequest(this.state.searchTextFrom.split(',')[0], this.state.searchTextFrom.split(',')[1], this.state.searchTextTo.split(',')[0], this.state.searchTextTo.split(',')[1])
+            this.sendDistanceServerRequest(this.state.searchTextFrom.split(',')[0], this.state.searchTextFrom.split(',')[1],
+                this.state.searchTextTo.split(',')[0], this.state.searchTextTo.split(',')[1])
         } else if (this.state.searchTextFrom && !this.state.searchTextTo) {
-            this.sendDistanceServerRequest(this.state.searchTextFrom.split(',')[0], this.state.searchTextFrom.split(',')[1], this.props.prevLocation[1].lat.toString(), this.state.prevLocation[1].lng.toString())
+            this.sendDistanceServerRequest(this.state.searchTextFrom.split(',')[0], this.state.searchTextFrom.split(',')[1],
+                this.props.prevLocation[1].lat.toString(), this.state.prevLocation[1].lng.toString())
         } else if (!this.state.searchTextFrom && this.state.searchTextTo) {
-            this.sendDistanceServerRequest(this.props.prevLocation[0].lat.toString(), this.state.prevLocation[0].lng.toString(), this.state.searchTextFrom.split(',')[0], this.state.searchTextFrom.split(',')[1])
+            this.sendDistanceServerRequest(this.props.prevLocation[0].lat.toString(), this.state.prevLocation[0].lng.toString(),
+                this.state.searchTextFrom.split(',')[0], this.state.searchTextFrom.split(',')[1])
         } else {
             let place1 = this.props.prevLocation[0];
             let place2 = this.props.prevLocation[1];
