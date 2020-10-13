@@ -92,7 +92,7 @@ export default class SearchModule extends Component {
 
     renderCalculateButton = () => {
         return (<div><Button className="p-1 distanceButtonStyle" style={{color: "#000000", fontSize: 12, border: "1px solid #C8C372"}}
-                             onClick={() => {this.calcDist()}}> Calculate </Button></div>)
+                             onClick={() => {this.formatDistanceCoords()}}> Calculate </Button></div>)
     }
 
     renderSearchFieldTo() {
@@ -137,13 +137,17 @@ export default class SearchModule extends Component {
         if (this.state.searchTextFrom && this.state.searchTextTo) {
             this.sendDistanceServerRequest(this.state.searchTextFrom.split(',')[0], this.state.searchTextFrom.split(',')[1],
                 this.state.searchTextTo.split(',')[0], this.state.searchTextTo.split(',')[1])
-        } else if (this.state.searchTextFrom && !this.state.searchTextTo) {
+        }
+        if (this.state.searchTextFrom && !this.state.searchTextTo) {
             this.sendDistanceServerRequest(this.state.searchTextFrom.split(',')[0], this.state.searchTextFrom.split(',')[1],
-                this.props.prevLocation[1].lat.toString(), this.state.prevLocation[1].lng.toString())
-        } else if (!this.state.searchTextFrom && this.state.searchTextTo) {
-            this.sendDistanceServerRequest(this.props.prevLocation[0].lat.toString(), this.state.prevLocation[0].lng.toString(),
-                this.state.searchTextFrom.split(',')[0], this.state.searchTextFrom.split(',')[1])
-        } else {
+                this.props.prevLocation[0].lat.toString(), this.props.prevLocation[0].lng.toString())
+        }
+        if (!this.state.searchTextFrom && this.state.searchTextTo) {
+            console.log(this.props.prevLocation)
+            this.sendDistanceServerRequest(this.props.prevLocation[0].lat.toString(), this.props.prevLocation[0].lng.toString(),
+                this.state.searchTextTo.split(',')[0], this.state.searchTextTo.split(',')[1])
+        }
+        if (!this.state.searchTextFrom && !this.state.searchTextTo) {
             let place1 = this.props.prevLocation[0];
             let place2 = this.props.prevLocation[1];
             if (this.props.prevLocation[1] !== null)
@@ -162,8 +166,8 @@ export default class SearchModule extends Component {
             place2: {latitude: lat2, longitude: long2}
         })
             .then(distance => {
-                this.props.setPrevLocationState(markerArray, distance.data.distance);
                 this.setState({distance: distance.data.distance})
+                this.props.setPrevLocationState(markerArray, distance.data.distance);
             });
     }
 }
