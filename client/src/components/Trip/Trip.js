@@ -75,7 +75,7 @@ export default class SearchModule extends Component {
 
     addListGroupItem(index){
         return (
-            <ListGroupItem className="styleSearchList" style={{width: 279}} tag="button" action
+            <ListGroupItem id="searchListStyle" style={{width: 279}} tag="button" action
                            onClick={() => this.props.setWhereIsMarker(L.latLng(this.state.tripPlaces[index].lat, this.state.tripPlaces[index].lng))}>
                 Place: {index} | Coords: {this.state.tripPlaces[index].lat.toFixed(4)} , {this.state.tripPlaces[index].lng.toFixed(4)}
                 {this.addCloseButton(0)}
@@ -95,7 +95,7 @@ export default class SearchModule extends Component {
 
     addListTripItem(index){
         return (
-            <ListGroupItem className="styleSearchList" style={{width: 279}} tag="button" action
+            <ListGroupItem id="searchListStyle" style={{width: 279}} tag="button" action
                            onClick={() => this.setState({tripPlaces: this.state.trips[index], index: index})}>
                 Trip {index}
                 {this.addCloseButton(1)}
