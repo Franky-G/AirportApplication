@@ -8,6 +8,7 @@ const inputArray = [{width: 211, label: "Add Place", width2: 70, name: "searchPl
 const placesAndTrips = [{height: 150, text: "Places"}, {height: 90, text: "Trips"}]
 const buttonList = [{style: {position: "absolute", right: 10}, label: "Add Place"},
                     {style: {position: "absolute", left: 80}, label: "Reset"}]
+const loadSaveDistance = [{style: {position: "absolute", padding: 4, left: 10}, label: "Load"}, {style: {position: "absolute", padding: 4, left: 58}, label: "Save"}, {style: {position: "absolute", padding: 4, right: 10}, label: "Distance"}]
 
 export default class SearchModule extends Component {
 
@@ -41,6 +42,17 @@ export default class SearchModule extends Component {
     componentDidUpdate(prevProps, prevState, snapshot) {
         {this.renderTripList()}
         {this.renderSearchList()}
+    }
+
+    addLoadSaveDistanceButtons(array){
+        return(
+            <div>
+                <Button size="sm" style={array[0].style}> {array[0].label} </Button>
+                <Button size="sm" style={array[1].style}> {array[1].label} </Button>
+                <Button size="sm" style={array[2].style}> {array[2].label} </Button>
+            </div>
+        );
+
     }
 
     addATrip(){
@@ -189,11 +201,12 @@ export default class SearchModule extends Component {
                 </div>
                 {this.renderPlacesAndTrips()}
                 <Row style={{top:5}}>
-                    {this.addInputField(inputArray[1])}
+                    {this.addLoadSaveDistanceButtons(loadSaveDistance)}
                 </Row>
             </div>
         );
     }
+//{this.addInputField(inputArray[1])}
 
     renderSearchList(){
         let searchListArray = []
