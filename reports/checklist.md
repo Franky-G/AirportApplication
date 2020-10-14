@@ -62,3 +62,9 @@ The checklist will be updated as we identify new faults in our code that we wish
 * Are array declarations syntactically correct?
 * Are the row and column being indexed in the right order for a 2D array
 
+### Flow Defects
+* Are all loops terminated at the correct point in the loop?
+* Is each loop constructed in the most efficient way possible?
+* Are loop exits handled with the correct values and returns?
+
+
