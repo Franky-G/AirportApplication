@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import { Row, InputGroup, InputGroupAddon, PopoverHeader, PopoverBody, UncontrolledPopover, Button, ListGroupItem, Container, ListGroup} from "reactstrap";
 import Input from "@material-ui/core/Input";
+import {sendServerRequest} from "../../utils/restfulAPI";
 
 // const searchListStyle = {margin: 0, padding: 8, height: "100%", width: 279, color: "#FFFFFF", zIndex: 1009, fontSize: 13, borderRadius: "3px 3px 3px 3px", border: "2px solid #1E4D2B", background: "#002b0c"}
 const labelStyle = {opacity: 0.2, overflow:"hidden"}
@@ -27,6 +28,8 @@ export default class SearchModule extends Component {
             trips: [],
             tripPlaces: [],
             index: 0,
+            distance: 0,
+            distanceArr: null
 
         }
     }
@@ -49,10 +52,39 @@ export default class SearchModule extends Component {
             <div>
                 <Button size="sm" style={array[0].style}> {array[0].label} </Button>
                 <Button size="sm" style={array[1].style}> {array[1].label} </Button>
-                <Button size="sm" style={array[2].style}> {array[2].label} </Button>
+                <Button size="sm" style={array[2].style} onClick={() => {this.formatTripDistance()}}> {array[2].label} </Button>
             </div>
         );
+    }
 
+    formatTripDistance() {
+        var jsonStr = '{"places":[]}';var obj = JSON.parse(jsonStr);
+        for(let i = 0; i < this.state.tripPlaces.length; i++) {
+            let lat = this.state.tripPlaces[i].lat.toString();
+            let long = this.state.tripPlaces[i].lng.toString();
+            obj['places'].push({"name":"Trips","latitude":lat,"longitude":long});
+        }
+        let test = JSON.stringify(obj);
+        test = test.slice(10,test.length-1);
+        test = JSON.parse(test)
+        this.calculateTripDistance(test);
+    }
+
+    calculateTripDistance(latLngString){
+        sendServerRequest({
+            requestType: "trip",
+            requestVersion: 3,
+            options: {title:"My Trip", earthRadius: "3959.0"},
+            places: latLngString
+        })
+            .then(distance => {
+                let totalDistance = 0;
+                let distances = distance.data.distances;
+                for(let i = 0; i < distances.length; i++){
+                   totalDistance += distances[i];
+               }
+                this.setState({distance: totalDistance, distanceArr: distance.data.distances})
+            });
     }
 
     addATrip(){
