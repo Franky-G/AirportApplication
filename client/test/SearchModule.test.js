@@ -72,7 +72,7 @@ function testCoordParser(){
     expect(search.state().searchTextTo).toEqual("40,-150")
     expect(search.state().searchTextFrom).toEqual("40.123,-74.123")
 }
-test("parse coords", testCoordParser)
+test("Test Coord Parser", testCoordParser)
 
 function testSwitchToDistanceModule(){
     const search = shallow(<SearchModule/>);
