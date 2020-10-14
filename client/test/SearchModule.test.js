@@ -58,5 +58,43 @@ function testDistance() {
     });
     expect(temp).toEqual(actualValue);
 }
-
 test('Testing Distance', testDistance)
+
+function testCoordParser(){
+    const search = shallow(<SearchModule/>);
+    expect(search.state().searchTextFrom).toEqual("")
+    expect(search.state().searchTextTo).toEqual("")
+    search.instance().formatDistanceCoords();
+    expect(search.state().searchTextFrom).toEqual("")
+    expect(search.state().searchTextTo).toEqual("")
+    search.setState({searchTextTo: '40 -150', searchTextFrom: '40.123°,-74.123°'})
+    search.instance().formatDistanceCoords();
+    expect(search.state().searchTextTo).toEqual("40,-150")
+    expect(search.state().searchTextFrom).toEqual("40.123,-74.123")
+}
+test("parse coords", testCoordParser)
+
+function testSwitchToDistanceModule(){
+    const search = shallow(<SearchModule/>);
+    expect(search.state().showDistanceSearch).toEqual(false);
+    expect(search.state().showLocationSearch).toEqual(false);
+    expect(search.state().showWhereIsSearch).toEqual(false);
+    search.instance().switchToDistanceModule();
+    expect(search.state().showDistanceSearch).toEqual(true);
+    expect(search.state().showLocationSearch).toEqual(false);
+    expect(search.state().showWhereIsSearch).toEqual(false);
+}
+test("Test Switch To Distance Module", testSwitchToDistanceModule)
+
+function testSwitchToWhereIsModule(){
+    const search = shallow(<SearchModule/>);
+    expect(search.state().showDistanceSearch).toEqual(false);
+    expect(search.state().showLocationSearch).toEqual(false);
+    expect(search.state().showWhereIsSearch).toEqual(false);
+    search.instance().switchToWhereIsModule();
+    expect(search.state().showDistanceSearch).toEqual(false);
+    expect(search.state().showLocationSearch).toEqual(false);
+    expect(search.state().showWhereIsSearch).toEqual(true);
+
+}
+test("Test Switch To Distance Module", testSwitchToWhereIsModule)
