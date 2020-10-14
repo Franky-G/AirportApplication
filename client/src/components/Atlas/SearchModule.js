@@ -60,7 +60,8 @@ export default class SearchModule extends Component {
                 fromCoords = new cordParse(this.state.searchTextFrom).getLatitude()+','+new cordParse(this.state.searchTextFrom).getLongitude()
             }
             if(this.state.searchTextTo){
-                toCoords = new cordParse(this.state.searchTextTo).getLatitude()+','+new cordParse(this.state.searchTextTo).getLongitude()
+                let toCoordsParse = new cordParse(this.state.searchTextTo);
+                toCoords = toCoordsParse.getLatitude()+','+toCoordsParse.getLongitude();
             }
             await this.setState({searchTextFrom: fromCoords, searchTextTo: toCoords})
             this.calcDist()
