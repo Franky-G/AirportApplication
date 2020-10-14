@@ -2,9 +2,9 @@
  
 | Inspection | Details |
 | ----- | ----- |
-| Subject | *file and methods/line range to review for meeting* |
-| Meeting | *date, time, location* |
-| Checklist | *reference, URL, etc.* |
+| Subject | *Trip.js (33-267), WhereIs.js (19-64), RadioButtons.js (16-51).* |
+| Meeting | *10/15/20, 5:00 PM MST, Discord* |
+| Checklist | *Inspection [Checklist](https://github.com/csucs314f20/t10/blob/master/reports/checklist.md) for T10* |
 
 ### Roles
 
