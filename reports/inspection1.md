@@ -23,9 +23,9 @@
 | RadioButtons.js:24-40 | Code block not tested. | med | Jimit B. | Issue #526 |
 | Trip.js:75-84 | Exception Fault: Case with 0 places in trip not considered. Some Hard coding. | low | Jimit B. | Issue #529 |
 | Trip.js.js:48-59 | For loop not certain to terminate with edge cases. | low | Jimit B. | Issue #533 |
-| Trip.js:139| Function name not self explanatory. | low | Kyle C. | |
-| Trip.js:25| Name of 'myclass' gives no information. | low | Kyle C. | |
-| Trip.js:6| Commented style not used. | low | Kyle C. | |
+| Trip.js:139| Function name not self explanatory. | low | Kyle C. | Issue #525 |
+| Trip.js:25| Name of 'myclass' gives no information. | low | Kyle C. | Issue #528 |
+| Trip.js:6| Commented style not used. | low | Kyle C. | Issue #530 |
 | Trip.js:49 | Variable initialization complicated/messy. | low | Jake B. | |
 | Trip.js:249-259 | Readability and variable names. | low | Jake B. | |
 | Trip.js:214 | Commented out code. | low | Jake B. | |
