@@ -13,6 +13,7 @@
 | Jimit Bhalavat | 60 mins |
 | Kyle Cummings  | 45 mins  |
 | Jake Barth  | 45 mins  |
+| Frank Gansukh | 40 mins |
 
 ### Problems found
 
@@ -29,3 +30,6 @@
 | Trip.js:249-259 | Readability and variable names. | low | Jake B. | |
 | Trip.js:214 | Commented out code. | low | Jake B. | |
 | WhereIs.js:28-29 | Hard coded names in logic blocks. | low | Jake B. | |
+| Trip.js:272 | Function not tested | low | Frank G. | |
+| Trip.js:249-259 | Identical functions causing a duplication issue | med | Frank G. | |
+| Trip.js:214 | Commented code out of place | low | Frank G. | |
