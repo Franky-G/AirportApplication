@@ -43,7 +43,7 @@ export default class SearchModule extends Component {
                 <Button size="sm" style={array[0].style}> {array[0].label} </Button>
                 <Button size="sm" style={array[1].style} onClick={() => this.getFormatForSave()}> {array[1].label} </Button>
                 <Button size="sm" style={array[2].style} onClick={() => {this.formatTripDistance()}}> {array[2].label} </Button>
-                <p style={array[3].style}>Total Trip Distance: {this.state.distance} Miles</p>
+                <p style={array[3].style}>Total Trip Distance: {this.state.distance} Mile(s)</p>
                 </div>
             ); }
 
