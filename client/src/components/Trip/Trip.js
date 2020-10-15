@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import { Row, InputGroup, InputGroupAddon, PopoverHeader, PopoverBody, UncontrolledPopover, Button, ListGroupItem, Container, ListGroup} from "reactstrap";
 import Input from "@material-ui/core/Input";
-
+import {sendServerRequest} from "../../utils/restfulAPI";
+import { downloadFile } from "../Atlas/Distance";
 // const searchListStyle = {margin: 0, padding: 8, height: "100%", width: 279, color: "#FFFFFF", zIndex: 1009, fontSize: 13, borderRadius: "3px 3px 3px 3px", border: "2px solid #1E4D2B", background: "#002b0c"}
 const labelStyle = {opacity: 0.2, overflow:"hidden"}
 const inputArray = [{width: 211, label: "Add Place", width2: 70, name: "searchPlaces"}, {width: 229, label: "Filter", width2: 50, name: "filter"}]
@@ -11,7 +12,6 @@ const buttonList = [{style: {position: "absolute", right: 10}, label: "Add Place
 const loadSaveDistance = [{style: {position: "absolute", padding: 4, left: 10}, label: "Load"}, {style: {position: "absolute", padding: 4, left: 58}, label: "Save"}, {style: {position: "absolute", padding: 4, right: 10}, label: "Distance"}]
 
 export default class SearchModule extends Component {
-
     constructor(props) {
         super(props);
         this.divclicked = this.divclicked.bind(this);
@@ -19,7 +19,6 @@ export default class SearchModule extends Component {
         this.removeATrip = this.removeATrip.bind(this);
         this.removeAPlace = this.removeAPlace.bind(this);
         this.addATrip = this.addATrip.bind(this);
-
         this.state = {
             myclass: '',
             searchPlaces: "",
@@ -27,17 +26,12 @@ export default class SearchModule extends Component {
             trips: [],
             tripPlaces: [],
             index: 0,
-
+            distance: 0,
+            distanceArr: null
         }
     }
 
-    render(){
-        return(
-            <div>
-                {this.renderTripUI()}
-            </div>
-        );
-    }
+    render(){ return( <div>{this.renderTripUI()}</div>); }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         {this.renderTripList()}
@@ -45,31 +39,59 @@ export default class SearchModule extends Component {
     }
 
     addLoadSaveDistanceButtons(array){
-        return(
-            <div>
+        return( <div>
                 <Button size="sm" style={array[0].style}> {array[0].label} </Button>
-                <Button size="sm" style={array[1].style}> {array[1].label} </Button>
-                <Button size="sm" style={array[2].style}> {array[2].label} </Button>
-            </div>
-        );
+                <Button size="sm" style={array[1].style} onClick={() => this.getFormatForSave()}> {array[1].label} </Button>
+                <Button size="sm" style={array[2].style} onClick={() => {this.formatTripDistance()}}> {array[2].label} </Button>
+            </div> ); }
 
+    formatTripDistance() {
+        var jsonStr = '{"places":[]}';var obj = JSON.parse(jsonStr);
+        for(let i = 0; i < this.state.tripPlaces.length; i++) {
+            let lat = this.state.tripPlaces[i].lat.toString();
+            let long = this.state.tripPlaces[i].lng.toString();
+            obj['places'].push({"name":"Trips","latitude":lat,"longitude":long});
+        }
+        let test = JSON.stringify(obj);
+        test = test.slice(10,test.length-1);
+        test = JSON.parse(test)
+        this.calculateTripDistance(test);
+    }
+
+    calculateTripDistance(latLngString){
+        sendServerRequest({
+            requestType: "trip",
+            requestVersion: 3,
+            options: {title:"My Trip", earthRadius: "3959.0"},
+            places: latLngString
+        }).then(distance => {
+                let totalDistance = 0;
+                let distances = distance.data.distances;
+                for(let i = 0; i < distances.length; i++){ totalDistance += distances[i]; }
+                this.setState({distance: totalDistance, distanceArr: distance.data.distances})
+            });
+    }
+
+    getFormatForSave() {
+        const fileContents = {
+            requestType: "trip", requestVersion: 3,
+            options: { title: "My Trip", earthRadius: 3959.0 },
+            places: this.state.tripPlaces
+        }
+        const fileString = JSON.stringify(fileContents);
+        downloadFile(fileString, 'file.json', 'application/json')
     }
 
     addATrip(){
         let tripsArray = this.state.trips.slice();
-        if(this.state.trips.length === 0) {
-            tripsArray.push(this.state.tripPlaces)
-        } else {
-            tripsArray.push([])
-        }
+        if(this.state.trips.length === 0) { tripsArray.push(this.state.tripPlaces) }
+        else { tripsArray.push([]) }
         this.setState({trips: tripsArray})
     }
 
     addToTrips(){
         let tripsArray = this.state.trips;
-        for(let i = 0; i < this.state.tripPlaces; ++i){
-            tripsArray[this.state.index].push(this.state.tripPlaces[i]);
-        }
+        for(let i = 0; i < this.state.tripPlaces; ++i){ tripsArray[this.state.index].push(this.state.tripPlaces[i]); }
         this.setState({trips: tripsArray})
     }
 
@@ -78,18 +100,15 @@ export default class SearchModule extends Component {
             <ListGroupItem id="searchListStyle" style={{width: 279}} tag="button" action
                            onClick={() => this.props.setWhereIsMarker(L.latLng(this.state.tripPlaces[index].lat, this.state.tripPlaces[index].lng))}>
                 Place: {index} | Coords: {this.state.tripPlaces[index].lat.toFixed(4)} , {this.state.tripPlaces[index].lng.toFixed(4)}
-                {this.addCloseButton(0)}
-            </ListGroupItem>
-        );
-    }
+                {this.addCloseButton(0)} </ListGroupItem> ); }
 
     addCloseButton(removeType){
         let clickFunction = this.removeAPlace
-        if(removeType === 1){
-            clickFunction = this.removeATrip
-        }
+        if(removeType === 1){ clickFunction = this.removeATrip }
         return(
-            <div className="justify-content-center vertical-center" style={{borderRadius: 5, border: "1px solid #FFFFFF", padding: 2, margin: 0, width: 25, height: 25, position: "absolute",top: 5, right: 3, backgroundColor: "#1E4D2B", color: "#FFFFFF"}} onClick={(e) => {e.stopPropagation(); clickFunction()}}>X</div>
+            <div className="justify-content-center vertical-center" style={{borderRadius: 5, border: "1px solid #FFFFFF", padding: 2, margin: 0,
+                width: 25, height: 25, position: "absolute",top: 5, right: 3, backgroundColor: "#1E4D2B", color: "#FFFFFF"}}
+                 onClick={(e) => {e.stopPropagation(); clickFunction()}}>X</div>
         );
     }
 
@@ -98,39 +117,28 @@ export default class SearchModule extends Component {
             <ListGroupItem id="searchListStyle" style={{width: 279}} tag="button" action
                            onClick={() => this.setState({tripPlaces: this.state.trips[index], index: index})}>
                 Trip {index}
-                {this.addCloseButton(1)}
-            </ListGroupItem>
-        );
-    }
+                {this.addCloseButton(1)} </ListGroupItem> ); }
 
     addInputField(array){
         return(
-            <div>
-                <InputGroup>
+            <div><InputGroup>
                     <Input className="justify-content-center" name={array.name} style={{backgroundColor: "#FFFFFF", width: array.width, borderRadius: "3px 0 0 3px", border: "1px solid #FFFFFF", left: 27, height: 30, boxShadow: "1px 1px 1px 0 #000000", overflow: "hidden"}} onChange={() => this.updateInputState()}/>
                     <InputGroupAddon addonType="append"><Button style={{ background: "linear-gradient(#1E4D2B, #002b0c)", padding: 2, color: "#FFFFFF", borderRadius: "0 3px 3px 0", border: "1px solid #FFFFFF", left: 27, fontSize: 11, width: array.width2, boxShadow: "1px 1px 1px 0 #000000", overflow:"hidden"}} title="Add location">{array.label}</Button></InputGroupAddon>
-                </InputGroup>
-            </div>
-        );
-    }
+                </InputGroup></div> ); }
 
     addPlaceOrDistance(array){
         return(
-            <div>
-                <Row id="placePanel" className="justify-content-center">
+            <div><Row id="placePanel" className="justify-content-center">
                     <div className="tripBackdrop" style={{width:280, height: array.height, fontSize: 40}} ><label style={labelStyle} className="vertical-center justify-content-center" >{array.text}</label></div>
-                </Row>
-            </div>
+                </Row></div>
         );
     }
 
     addASpace(){ return( <Row style={{height:5}}/>);}
 
     divclicked() {
-        if (this.state.myclass === '') {
-            this.setState({myclass: 'coolclass'})
-        } else {this.setState({myclass: '',})
-        }
+        if (this.state.myclass === '') { this.setState({myclass: 'coolclass'}) }
+        else {this.setState({myclass: '',}) }
     }
 
     updateInputState(){
@@ -155,10 +163,7 @@ export default class SearchModule extends Component {
                             - Manage places with add or remove buttons <br/><br/>
                             - Manage trips with add or remove buttons <br/><br/>
                             - Filter results at the bottom
-                        </p>
-                    </PopoverBody>
-                </UncontrolledPopover>
-            </div>
+                        </p></PopoverBody></UncontrolledPopover></div>
         );
     }
 
@@ -227,9 +232,7 @@ export default class SearchModule extends Component {
 
     renderTripList(){
         let searchListArray = []
-        for(let i = 0; i < this.state.trips.length; ++i){
-            searchListArray.push(this.addListTripItem(i));
-        }
+        for(let i = 0; i < this.state.trips.length; ++i){ searchListArray.push(this.addListTripItem(i)); }
         return(
             <div tabIndex="1">
                 <Container>
@@ -256,9 +259,7 @@ export default class SearchModule extends Component {
     }
 
     resetTripPlaces(){
-        if(this.state.tripPlaces.length === 0 && this.state.trips.length === 0){
-            return;
-        }
+        if(this.state.tripPlaces.length === 0 && this.state.trips.length === 0){ return; }
         if(this.state.tripPlaces.length !== 0 && this.state.trips.length === 0){
             this.setState({tripPlaces: []})
             return;
@@ -271,10 +272,7 @@ export default class SearchModule extends Component {
     setTripPlaces(mapClickInfo){ this.state.tripPlaces.push(mapClickInfo.latlng);}
 
     toggleButtonColor(){
-        if(this.props.recordingTrip === 1){
-            return "success"
-        } else {
-            return "danger"
-        }
+        if(this.props.recordingTrip === 1){ return "success" }
+        else { return "danger" }
     }
 }

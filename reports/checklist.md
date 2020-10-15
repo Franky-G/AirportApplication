@@ -49,12 +49,6 @@ The checklist will be updated as we identify new faults in our code that we wish
 * Comment as much as needed but not more. 
 * Make sure to follow proper naming convention and guidelines, and make sure there are meaningful names.
 
-### Code formatting
-* Is every line able to be viewed without scrolling horizontally?
-* Is every code block easily distinguishable(with spacing)?
-* Are function calls directed downward to the next function?
-* Is indenting consistent?
-
 ### Test Coverage and Test Quality
 * Is every code block testable?
 * Has said code block been tested/covered?
@@ -67,4 +61,10 @@ The checklist will be updated as we identify new faults in our code that we wish
 * Is a constructor called when a new array item is desired?
 * Are array declarations syntactically correct?
 * Are the row and column being indexed in the right order for a 2D array
+
+### Flow Defects
+* Are all loops terminated at the correct point in the loop?
+* Is each loop constructed in the most efficient way possible?
+* Are loop exits handled with the correct values and returns?
+
 
