@@ -7,7 +7,7 @@ import { downloadFile } from "../Atlas/Distance";
 const labelStyle = {opacity: 0.2, overflow:"hidden"}
 const inputArray = [{width: 211, label: "Add Place", width2: 70, name: "searchPlaces"}, {width: 229, label: "Filter", width2: 50, name: "filter"}]
 const placesAndTrips = [{height: 150, text: "Places"}, {height: 90, text: "Trips"}]
-const buttonList = [{style: {position: "absolute", right: 10}, label: "Add Place"},
+const buttonList = [{style: {position: "absolute", right: 10}, label: "Add Trip"},
                     {style: {position: "absolute", left: 80}, label: "Reset"}]
 const loadSaveDistance = [{style: {position: "absolute", padding: 4, left: 10}, label: "Load"}, {style: {position: "absolute", padding: 4, left: 58}, label: "Save"}, {style: {position: "absolute", padding: 4, right: 10}, label: "Distance"}]
 
