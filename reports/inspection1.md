@@ -33,3 +33,7 @@
 | Trip.js:272 | Function not tested | low | Frank G. | |
 | Trip.js:249-259 | Identical functions causing a duplication issue | med | Frank G. | |
 | Trip.js:214 | Commented code out of place | low | Frank G. | |
+| Trip.js:265 | removeAtrip does not remove correctly | high | Sean M. | |
+| Trip.js:223 | Duplicate functionality for renderSearchList and renderTripList  | med | Sean M. | |
+| Trip.js:256 | removeAPlace and removeATrip similar functions | low | Sean M. | |
+| Trip.js:79 | distanceArr state variable assigned but not used | low | Sean M. | |
