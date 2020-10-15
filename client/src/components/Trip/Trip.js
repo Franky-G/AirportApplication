@@ -9,7 +9,7 @@ const inputArray = [{width: 211, label: "Add Place", width2: 70, name: "searchPl
 const placesAndTrips = [{height: 150, text: "Places"}, {height: 90, text: "Trips"}]
 const buttonList = [{style: {position: "absolute", right: 10}, label: "Add Place"},
                     {style: {position: "absolute", left: 80}, label: "Reset"}]
-const loadSaveDistance = [{style: {position: "absolute", padding: 4, left: 10}, label: "Load"}, {style: {position: "absolute", padding: 4, left: 58}, label: "Save"}, {style: {position: "absolute", padding: 4, left: 108}, label: "Distance"}, {style: {position: "relative", padding: 4, left: 20, top: 30}, label: "Distance"}]
+const loadSaveDistance = [{style: {position: "absolute", padding: 4, left: 10}, label: "Load"}, {style: {position: "absolute", padding: 4, left: 58}, label: "Save"}, {style: {position: "absolute", padding: 4, left: 108}, label: "Distance"}, {style: {position: "relative", padding: 4, left: 20, top: 30}}]
 
 export default class SearchModule extends Component {
     constructor(props) {
@@ -49,7 +49,7 @@ export default class SearchModule extends Component {
 
     formatTripDistance() {
         var jsonStr = '{"places":[]}';var obj = JSON.parse(jsonStr);
-        if (this.state.tripPlaces.length == 0) {
+        if (this.state.tripPlaces.length === 0) {
             this.setState({distance: 0});
             return;
         }
