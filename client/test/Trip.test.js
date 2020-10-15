@@ -5,6 +5,7 @@ import Trip from "../src/components/Trip/Trip";
 import {Map} from 'react-leaflet'; //Dont delete
 import 'leaflet/dist/leaflet.css';
 import 'bootstrap/dist/css/bootstrap.css';
+import {downloadFile} from "../src/components/Atlas/Distance";
 
 function initialMyClass() {
     const expected = shallow(<Trip/>);
@@ -136,3 +137,25 @@ function testTripDistance(){
     expect(trip.state().tripPlaces).toEqual([])
 }
 test("Test Format Trip Distance", testTripDistance)
+
+function testGetFormatForSave() {
+    const save = shallow(<Trip/>)
+    let initial = [{"lat":40.89427932709685,"lng":-106.68509331531826},{"lat":36.197684669556466,"lng":-102.95057724108594}]
+    save.state().tripPlaces = initial;
+    const filterText = {
+        requestType: "trip", requestVersion: 3,
+        options: { title: "My Trip", earthRadius: "3959.0"},
+        places: save.state().tripPlaces
+    }
+    expect(initial.length).toEqual(2);
+    expect(filterText.requestType).toEqual("trip")
+    expect(filterText.requestVersion).toEqual(3)
+    expect(filterText.options.title).toEqual("My Trip")
+    expect(filterText.options.earthRadius).toEqual("3959.0")
+    expect(filterText.places[0].lat).toEqual(40.89427932709685)
+    expect(filterText.places[0].lng).toEqual(-106.68509331531826)
+    expect(filterText.places[1].lat).toEqual(36.197684669556466)
+    expect(filterText.places[1].lng).toEqual(-102.95057724108594)
+}
+
+test("Get Format For Save", testGetFormatForSave)
