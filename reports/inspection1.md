@@ -30,9 +30,9 @@
 | Trip.js:249-259 | Readability and variable names. | low | Jake B. | |
 | Trip.js:214 | Commented out code. | low | Jake B. | |
 | WhereIs.js:28-29 | Hard coded names in logic blocks. | low | Jake B. | |
-| Trip.js:272 | Function not tested | low | Frank G. | |
-| Trip.js:249-259 | Identical functions causing a duplication issue | med | Frank G. | |
-| Trip.js:214 | Commented code out of place | low | Frank G. | |
+| Trip.js:272 | Function not tested | low | Frank G. | Issue #532 |
+| Trip.js:249-259 | Identical functions causing a duplication issue | med | Frank G. | Issue #527 |
+| Trip.js:214 | Commented code out of place | low | Frank G. | Issue #536 |
 | Trip.js:265 | removeAtrip does not remove correctly | high | Sean M. | |
 | Trip.js:223 | Duplicate functionality for renderSearchList and renderTripList  | med | Sean M. | |
 | Trip.js:256 | removeAPlace and removeATrip similar functions | low | Sean M. | |
