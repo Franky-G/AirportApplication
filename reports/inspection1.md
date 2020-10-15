@@ -12,6 +12,7 @@
 | ---- | ---- |
 | Jimit Bhalavat | 60 mins |
 | Kyle Cummings  | 45 mins  |
+| Jake Barth  | 45 mins  |
 
 ### Problems found
 
@@ -24,3 +25,7 @@
 | SearchModule.js:74-81 | Important lines not covered in testing. | med | Kyle C. | |
 | Trip.js:25| Name of 'myclass' gives not information. | low | Kyle C. | |
 | Trip.js:6| Commented style not used. | low | Kyle C. | |
+| Trip.js:49 | Variable initialization complicated/messy. | low | Jake B. | |
+| Trip.js:249-259 | Readability and variable names. | low | Jake B. | |
+| Trip.js:214 | Commented out code. | low | Jake B. | |
+| WhereIs.js:28-29 | Hard coded names in logic blocks. | low | Jake B. | |
