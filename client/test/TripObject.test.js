@@ -6,11 +6,21 @@ import {Map} from 'react-leaflet'; //Dont delete
 function testAddPlaces(){
     const object = new TripObject("test", [L.latLng(0, 0)], "test note")
     object.places.push(L.latLng(0, 0))
-    let testArray = object.places
+    let testArray = object.places;
     expect(testArray.length).toEqual(2)
 }
 
 test("testAddPlaces", testAddPlaces)
+
+function testAddPlace(){
+    const object = new TripObject("test", [L.latLng(0, 0)], "test note")
+    object.addPlace(L.latLng(1,2))
+    let testArray = object.places;
+    expect(testArray.length).toEqual(2)
+    expect(testArray).toEqual([L.latLng(0, 0), L.latLng(1, 2)])
+}
+
+test("testAddPlace", testAddPlace)
 
 function testSetName(){
     const object = new TripObject("test", [L.latLng(0, 0)], "test note")
@@ -44,6 +54,8 @@ function testPositionUp(){
     object.positionUp(1)
     let testArray = object.places
     expect(testArray).toEqual([L.latLng(3, 4), L.latLng(1, 2)])
+    object.positionUp(0)
+    expect(testArray).toEqual([L.latLng(3, 4), L.latLng(1, 2)])
 }
 
 test("testPositionUp", testPositionUp)
@@ -52,6 +64,8 @@ function testPositionDown(){
     const object = new TripObject("test", [L.latLng(1, 2), L.latLng(3, 4)], "test note")
     object.positionDown(0)
     let testArray = object.places
+    expect(testArray).toEqual([L.latLng(3, 4), L.latLng(1, 2)])
+    object.positionDown(1)
     expect(testArray).toEqual([L.latLng(3, 4), L.latLng(1, 2)])
 }
 
