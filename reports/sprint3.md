@@ -66,6 +66,7 @@ Reflection will be done in regards to the retrospective from sprint 2 and the te
 | *10/09/20* | *7* | *5* | *none* | 
 | *10/12/20* | *7* | *5* | *none* | 
 | *10/14/20* | *11* | *4* | *none* | 
+| *10/16/20* | *16* | *5* | *none* |
 
 ## Review
 
