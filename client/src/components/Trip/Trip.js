@@ -4,6 +4,7 @@ import Input from "@material-ui/core/Input";
 import {sendServerRequest} from "../../utils/restfulAPI";
 import FileIO from "../Atlas/FileIO"
 import TripObject from "../Trip/TripObject"
+
 // const searchListStyle = {margin: 0, padding: 8, height: "100%", width: 279, color: "#FFFFFF", zIndex: 1009, fontSize: 13, borderRadius: "3px 3px 3px 3px", border: "2px solid #1E4D2B", background: "#002b0c"}
 const labelStyle = {opacity: 0.2, overflow:"hidden"}
 const inputArray = [{width: 278, label: "Add Place", width2: 70, name: "searchPlaces"}, {width: 229, label: "Filter", width2: 50, name: "filter"}]
@@ -35,7 +36,6 @@ export default class SearchModule extends Component {
     render(){
         return(
             <div>
-                {console.log(this.state.trips)}
                 <FileIO {...this.state} ref={(ref) => this.FileIOREF=ref}/>
                 {this.renderTripUI()}
             </div>
