@@ -131,15 +131,12 @@ export default class Atlas extends Component {
     else{
       this.setState( {markerPosition: null, prevLocation: [null,null], mapCenter: MAP_CENTER_DEFAULT, whereIsMarker: null});
     }
-    if(this.state.tripRecord){
-      this.tripREF.setTripPlaces()
-    }
   }
 
   openTrip(){
     return(
         <div>
-          {this.tripREF.divclicked()}
+          {this.tripREF.divClicked()}
         </div>
     );
   }
@@ -163,10 +160,9 @@ export default class Atlas extends Component {
             T
           </DropdownToggle>
           <DropdownMenu>
-            <DropdownItem onClick={() => this.tripREF.divclicked()}>Open Trip Designer</DropdownItem>
+            <DropdownItem onClick={() => this.tripREF.divClicked()}>Open Trip Designer</DropdownItem>
             <DropdownItem onClick={() => this.setTripRecord()}> Toggle Trip Recording
               <Badge style={{borderRadius: 30}} color={this.tripClicked()}>R</Badge></DropdownItem>
-            <DropdownItem onClick={() => this.tripREF.resetTripPlaces()}>Reset Trip List</DropdownItem>
           </DropdownMenu>
         </ButtonDropdown>
     );
@@ -181,9 +177,6 @@ export default class Atlas extends Component {
         mapCenter: [this.state.prevLocation[0].lat.toString(),this.state.prevLocation[0].lng.toString()]})
     } else {
       this.setState({prevLocation: slicedArray, markerPosition: mapClickInfo.latlng, mapCenter: mapClickInfo.latlng})
-    }
-    if(this.state.tripRecord){
-      this.tripREF.setTripPlaces(mapClickInfo)
     }
     return(
         this.checkPrevArray()
