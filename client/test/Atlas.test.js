@@ -1,8 +1,6 @@
 import './jestConfig/enzyme.config.js';
-
 import React from 'react';
 import {shallow} from 'enzyme';
-
 import Atlas from '../src/components/Atlas/Atlas';
 
 const startProperties = {
