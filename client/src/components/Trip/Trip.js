@@ -17,13 +17,15 @@ export default class SearchModule extends Component {
         super(props);
         this.divClicked = this.divClicked.bind(this);
         this.addATrip = this.addATrip.bind(this);
+        this.onClickCall = this.onClickCall.bind(this);
         this.state = {
             myClass: '',
             searchPlaces: "",
             filter: "",
-            trips: [new TripObject("", [], "")],
+            trips: [new TripObject("test", [L.latLng(40,-105), L.latLng(41,-105)], "test note")],
             distance: 0,
-            distanceArr: null
+            distanceArr: null,
+            stateIndex: 0,
         }
     }
 
@@ -34,6 +36,10 @@ export default class SearchModule extends Component {
                 {this.renderTripUI()}
             </div>
         );
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+
     }
 
     addLoadSaveDistanceButtons(array){
@@ -68,6 +74,23 @@ export default class SearchModule extends Component {
                     <div className="tripBackdrop" style={{width:280, height: array.height, fontSize: 40}} ><label style={labelStyle} className="vertical-center justify-content-center" >{array.text}</label></div>
                 </Row></div>
         );
+    }
+
+    addPlaceListItem(element, tripIndex){
+        return(
+            <div>
+                <ListGroupItem id="searchListStyle" tag="button" action onClick={() => this.onClickCall(element, tripIndex)}>
+                    {this.state.trips[tripIndex].name}
+                    <div style={{position: "absolute", right: 40, top: 5, width: 15, height: 15, backgroundColor: "#FFFFFF", }} onClick={this.state.trips[tripIndex].positionUp()}> ^ </div>
+                </ListGroupItem>
+            </div>
+        );
+    }
+
+    onClickCall(element, tripIndex){
+        console.log(this.state.trips[tripIndex].places[element].lat)
+        this.props.setWhereIsMarker(this.state.trips[tripIndex].places[element]);
+        this.setState({index: tripIndex})
     }
 
     calculateTripDistance(latLngString){
@@ -163,6 +186,7 @@ export default class SearchModule extends Component {
                 </Row>
                 {this.renderPopover()}
                 <div style={{position: "absolute", left: -4, top: 105, width: 320, height: 150, zIndex: 1100, overflow: "auto"}}>
+                    {this.renderPlaceList(this.state.stateIndex)}
                 </div>
                 <Row style={{height:15}}/>
                 <div style={{position: "relative", left: -17}}>
@@ -176,13 +200,16 @@ export default class SearchModule extends Component {
         );
     }
 
-    renderTripsList(){
+    renderPlaceList(index){
+        let searchListArray = []
+        for(let i = 0; i < this.state.trips[index].places.length; ++i){
+            searchListArray.push(this.addPlaceListItem(i, index));
+        }
         return(
-            <div>
+            <div tabIndex="0">
                 <ListGroup>
-                    <ListGroupItem active tag="button" action>Cras justo odio</ListGroupItem>
-                    <ListGroupItem tag="button" action>Dapibus ac facilisis in</ListGroupItem>
-
+                    <div style={{position: "absolute", width: 300, height: 148, overflow:"auto"}}>
+                        {searchListArray.map((element, index) => (<div key={index}>{element}</div>))} </div>
                 </ListGroup>
             </div>
         );
