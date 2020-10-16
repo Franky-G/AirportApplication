@@ -14,6 +14,7 @@
 | Kyle Cummings  | 45 mins  |
 | Jake Barth  | 45 mins  |
 | Frank Gansukh | 40 mins |
+| Sean Munoz | 40 mins |
 
 ### Problems found
 
@@ -33,7 +34,7 @@
 | Trip.js:272 | Function not tested | low | Frank G. | Issue #532 |
 | Trip.js:249-259 | Identical functions causing a duplication issue | med | Frank G. | Issue #527 |
 | Trip.js:214 | Commented code out of place | low | Frank G. | Issue #536 |
-| Trip.js:265 | removeAtrip does not remove correctly | high | Sean M. | |
-| Trip.js:223 | Duplicate functionality for renderSearchList and renderTripList  | med | Sean M. | |
-| Trip.js:256 | removeAPlace and removeATrip similar functions | low | Sean M. | |
-| Trip.js:79 | distanceArr state variable assigned but not used | low | Sean M. | |
+| Trip.js:265 | removeAtrip does not remove correctly | high | Sean M. | Issue #541 |
+| Trip.js:223 | Duplicate functionality for renderSearchList and renderTripList  | med | Sean M. | Issue #543 |
+| Trip.js:256 | removeAPlace and removeATrip similar functions | low | Sean M. | Issue #544 |
+| Trip.js:79 | distanceArr state variable assigned but not used | low | Sean M. | Issue #545 |
