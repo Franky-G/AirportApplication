@@ -5,7 +5,7 @@ import Trip from "../src/components/Trip/Trip";
 import {Map} from 'react-leaflet'; //Dont delete
 import 'leaflet/dist/leaflet.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import {downloadFile} from "../src/components/Atlas/Distance";
+import FileIO from "../src/components/Atlas/FileIO";
 
 function initialMyClass() {
     const expected = shallow(<Trip/>);

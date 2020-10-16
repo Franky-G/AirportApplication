@@ -1,8 +1,9 @@
 import React, {Component} from "react";
-import { Row, InputGroup, InputGroupAddon, PopoverHeader, PopoverBody, UncontrolledPopover, Button, ListGroupItem, Container, ListGroup} from "reactstrap";
+import {Row, InputGroup, InputGroupAddon, PopoverHeader, PopoverBody, UncontrolledPopover, Button, ListGroupItem, Container, ListGroup, FormGroup, Label, Form, Modal, ModalHeader} from "reactstrap";
 import Input from "@material-ui/core/Input";
 import {sendServerRequest} from "../../utils/restfulAPI";
-import { downloadFile } from "../Atlas/Distance";
+import FileIO from "../Atlas/FileIO"
+// const searchListStyle = {margin: 0, padding: 8, height: "100%", width: 279, color: "#FFFFFF", zIndex: 1009, fontSize: 13, borderRadius: "3px 3px 3px 3px", border: "2px solid #1E4D2B", background: "#002b0c"}
 const labelStyle = {opacity: 0.2, overflow:"hidden"}
 const inputArray = [{width: 211, label: "Add Place", width2: 70, name: "searchPlaces"}, {width: 229, label: "Filter", width2: 50, name: "filter"}]
 const placesAndTrips = [{height: 150, text: "Places"}, {height: 90, text: "Trips"}]
@@ -30,7 +31,14 @@ export default class SearchModule extends Component {
         }
     }
 
-    render(){ return( <div>{this.renderTripUI()}</div>); }
+    render(){
+        return(
+            <div>
+                <FileIO {...this.state} ref={(ref) => this.FileIOREF=ref}/>
+                {this.renderTripUI()}
+            </div>
+        );
+    }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         {this.renderTripList()}
@@ -38,8 +46,9 @@ export default class SearchModule extends Component {
     }
 
     addLoadSaveDistanceButtons(array){
-        return( <div>
-                <Button size="sm" style={array[0].style}> {array[0].label} </Button>
+        return(
+            <div>
+                <Button size="sm" style={array[0].style} onClick={() => this.FileIOREF.openModal()}> {array[0].label}</Button>
                 <Button size="sm" style={array[1].style} onClick={() => this.getFormatForSave()}> {array[1].label} </Button>
                 <Button size="sm" style={array[2].style} onClick={() => {this.formatTripDistance()}}> {array[2].label} </Button>
                 <p style={array[3].style}>Total Trip Distance: {this.state.distance} Mile(s)</p>
@@ -81,7 +90,7 @@ export default class SearchModule extends Component {
             places: this.state.tripPlaces
         }
         const fileString = JSON.stringify(fileContents);
-        downloadFile(fileString, 'file.json', 'application/json')
+        this.FileIOREF.downloadFile(fileString, 'file.json', 'application/json')
     }
 
     addATrip(){
