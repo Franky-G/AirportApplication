@@ -38,10 +38,6 @@ export default class SearchModule extends Component {
         );
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-
-    }
-
     addLoadSaveDistanceButtons(array){
         return(
             <div>
@@ -231,6 +227,11 @@ export default class SearchModule extends Component {
     updateInputState(){
         if (event.target.name === "searchPlaces"){this.setState({searchPlaces: event.target.value});}
         else {this.setState({filter: event.target.value});}
+    }
+
+    resetTripPlaces(){
+        this.state.trips[this.state.stateIndex].resetPlaces()
+        this.forceUpdate();
     }
 
 }
