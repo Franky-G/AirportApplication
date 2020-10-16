@@ -5,7 +5,6 @@ import {sendServerRequest} from "../../utils/restfulAPI";
 import FileIO from "../Atlas/FileIO"
 import TripObject from "../Trip/TripObject"
 
-// const searchListStyle = {margin: 0, padding: 8, height: "100%", width: 279, color: "#FFFFFF", zIndex: 1009, fontSize: 13, borderRadius: "3px 3px 3px 3px", border: "2px solid #1E4D2B", background: "#002b0c"}
 const labelStyle = {opacity: 0.2, overflow:"hidden"}
 const inputArray = [{width: 278, label: "Add Place", width2: 70, name: "searchPlaces"}, {width: 229, label: "Filter", width2: 50, name: "filter"}]
 const placesAndTrips = [{height: 150, text: "Places"}, {height: 90, text: "Trips"}]
@@ -17,12 +16,13 @@ const listType = [{style: {position: "absolute", width: 300, height: 148, overfl
 export default class SearchModule extends Component {
     constructor(props) {
         super(props);
-        this.divClicked = this.divClicked.bind(this);
+      
+        this.closeTripUI = this.closeTripUI.bind(this);
         this.addATrip = this.addATrip.bind(this);
         this.onClickCall = this.onClickCall.bind(this);
 
         this.state = {
-            myClass: '',
+            designerOpen: '',
             searchPlaces: "",
             filter: "",
             trips: [new TripObject("test", [L.latLng(40,-105), L.latLng(41,-105)], "test note")],
@@ -94,7 +94,12 @@ export default class SearchModule extends Component {
     addTripListItem(index){
         return(
             <ListGroupItem id="searchListStyle" tag="button" title={this.state.trips[this.state.stateIndex].note} action onClick={(e) => {e.stopPropagation(); this.setState({stateIndex: index})}}>{this.state.trips[this.state.stateIndex].name} {index}</ListGroupItem>
-        )
+        );
+    }
+
+    closeTripUI() {
+        if (this.state.designerOpen === '') { this.setState({designerOpen: 'designerIsOpen'}) }
+        else {this.setState({designerOpen: '',}) }
     }
 
     toggleDropdown(){
@@ -193,10 +198,10 @@ export default class SearchModule extends Component {
 
     renderTripUI(){
         return(
-            <div id="tripDiv" className={this.state.myClass}>
+            <div id="tripDiv" className={this.state.designerOpen}>
                 <Row style={{height:5}}/>
                 <div className="vertical-center justify-content-center" style={{position: "absolute",  top: 16, left: 262, height: 25, width: 25, borderRadius: "3px 3px 3px 3px", backgroundColor:"#C8C372", fontSize: 20, border: "1px ridge #1E4D2B", color: "#1E4D2B", cursor: "pointer"}}
-                     onClick={() => this.divClicked()}>X</div>
+                     onClick={() => this.closeTripUI()}>X</div>
                 <Row className="justify-content-center">
                     <h4 style={{background: "linear-gradient(#1E4D2B, #002b0c)", padding: 4, left: 50,
                         border:"2px ridge #FFFFFF", borderRadius: "3px 3px 3px 3px", boxShadow: "1px 2px 1px 0 #000000", overflow:"hidden"}}>Trip Designer</h4>

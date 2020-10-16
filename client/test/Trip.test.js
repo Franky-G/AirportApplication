@@ -10,11 +10,11 @@ import TripObject from "../src/components/Trip/TripObject";
 
 function initialMyClass() {
     const expected = shallow(<Trip/>);
-    let initial = expected.state().myClass;
+    let initial = expected.state().designerOpen;
     expect (initial).toEqual('');
 }
 
-test("Initial State myclass", initialMyClass);
+test("Initial State designerOpen", initialMyClass);
 
 function initialSearchPlaces() {
     const expected = shallow(<Trip/>);

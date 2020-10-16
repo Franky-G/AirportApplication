@@ -7,7 +7,6 @@ export default class SearchModule extends Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
 
         }

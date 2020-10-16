@@ -13,7 +13,6 @@ export default class SearchModule extends Component {
         this.state = {
 
         }
-
     }
 
     render(){
