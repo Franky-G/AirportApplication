@@ -19,7 +19,7 @@ export default class SearchModule extends Component {
         this.removeAPlace = this.removeAPlace.bind(this);
         this.addATrip = this.addATrip.bind(this);
         this.state = {
-            myclass: '',
+            designerOpen: '',
             searchPlaces: "",
             filter: "",
             trips: [],
@@ -147,8 +147,8 @@ export default class SearchModule extends Component {
     addASpace(){ return( <Row style={{height:5}}/>);}
 
     closeTripUI() {
-        if (this.state.myclass === '') { this.setState({myclass: 'coolclass'}) }
-        else {this.setState({myclass: '',}) }
+        if (this.state.designerOpen === '') { this.setState({designerOpen: 'designerIsOpen'}) }
+        else {this.setState({designerOpen: '',}) }
     }
 
     updateInputState(){
@@ -196,7 +196,7 @@ export default class SearchModule extends Component {
 
     renderTripUI(){
         return(
-            <div id="tripDiv" className={this.state.myclass}>
+            <div id="tripDiv" className={this.state.designerOpen}>
                 <Row style={{height:5}}/>
                 <div className="vertical-center justify-content-center" style={{position: "absolute",  top: 16, left: 262, height: 25, width: 25, borderRadius: "3px 3px 3px 3px", backgroundColor:"#C8C372", fontSize: 20, border: "1px ridge #1E4D2B", color: "#1E4D2B", cursor: "pointer"}}
                      onClick={() => this.closeTripUI()}>X</div>

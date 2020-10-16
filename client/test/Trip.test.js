@@ -9,11 +9,11 @@ import FileIO from "../src/components/Atlas/FileIO";
 
 function initialMyClass() {
     const expected = shallow(<Trip/>);
-    let initial = expected.state().myclass;
+    let initial = expected.state().designerOpen;
     expect (initial).toEqual('');
 }
 
-test("Initial State myclass", initialMyClass);
+test("Initial State designerOpen", initialMyClass);
 
 function initialSearchPlaces() {
     const expected = shallow(<Trip/>);
