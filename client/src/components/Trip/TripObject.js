@@ -82,7 +82,7 @@ export default class TripObject {
     }
 
     reversePlacesAt(index){
-        let end = this.places.length
+        let end = this.places.length - 1
         let array = this.places.slice();
         while(index < end){
             let swap = array[end];
