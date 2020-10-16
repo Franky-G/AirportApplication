@@ -49,10 +49,7 @@ export default class SearchModule extends Component {
 
     formatTripDistance() {
         var jsonStr = '{"places":[]}';var obj = JSON.parse(jsonStr);
-        if (this.state.tripPlaces.length === 0) {
-            this.setState({distance: 0});
-            return;
-        }
+        if (this.state.tripPlaces.length === 0) { this.setState({distance: 0}); return; }
         for(let i = 0; i < this.state.tripPlaces.length; i++) {
             let lat = this.state.tripPlaces[i].lat.toString();
             let long = this.state.tripPlaces[i].lng.toString();
@@ -153,8 +150,7 @@ export default class SearchModule extends Component {
     }
 
     renderPopover(){
-        return(
-            <div className="d-flex">
+        return( <div className="d-flex">
                 <Button id="UncontrolledPopover"
                         style={{position: "absolute", margin: 0, padding: 0, color: "#1E4D2B", backgroundColor: "#C8C372",
                             width: 30, height: 30, borderRadius: 30, left:10, top: 15, border: "2px ridge #1E4D2B", zIndex: 1001}}>
@@ -217,7 +213,6 @@ export default class SearchModule extends Component {
             </div>
         );
     }
-//{this.addInputField(inputArray[1])}
 
     renderSearchList(){
         let searchListArray = []
