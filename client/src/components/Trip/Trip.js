@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Row, InputGroup, InputGroupAddon, PopoverHeader, PopoverBody, UncontrolledPopover, Button, ListGroupItem, Container, ListGroup, FormGroup, Label} from "reactstrap";
+import {Row, InputGroup, InputGroupAddon, PopoverHeader, PopoverBody, UncontrolledPopover, Button, ListGroupItem, ListGroup} from "reactstrap";
 import Input from "@material-ui/core/Input";
 import {sendServerRequest} from "../../utils/restfulAPI";
 import FileIO from "../Atlas/FileIO"
@@ -79,16 +79,24 @@ export default class SearchModule extends Component {
     addPlaceListItem(element, tripIndex){
         return(
             <div>
-                <ListGroupItem id="searchListStyle" tag="button" action onClick={() => this.onClickCall(element, tripIndex)}>
-                    {this.state.trips[tripIndex].name}
-                    <div style={{position: "absolute", right: 40, top: 5, width: 15, height: 15, backgroundColor: "#FFFFFF", }} onClick={this.state.trips[tripIndex].positionUp()}> ^ </div>
+                <ListGroupItem id="searchListStyle" tag="button" title={this.state.trips[this.state.stateIndex].note} action onClick={(e) => {e.stopPropagation(); this.onClickCall(element, tripIndex)}}>
+                    {this.state.trips[tripIndex].name}{element} | {this.state.trips[tripIndex].places[element].lat.toFixed(3)}{this.state.trips[tripIndex].places[element].lng.toFixed(3)}
+                    <div className="vertical-center justify-content-center" style={{position: "absolute", right: 40, top: 5, width: 15, height: 15, backgroundColor: "#FFFFFF", color: "#000000", borderRadius: 5}}
+                         onClick={(e) => {e.stopPropagation(); this.state.trips[tripIndex].positionUp(element); this.forceUpdate()}}> ^ </div>
+                    <div className="vertical-center justify-content-center" style={{position: "absolute", right: 40, top: 22, width: 15, height: 15, backgroundColor: "#FFFFFF", color: "#000000", borderRadius: 5}}
+                         onClick={(e) => {e.stopPropagation(); this.state.trips[tripIndex].positionDown(element); this.forceUpdate()}}> v </div>
+                    <div className="vertical-center justify-content-center" style={{position: "absolute", width: 20, height: 20, right: 60, top: 10, backgroundColor: "#FFFFFF", color: "#000000", borderRadius: 5}}
+                         onClick={(e) => {e.stopPropagation(); this.state.trips[this.state.stateIndex].setName("newName"); this.forceUpdate()}}>R</div>
                 </ListGroupItem>
             </div>
         );
     }
 
+    addPlace(latLng){
+        this.state.trips[this.state.stateIndex].places.push(latLng)
+    }
+
     onClickCall(element, tripIndex){
-        console.log(this.state.trips[tripIndex].places[element].lat)
         this.props.setWhereIsMarker(this.state.trips[tripIndex].places[element]);
         this.setState({index: tripIndex})
     }
@@ -114,10 +122,10 @@ export default class SearchModule extends Component {
 
     formatTripDistance() {
         let jsonStr = '{"places":[]}';let obj = JSON.parse(jsonStr);
-        if (this.state.tripPlaces.length === 0) { this.setState({distance: 0}); return; }
-        for(let i = 0; i < this.state.tripPlaces.length; i++) {
-            let lat = this.state.tripPlaces[i].lat.toString();
-            let long = this.state.tripPlaces[i].lng.toString();
+        if (this.state.trips[this.state.stateIndex].places.length === 0) { this.setState({distance: 0}); return; }
+        for(let i = 0; i < this.state.trips[this.state.stateIndex].places.length; i++) {
+            let lat = this.state.trips[this.state.stateIndex].places[i].lat.toString();
+            let long = this.state.trips[this.state.stateIndex].places[i].lng.toString();
             obj['places'].push({"name":"Trips","latitude":lat,"longitude":long});
         }
         let test = JSON.stringify(obj);
@@ -165,7 +173,7 @@ export default class SearchModule extends Component {
                 <Row style={{height: 30}}>
                     <Button style={{position: "absolute", left: 10}} color={this.toggleButtonColor()} size="sm" onClick={this.props.setTripRecord}>Record</Button>
                     <Button style={buttonList[0].style} size="sm" onClick={() => this.addATrip()}>{buttonList[0].label}</Button>
-                    <Button style={buttonList[1].style} size="sm" onClick={() => this.resetTripPlaces()}>{buttonList[1].label}</Button>
+                    <Button style={buttonList[1].style} size="sm" onClick={() => this.state.trips[this.state.stateIndex].resetPlaces()}>{buttonList[1].label}</Button>
                 </Row>
                 {this.addASpace()}
                 {this.addPlaceOrDistance(placesAndTrips[1])}
@@ -185,7 +193,7 @@ export default class SearchModule extends Component {
                         border:"2px ridge #FFFFFF", borderRadius: "3px 3px 3px 3px", boxShadow: "1px 2px 1px 0 #000000", overflow:"hidden"}}>Trip Designer</h4>
                 </Row>
                 {this.renderPopover()}
-                <div style={{position: "absolute", left: -4, top: 105, width: 320, height: 150, zIndex: 1100, overflow: "auto"}}>
+                <div style={{position: "absolute", left: 10, top: 105, width: 320, height: 150, zIndex: 1100, overflow: "auto"}}>
                     {this.renderPlaceList(this.state.stateIndex)}
                 </div>
                 <Row style={{height:15}}/>

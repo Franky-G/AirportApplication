@@ -1,75 +1,89 @@
-import React from "react";
 
 export default class TripObject {
     constructor(name, places, note) {
         this.name = name;
         this.places = places;
         this.note = note;
+
+        this.positionUp = this.positionUp.bind(this);
+        this.positionDown = this.positionDown.bind(this);
+    }
+
+    addPlace(latLng){
+        this.places.push(latLng);
     }
 
     setName(newName){
-        this.setState({name: newName})
+        this.name = newName;
     }
 
     setPlaces(array){
-        this.setState({places: array})
+        this.places = array;
     }
 
     setNote(string){
-        this.setState({note: string})
+        this.note = string;
     }
 
     positionUp(index){
-        let array = this.state.places.slice();
+        if(index === 0){
+            return;
+        }
+        let array = this.places;
         let swap = array[index - 1]
         array[index - 1] = array[index]
         array[index] = swap
-        this.setState({places: array})
+        this.places = array;
     }
 
     positionDown(index){
-        let array = this.state.places.slice();
+        if(index === this.places.length - 1){
+            return;
+        }
+        let array = this.places.slice();
         let swap = array[index + 1]
         array[index + 1] = array[index]
         array[index] = swap
-        this.setState({places: array})
+        this.places = array;
     }
 
     modify(name, places, note){
-        this.setState({name: name, places: places, note: note})
+        this.name = name;
+        this.places = places;
+        this.note = note;
     }
 
     modifyStart(index){
-        let array = this.state.places.slice();
+        let array = this.places.slice();
         let start = array[index];
         array.splice(index,1);
         array.unshift(start);
-        this.setState({places: array});
+        this.places = array;
     }
 
     removePlace(index){
-        let array = this.state.places.slice();
+        let array = this.places.slice();
         array = array.splice(index, 1);
-        this.setState({places: array});
+        this.places = array;
     }
 
     removeNote(){
-        this.setState({note: ""})
+        this.note = ""
     }
 
     resetPlaces(){
-        this.setState({places: []})
+        this.places = [];
     }
 
     reversePlaces(){
-        let array = this.state.places.slice();
+        let array = this.places.slice();
         array.reverse();
-        this.setState({places: array})
+        this.places = array;
     }
 
     reversePlacesAt(index){
-        let end = this.state.places.length
-        let array = this.state.places.slice();
+        let end = this.places.length
+        let array = this.places.slice();
         while(index < end){
             let swap = array[end];
             array[end] = array[index];
@@ -77,6 +91,6 @@ export default class TripObject {
             ++index;
             --end;
         }
-        this.setState({places: array})
+        this.places = array;
     }
 }
