@@ -7,9 +7,9 @@ import FileIO from "../Atlas/FileIO"
 const labelStyle = {opacity: 0.2, overflow:"hidden"}
 const inputArray = [{width: 211, label: "Add Place", width2: 70, name: "searchPlaces"}, {width: 229, label: "Filter", width2: 50, name: "filter"}]
 const placesAndTrips = [{height: 150, text: "Places"}, {height: 90, text: "Trips"}]
-const buttonList = [{style: {position: "absolute", right: 10}, label: "Add Place"},
+const buttonList = [{style: {position: "absolute", right: 10}, label: "Add Trip"},
                     {style: {position: "absolute", left: 80}, label: "Reset"}]
-const loadSaveDistance = [{style: {position: "absolute", padding: 4, left: 10}, label: "Load"}, {style: {position: "absolute", padding: 4, left: 58}, label: "Save"}, {style: {position: "absolute", padding: 4, right: 10}, label: "Total Distance"}]
+const loadSaveDistance = [{style: {position: "absolute", padding: 4, left: 10}, label: "Load"}, {style: {position: "absolute", padding: 4, left: 58}, label: "Save"}, {style: {position: "absolute", padding: 4, left: 108}, label: "Distance"}, {style: {position: "relative", padding: 4, left: 20, top: 30}}]
 
 export default class SearchModule extends Component {
     constructor(props) {
@@ -51,11 +51,13 @@ export default class SearchModule extends Component {
                 <Button size="sm" style={array[0].style} onClick={() => this.FileIOREF.openModal()}> {array[0].label}</Button>
                 <Button size="sm" style={array[1].style} onClick={() => this.getFormatForSave()}> {array[1].label} </Button>
                 <Button size="sm" style={array[2].style} onClick={() => {this.formatTripDistance()}}> {array[2].label} </Button>
-            </div> );
-    }
+                <p style={array[3].style}>Total Trip Distance: {this.state.distance} Mile(s)</p>
+                </div>
+            ); }
 
     formatTripDistance() {
         var jsonStr = '{"places":[]}';var obj = JSON.parse(jsonStr);
+        if (this.state.tripPlaces.length === 0) { this.setState({distance: 0}); return; }
         for(let i = 0; i < this.state.tripPlaces.length; i++) {
             let lat = this.state.tripPlaces[i].lat.toString();
             let long = this.state.tripPlaces[i].lng.toString();
@@ -156,8 +158,7 @@ export default class SearchModule extends Component {
     }
 
     renderPopover(){
-        return(
-            <div className="d-flex">
+        return( <div className="d-flex">
                 <Button id="UncontrolledPopover"
                         style={{position: "absolute", margin: 0, padding: 0, color: "#1E4D2B", backgroundColor: "#C8C372",
                             width: 30, height: 30, borderRadius: 30, left:10, top: 15, border: "2px ridge #1E4D2B", zIndex: 1001}}>
@@ -220,7 +221,6 @@ export default class SearchModule extends Component {
             </div>
         );
     }
-//{this.addInputField(inputArray[1])}
 
     renderSearchList(){
         let searchListArray = []
@@ -275,7 +275,7 @@ export default class SearchModule extends Component {
         }
         let tripsArray = this.state.trips;
         tripsArray[this.state.index] = [];
-        this.setState({tripPlaces: [], trips: tripsArray})
+        this.setState({tripPlaces: [], trips: tripsArray, distance: 0})
     }
 
     setTripPlaces(mapClickInfo){ this.state.tripPlaces.push(mapClickInfo.latlng);}
