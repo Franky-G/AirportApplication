@@ -26,10 +26,10 @@
 | Trip.js:139| Function name not self explanatory. | low | Kyle C. | Issue #525 |
 | Trip.js:25| Name of 'myclass' gives no information. | low | Kyle C. | Issue #528 |
 | Trip.js:6| Commented style not used. | low | Kyle C. | Issue #530 |
-| Trip.js:49 | Variable initialization complicated/messy. | low | Jake B. | |
-| Trip.js:249-259 | Readability and variable names. | low | Jake B. | |
-| Trip.js:214 | Commented out code. | low | Jake B. | |
-| WhereIs.js:28-29 | Hard coded names in logic blocks. | low | Jake B. | |
+| Trip.js:49 | Variable initialization complicated/messy. | low | Jake B. | Issue #531 |
+| Trip.js:249-259 | Readability and variable names. | low | Jake B. | Issue #539 |
+| Trip.js:214 | Commented out code. | low | Jake B. | Issue #536 |
+| WhereIs.js:28-29 | Hard coded names in logic blocks. | low | Jake B. | Issue #538 |
 | Trip.js:272 | Function not tested | low | Frank G. | Issue #532 |
 | Trip.js:249-259 | Identical functions causing a duplication issue | med | Frank G. | Issue #527 |
 | Trip.js:214 | Commented code out of place | low | Frank G. | Issue #536 |
