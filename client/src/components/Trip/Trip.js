@@ -81,12 +81,12 @@ export default class SearchModule extends Component {
             <div>
                 <ListGroupItem id="searchListStyle" tag="button" title={this.state.trips[this.state.stateIndex].note} action onClick={(e) => {e.stopPropagation(); this.onClickCall(element, tripIndex)}}>
                     {this.state.trips[tripIndex].name}{element} | {this.state.trips[tripIndex].places[element].lat.toFixed(3)}{this.state.trips[tripIndex].places[element].lng.toFixed(3)}
-                    <div className="vertical-center justify-content-center" style={{position: "absolute", right: 40, top: 5, width: 15, height: 15, backgroundColor: "#FFFFFF", color: "#000000", borderRadius: 5}}
+                    <div className="vertical-center justify-content-center" style={{position: "absolute", right: 5, top: 5, width: 15, height: 15, backgroundColor: "#FFFFFF", color: "#000000", borderRadius: 5}}
                          onClick={(e) => {e.stopPropagation(); this.state.trips[tripIndex].positionUp(element); this.forceUpdate()}}> ^ </div>
-                    <div className="vertical-center justify-content-center" style={{position: "absolute", right: 40, top: 22, width: 15, height: 15, backgroundColor: "#FFFFFF", color: "#000000", borderRadius: 5}}
+                    <div className="vertical-center justify-content-center" style={{position: "absolute", right: 5, top: 22, width: 15, height: 15, backgroundColor: "#FFFFFF", color: "#000000", borderRadius: 5}}
                          onClick={(e) => {e.stopPropagation(); this.state.trips[tripIndex].positionDown(element); this.forceUpdate()}}> v </div>
-                    <div className="vertical-center justify-content-center" style={{position: "absolute", width: 20, height: 20, right: 60, top: 10, backgroundColor: "#FFFFFF", color: "#000000", borderRadius: 5}}
-                         onClick={(e) => {e.stopPropagation(); this.state.trips[this.state.stateIndex].setName("newName"); this.forceUpdate()}}>R</div>
+                    <div className="vertical-center justify-content-center" style={{position: "absolute", width: 20, height: 20, right: 25, top: 10, backgroundColor: "#FFFFFF", color: "#000000", borderRadius: 5}}
+                         onClick={(e) => {e.stopPropagation(); this.state.trips[this.state.stateIndex].modifyStart(element); this.forceUpdate()}}>S</div>
                 </ListGroupItem>
             </div>
         );
@@ -173,7 +173,7 @@ export default class SearchModule extends Component {
                 <Row style={{height: 30}}>
                     <Button style={{position: "absolute", left: 10}} color={this.toggleButtonColor()} size="sm" onClick={this.props.setTripRecord}>Record</Button>
                     <Button style={buttonList[0].style} size="sm" onClick={() => this.addATrip()}>{buttonList[0].label}</Button>
-                    <Button style={buttonList[1].style} size="sm" onClick={() => this.state.trips[this.state.stateIndex].resetPlaces()}>{buttonList[1].label}</Button>
+                    <Button style={buttonList[1].style} size="sm" onClick={() => {this.state.trips[this.state.stateIndex].resetPlaces(); this.forceUpdate()}}>{buttonList[1].label}</Button>
                 </Row>
                 {this.addASpace()}
                 {this.addPlaceOrDistance(placesAndTrips[1])}
