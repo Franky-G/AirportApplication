@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Row, InputGroup, PopoverHeader, PopoverBody, UncontrolledPopover, Button, ListGroupItem, ListGroup} from "reactstrap";
+import {Row, InputGroup, PopoverHeader, PopoverBody, UncontrolledPopover, Button, ListGroupItem, ListGroup, ButtonDropdown, DropdownMenu, DropdownToggle, DropdownItem} from "reactstrap";
 import Input from "@material-ui/core/Input";
 import {sendServerRequest} from "../../utils/restfulAPI";
 import FileIO from "../Atlas/FileIO"
@@ -11,7 +11,7 @@ const placesAndTrips = [{height: 150, text: "Places"}, {height: 90, text: "Trips
 const buttonList = [{style: {position: "absolute", right: 10}, label: "Add Trip"},
                     {style: {position: "absolute", left: 80}, label: "Reset"}]
 const loadSaveDistance = [{style: {position: "absolute", padding: 4, left: 10}, label: "Load"}, {style: {position: "absolute", padding: 4, left: 58}, label: "Save"}, {style: {position: "absolute", padding: 4, left: 108}, label: "Distance"}, {style: {position: "relative", padding: 4, left: 20, top: 30}}]
-const listType = [{style: {position: "absolute", width: 300, height: 148, overflow:"auto"}}, {style:{position: "absolute", width: 300, height: 90, left: 10, bottom: 65, color: "#FFFFFF", overflow:"auto"}}]
+const listType = [{style: {position: "absolute", width: 300, height: 148, overflow:"auto", zIndex: 1015}}, {style:{position: "absolute", width: 300, height: 90, left: 10, bottom: 65, color: "#FFFFFF", overflow:"auto", zIndex: 1015}}]
 
 export default class SearchModule extends Component {
     constructor(props) {
@@ -80,16 +80,19 @@ export default class SearchModule extends Component {
             <div>
                 <ListGroupItem id="searchListStyle" tag="button" title={this.state.trips[this.state.stateIndex].note} action onClick={(e) => {e.stopPropagation(); this.onClickCall(element, tripIndex)}}>
                     {this.state.trips[tripIndex].name}{element} | {this.state.trips[tripIndex].places[element].lat.toFixed(3)}{this.state.trips[tripIndex].places[element].lng.toFixed(3)}
-                    <div className="vertical-center justify-content-center" style={{position: "absolute", right: 75, top: 5, width: 15, height: 15, backgroundColor: "#FFFFFF", color: "#000000", borderRadius: 5}}
+                    <div className="vertical-center justify-content-center" style={{position: "absolute", right: 5, top: 1, width: 19, height: 19, backgroundColor: "#1E4D2B", color: "#FFFFFF", borderRadius: 5, border: "1px solid #000000"}}
                          onClick={(e) => {e.stopPropagation(); this.state.trips[tripIndex].positionUp(element); this.forceUpdate()}}> ^ </div>
-                    <div className="vertical-center justify-content-center" style={{position: "absolute", right: 75, top: 22, width: 15, height: 15, backgroundColor: "#FFFFFF", color: "#000000", borderRadius: 5}}
+                    <div className="vertical-center justify-content-center" style={{position: "absolute", right: 5, top: 22, width: 19, height: 19, backgroundColor: "#1E4D2B", color: "#FFFFFF", borderRadius: 5, border: "1px solid #000000"}}
                          onClick={(e) => {e.stopPropagation(); this.state.trips[tripIndex].positionDown(element); this.forceUpdate()}}> v </div>
-                    <div className="vertical-center justify-content-center" style={{position: "absolute", width: 20, height: 20, right: 25, top: 10, backgroundColor: "#FFFFFF", color: "#000000", borderRadius: 5}}
-                         onClick={(e) => {e.stopPropagation(); this.state.trips[this.state.stateIndex].modifyStart(element); this.forceUpdate()}}>S</div>
+                    <div className="vertical-center justify-content-center" style={{position: "absolute", right: 30, top: 5, width: 30, height: 30, backgroundColor: "#1E4D2B", color: "#FFFFFF", borderRadius: 8, border: "1px solid #000000"}}
+                         onClick={(e) => {e.stopPropagation(); this.state.trips[tripIndex].removePlace(element); this.forceUpdate()}}>X</div>
                 </ListGroupItem>
             </div>
         );
     }
+
+//<div className="vertical-center justify-content-center" style={{position: "absolute", width: 20, height: 20, right: 25, top: 10, backgroundColor: "#FFFFFF", color: "#000000", borderRadius: 5}}
+//onClick={(e) => {e.stopPropagation(); this.state.trips[this.state.stateIndex].modifyStart(element); this.forceUpdate()}}>S</div>
 
     addTripListItem(index){
         return(
@@ -158,6 +161,20 @@ export default class SearchModule extends Component {
         this.FileIOREF.downloadFile(fileString, 'file.json', 'application/json')
     }
 
+    renderDropdown(){
+        let element = 1;
+        return(
+            <ButtonDropdown direction="up" isOpen={this.state.openDropdown} style={{position: "relative", left: 157, zIndex: 1100}} size="sm" toggle={() => this.setState({openDropdown: !this.state.openDropdown})}>
+                <DropdownToggle caret color="primary">Modify</DropdownToggle>
+                <DropdownMenu>
+                    <DropdownItem onClick={() => this.state.trips[this.state.stateIndex].modify("test Changed", [L.latLng(0,0)], "changed note")}>Modify</DropdownItem>
+                    <DropdownItem onClick={() => this.state.trips[this.state.stateIndex].reversePlaces()}>Reverse Trip</DropdownItem>
+                    <DropdownItem onClick={() => this.state.trips[this.state.stateIndex].reversePlacesAt(element)}>Reverse Trip At</DropdownItem>
+                </DropdownMenu>
+            </ButtonDropdown>
+        );
+    }
+
     renderPopover(){
         return( <div className="d-flex">
                 <Button id="UncontrolledPopover"
@@ -174,13 +191,15 @@ export default class SearchModule extends Component {
                             - Manage places with add or remove buttons <br/><br/>
                             - Manage trips with add or remove buttons <br/><br/>
                             - Filter results at the bottom
-                        </p></PopoverBody></UncontrolledPopover></div>
+                        </p>
+                    </PopoverBody>
+                </UncontrolledPopover></div>
         );
     }
 
     renderPlacesAndTrips(){
         return(
-            <div>
+            <div style={{zIndex:1050}}>
                 {this.addASpace()}
                 {this.addPlaceOrDistance(placesAndTrips[0])}
                 {this.addASpace()}
@@ -188,6 +207,7 @@ export default class SearchModule extends Component {
                     <Button style={{position: "absolute", left: 10}} color={this.toggleButtonColor()} size="sm" onClick={this.props.setTripRecord}>Record</Button>
                     <Button style={buttonList[0].style} size="sm" onClick={() => this.addATrip()}>{buttonList[0].label}</Button>
                     <Button style={buttonList[1].style} size="sm" onClick={() => {this.state.trips[this.state.stateIndex].resetPlaces(); this.forceUpdate()}}>{buttonList[1].label}</Button>
+                    {this.renderDropdown()}
                 </Row>
                 {this.addASpace()}
                 {this.addPlaceOrDistance(placesAndTrips[1])}

@@ -1,4 +1,4 @@
-import Button, {Form, FormGroup, Label, Modal, ModalHeader, ModalBody, Input} from "reactstrap";
+import {Form, FormGroup, Label, Modal, ModalHeader, ModalBody, Input, Button} from "reactstrap";
 import React, {Component} from "react";
 
 export default class FileIO extends Component {
