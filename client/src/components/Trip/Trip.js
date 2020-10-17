@@ -131,11 +131,6 @@ export default class SearchModule extends Component {
         });
     }
 
-    divClicked() {
-        if (this.state.myClass === '') { this.setState({myClass: 'coolclass'}) }
-        else {this.setState({myClass: ''}) }
-    }
-
     formatTripDistance() {
         let jsonStr = '{"places":[]}';let obj = JSON.parse(jsonStr);
         if (this.state.trips[this.state.stateIndex].places.length === 0) { this.setState({distance: 0}); return; }
