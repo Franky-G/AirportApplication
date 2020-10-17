@@ -9,7 +9,7 @@ const labelStyle = {opacity: 0.2, overflow:"hidden"}
 const inputArray = [{width: 278, label: "Add Place", width2: 70, name: "searchPlaces"}, {width: 229, label: "Filter", width2: 50, name: "filter"}]
 const placesAndTrips = [{height: 150, text: "Places"}, {height: 90, text: "Trips"}]
 const buttonList = [{style: {position: "absolute", right: 10}, label: "Add Trip"},
-                    {style: {position: "absolute", left: 80}, label: "Reset"}]
+                    {style: {position: "absolute", left: 159}, label: "Reset"}]
 const loadSaveDistance = [{style: {position: "absolute", padding: 4, left: 10}, label: "Load"}, {style: {position: "absolute", padding: 4, left: 58}, label: "Save"}, {style: {position: "absolute", padding: 4, left: 108}, label: "Distance"}, {style: {position: "relative", padding: 4, left: 20, top: 30}}]
 const listType = [{style: {position: "absolute", width: 300, height: 148, overflow:"auto", zIndex: 1015}}, {style:{position: "absolute", width: 300, height: 90, left: 10, bottom: 65, color: "#FFFFFF", overflow:"auto", zIndex: 1015}}]
 
@@ -30,6 +30,7 @@ export default class SearchModule extends Component {
             distanceArr: null,
             stateIndex: 0,
             openDropdown: false,
+            popupInput: "",
         }
     }
 
@@ -162,17 +163,24 @@ export default class SearchModule extends Component {
     }
 
     renderDropdown(){
-        let element = 1;
         return(
-            <ButtonDropdown direction="up" isOpen={this.state.openDropdown} style={{position: "relative", left: 157, zIndex: 1100}} size="sm" toggle={() => this.setState({openDropdown: !this.state.openDropdown})}>
+            <ButtonDropdown direction="up" isOpen={this.state.openDropdown} style={{position: "relative", left: 27, zIndex: 1100,}} size="sm" toggle={() => this.setState({openDropdown: !this.state.openDropdown})}>
                 <DropdownToggle caret color="primary">Modify</DropdownToggle>
-                <DropdownMenu>
+                <DropdownMenu style={{position: "absolute", top: -250, width: 280}}>
                     <DropdownItem onClick={() => this.state.trips[this.state.stateIndex].modify("test Changed", [L.latLng(0,0)], "changed note")}>Modify</DropdownItem>
                     <DropdownItem onClick={() => this.state.trips[this.state.stateIndex].reversePlaces()}>Reverse Trip</DropdownItem>
-                    <DropdownItem onClick={() => this.state.trips[this.state.stateIndex].reversePlacesAt(element)}>Reverse Trip At</DropdownItem>
+                    <DropdownItem onClick={() => this.state.trips[this.state.stateIndex].reversePlacesAt(Number(this.state.popupInput))}>Reverse Trip At -  &lt;number&gt;</DropdownItem>
+                    <DropdownItem onClick={() => this.state.trips[this.state.stateIndex].modifyStart(Number(this.state.popupInput))}>Set Start Location At - &lt;number&gt;</DropdownItem>
+                    <DropdownItem onClick={() => this.state.trips[this.state.stateIndex].setNote(this.state.popupInput)}>Create A Note - &lt;string&gt; </DropdownItem>
+                    <DropdownItem onClick={() => this.state.trips[this.state.stateIndex].setName(this.state.popupInput)}>Name Trip - &lt;string&gt;</DropdownItem>
+                    <Input name="popupInput" placeholder="Enter format and select action" style={{position: "relative", left: 25}}  onChange={() => this.updatePopupInput()}/>
                 </DropdownMenu>
             </ButtonDropdown>
         );
+    }
+
+    updatePopupInput(){
+                this.setState({popupInput: event.target.value})
     }
 
     renderPopover(){
@@ -204,7 +212,7 @@ export default class SearchModule extends Component {
                 {this.addPlaceOrDistance(placesAndTrips[0])}
                 {this.addASpace()}
                 <Row style={{height: 30}}>
-                    <Button style={{position: "absolute", left: 10}} color={this.toggleButtonColor()} size="sm" onClick={this.props.setTripRecord}>Record</Button>
+                    <Button style={{position: "absolute", left: 90}} color={this.toggleButtonColor()} size="sm" onClick={this.props.setTripRecord}>Record</Button>
                     <Button style={buttonList[0].style} size="sm" onClick={() => this.addATrip()}>{buttonList[0].label}</Button>
                     <Button style={buttonList[1].style} size="sm" onClick={() => {this.state.trips[this.state.stateIndex].resetPlaces(); this.forceUpdate()}}>{buttonList[1].label}</Button>
                     {this.renderDropdown()}
