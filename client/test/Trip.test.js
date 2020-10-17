@@ -196,13 +196,6 @@ function testToggleDropDown() {
 
 test("Toggle Drop Down", testToggleDropDown)
 
-function testDivClicked() {
-    const clicked = shallow(<Trip/>)
-    clicked.instance().divClicked()
-}
-
-test("Div Clicked", testDivClicked)
-
 function testFormatTripDistance() {
     const dist = shallow(<Trip/>)
     dist.instance().formatTripDistance()
