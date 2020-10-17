@@ -61,6 +61,17 @@ export default class TripObject {
         this.places = array;
     }
 
+    movePlace(string){
+        let splitArray = string.split(",")
+        if(splitArray[0] < this.places.length && splitArray[1] < this.places.length) {
+            let array = this.places.slice();
+            let swap = array[splitArray[1]];
+            array[splitArray[1]] = array[splitArray[0]]
+            array[splitArray[0]] = swap;
+            this.places = array;
+        }
+    }
+
     removePlace(index){
         let array = this.places.slice();
         array.splice(index, 1);
