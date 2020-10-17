@@ -80,7 +80,7 @@ export default class SearchModule extends Component {
         return(
             <div>
                 <ListGroupItem id="searchListStyle" tag="button" title={this.state.trips[this.state.stateIndex].note} action onClick={(e) => {e.stopPropagation(); this.onClickCall(element, tripIndex)}}>
-                    {this.state.trips[tripIndex].name}{element} | {this.state.trips[tripIndex].places[element].lat.toFixed(3)}{this.state.trips[tripIndex].places[element].lng.toFixed(3)}
+                    {this.state.trips[tripIndex].name} {element} | {this.state.trips[tripIndex].places[element].lat.toFixed(3)}{this.state.trips[tripIndex].places[element].lng.toFixed(3)}
                     <div className="vertical-center justify-content-center" style={{position: "absolute", right: 5, top: 1, width: 19, height: 19, backgroundColor: "#1E4D2B", color: "#FFFFFF", borderRadius: 5, border: "1px solid #000000"}}
                          onClick={(e) => {e.stopPropagation(); this.state.trips[tripIndex].positionUp(element); this.forceUpdate()}}> ^ </div>
                     <div className="vertical-center justify-content-center" style={{position: "absolute", right: 5, top: 22, width: 19, height: 19, backgroundColor: "#1E4D2B", color: "#FFFFFF", borderRadius: 5, border: "1px solid #000000"}}
@@ -97,7 +97,7 @@ export default class SearchModule extends Component {
 
     addTripListItem(index){
         return(
-            <ListGroupItem id="searchListStyle" tag="button" title={this.state.trips[this.state.stateIndex].note} action onClick={(e) => {e.stopPropagation(); this.setState({stateIndex: index})}}>{this.state.trips[this.state.stateIndex].name} {index}</ListGroupItem>
+            <ListGroupItem id="searchListStyle" tag="button" title={this.state.trips[this.state.stateIndex].note} action onClick={(e) => {e.stopPropagation(); this.setState({stateIndex: index})}}>{this.state.trips[index].name}</ListGroupItem>
         );
     }
 
