@@ -178,13 +178,13 @@ export default class SearchModule extends Component {
             <ButtonDropdown direction="up" isOpen={this.state.openDropdown} style={{position: "relative", left: 27, zIndex: 1100,}} size="sm" toggle={() => this.setState({openDropdown: !this.state.openDropdown})}>
                 <DropdownToggle caret color="primary">Modify</DropdownToggle>
                 <DropdownMenu style={{position: "absolute", top: -250, width: 280}}>
-                    <DropdownItem onClick={() => this.state.trips[this.state.stateIndex].modify("test Changed", [L.latLng(0,0)], "changed note")}>Modify</DropdownItem>
+                    <Input name="popupInput" placeholder="Enter format and select action" style={{position: "relative", left: 25}}  onChange={() => this.updatePopupInput()}/>
+                    <DropdownItem onClick={() => this.state.trips[this.state.stateIndex].movePlace(this.state.popupInput)}>Modify &lt;from,to&gt;</DropdownItem>
                     <DropdownItem onClick={() => this.state.trips[this.state.stateIndex].reversePlaces()}>Reverse Trip</DropdownItem>
                     <DropdownItem onClick={() => this.state.trips[this.state.stateIndex].reversePlacesAt(Number(this.state.popupInput))}>Reverse Trip At -  &lt;number&gt;</DropdownItem>
                     <DropdownItem onClick={() => this.state.trips[this.state.stateIndex].modifyStart(Number(this.state.popupInput))}>Set Start Location At - &lt;number&gt;</DropdownItem>
                     <DropdownItem onClick={() => this.state.trips[this.state.stateIndex].setNote(this.state.popupInput)}>Create A Note - &lt;string&gt; </DropdownItem>
                     <DropdownItem onClick={() => this.state.trips[this.state.stateIndex].setName(this.state.popupInput)}>Name Trip - &lt;string&gt;</DropdownItem>
-                    <Input name="popupInput" placeholder="Enter format and select action" style={{position: "relative", left: 25}}  onChange={() => this.updatePopupInput()}/>
                 </DropdownMenu>
             </ButtonDropdown>
         );
