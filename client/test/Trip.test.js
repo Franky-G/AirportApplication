@@ -5,8 +5,17 @@ import Trip from "../src/components/Trip/Trip";
 import {Map} from 'react-leaflet'; //Dont delete
 import 'leaflet/dist/leaflet.css';
 import 'bootstrap/dist/css/bootstrap.css';
-import FileIO from "../src/components/Atlas/FileIO";
-import TripObject from "../src/components/Trip/TripObject";
+
+const loadSaveDistance = [{style: {position: "absolute", padding: 4, left: 10}, label: "Load"},
+    {style: {position: "absolute", padding: 4, left: 58}, label: "Save"},
+    {style: {position: "absolute", padding: 4, left: 108}, label: "Distance"},
+    {style: {position: "relative", padding: 4, left: 20, top: 30}}]
+const inputArray = [{width: 278, label: "Add Place", width2: 70, name: "searchPlaces"},
+    {width: 229, label: "Filter", width2: 50, name: "filter"}]
+const listType = [{style: {position: "absolute", width: 300, height: 148, overflow:"auto", zIndex: 1015}},
+    {style:{position: "absolute", width: 300, height: 90, left: 10, bottom: 65, color: "#FFFFFF", overflow:"auto", zIndex: 1015}}]
+const placesAndTrips = [{height: 150, text: "Places"}, {height: 90, text: "Trips"}]
+
 
 function initialMyClass() {
     const expected = shallow(<Trip/>);
@@ -32,81 +41,12 @@ function initialFilter() {
 
 test("Initial State Filter", initialFilter);
 
-/**
-function initialTrips() {
-    const expected = shallow(<Trip/>);
-    let initial = expected.state().trips;
-    expect (initial).toEqual(new TripObject("test", [L.latLng(40,-105), L.latLng(41,-105)], "test note"));
-}
-
-test("Initial State Trips", initialTrips);
- **/
-
 function toggleButtonColorTest(){
     const trip = shallow(<Trip/>);
     let color = trip.instance().toggleButtonColor()
     expect(color).toEqual("danger");
 }
 test("ToggleButtonColor", toggleButtonColorTest)
-
-// function testAddATrip(){
-//     const trip = shallow(<Trip/>)
-//     let initial = trip.state().trips.length
-//     expect(initial).toEqual(0);
-//     trip.instance().addATrip();
-//     initial = trip.state().trips.length
-//     expect(initial).toEqual(1);
-//     trip.instance().addATrip();
-//     expect(trip.state().trips[1]).toEqual([])
-// }
-//
-// test("TestAddTrip", testAddATrip)
-//
-// function testRenderPlaceList(){
-//     const trip = shallow(<Trip/>)
-//     trip.setState({tripPlaces: [L.latLng(0,0), L.latLng(0,0), L.latLng(0,0)]})
-//     trip.instance().renderSearchList()
-//     trip.instance().renderTripList()
-//     expect(trip.state().tripPlaces.length).toEqual(3)
-// }
-//
-// test("TestRenderPlaceList", testRenderPlaceList)
-//
-// function testRemoveAPlace(){
-//     const trip = shallow(<Trip/>)
-//     trip.setState({tripPlaces: [L.latLng(0,0), L.latLng(0,0), L.latLng(0,0)]})
-//     expect(trip.state().tripPlaces.length).toEqual(3);
-//     trip.instance().removeAPlace();
-//     expect(trip.state().tripPlaces.length).toEqual(2)
-// }
-//
-// test("TestRemoveAPlace", testRemoveAPlace)
-//
-// function testRemoveATrip(){
-//     const trip = shallow(<Trip/>)
-//     trip.setState({trips: [[L.latLng(0,0)], [L.latLng(0,0)], [L.latLng(0,0)]]})
-//     expect(trip.state().trips.length).toEqual(3);
-//     trip.instance().removeATrip();
-//     expect(trip.state().trips.length).toEqual(2)
-// }
-//
-// test("TestRemoveATrip", testRemoveATrip)
-//
-// function testResetTripPlaces(){
-//     const trip = shallow(<Trip/>)
-//     trip.instance().resetTripPlaces();
-//     expect(trip.state().trips).toEqual([])
-//     expect(trip.state().tripPlaces).toEqual([])
-//     trip.setState({tripPlaces: [L.latLng(0,0)]})
-//     trip.instance().resetTripPlaces();
-//     expect(trip.state().tripPlaces).toEqual([])
-//     expect(trip.state().trips).toEqual([])
-//     trip.setState({trips: [[L.latLng(0,0), L.latLng(0,0)]]})
-//     trip.instance().resetTripPlaces();
-//     expect(trip.state().trips.length).toEqual(1)
-// }
-//
-// test("TestResetTripPlaces", testResetTripPlaces)
 
 function testDistanceCalc(){
     const trip = shallow(<Trip/>)
@@ -146,3 +86,126 @@ function testGetFormatForSave() {
 }
 
 test("Get Format For Save", testGetFormatForSave)
+
+function testAddAtrip() {
+    const trip = shallow(<Trip/>)
+    trip.instance().addATrip();
+}
+
+test("Add a trip", testAddAtrip)
+
+function testRender() {
+    const render = shallow(<Trip/>)
+    render.instance().render()
+}
+
+test("Render", testRender)
+
+function testDropdown() {
+    const down = shallow(<Trip/>)
+    down.instance().renderDropdown()
+}
+
+test("Render Dropdown", testDropdown)
+
+function testpopover() {
+    const popover = shallow(<Trip/>)
+    popover.instance().renderPopover()
+}
+
+test("Render Popover", testpopover)
+
+function testResetTripPlaces() {
+    const places = shallow(<Trip/>)
+    places.instance().resetTripPlaces()
+}
+
+test("Reset Trip Places", testResetTripPlaces)
+
+function testTripUI() {
+    const ui = shallow(<Trip/>)
+    ui.instance().renderTripUI()
+}
+
+test("Render Trip UI", testTripUI)
+
+function testButtons() {
+    const buttons = shallow(<Trip/>)
+    buttons.instance().addLoadSaveDistanceButtons(loadSaveDistance)
+}
+
+test("Load Save Distance Buttons", testButtons)
+
+function testInputField() {
+    const field = shallow(<Trip/>)
+    field.instance().addInputField(inputArray[0])
+}
+
+test("Add Input Field", testInputField)
+
+function testButtonColor() {
+    const color = shallow(<Trip/>)
+    color.instance().toggleButtonColor()
+}
+
+test("Toggle Button Color", testButtonColor)
+
+function testRenderPlaceList() {
+    const list = shallow(<Trip/>)
+    list.instance().renderPlaceList(list.state().stateIndex, 0, listType)
+}
+
+test("Render Place List", testRenderPlaceList)
+
+function testRenderPlacesAndList() {
+    const place = shallow(<Trip/>)
+    place.instance().renderPlacesAndTrips()
+}
+
+test("Render Places and List", testRenderPlacesAndList)
+
+function testAddPlaceOrDistance() {
+    const dist = shallow(<Trip/>)
+    dist.instance().addPlaceOrDistance(placesAndTrips)
+}
+
+test("Add Place or Distance", testAddPlaceOrDistance)
+
+function testSpliceTrips() {
+    const splice = shallow(<Trip/>)
+    splice.instance().spliceTrips(splice.state().stateIndex)
+}
+
+test("Splice Trips", testSpliceTrips)
+
+function testCloseTripUI() {
+    const close = shallow(<Trip/>)
+    let initial = close.state().designerOpen
+    expect(initial).toEqual('')
+    close.instance().closeTripUI()
+    let temp = close.state().designerOpen
+    expect(temp).toEqual("designerIsOpen")
+}
+
+test("Close Trip UI", testCloseTripUI)
+
+function testToggleDropDown() {
+    const drop = shallow(<Trip/>)
+    drop.instance().toggleDropdown()
+}
+
+test("Toggle Drop Down", testToggleDropDown)
+
+function testDivClicked() {
+    const clicked = shallow(<Trip/>)
+    clicked.instance().divClicked()
+}
+
+test("Div Clicked", testDivClicked)
+
+function testFormatTripDistance() {
+    const dist = shallow(<Trip/>)
+    dist.instance().formatTripDistance()
+}
+
+test("Format Trip Distance", testFormatTripDistance)
