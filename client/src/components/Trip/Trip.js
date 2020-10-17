@@ -4,7 +4,6 @@ import Input from "@material-ui/core/Input";
 import {sendServerRequest} from "../../utils/restfulAPI";
 import FileIO from "../Atlas/FileIO"
 import TripObject from "../Trip/TripObject"
-
 const labelStyle = {opacity: 0.2, overflow:"hidden"}
 const inputArray = [{width: 278, label: "Add Place", width2: 70, name: "searchPlaces"}, {width: 229, label: "Filter", width2: 50, name: "filter"}]
 const placesAndTrips = [{height: 150, text: "Places"}, {height: 90, text: "Trips"}]
@@ -16,11 +15,9 @@ const listType = [{style: {position: "absolute", width: 300, height: 148, overfl
 export default class SearchModule extends Component {
     constructor(props) {
         super(props);
-      
         this.closeTripUI = this.closeTripUI.bind(this);
         this.addATrip = this.addATrip.bind(this);
         this.onClickCall = this.onClickCall.bind(this);
-
         this.state = {
             designerOpen: '',
             searchPlaces: "",
@@ -30,8 +27,7 @@ export default class SearchModule extends Component {
             distanceArr: null,
             stateIndex: 0,
             openDropdown: false,
-            popupInput: "",
-        }
+            popupInput: "", }
     }
 
     render(){
@@ -39,8 +35,7 @@ export default class SearchModule extends Component {
             <div>
                 <FileIO {...this.state} ref={(ref) => this.FileIOREF=ref}/>
                 {this.renderTripUI()}
-            </div>
-        );
+            </div> );
     }
 
     addLoadSaveDistanceButtons(array){
@@ -50,8 +45,7 @@ export default class SearchModule extends Component {
                 <Button size="sm" style={array[1].style} onClick={() => this.getFormatForSave()}> {array[1].label} </Button>
                 <Button size="sm" style={array[2].style} onClick={() => {this.formatTripDistance()}}> {array[2].label} </Button>
                 <p style={array[3].style}>Total Trip Distance: {this.state.distance} Mile(s)</p>
-                </div>
-            ); }
+                </div> ); }
 
     addATrip(){
         let tripsArray = this.state.trips.slice();
@@ -92,9 +86,6 @@ export default class SearchModule extends Component {
         );
     }
 
-//<div className="vertical-center justify-content-center" style={{position: "absolute", width: 20, height: 20, right: 25, top: 10, backgroundColor: "#FFFFFF", color: "#000000", borderRadius: 5}}
-//onClick={(e) => {e.stopPropagation(); this.state.trips[this.state.stateIndex].modifyStart(element); this.forceUpdate()}}>S</div>
-
     addTripListItem(index){
         return(
             <ListGroupItem id="searchListStyle" tag="button" title={this.state.trips[this.state.stateIndex].note} action
@@ -117,13 +108,9 @@ export default class SearchModule extends Component {
         else {this.setState({designerOpen: '',}) }
     }
 
-    toggleDropdown(){
-        this.setState({openDropdown: !this.state.openDropdown})
-    }
+    toggleDropdown(){ this.setState({openDropdown: !this.state.openDropdown}) }
 
-    addPlace(latLng){
-        this.state.trips[this.state.stateIndex].places.push(latLng)
-    }
+    addPlace(latLng){ this.state.trips[this.state.stateIndex].places.push(latLng) }
 
     onClickCall(element, tripIndex){
         this.props.setWhereIsMarker(this.state.trips[tripIndex].places[element]);
@@ -190,9 +177,7 @@ export default class SearchModule extends Component {
         );
     }
 
-    updatePopupInput(){
-                this.setState({popupInput: event.target.value})
-    }
+    updatePopupInput(){ this.setState({popupInput: event.target.value}) }
 
     renderPopover(){
         return( <div className="d-flex">
@@ -203,14 +188,12 @@ export default class SearchModule extends Component {
                 </Button>
                 <UncontrolledPopover trigger="focus" placement="bottom" target="UncontrolledPopover" offset="125">
                     <PopoverHeader>How To Use</PopoverHeader>
-                    <PopoverBody style={{maxWidth: 300}}>
-                        <p>
+                    <PopoverBody style={{maxWidth: 300}}><p>
                             Create a trip!<br/>
                             - Toggle the trip manager on/off to start recording places via mouse clicks, or input coordinates / locations in the search bar and add place<br/><br/>
                             - Manage places with add or remove buttons <br/><br/>
                             - Manage trips with add or remove buttons <br/><br/>
-                            - Filter results at the bottom
-                        </p>
+                            - Filter results at the bottom</p>
                     </PopoverBody>
                 </UncontrolledPopover></div>
         );
@@ -226,8 +209,7 @@ export default class SearchModule extends Component {
                     <Button style={{position: "absolute", left: 90}} color={this.toggleButtonColor()} size="sm" onClick={this.props.setTripRecord}>Record</Button>
                     <Button style={buttonList[0].style} size="sm" onClick={() => this.addATrip()}>{buttonList[0].label}</Button>
                     <Button style={buttonList[1].style} size="sm" onClick={() => {this.state.trips[this.state.stateIndex].resetPlaces(); this.forceUpdate()}}>{buttonList[1].label}</Button>
-                    {this.renderDropdown()}
-                </Row>
+                    {this.renderDropdown()}</Row>
                 {this.addASpace()}
                 {this.addPlaceOrDistance(placesAndTrips[1])}
                 {this.addASpace()}
@@ -291,9 +273,7 @@ export default class SearchModule extends Component {
         else { return "danger" }
     }
 
-    updateInputState(){
-        if (event.target.name === "searchPlaces"){this.setState({searchPlaces: event.target.value});}
-    }
+    updateInputState(){ if (event.target.name === "searchPlaces"){this.setState({searchPlaces: event.target.value});} }
 
     resetTripPlaces(){
         this.state.trips[this.state.stateIndex].resetPlaces()
