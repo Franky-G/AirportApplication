@@ -63,7 +63,7 @@ export default class TripObject {
 
     removePlace(index){
         let array = this.places.slice();
-        array = array.splice(index, 1);
+        array.splice(index, 1);
         this.places = array;
     }
 
