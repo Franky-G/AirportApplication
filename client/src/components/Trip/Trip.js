@@ -55,7 +55,7 @@ export default class SearchModule extends Component {
 
     addATrip(){
         let tripsArray = this.state.trips.slice();
-        tripsArray.push(new TripObject("", [], ""))
+        tripsArray.push(new TripObject("New Trip", [], ""))
         console.log(tripsArray)
         this.setState({trips: tripsArray})
     }
@@ -97,8 +97,19 @@ export default class SearchModule extends Component {
 
     addTripListItem(index){
         return(
-            <ListGroupItem id="searchListStyle" tag="button" title={this.state.trips[this.state.stateIndex].note} action onClick={(e) => {e.stopPropagation(); this.setState({stateIndex: index})}}>{this.state.trips[index].name}</ListGroupItem>
+            <ListGroupItem id="searchListStyle" tag="button" title={this.state.trips[this.state.stateIndex].note} action
+                           onClick={(e) => {e.stopPropagation(); this.setState({stateIndex: index})}}>
+                {this.state.trips[index].name}
+                <div className="vertical-center justify-content-center" style={{position: "absolute", right: 5, top: 5, width: 30, height: 30, backgroundColor: "#1E4D2B", color: "#FFFFFF", borderRadius: 8, border: "1px solid #000000"}}
+                     onClick={(e) => {e.stopPropagation(); this.spliceTrips(index); this.forceUpdate()}}>X</div>
+            </ListGroupItem>
         );
+    }
+
+    spliceTrips(index){
+        let array = this.state.trips;
+        array.splice(index, 1)
+        this.setState({trips: array})
     }
 
     closeTripUI() {
@@ -252,6 +263,9 @@ export default class SearchModule extends Component {
     }
 
     renderPlaceList(index, tripOrPlace, styleArray){
+        if(this.state.trips.length === 0) {
+            return;
+        }
         let searchListArray = []
         if(tripOrPlace === 0) {
             for (let i = 0; i < this.state.trips[index].places.length; ++i) {
@@ -259,7 +273,7 @@ export default class SearchModule extends Component {
             }
         } else {
             for (let i = 0; i < this.state.trips.length; ++i) {
-                searchListArray.push(this.addTripListItem(i));
+                searchListArray.push(this.addTripListItem(i, index));
             }
         }
         return(
