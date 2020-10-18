@@ -15,8 +15,7 @@ const listType = [{style: {position: "absolute", width: 300, height: 148, overfl
 export default class SearchModule extends Component {
     constructor(props) {
         super(props);
-        this.closeTripUI = this.closeTripUI.bind(this);
-        this.addATrip = this.addATrip.bind(this);
+        this.closeTripUI = this.closeTripUI.bind(this); this.addATrip = this.addATrip.bind(this);
         this.onClickCall = this.onClickCall.bind(this);
         this.state = {
             designerOpen: '',
@@ -240,9 +239,7 @@ export default class SearchModule extends Component {
     }
 
     renderPlaceList(index, tripOrPlace, styleArray){
-        if(this.state.trips.length === 0) {
-            return;
-        }
+        if(this.state.trips.length === 0) {return;}
         let searchListArray = []
         if(tripOrPlace === 0) {
             for (let i = 0; i < this.state.trips[index].places.length; ++i) {
@@ -274,5 +271,4 @@ export default class SearchModule extends Component {
         this.state.trips[this.state.stateIndex].resetPlaces()
         this.forceUpdate();
     }
-
 }
