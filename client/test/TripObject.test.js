@@ -144,3 +144,11 @@ function testReversePlacesAt(){
 }
 
 test("testReversePlacesAt", testReversePlacesAt)
+
+function testMovePlace() {
+    const object = new TripObject("test", [L.latLng(1, 2), L.latLng(3, 4), L.latLng(5,6), L.latLng(7, 8)], "test note")
+    object.movePlace("40,-105")
+    expect(object.places).toEqual([{"lat": 1, "lng": 2}, {"lat": 3, "lng": 4}, {"lat": 5, "lng": 6}, {"lat": 7, "lng": 8}])
+}
+
+test("Test Move Place", testMovePlace)
