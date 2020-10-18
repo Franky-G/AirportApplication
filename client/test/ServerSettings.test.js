@@ -5,6 +5,7 @@ import React from 'react'
 import Page from "../src/components/Page";
 import Footer from '../src/components/Margins/Footer'
 import ServerSettings from '../src/components/Margins/ServerSettings'
+import Atlas from "../src/components/Atlas/Atlas";
 
 const startProperties = {
     serverSettings: {'serverPort': 'black-bottle.cs.colostate.edu:31400', 'serverConfig': {}},
@@ -104,4 +105,3 @@ function mockConfigResponse() {
 }
 
 test('onClick event for Save Button should update server port in Page component', testUpdateServerPort);
-

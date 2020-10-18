@@ -122,3 +122,31 @@ function testServerRequest(){
 }
 
 test("Send find server Request", testServerRequest);
+
+function testWillUnmount() {
+    const mount = shallow(<Find/>)
+    mount.instance().componentWillUnmount()
+}
+
+test("Component Will Unmount", testWillUnmount)
+
+function testSearchList() {
+    const list = shallow(<Find/>)
+    list.instance().renderSearchList()
+}
+
+test("Rendering Search List", testSearchList)
+
+function testSetWrapper() {
+    const wrapper = shallow(<Find/>)
+    wrapper.instance().setWrapperRef()
+}
+
+test("Set Wrapper", testSetWrapper)
+
+function testRenderMain() {
+    const main = shallow(<Find/>)
+    main.instance().render()
+}
+
+test("Rendering render", testRenderMain)

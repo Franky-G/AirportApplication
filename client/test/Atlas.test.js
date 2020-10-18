@@ -42,3 +42,76 @@ function simulateOnClickEvent(reactWrapper, event) {
 }
 
 test("Testing Atlas's Initial State", testMarkerIsRenderedOnClick);
+
+
+function testTripClicked() {
+  const clicked = shallow(<Atlas/>)
+  expect(clicked.state().recordingTrip).toEqual(0)
+  clicked.instance().tripClicked()
+  expect(clicked.state().recordingTrip).toEqual(0)
+}
+
+test("Trip clicked", testTripClicked)
+
+function testTripRecord() {
+  const record = shallow(<Atlas/>)
+  record.instance().setTripRecord()
+}
+
+test("Trip Record", testTripRecord)
+
+function testDropDown() {
+  const down = shallow(<Atlas/>)
+  down.instance().setDropdown()
+}
+
+test("Set Drop Down", testDropDown)
+
+function testTripButton() {
+  const button = shallow(<Atlas/>)
+  button.instance().renderTripButton()
+}
+
+test("Render Trip Button", testTripButton)
+
+function testHomeButton() {
+  const home = shallow(<Atlas/>)
+  home.instance().renderHomeButton()
+}
+
+test("Render Home Button", testHomeButton)
+
+function testSetState() {
+  const state = shallow(<Atlas/>)
+  state.instance().homeButtonSetStateVars()
+}
+
+test("Home Button Set State", testSetState)
+
+function testMapZoom() {
+  const zoom = shallow(<Atlas/>)
+  zoom.instance().getMapZoom()
+}
+
+test("Get Map Zoom", testMapZoom)
+
+function testPrevArray() {
+  const prev = shallow(<Atlas/>)
+  prev.instance().checkPrevArray()
+}
+
+test("Checking Previous Array", testPrevArray)
+
+function testRenderLeafletMap() {
+  const map = shallow(<Atlas/>)
+  map.instance().renderLeafletMap()
+}
+
+test("Testing Render Leaflet Map", testRenderLeafletMap)
+
+function testSearchBar() {
+  const search = shallow(<Atlas/>)
+  search.instance().setSearchBarCoords()
+}
+
+test("search Bar Coords", testSearchBar)
