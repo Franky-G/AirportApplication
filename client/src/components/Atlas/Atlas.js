@@ -126,6 +126,7 @@ export default class Atlas extends Component {
 
   homeButtonSetStateVars() {
     if(this.state.hasUserLocation) {
+      this.tripREF.addPlace(L.latLng(this.state.homeLocation[0], this.state.homeLocation[1]), this.tripREF.returnPlacesSize());
       this.setState({markerPosition: null, prevLocation: [null,null], mapCenter: this.state.homeLocation, whereIsMarker: null});
     }
     else{
