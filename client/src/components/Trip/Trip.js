@@ -21,7 +21,7 @@ export default class SearchModule extends Component {
             designerOpen: '',
             searchPlaces: "",
             filter: "",
-            trips: [new TripObject("test", [L.latLng(40,-105), L.latLng(41,-105)], "test note")],
+            trips: [new TripObject("test", [[L.latLng(40,-105), 0, "ferrari"], [L.latLng(41,-105), 1, "Batman"]], "test note")],
             distance: 0,
             distanceArr: null,
             stateIndex: 0,
@@ -72,8 +72,8 @@ export default class SearchModule extends Component {
     addPlaceListItem(element, tripIndex){
         return(
             <div>
-                <ListGroupItem id="searchListStyle" tag="button" title={this.state.trips[this.state.stateIndex].note} action onClick={(e) => {e.stopPropagation(); this.onClickCall(element, tripIndex)}}>
-                    {this.state.trips[tripIndex].name} {element} | {this.state.trips[tripIndex].places[element].lat.toFixed(3)}{this.state.trips[tripIndex].places[element].lng.toFixed(3)}
+                <ListGroupItem id="searchListStyle" tag="button" title={this.state.trips[this.state.stateIndex].places[element][2]} action onClick={(e) => {e.stopPropagation(); this.onClickCall(element, tripIndex)}}>
+                    {this.state.trips[tripIndex].name} {this.state.trips[tripIndex].places[element][1] + 1} | {this.state.trips[tripIndex].places[element][0].lat.toFixed(3)}{this.state.trips[tripIndex].places[element][0].lng.toFixed(3)}
                     <div className="vertical-center justify-content-center" style={{position: "absolute", right: 5, top: 1, width: 19, height: 19, backgroundColor: "#1E4D2B", color: "#FFFFFF", borderRadius: 5, border: "1px solid #000000"}}
                          onClick={(e) => {e.stopPropagation(); this.state.trips[tripIndex].positionUp(element); this.forceUpdate()}}> ^ </div>
                     <div className="vertical-center justify-content-center" style={{position: "absolute", right: 5, top: 22, width: 19, height: 19, backgroundColor: "#1E4D2B", color: "#FFFFFF", borderRadius: 5, border: "1px solid #000000"}}
@@ -99,7 +99,11 @@ export default class SearchModule extends Component {
     spliceTrips(index){
         let array = this.state.trips;
         array.splice(index, 1)
-        this.setState({trips: array})
+        if(this.state.stateIndex - 1 < 0)
+            this.setState({trips: array})
+        else {
+            this.setState({trips:array, stateIndex: this.state.stateIndex - 1})
+        }
     }
 
     closeTripUI() {
@@ -109,10 +113,15 @@ export default class SearchModule extends Component {
 
     toggleDropdown(){ this.setState({openDropdown: !this.state.openDropdown}) }
 
-    addPlace(latLng){ this.state.trips[this.state.stateIndex].places.push(latLng) }
+    addPlace(latLng, index){ this.state.trips[this.state.stateIndex].places.push([latLng, index, ("Latitude: " + latLng.lat.toFixed(4) + " | Longitude: " + latLng.lng.toFixed(4))]) }
+
+    returnPlacesSize(){
+        return this.state.trips[this.state.stateIndex].places.length
+    }
 
     onClickCall(element, tripIndex){
-        this.props.setWhereIsMarker(this.state.trips[tripIndex].places[element]);
+        console.log(this.state.trips[tripIndex].places[element])
+        this.props.setWhereIsMarker(this.state.trips[tripIndex].places[element][0]);
         this.setState({index: tripIndex})
     }
 
@@ -134,8 +143,8 @@ export default class SearchModule extends Component {
         let jsonStr = '{"places":[]}';let obj = JSON.parse(jsonStr);
         if (this.state.trips[this.state.stateIndex].places.length === 0) { this.setState({distance: 0}); return; }
         for(let i = 0; i < this.state.trips[this.state.stateIndex].places.length; i++) {
-            let lat = this.state.trips[this.state.stateIndex].places[i].lat.toString();
-            let long = this.state.trips[this.state.stateIndex].places[i].lng.toString();
+            let lat = this.state.trips[this.state.stateIndex].places[i][0].lat.toString();
+            let long = this.state.trips[this.state.stateIndex].places[i][0].lng.toString();
             obj['places'].push({"name":"Trips","latitude":lat,"longitude":long});
         }
         let test = JSON.stringify(obj);
@@ -158,14 +167,15 @@ export default class SearchModule extends Component {
         return(
             <ButtonDropdown direction="up" isOpen={this.state.openDropdown} style={{position: "relative", left: 27, zIndex: 1100,}} size="sm" toggle={() => this.setState({openDropdown: !this.state.openDropdown})}>
                 <DropdownToggle caret color="primary">Modify</DropdownToggle>
-                <DropdownMenu style={{position: "absolute", top: -250, width: 280}}>
+                <DropdownMenu style={{position: "absolute", top: -250, left: -5, width: 285, fontSize: 14}}>
                     <Input name="popupInput" placeholder="Enter format and select action" style={{position: "relative", left: 25}}  onChange={() => this.updatePopupInput()}/>
-                    <DropdownItem onClick={() => this.state.trips[this.state.stateIndex].movePlace(this.state.popupInput)}>Modify &lt;from,to&gt;</DropdownItem>
-                    <DropdownItem onClick={() => this.state.trips[this.state.stateIndex].reversePlaces()}>Reverse Trip</DropdownItem>
-                    <DropdownItem onClick={() => this.state.trips[this.state.stateIndex].reversePlacesAt(Number(this.state.popupInput))}>Reverse Trip At -  &lt;number&gt;</DropdownItem>
-                    <DropdownItem onClick={() => this.state.trips[this.state.stateIndex].modifyStart(Number(this.state.popupInput))}>Set Start Location At - &lt;number&gt;</DropdownItem>
-                    <DropdownItem onClick={() => this.state.trips[this.state.stateIndex].setNote(this.state.popupInput)}>Create A Note - &lt;string&gt; </DropdownItem>
-                    <DropdownItem onClick={() => this.state.trips[this.state.stateIndex].setName(this.state.popupInput)}>Name Trip - &lt;string&gt;</DropdownItem>
+                    <DropdownItem style={{position: "relative", left: -15}} onClick={() => this.state.trips[this.state.stateIndex].movePlace(this.state.popupInput)}>Set Destination Position &lt;number,number&gt;</DropdownItem>
+                    <DropdownItem style={{position: "relative", left: -15}} onClick={() => this.state.trips[this.state.stateIndex].reversePlacesAt(Number(this.state.popupInput))}>Reverse Trip At -  &lt;number&gt;</DropdownItem>
+                    <DropdownItem style={{position: "relative", left: -15}} onClick={() => this.state.trips[this.state.stateIndex].modifyStart(Number(this.state.popupInput))}>Set Start Location At - &lt;number&gt;</DropdownItem>
+                    <DropdownItem style={{position: "relative", left: -15}} onClick={() => this.state.trips[this.state.stateIndex].reversePlaces()}>Reverse Trip</DropdownItem>
+                    <DropdownItem style={{position: "relative", left: -15}} onClick={() => this.state.trips[this.state.stateIndex].setPlaceNote(this.state.popupInput)}>Destination Note - &lt;string,number&gt; </DropdownItem>
+                    <DropdownItem style={{position: "relative", left: -15}} onClick={() => this.state.trips[this.state.stateIndex].setNote(this.state.popupInput)}>Make A Note For Trip - &lt;string&gt; </DropdownItem>
+                    <DropdownItem style={{position: "relative", left: -15}} onClick={() => this.state.trips[this.state.stateIndex].setName(this.state.popupInput)}>Name Trip - &lt;string&gt;</DropdownItem>
                 </DropdownMenu>
             </ButtonDropdown>
         );
@@ -185,9 +195,10 @@ export default class SearchModule extends Component {
                     <PopoverBody style={{maxWidth: 300}}><p>
                             Create a trip!<br/>
                             - Toggle the trip manager on/off to start recording places via mouse clicks, or input coordinates / locations in the search bar and add place<br/><br/>
-                            - Manage places with add or remove buttons <br/><br/>
-                            - Manage trips with add or remove buttons <br/><br/>
-                            - Filter results at the bottom</p>
+                            - Re-sort or remove a place <br/>
+                            - Modify the trip under 'Modify' button <br/>
+                            Add input with no spaces at the top and select an action<br/>
+                            - Add different trips</p>
                     </PopoverBody>
                 </UncontrolledPopover></div>
         );
