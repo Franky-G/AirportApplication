@@ -36,6 +36,7 @@ export default class Atlas extends Component {
     this.setWhereIsMarker = this.setWhereIsMarker.bind(this);
     this.setTripRecord = this.setTripRecord.bind(this);
     this.tripClicked = this.tripClicked.bind(this);
+    this.setTripPlaces = this.setTripPlaces.bind(this);
 
     this.state = {
       markerPosition: null,
@@ -50,6 +51,7 @@ export default class Atlas extends Component {
       dropdownOpen: false,
       recordingTrip: 0,
       tripStyle: "",
+      atlasTripPlaces: [],
     };
   }
 
@@ -64,7 +66,7 @@ export default class Atlas extends Component {
                     setPrevLocationState={this.setPrevLocationState} ref={(ref) => this.searchREF=ref}
                     setSearchTextIsEmpty={this.setSearchTextIsEmpty} setWhereIsMarker={this.setWhereIsMarker}/>
                 <Trip {...this.state} ref={(ref) => this.tripREF=ref} setWhereIsMarker={this.setWhereIsMarker}
-                      setTripRecord={this.setTripRecord} tripClicked={this.tripClicked}/>
+                      setTripRecord={this.setTripRecord} tripClicked={this.tripClicked} setTripPlaces={this.setTripPlaces}/>
                 {this.renderLeafletMap() }
               </Col>
             </Row>
@@ -106,6 +108,10 @@ export default class Atlas extends Component {
           </div>
       );
     }
+  }
+
+  setTripPlaces(array){
+    this.setState({atlasTripPlaces: array})
   }
 
   geoPosition(){

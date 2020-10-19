@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Marker, Polyline, Popup} from "react-leaflet";
+import {Marker, Polyline} from "react-leaflet";
 import homeMarker from "../../static/images/youAreHereMarker.png";
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
@@ -64,21 +64,25 @@ export default class WorldMarkers extends Component {
     }
 
     makePolyline(){
-        const initMarker = ref => {
-            if (ref) {
-                ref.leafletElement.openPopup()
-            }
+        let array = [];
+        for(let i = 0; i < this.props.atlasTripPlaces.length; ++i){
+            array.push(this.props.atlasTripPlaces[i][0])
         }
-        if(this.props.prevLocation[1] !== null && this.props.prevLocation[0] !== null) {
+        if(array[0] !== null) {
             return (
                 <div>
-                    <Polyline ref={initMarker} color="green" positions={this.props.prevLocation} >
-                        <Popup autoPan={false} className="popupStyle">
-                            Distance: {this.props.polyDistance} M
-                        </Popup>
-                    </Polyline>
+                    <Polyline color="green" positions={array}/>
                 </div>
             );
         }
     }
 }
+
+/**
+ * const initMarker = ref => {if (ref) {ref.leafletElement.openPopup()}}
+ <Polyline ref={initMarker} color="green" positions={this.props.prevLocation} >
+ <Popup autoPan={false} className="popupStyle">
+ Distance: {this.props.polyDistance} M
+ </Popup>
+ </Polyline>
+ **/

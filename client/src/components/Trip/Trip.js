@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Row, InputGroup, PopoverHeader, PopoverBody, UncontrolledPopover, Button, ListGroupItem, ListGroup, ButtonDropdown, DropdownMenu, DropdownToggle, DropdownItem} from "reactstrap";
+import {Row, InputGroup, PopoverHeader, PopoverBody, Popover, Button, ListGroupItem, ListGroup, ButtonDropdown, DropdownMenu, DropdownToggle, DropdownItem} from "reactstrap";
 import Input from "@material-ui/core/Input";
 import {sendServerRequest} from "../../utils/restfulAPI";
 import FileIO from "../Atlas/FileIO"
@@ -26,6 +26,7 @@ export default class SearchModule extends Component {
             distanceArr: null,
             stateIndex: 0,
             openDropdown: false,
+            openPopover: false,
             popupInput: "", }
     }
 
@@ -35,6 +36,12 @@ export default class SearchModule extends Component {
                 <FileIO {...this.state} ref={(ref) => this.FileIOREF=ref}/>
                 {this.renderTripUI()}
             </div> );
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(prevProps.atlasTripPlaces !== this.state.trips[this.state.stateIndex].places){
+            this.props.setTripPlaces(this.state.trips[this.state.stateIndex].places)
+        }
     }
 
     addLoadSaveDistanceButtons(array){
@@ -182,13 +189,15 @@ export default class SearchModule extends Component {
     updatePopupInput(){ this.setState({popupInput: event.target.value}) }
 
     renderPopover(){
-        return( <div className="d-flex">
-                <Button id="UncontrolledPopover"
+        return( <div id="Popover" className="d-flex">
+                <Button
                         style={{position: "absolute", margin: 0, padding: 0, color: "#1E4D2B", backgroundColor: "#C8C372",
-                            width: 30, height: 30, borderRadius: 30, left:10, top: 15, border: "2px ridge #1E4D2B", zIndex: 1001}}>
+                            width: 30, height: 30, borderRadius: 30, left:10, top: 15, border: "2px ridge #1E4D2B", zIndex: 1001}}
+                        onClick={() => this.setState({openPopover: !this.state.openPopover})}
+                        onBlur={() => this.setState({openPopover: !this.state.openPopover})}>
                     ?
                 </Button>
-                <UncontrolledPopover trigger="focus" placement="bottom" target="UncontrolledPopover" offset="125">
+                <Popover isOpen={this.state.openPopover} placement="bottom" target="Popover" offset="125">
                     <PopoverHeader>How To Use</PopoverHeader>
                     <PopoverBody style={{maxWidth: 300}}><p>
                             Create a trip!<br/>
@@ -198,7 +207,7 @@ export default class SearchModule extends Component {
                             Add input(s) separated by ',' at the top and select an action<br/>
                             - Add different trips</p>
                     </PopoverBody>
-                </UncontrolledPopover></div>
+                </Popover></div>
         );
     }
 
