@@ -167,10 +167,10 @@ export default class SearchModule extends Component {
                 <DropdownToggle caret color="primary">Modify</DropdownToggle>
                 <DropdownMenu style={{position: "absolute", top: -250, left: -5, width: 285, fontSize: 14}}>
                     <Input name="popupInput" placeholder="Enter format and select action" style={{margins: 2, position: "relative", left: 25, background: "linear-gradient(#cccccc, #FFFFFF)", color: "#000000", borderRadius: 5}}  onChange={() => this.updatePopupInput()}/>
-                    <DropdownItem style={{position: "relative", left: -15}} onClick={() => this.state.trips[this.state.stateIndex].movePlace(this.state.popupInput)}>Set Destination Position: 'number, number'</DropdownItem>
-                    <DropdownItem style={{position: "relative", left: -15}} onClick={() => this.state.trips[this.state.stateIndex].reversePlacesAt(Number(this.state.popupInput))}>Reverse Trip At: 'number'</DropdownItem>
-                    <DropdownItem style={{position: "relative", left: -15}} onClick={() => this.state.trips[this.state.stateIndex].modifyStart(Number(this.state.popupInput))}>Set Start Location At: '2'</DropdownItem>
                     <DropdownItem style={{position: "relative", left: -15}} onClick={() => this.state.trips[this.state.stateIndex].reversePlaces()}>Reverse Trip</DropdownItem>
+                    <DropdownItem style={{position: "relative", left: -15}} onClick={() => this.state.trips[this.state.stateIndex].reversePlacesAt(Number(this.state.popupInput))}>Reverse Trip At: '3'</DropdownItem>
+                    <DropdownItem style={{position: "relative", left: -15}} onClick={() => this.state.trips[this.state.stateIndex].modifyStart(Number(this.state.popupInput))}>Set Start Location At: '2'</DropdownItem>
+                    <DropdownItem style={{position: "relative", left: -15}} onClick={() => this.state.trips[this.state.stateIndex].movePlace(this.state.popupInput)}>Set Destination Position: '1, 2'</DropdownItem>
                     <DropdownItem style={{position: "relative", left: -15}} onClick={() => this.state.trips[this.state.stateIndex].setPlaceNote(this.state.popupInput)}>Destination Note: 'Bring camera, 3'</DropdownItem>
                     <DropdownItem style={{position: "relative", left: -15}} onClick={() => this.state.trips[this.state.stateIndex].setNote(this.state.popupInput)}>Make A Note For Trip: Hover for note</DropdownItem>
                     <DropdownItem style={{position: "relative", left: -15}} onClick={() => this.state.trips[this.state.stateIndex].setName(this.state.popupInput)}>Name Trip: A meaningful name</DropdownItem>
