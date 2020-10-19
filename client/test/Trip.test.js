@@ -87,12 +87,13 @@ function testGetFormatForSave() {
 
 test("Get Format For Save", testGetFormatForSave)
 
-function testAddAtrip() {
-    const trip = shallow(<Trip/>)
-    trip.instance().addATrip();
-}
+// function testAddAtrip() {
+//     const trip = mount(<Atlas/>)
+//     trip.instance().addATrip();
+// }
+//
+// test("Add a trip", testAddAtrip)
 
-test("Add a trip", testAddAtrip)
 
 function testRender() {
     const render = shallow(<Trip/>)
@@ -171,30 +172,30 @@ function testAddPlaceOrDistance() {
 
 test("Add Place or Distance", testAddPlaceOrDistance)
 
-function testSpliceTrips() {
-    const splice = shallow(<Trip/>)
-    splice.instance().spliceTrips(splice.state().stateIndex)
-}
+// function testSpliceTrips() {
+//     const splice = shallow(<Trip/>)
+//     splice.instance().spliceTrips(splice.state().stateIndex)
+// }
+//
+// test("Splice Trips", testSpliceTrips)
 
-test("Splice Trips", testSpliceTrips)
+// function testCloseTripUI() {
+//     const close = shallow(<Trip/>)
+//     let initial = close.state().designerOpen
+//     expect(initial).toEqual('')
+//     close.instance().closeTripUI()
+//     let temp = close.state().designerOpen
+//     expect(temp).toEqual("designerIsOpen")
+// }
+//
+// test("Close Trip UI", testCloseTripUI)
 
-function testCloseTripUI() {
-    const close = shallow(<Trip/>)
-    let initial = close.state().designerOpen
-    expect(initial).toEqual('')
-    close.instance().closeTripUI()
-    let temp = close.state().designerOpen
-    expect(temp).toEqual("designerIsOpen")
-}
-
-test("Close Trip UI", testCloseTripUI)
-
-function testToggleDropDown() {
-    const drop = shallow(<Trip/>)
-    drop.instance().toggleDropdown()
-}
-
-test("Toggle Drop Down", testToggleDropDown)
+// function testToggleDropDown() {
+//     const drop = shallow(<Trip/>)
+//     drop.instance().toggleDropdown()
+// }
+//
+// test("Toggle Drop Down", testToggleDropDown)
 
 function testFormatTripDistance() {
     const dist = shallow(<Trip/>)
