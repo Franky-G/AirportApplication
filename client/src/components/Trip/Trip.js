@@ -99,7 +99,11 @@ export default class SearchModule extends Component {
     spliceTrips(index){
         let array = this.state.trips;
         array.splice(index, 1)
-        this.setState({trips: array})
+        if(this.state.stateIndex - 1 < 0)
+            this.setState({trips: array})
+        else {
+            this.setState({trips:array, stateIndex: this.state.stateIndex - 1})
+        }
     }
 
     closeTripUI() {
