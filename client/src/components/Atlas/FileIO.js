@@ -25,17 +25,21 @@ export default class FileIO extends Component {
         }, 0);
     }
 
+    loadHelper(filename) {
+        console.log("Test Placeholder")
+    }
+
     openLoadModal() {
+        let fileName = "exampleFile"
         return (
             <Modal isOpen={this.state.isOpen} toggle={this.openModal}>
                 <ModalHeader toggle={this.openModal}>Load a Trip</ModalHeader>
                 <ModalBody>
                     <Form>
                         <FormGroup>
-                            <Label for="exampleFile">Load</Label>
-                            <Input type="file" name="file" id="exampleFile"/>
+                            <Label for={fileName}>Load</Label>
+                            <Input onChange = {() => {this.loadHelper(fileName); this.setState({isOpen: false})}} type="file" name="file" id={fileName}/>
                         </FormGroup>
-                        {/*<Button>Submit</Button>*/}
                     </Form>
                 </ModalBody>
             </Modal>
