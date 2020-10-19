@@ -134,7 +134,6 @@ export default class SearchModule extends Component {
             obj['places'].push({"name":this.state.trips[this.state.stateIndex].places[i][2],"latitude":lat,"longitude":long});
         }
         let distancePlaces = JSON.stringify(obj);
-        console.log(distancePlaces)
         distancePlaces = distancePlaces.slice(10,distancePlaces.length-1);
         distancePlaces = JSON.parse(distancePlaces)
         this.calculateTripDistance(distancePlaces);
