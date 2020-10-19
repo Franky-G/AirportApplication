@@ -36,6 +36,7 @@ export default class Atlas extends Component {
     this.setWhereIsMarker = this.setWhereIsMarker.bind(this);
     this.setTripRecord = this.setTripRecord.bind(this);
     this.tripClicked = this.tripClicked.bind(this);
+    this.setTripPlaces = this.setTripPlaces.bind(this);
 
     this.state = {
       markerPosition: null,
@@ -50,6 +51,7 @@ export default class Atlas extends Component {
       dropdownOpen: false,
       recordingTrip: 0,
       tripStyle: "",
+      atlasTripPlaces: [],
     };
   }
 
@@ -64,7 +66,7 @@ export default class Atlas extends Component {
                     setPrevLocationState={this.setPrevLocationState} ref={(ref) => this.searchREF=ref}
                     setSearchTextIsEmpty={this.setSearchTextIsEmpty} setWhereIsMarker={this.setWhereIsMarker}/>
                 <Trip {...this.state} ref={(ref) => this.tripREF=ref} setWhereIsMarker={this.setWhereIsMarker}
-                      setTripRecord={this.setTripRecord} tripClicked={this.tripClicked}/>
+                      setTripRecord={this.setTripRecord} tripClicked={this.tripClicked} setTripPlaces={this.setTripPlaces}/>
                 {this.renderLeafletMap() }
               </Col>
             </Row>
@@ -108,6 +110,10 @@ export default class Atlas extends Component {
     }
   }
 
+  setTripPlaces(array){
+    this.setState({atlasTripPlaces: array})
+  }
+
   geoPosition(){
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
@@ -126,9 +132,15 @@ export default class Atlas extends Component {
 
   homeButtonSetStateVars() {
     if(this.state.hasUserLocation) {
+      if(this.state.tripRecord) {
+        this.tripREF.addPlace(L.latLng(this.state.homeLocation[0], this.state.homeLocation[1]), this.tripREF.returnPlacesSize());
+      }
       this.setState({markerPosition: null, prevLocation: [null,null], mapCenter: this.state.homeLocation, whereIsMarker: null});
     }
     else{
+      if(this.state.tripRecord) {
+        this.tripREF.addPlace(L.latLng(this.state.homeLocation[0], this.state.homeLocation[1]), this.tripREF.returnPlacesSize());
+      }
       this.setState( {markerPosition: null, prevLocation: [null,null], mapCenter: MAP_CENTER_DEFAULT, whereIsMarker: null});
     }
   }
@@ -181,6 +193,7 @@ export default class Atlas extends Component {
     }
     if(this.state.tripRecord === true){
       this.tripREF.addPlace(mapClickInfo.latlng, this.tripREF.returnPlacesSize());
+      this.forceUpdate()
     }
     return(
         this.checkPrevArray()

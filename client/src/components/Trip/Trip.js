@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Row, InputGroup, PopoverHeader, PopoverBody, UncontrolledPopover, Button, ListGroupItem, ListGroup, ButtonDropdown, DropdownMenu, DropdownToggle, DropdownItem} from "reactstrap";
+import {Row, InputGroup, PopoverHeader, PopoverBody, Popover, Button, ListGroupItem, ListGroup, ButtonDropdown, DropdownMenu, DropdownToggle, DropdownItem} from "reactstrap";
 import Input from "@material-ui/core/Input";
 import {sendServerRequest} from "../../utils/restfulAPI";
 import FileIO from "../Atlas/FileIO"
@@ -26,6 +26,7 @@ export default class SearchModule extends Component {
             distanceArr: null,
             stateIndex: 0,
             openDropdown: false,
+            openPopover: false,
             popupInput: "", }
     }
 
@@ -35,6 +36,12 @@ export default class SearchModule extends Component {
                 <FileIO {...this.state} ref={(ref) => this.FileIOREF=ref}/>
                 {this.renderTripUI()}
             </div> );
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if(prevState.trips.length !== 0 && prevProps.atlasTripPlaces !== this.state.trips[this.state.stateIndex].places ){
+            this.props.setTripPlaces(this.state.trips[this.state.stateIndex].places)
+        }
     }
 
     addLoadSaveDistanceButtons(array){
@@ -49,7 +56,6 @@ export default class SearchModule extends Component {
     addATrip(){
         let tripsArray = this.state.trips.slice();
         tripsArray.push(new TripObject("New Trip", [], ""))
-        console.log(tripsArray)
         this.setState({trips: tripsArray})
     }
 
@@ -116,11 +122,13 @@ export default class SearchModule extends Component {
     addPlace(latLng, index){ this.state.trips[this.state.stateIndex].places.push([latLng, index, ("Latitude: " + latLng.lat.toFixed(4) + " | Longitude: " + latLng.lng.toFixed(4))]) }
 
     returnPlacesSize(){
+        if(this.state.trips.length === 0){
+            return 0;
+        }
         return this.state.trips[this.state.stateIndex].places.length
     }
 
     onClickCall(element, tripIndex){
-        console.log(this.state.trips[tripIndex].places[element])
         this.props.setWhereIsMarker(this.state.trips[tripIndex].places[element][0]);
         this.setState({index: tripIndex})
     }
@@ -170,14 +178,14 @@ export default class SearchModule extends Component {
             <ButtonDropdown direction="up" isOpen={this.state.openDropdown} style={{position: "relative", left: 27, zIndex: 1100,}} size="sm" toggle={() => this.setState({openDropdown: !this.state.openDropdown})}>
                 <DropdownToggle caret color="primary">Modify</DropdownToggle>
                 <DropdownMenu style={{position: "absolute", top: -250, left: -5, width: 285, fontSize: 14}}>
-                    <Input name="popupInput" placeholder="Enter format and select action" style={{position: "relative", left: 25}}  onChange={() => this.updatePopupInput()}/>
-                    <DropdownItem style={{position: "relative", left: -15}} onClick={() => this.state.trips[this.state.stateIndex].movePlace(this.state.popupInput)}>Set Destination Position &lt;number,number&gt;</DropdownItem>
-                    <DropdownItem style={{position: "relative", left: -15}} onClick={() => this.state.trips[this.state.stateIndex].reversePlacesAt(Number(this.state.popupInput))}>Reverse Trip At -  &lt;number&gt;</DropdownItem>
-                    <DropdownItem style={{position: "relative", left: -15}} onClick={() => this.state.trips[this.state.stateIndex].modifyStart(Number(this.state.popupInput))}>Set Start Location At - &lt;number&gt;</DropdownItem>
+                    <Input name="popupInput" placeholder="Enter format and select action" style={{margins: 2, position: "relative", left: 25, background: "linear-gradient(#cccccc, #FFFFFF)", color: "#000000", borderRadius: 5}}  onChange={() => this.updatePopupInput()}/>
                     <DropdownItem style={{position: "relative", left: -15}} onClick={() => this.state.trips[this.state.stateIndex].reversePlaces()}>Reverse Trip</DropdownItem>
-                    <DropdownItem style={{position: "relative", left: -15}} onClick={() => this.state.trips[this.state.stateIndex].setPlaceNote(this.state.popupInput)}>Destination Note - &lt;string,number&gt; </DropdownItem>
-                    <DropdownItem style={{position: "relative", left: -15}} onClick={() => this.state.trips[this.state.stateIndex].setNote(this.state.popupInput)}>Make A Note For Trip - &lt;string&gt; </DropdownItem>
-                    <DropdownItem style={{position: "relative", left: -15}} onClick={() => this.state.trips[this.state.stateIndex].setName(this.state.popupInput)}>Name Trip - &lt;string&gt;</DropdownItem>
+                    <DropdownItem style={{position: "relative", left: -15}} onClick={() => this.state.trips[this.state.stateIndex].reversePlacesAt(Number(this.state.popupInput))}>Reverse Trip At: '3'</DropdownItem>
+                    <DropdownItem style={{position: "relative", left: -15}} onClick={() => this.state.trips[this.state.stateIndex].modifyStart(Number(this.state.popupInput))}>Set Start Location At: '2'</DropdownItem>
+                    <DropdownItem style={{position: "relative", left: -15}} onClick={() => this.state.trips[this.state.stateIndex].movePlace(this.state.popupInput)}>Set Destination Position: '1, 2'</DropdownItem>
+                    <DropdownItem style={{position: "relative", left: -15}} onClick={() => this.state.trips[this.state.stateIndex].setPlaceNote(this.state.popupInput)}>Destination Note: 'Bring camera, 3'</DropdownItem>
+                    <DropdownItem style={{position: "relative", left: -15}} onClick={() => this.state.trips[this.state.stateIndex].setNote(this.state.popupInput)}>Make A Note For Trip: Hover for note</DropdownItem>
+                    <DropdownItem style={{position: "relative", left: -15}} onClick={() => this.state.trips[this.state.stateIndex].setName(this.state.popupInput)}>Name Trip: A meaningful name</DropdownItem>
                 </DropdownMenu>
             </ButtonDropdown>
         );
@@ -187,22 +195,24 @@ export default class SearchModule extends Component {
 
     renderPopover(){
         return( <div className="d-flex">
-                <Button id="UncontrolledPopover"
+                <Button id="Popover"
                         style={{position: "absolute", margin: 0, padding: 0, color: "#1E4D2B", backgroundColor: "#C8C372",
-                            width: 30, height: 30, borderRadius: 30, left:10, top: 15, border: "2px ridge #1E4D2B", zIndex: 1001}}>
+                            width: 30, height: 30, borderRadius: 30, left:10, top: 15, border: "2px ridge #1E4D2B", zIndex: 1001}}
+                        onClick={(e) => {e.stopPropagation(); this.setState({openPopover: !this.state.openPopover})}}
+                        onBlur={() => this.blurState()}>
                     ?
                 </Button>
-                <UncontrolledPopover trigger="focus" placement="bottom" target="UncontrolledPopover" offset="125">
+                <Popover isOpen={this.state.openPopover} placement="bottom" target="Popover" offset="125">
                     <PopoverHeader>How To Use</PopoverHeader>
                     <PopoverBody style={{maxWidth: 300}}><p>
                             Create a trip!<br/>
                             - Toggle the trip manager on/off to start recording places via mouse clicks, or input coordinates / locations in the search bar and add place<br/><br/>
                             - Re-sort or remove a place <br/>
                             - Modify the trip under 'Modify' button <br/>
-                            Add input with no spaces at the top and select an action<br/>
+                            Add input(s) separated by ',' at the top and select an action<br/>
                             - Add different trips</p>
                     </PopoverBody>
-                </UncontrolledPopover></div>
+                </Popover></div>
         );
     }
 
@@ -283,5 +293,13 @@ export default class SearchModule extends Component {
     resetTripPlaces(){
         this.state.trips[this.state.stateIndex].resetPlaces()
         this.forceUpdate();
+    }
+
+    blurState(){
+        if(this.state.openPopover === false){
+            return;
+        } else {
+            this.setState({openPopover: !this.state.openPopover})
+        }
     }
 }
