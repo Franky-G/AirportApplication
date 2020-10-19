@@ -180,7 +180,7 @@ export default class Atlas extends Component {
       this.setState({prevLocation: slicedArray, markerPosition: mapClickInfo.latlng, mapCenter: mapClickInfo.latlng})
     }
     if(this.state.tripRecord === true){
-      this.tripREF.addPlace(mapClickInfo.latlng);
+      this.tripREF.addPlace(mapClickInfo.latlng, this.tripREF.returnPlacesSize());
     }
     return(
         this.checkPrevArray()

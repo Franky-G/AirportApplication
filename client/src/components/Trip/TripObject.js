@@ -9,8 +9,8 @@ export default class TripObject {
         this.positionDown = this.positionDown.bind(this);
     }
 
-    addPlace(latLng){
-        this.places.push(latLng);
+    addPlace(latLng, index, note){
+        this.places.push([latLng, index, note]);
     }
 
     setName(newName){
@@ -23,6 +23,13 @@ export default class TripObject {
 
     setNote(string){
         this.note = string;
+    }
+
+    setPlaceNote(string){
+        let regex = /,\s+/
+        let splitArray = string.split(regex)
+        if(splitArray[1] < this.places.length)
+        this.places[splitArray[1]][2] = splitArray[0];
     }
 
     positionUp(index){
