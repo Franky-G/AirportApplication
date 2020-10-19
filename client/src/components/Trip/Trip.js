@@ -125,6 +125,20 @@ export default class SearchModule extends Component {
         this.setState({index: tripIndex})
     }
 
+    formatTripDistance() {
+        let jsonStr = '{"places":[]}';let obj = JSON.parse(jsonStr);
+        if (this.state.trips[this.state.stateIndex].places.length === 0) { this.setState({distance: 0}); return; }
+        for(let i = 0; i < this.state.trips[this.state.stateIndex].places.length; i++) {
+            let lat = this.state.trips[this.state.stateIndex].places[i][0].lat.toString();
+            let long = this.state.trips[this.state.stateIndex].places[i][0].lng.toString();
+            obj['places'].push({"name":this.state.trips[this.state.stateIndex].places[i][2],"latitude":lat,"longitude":long});
+        }
+        let distancePlaces = JSON.stringify(obj);
+        distancePlaces = distancePlaces.slice(10,distancePlaces.length-1);
+        distancePlaces = JSON.parse(distancePlaces)
+        this.calculateTripDistance(distancePlaces);
+    }
+
     calculateTripDistance(latLngString){
         sendServerRequest({
             requestType: "trip",
@@ -137,20 +151,6 @@ export default class SearchModule extends Component {
             for(let i = 0; i < distances.length; i++){ totalDistance += distances[i]; }
             this.setState({distance: totalDistance, distanceArr: distance.data.distances})
         });
-    }
-
-    formatTripDistance() {
-        let jsonStr = '{"places":[]}';let obj = JSON.parse(jsonStr);
-        if (this.state.trips[this.state.stateIndex].places.length === 0) { this.setState({distance: 0}); return; }
-        for(let i = 0; i < this.state.trips[this.state.stateIndex].places.length; i++) {
-            let lat = this.state.trips[this.state.stateIndex].places[i][0].lat.toString();
-            let long = this.state.trips[this.state.stateIndex].places[i][0].lng.toString();
-            obj['places'].push({"name":"Trips","latitude":lat,"longitude":long});
-        }
-        let test = JSON.stringify(obj);
-        test = test.slice(10,test.length-1);
-        test = JSON.parse(test)
-        this.calculateTripDistance(test);
     }
 
     getFormatForSave() {
