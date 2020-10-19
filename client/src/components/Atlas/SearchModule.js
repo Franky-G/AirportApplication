@@ -139,6 +139,16 @@ export default class SearchModule extends Component {
             this.sendDistanceServerRequest(this.state.searchTextFrom.split(',')[0], this.state.searchTextFrom.split(',')[1],
                 this.state.searchTextTo.split(',')[0], this.state.searchTextTo.split(',')[1])
         }
+        this.helperCalCDist()
+        if (!this.state.searchTextFrom && !this.state.searchTextTo) {
+            let place1 = this.props.prevLocation[0];
+            let place2 = this.props.prevLocation[1];
+            if (this.props.prevLocation[1] !== null)
+                this.sendDistanceServerRequest(place1.lat.toString(), place1.lng.toString(), place2.lat.toString(), place2.lng.toString());
+        }
+    }
+
+    helperCalCDist() {
         if (this.state.searchTextFrom && !this.state.searchTextTo) {
             this.sendDistanceServerRequest(this.state.searchTextFrom.split(',')[0], this.state.searchTextFrom.split(',')[1],
                 this.props.prevLocation[0].lat.toString(), this.props.prevLocation[0].lng.toString())
@@ -147,12 +157,6 @@ export default class SearchModule extends Component {
             console.log(this.props.prevLocation)
             this.sendDistanceServerRequest(this.props.prevLocation[0].lat.toString(), this.props.prevLocation[0].lng.toString(),
                 this.state.searchTextTo.split(',')[0], this.state.searchTextTo.split(',')[1])
-        }
-        if (!this.state.searchTextFrom && !this.state.searchTextTo) {
-            let place1 = this.props.prevLocation[0];
-            let place2 = this.props.prevLocation[1];
-            if (this.props.prevLocation[1] !== null)
-                this.sendDistanceServerRequest(place1.lat.toString(), place1.lng.toString(), place2.lat.toString(), place2.lng.toString());
         }
     }
 
