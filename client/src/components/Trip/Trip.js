@@ -49,7 +49,6 @@ export default class SearchModule extends Component {
     addATrip(){
         let tripsArray = this.state.trips.slice();
         tripsArray.push(new TripObject("New Trip", [], ""))
-        console.log(tripsArray)
         this.setState({trips: tripsArray})
     }
 
@@ -99,7 +98,11 @@ export default class SearchModule extends Component {
     spliceTrips(index){
         let array = this.state.trips;
         array.splice(index, 1)
-        this.setState({trips: array})
+        if(this.state.stateIndex - 1 < 0)
+            this.setState({trips: array})
+        else {
+            this.setState({trips:array, stateIndex: this.state.stateIndex - 1})
+        }
     }
 
     closeTripUI() {
@@ -116,7 +119,6 @@ export default class SearchModule extends Component {
     }
 
     onClickCall(element, tripIndex){
-        console.log(this.state.trips[tripIndex].places[element])
         this.props.setWhereIsMarker(this.state.trips[tripIndex].places[element][0]);
         this.setState({index: tripIndex})
     }
