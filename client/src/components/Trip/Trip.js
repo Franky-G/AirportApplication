@@ -1,19 +1,5 @@
 import React, {Component} from "react";
-import {
-    Row,
-    InputGroup,
-    PopoverHeader,
-    PopoverBody,
-    Popover,
-    Button,
-    ListGroupItem,
-    ListGroup,
-    ButtonDropdown,
-    DropdownMenu,
-    DropdownToggle,
-    DropdownItem,
-    InputGroupAddon
-} from "reactstrap";
+import {Row, InputGroup, PopoverHeader, PopoverBody, Popover, Button, ListGroupItem, ListGroup, ButtonDropdown, DropdownMenu, DropdownToggle, DropdownItem, InputGroupAddon} from "reactstrap";
 import Input from "@material-ui/core/Input";
 import {sendServerRequest} from "../../utils/restfulAPI";
 import FileIO from "../Atlas/FileIO"
