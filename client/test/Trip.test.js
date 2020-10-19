@@ -50,7 +50,7 @@ test("ToggleButtonColor", toggleButtonColorTest)
 
 function testDistanceCalc(){
     const trip = shallow(<Trip/>)
-    expect(trip.state().trips[0].places).toEqual([L.latLng(40,-105), L.latLng(41,-105)])
+    expect(trip.state().trips[0].places).toEqual([[L.latLng(40,-105), 0, "ferrari"], [L.latLng(41,-105), 1, "Batman"]])
     let places = '[{"lat":40.89427932709685,"lng":-106.68509331531826},{"lat":36.197684669556466,"lng":-102.95057724108594}]'
     places = JSON.parse(places)
     trip.instance().calculateTripDistance(places)
@@ -61,7 +61,7 @@ test("Test Trip Distance", testDistanceCalc)
 function testTripDistance(){
     const trip = shallow(<Trip/>)
     trip.instance().formatTripDistance()
-    expect(trip.state().trips[0].places).toEqual([L.latLng(40,-105), L.latLng(41,-105)])
+    expect(trip.state().trips[0].places).toEqual([[L.latLng(40,-105), 0, "ferrari"], [L.latLng(41,-105), 1, "Batman"]])
 }
 test("Test Format Trip Distance", testTripDistance)
 

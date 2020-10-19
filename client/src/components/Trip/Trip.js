@@ -73,7 +73,7 @@ export default class SearchModule extends Component {
         return(
             <div>
                 <ListGroupItem id="searchListStyle" tag="button" title={this.state.trips[this.state.stateIndex].places[element][2]} action onClick={(e) => {e.stopPropagation(); this.onClickCall(element, tripIndex)}}>
-                    {this.state.trips[tripIndex].name} {this.state.trips[tripIndex].places[element][1]} | {this.state.trips[tripIndex].places[element][0].lat.toFixed(3)}{this.state.trips[tripIndex].places[element][0].lng.toFixed(3)}
+                    {this.state.trips[tripIndex].name} {this.state.trips[tripIndex].places[element][1] + 1} | {this.state.trips[tripIndex].places[element][0].lat.toFixed(3)}{this.state.trips[tripIndex].places[element][0].lng.toFixed(3)}
                     <div className="vertical-center justify-content-center" style={{position: "absolute", right: 5, top: 1, width: 19, height: 19, backgroundColor: "#1E4D2B", color: "#FFFFFF", borderRadius: 5, border: "1px solid #000000"}}
                          onClick={(e) => {e.stopPropagation(); this.state.trips[tripIndex].positionUp(element); this.forceUpdate()}}> ^ </div>
                     <div className="vertical-center justify-content-center" style={{position: "absolute", right: 5, top: 22, width: 19, height: 19, backgroundColor: "#1E4D2B", color: "#FFFFFF", borderRadius: 5, border: "1px solid #000000"}}
