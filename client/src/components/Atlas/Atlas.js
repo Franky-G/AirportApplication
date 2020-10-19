@@ -182,6 +182,7 @@ export default class Atlas extends Component {
     }
     if(this.state.tripRecord === true){
       this.tripREF.addPlace(mapClickInfo.latlng, this.tripREF.returnPlacesSize());
+      this.forceUpdate()
     }
     return(
         this.checkPrevArray()
