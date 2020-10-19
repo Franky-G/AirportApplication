@@ -197,7 +197,7 @@ export default class SearchModule extends Component {
                         style={{position: "absolute", margin: 0, padding: 0, color: "#1E4D2B", backgroundColor: "#C8C372",
                             width: 30, height: 30, borderRadius: 30, left:10, top: 15, border: "2px ridge #1E4D2B", zIndex: 1001}}
                         onClick={(e) => {e.stopPropagation(); this.setState({openPopover: !this.state.openPopover})}}
-                        onBlur={() => this.setState({openPopover: !this.state.openPopover})}>
+                        onBlur={() => this.blurState()}>
                     ?
                 </Button>
                 <Popover isOpen={this.state.openPopover} placement="bottom" target="Popover" offset="125">
@@ -291,5 +291,13 @@ export default class SearchModule extends Component {
     resetTripPlaces(){
         this.state.trips[this.state.stateIndex].resetPlaces()
         this.forceUpdate();
+    }
+
+    blurState(){
+        if(this.state.openPopover === false){
+            return;
+        } else {
+            this.setState({openPopover: !this.state.openPopover})
+        }
     }
 }
