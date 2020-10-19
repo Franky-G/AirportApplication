@@ -1,11 +1,25 @@
 import React, {Component} from "react";
-import {Row, InputGroup, PopoverHeader, PopoverBody, Popover, Button, ListGroupItem, ListGroup, ButtonDropdown, DropdownMenu, DropdownToggle, DropdownItem} from "reactstrap";
+import {
+    Row,
+    InputGroup,
+    PopoverHeader,
+    PopoverBody,
+    Popover,
+    Button,
+    ListGroupItem,
+    ListGroup,
+    ButtonDropdown,
+    DropdownMenu,
+    DropdownToggle,
+    DropdownItem,
+    InputGroupAddon
+} from "reactstrap";
 import Input from "@material-ui/core/Input";
 import {sendServerRequest} from "../../utils/restfulAPI";
 import FileIO from "../Atlas/FileIO"
 import TripObject from "../Trip/TripObject"
 const labelStyle = {opacity: 0.2, overflow:"hidden"}
-const inputArray = [{width: 278, label: "Add Place", width2: 70, name: "searchPlaces"}, {width: 229, label: "Filter", width2: 50, name: "filter"}]
+const inputArray = [{width: 228, label: "Add Place", width2: 70, name: "searchPlaces"}, {width: 229, label: "Filter", width2: 50, name: "filter"}]
 const placesAndTrips = [{height: 150, text: "Places"}, {height: 90, text: "Trips"}]
 const buttonList = [{style: {position: "absolute", right: 10}, label: "Add Trip"},
                     {style: {position: "absolute", left: 159}, label: "Reset"}]
@@ -65,7 +79,8 @@ export default class SearchModule extends Component {
         return(
             <div><InputGroup>
                     <Input className="justify-content-center" name={array.name} style={{backgroundColor: "#FFFFFF", width: array.width, borderRadius: "3px 3px 3px 3px", border: "1px solid #FFFFFF", left: 27, height: 30, boxShadow: "1px 1px 1px 0 #000000", overflow: "hidden"}} onChange={() => this.updateInputState()}/>
-                </InputGroup></div> ); }
+                    <InputGroupAddon addonType="append" ><Button size="sm" style={{padding: 3, left: 27, boxShadow: "1px 1px 1px 0 #000000"}}>Search</Button></InputGroupAddon>
+            </InputGroup></div> ); }
 
     addPlaceOrDistance(array){
         return(
