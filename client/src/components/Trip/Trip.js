@@ -137,6 +137,7 @@ export default class SearchModule extends Component {
         distancePlaces = distancePlaces.slice(10,distancePlaces.length-1);
         distancePlaces = JSON.parse(distancePlaces)
         this.calculateTripDistance(distancePlaces);
+        return(distancePlaces)
     }
 
     calculateTripDistance(latLngString){
@@ -154,13 +155,14 @@ export default class SearchModule extends Component {
     }
 
     getFormatForSave() {
+        let tripSavePlaces = this.formatTripDistance()
         const fileContents = {
             requestType: "trip", requestVersion: 3,
-            options: { title: "My Trip", earthRadius: 3959.0 },
-            places: this.state.tripPlaces
+            options: {title:this.state.trips[this.state.stateIndex].name, earthRadius: "3959.0"},
+            places: tripSavePlaces
         }
         const fileString = JSON.stringify(fileContents);
-        this.FileIOREF.downloadFile(fileString, 'file.json', 'application/json')
+        this.FileIOREF.downloadFile(fileString, this.state.trips[this.state.stateIndex].name+'.json', 'application/json')
     }
 
     renderDropdown(){
