@@ -39,7 +39,7 @@ export default class SearchModule extends Component {
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if(prevProps.atlasTripPlaces !== this.state.trips[this.state.stateIndex].places){
+        if(prevState.trips.length !== 0 && prevProps.atlasTripPlaces !== this.state.trips[this.state.stateIndex].places ){
             this.props.setTripPlaces(this.state.trips[this.state.stateIndex].places)
         }
     }
@@ -122,6 +122,9 @@ export default class SearchModule extends Component {
     addPlace(latLng, index){ this.state.trips[this.state.stateIndex].places.push([latLng, index, ("Latitude: " + latLng.lat.toFixed(4) + " | Longitude: " + latLng.lng.toFixed(4))]) }
 
     returnPlacesSize(){
+        if(this.state.trips.length === 0){
+            return 0;
+        }
         return this.state.trips[this.state.stateIndex].places.length
     }
 
@@ -189,11 +192,11 @@ export default class SearchModule extends Component {
     updatePopupInput(){ this.setState({popupInput: event.target.value}) }
 
     renderPopover(){
-        return( <div id="Popover" className="d-flex">
-                <Button
+        return( <div className="d-flex">
+                <Button id="Popover"
                         style={{position: "absolute", margin: 0, padding: 0, color: "#1E4D2B", backgroundColor: "#C8C372",
                             width: 30, height: 30, borderRadius: 30, left:10, top: 15, border: "2px ridge #1E4D2B", zIndex: 1001}}
-                        onClick={() => this.setState({openPopover: !this.state.openPopover})}
+                        onClick={(e) => {e.stopPropagation(); this.setState({openPopover: !this.state.openPopover})}}
                         onBlur={() => this.setState({openPopover: !this.state.openPopover})}>
                     ?
                 </Button>
