@@ -33,11 +33,16 @@ public class RequestTrip extends RequestHeader {
 
     @Override
     public void buildResponse() {
-        this.distances = new Long[this.places.length];
-        for (int i = 0; i < this.places.length - 1; i++) {
-            this.distances[i] = CalculateDistance.ComputeDistance(this.places[i], this.places[i+1], Double.parseDouble(this.options.get("earthRadius")));
+        if (this.places.length == 0) {
+            this.distances = new Long[this.places.length];
         }
-        this.distances[this.places.length - 1] = CalculateDistance.ComputeDistance(this.places[this.places.length - 1], this.places[0], Double.parseDouble(this.options.get("earthRadius")));;
+        else {
+            this.distances = new Long[this.places.length];
+            for (int i = 0; i < this.places.length - 1; i++) {
+                this.distances[i] = CalculateDistance.ComputeDistance(this.places[i], this.places[i+1], Double.parseDouble(this.options.get("earthRadius")));
+            }
+            this.distances[this.places.length - 1] = CalculateDistance.ComputeDistance(this.places[this.places.length - 1], this.places[0], Double.parseDouble(this.options.get("earthRadius")));
+        }
         log.trace("buildResponse -> {}", this);
     }
 
@@ -57,5 +62,4 @@ public class RequestTrip extends RequestHeader {
     public String getEarthRadius() {return this.earthRadius; }
     public Long [] getTripDistance() { return this.distances; }
     public String getTitle() { return this.title; }
-
 }
