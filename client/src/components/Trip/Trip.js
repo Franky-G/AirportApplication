@@ -144,7 +144,8 @@ export default class SearchModule extends Component {
         const fileContents = {
             requestType: "trip", requestVersion: 3,
             options: {title:this.state.trips[this.state.stateIndex].name, earthRadius: "3959.0"},
-            places: tripSavePlaces
+            places: tripSavePlaces,
+            distances: this.state.distanceArr
         }
         const fileString = JSON.stringify(fileContents);
         this.FileIOREF.downloadFile(fileString, this.state.trips[this.state.stateIndex].name+'.json', 'application/json')
