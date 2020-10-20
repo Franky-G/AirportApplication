@@ -190,19 +190,22 @@ This option will allow the user to create a trip with support of unlimited numbe
 #### Modify a Trip
 This option will allow the user to modify a saved trip. It will allow the user to chose a different starting location while maintaning the order of the destinations. It will also allow the user to reverse the order of the destinations from the starting location. It will also allow the user to reorder individual destinations. It will allow the user to remove destinations, along with the functionality of adding notes to the trip, also correct their mistakes on the existing information.
 
-#### Filter a Trip
-This option will allow the user to filter their trip when the number of destination grows, it will only display the desired places in the itinerary. 
-
 ### Component Hierarchy
 ![Component Hierarchy Sprint 3](https://github.com/csucs314f20/t10/blob/master/reports/images/Sprint3ComponentHierarchy.png)
 
 * App renders the major components on the screen.
+* About renders information about the team, along with team's mission statement and short bios for each teammember, along with their contact inforamtion. 
 * Header renders an icon and a team name in the top banner.
 * Footer renders the current server connection in the bottom footer.
-* Atlas renders a map, it also allows the user to calculate distance between two sets of geographical coordinates, along with searching of places by names and municipalities around the world, and it also allows the user to enter geographical coordinates and search for that place.
-* About renders information about the team, along with team's mission statement and short bios for each teammember, along with their contact inforamtion. 
-* Helper Functions renders the search buttton on the screen and as soon as the user clicks the button, it opens up a box which allows the user to work on the above options. HelperFunctions also sends server request for Distance and Find.
-* Trip will allow the user to build a trip, modify a trip, and filter a trip. The functionality of each of this parts is described above. This functions will allow the user to build a trip with support of unlimited destinations, modify their existing trip with multiple functionality, and will allow them to filter an existing trip with selected destinations.
+* Atlas renders a map. The other functionality are:
+  * FleIO is used to load and save a trip.
+  * Find allows the user to find places along with searching of places by names and municipalities around the world. The user can make a selection and then the map drops a marker at that position.
+  * Radio Buttons create buttons for the find, distance, and where is functionality.
+  * Search Module works to find distance along with the coordinate parser, which allows the user to enter multiple formats of coordinates. It also adds the search bar for distance where the user inputs the coordinates.
+  * Where Is allows the user to enter coordinates of multiple formats and as soon as the user click the "Go To" button, the map drops a marker at that coordinates.
+  * World Markers helps the other functionality of atlas to drop markers at various positions and also helps with drawing the polyline on the map.
+* Trip will allow the user to build a trip and modify a trip. The functionality of each of this parts is described above. This functions will allow the user to build a trip with support of unlimited destinations, modify their existing trip with multiple functionality. 
+  * Trip Object helps the Trip funcitonality with modifying a trip and also helps to build the trip.
 
 The state is located in Footer and Atlas. The props passed to child components are:
 * About: closePage
