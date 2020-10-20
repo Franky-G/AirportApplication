@@ -188,13 +188,13 @@ For Sprint 2, it also adds request for Distance and Find in the Microserver.
 This option will allow the user to create a trip with support of unlimited number of destinations. It also allows the user to name the trip. For the user's convenience, the trip will be displayed on the map along with round trip distance. It also shows an itinerary with leg and cumulative distances for the round trip. There is also a functionality for the user to save the trip and load a saved trip.
 
 #### Modify a Trip
-This option will allow the user to modify a saved trip. It will allow the user to chose a different starting location while maintaning the order of the destinations. It will also allow the user to reverse the order of the destinations from the starting location. It will also allow the user to reorder individual destinations. It will allow the user to remove destinations, along with the functionality of adding notes to the trip, also correct their mistakes on the existing information.
+This option will allow the user to modify a saved trip. It will allow the user to chose a different starting location while maintaining the order of the destinations. It will also allow the user to reverse the order of the destinations from the starting location. It will also allow the user to reorder individual destinations. It will allow the user to remove destinations, along with the functionality of adding notes to the trip, also correct their mistakes on the existing information.
 
 ### Component Hierarchy
 ![Component Hierarchy Sprint 3](https://github.com/csucs314f20/t10/blob/master/reports/images/Sprint3ComponentHierarchy.png)
 
 * App renders the major components on the screen.
-* About renders information about the team, along with team's mission statement and short bios for each teammember, along with their contact inforamtion. 
+* About renders information about the team, along with team's mission statement and short bios for each teammember, along with their contact information. 
 * Header renders an icon and a team name in the top banner.
 * Footer renders the current server connection in the bottom footer.
 * Atlas renders a map. The other functionality are:
