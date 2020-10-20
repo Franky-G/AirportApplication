@@ -25,5 +25,5 @@
 | Atlas.js:215-219 | recordingTrip state variable is int, used as bool. Case where recordingTrip>1? | low | Jake B. | |
 | Atlas.js:113-115 | State is set no matter the value. Could cause logical issues | low | Kyle C | |
 | SearchModule.js:163-178 | Values passed in are never being checked for null or invaid. Results in a setState of undefined | low | Kyle C | |
-| Atlas.js:233 | Function is only called once. Thus removing the need for a one line function | low | Frank G | |
-| SearchModule.js:163 | Server request does not check whether or not whats being sent is violating schema specifications | med | Frank G | |
+| Atlas.js:233 | Function is only called once. Thus removing the need for a one line function | low | Frank G | Issue #641 |
+| SearchModule.js:163 | Server request does not check whether or not whats being sent is violating schema specifications | med | Frank G | Issue #643 |
