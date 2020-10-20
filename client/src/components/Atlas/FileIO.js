@@ -1,4 +1,4 @@
-import {Form, FormGroup, Label, Modal, ModalHeader, ModalBody, Input, Button} from "reactstrap";
+import {Form, FormGroup, Modal, ModalHeader, ModalBody, Input} from "reactstrap";
 import React, {Component} from "react";
 
 export default class FileIO extends Component {
@@ -6,7 +6,12 @@ export default class FileIO extends Component {
     constructor(props) {
         super(props);
         this.openModal = this.openModal.bind(this);
-        this.state = {isOpen: false}
+        this.state = {
+            isOpen: false,
+            loadPlaces: null,
+            loadTitle: "",
+            loadRadius: 0
+        }
     }
 
     render(){ return( <div> {this.openLoadModal()} </div> ); }
@@ -25,26 +30,28 @@ export default class FileIO extends Component {
         }, 0);
     }
 
-    loadHelper(filename) {
-        console.log("Test Placeholder")
-    }
-
     openLoadModal() {
-        let fileName = "exampleFile"
+        const callback = (event) => { this.processFiles(event.target.files)}
+        const input = <Input onChange = {() => {callback(event); this.setState({isOpen: false})}} type="file" name="file" id="exampleFile"/>
         return (
             <Modal isOpen={this.state.isOpen} toggle={this.openModal}>
                 <ModalHeader toggle={this.openModal}>Load a Trip</ModalHeader>
-                <ModalBody>
-                    <Form>
-                        <FormGroup>
-                            <Label for={fileName}>Load</Label>
-                            <Input onChange = {() => {this.loadHelper(fileName); this.setState({isOpen: false})}} type="file" name="file" id={fileName}/>
-                        </FormGroup>
-                    </Form>
-                </ModalBody>
+                <ModalBody> <Form> <FormGroup> {input} </FormGroup> </Form> </ModalBody>
             </Modal>
         );
     }
 
-    openModal(){this.setState({isOpen: !this.state.isOpen})}
+   processFiles(eventFile) {
+        const myFr = new FileReader();
+        myFr.addEventListener('load', (event) => {
+            eventFile = event.target.result;
+        });
+        const myPromise = new Blob(eventFile).text();
+        myPromise.then(function(result){
+           let temp = JSON.parse(result);
+           this.setState({loadPlaces: temp.places, loadTitle: temp.options.title, loadRadius: temp.options.earthRadius});
+       });
+    }
+
+    openModal(){ this.setState({isOpen: !this.state.isOpen}) }
 }
