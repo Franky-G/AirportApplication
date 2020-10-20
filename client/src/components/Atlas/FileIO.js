@@ -49,10 +49,8 @@ export default class FileIO extends Component {
         const myPromise = new Blob(eventFile).text();
         await myPromise.then(result => {
            let temp = JSON.parse(result);
-           console.log(temp.places)
            this.setState({loadPlaces: temp.places, loadTitle: temp.options.title, loadRadius: temp.options.earthRadius});
        });
-        console.log("this is the array: " + this.state.loadPlaces)
        this.props.loadPlaces(this.state.loadPlaces, this.state.loadTitle, this.state.loadRadius)
     }
 
