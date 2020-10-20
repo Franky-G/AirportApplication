@@ -28,5 +28,5 @@
 | SearchModule.js:163-178 | Values passed in are never being checked for null or invaid. Results in a setState of undefined | low | Kyle C | |
 | Atlas.js:233 | Function is only called once. Thus removing the need for a one line function | low | Frank G | |
 | SearchModule.js:163 | Server request does not check whether or not whats being sent is violating schema specifications | med | Frank G | |
-| SearchModule.js:55-70 | Method uses error checking rather than exclusion to detect invalid inputs | low | Sean M | |
-| Atlas.js:231-233 | Method could be consolidated into another function | low | Sean M | |
+| SearchModule.js:55-70 | Method uses error checking rather than exclusion to detect invalid inputs | low | Sean M | Issue #644 |
+| Atlas.js:231-233 | Method could be consolidated into another function | low | Sean M | Issue #649 |
