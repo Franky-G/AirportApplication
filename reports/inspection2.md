@@ -10,12 +10,13 @@
 
 | Name | Preparation Time |
 | ---- | ---- |
-|  |  |
+| Jimit Bhalavat | 55 mins |
 |  |  |
 
 ### Problems found
 
 | file:line | problem | hi/med/low | who found | github#  |
 | --- | --- | :---: | :---: | --- |
-|  | | | | |
-|  | | | | |
+| Atlas.js:103-111 | searchREF to cause Interface Faults | low | Jimit B. | |
+| Atlas.js:186-203 | Multiple if/else blocks causes Exception Faults | low | Jimit B. | |
+| SearchModule.js:74-81 | event.target causes Data Faults when no event specified | low | Jimit B. | |
