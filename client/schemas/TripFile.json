@@ -60,6 +60,6 @@
       "minitems": 0
     }
   },
-  "required":["requestVersion","requestType","options","places"],
+  "required":["requestVersion","requestType","options","places", "distances"],
   "additionalProperties": false
 }
