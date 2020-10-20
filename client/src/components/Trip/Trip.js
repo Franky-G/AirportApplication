@@ -16,6 +16,7 @@ export default class SearchModule extends Component {
         super(props);
         this.closeTripUI = this.closeTripUI.bind(this); this.addATrip = this.addATrip.bind(this);
         this.onClickCall = this.onClickCall.bind(this);
+        this.loadPlaces = this.loadPlaces.bind(this);
         this.state = {
             designerOpen: '', searchPlaces: "", filter: "",
             trips: [new TripObject("test", [[L.latLng(40,-105), 0, "ferrari"], [L.latLng(41,-105), 1, "Batman"]], "test note")],
@@ -23,7 +24,7 @@ export default class SearchModule extends Component {
 
     render(){
         return(
-            <div><FileIO {...this.state} ref={(ref) => this.FileIOREF=ref}/>{this.renderTripUI()}</div> );
+            <div><FileIO {...this.state} ref={(ref) => this.FileIOREF=ref} loadPlaces={this.loadPlaces}/>{this.renderTripUI()}</div> );
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -65,7 +66,7 @@ export default class SearchModule extends Component {
         return(
             <div>
                 <ListGroupItem id="searchListStyle" tag="button" title={this.state.trips[this.state.stateIndex].places[element][2]} action onClick={(e) => {e.stopPropagation(); this.onClickCall(element, tripIndex)}}>
-                    {this.state.trips[tripIndex].name} {this.state.trips[tripIndex].places[element][1] + 1} | {this.state.trips[tripIndex].places[element][0].lat.toFixed(3)}{this.state.trips[tripIndex].places[element][0].lng.toFixed(3)}
+                    {this.state.trips[tripIndex].places[element][1] + 1} | {this.state.trips[tripIndex].places[element][0].lat.toFixed(3)}{this.state.trips[tripIndex].places[element][0].lng.toFixed(3)}
                     {this.helperAddPlaceListItem(element, tripIndex)}</ListGroupItem></div> );
     }
 
@@ -85,6 +86,17 @@ export default class SearchModule extends Component {
                 {this.state.trips[index].name}
                 <div className="vertical-center justify-content-center" style={{position: "absolute", right: 5, top: 5, width: 30, height: 30, backgroundColor: "#1E4D2B", color: "#FFFFFF", borderRadius: 8, border: "1px solid #000000"}}
                      onClick={(e) => {e.stopPropagation(); this.spliceTrips(index); this.forceUpdate()}}>X</div></ListGroupItem> );
+    }
+
+    loadPlaces(places, name, radius){
+        let array = this.state.trips.slice();
+        let placesArray = []
+        for(let i = 0; i < places.length; ++i){
+            placesArray.push([L.latLng(places[i].latitude,places[i].longitude), name, radius])
+        }
+        console.log(placesArray)
+        array.push(new TripObject(name, placesArray, radius))
+        this.setState({trips: array})
     }
 
     spliceTrips(index){

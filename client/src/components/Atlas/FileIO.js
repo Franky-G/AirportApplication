@@ -41,16 +41,19 @@ export default class FileIO extends Component {
         );
     }
 
-   processFiles(eventFile) {
+   async processFiles(eventFile) {
         const myFr = new FileReader();
         myFr.addEventListener('load', (event) => {
             eventFile = event.target.result;
         });
         const myPromise = new Blob(eventFile).text();
-        myPromise.then(function(result){
+        await myPromise.then(result => {
            let temp = JSON.parse(result);
+           console.log(temp.places)
            this.setState({loadPlaces: temp.places, loadTitle: temp.options.title, loadRadius: temp.options.earthRadius});
        });
+        console.log("this is the array: " + this.state.loadPlaces)
+       this.props.loadPlaces(this.state.loadPlaces, this.state.loadTitle, this.state.loadRadius)
     }
 
     openModal(){ this.setState({isOpen: !this.state.isOpen}) }
