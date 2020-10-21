@@ -28,8 +28,8 @@ export default class TripObject {
     setPlaceNote(string){
         let regex = /,\s*/
         let splitArray = string.split(regex)
-        if(splitArray[1] < this.places.length)
-        this.places[splitArray[1]][2] = splitArray[0];
+        if((splitArray[1])< this.places.length)
+        this.places[splitArray[1] - 1][2] = splitArray[0];
     }
 
     positionUp(index){
@@ -62,8 +62,8 @@ export default class TripObject {
 
     modifyStart(index){
         let array = this.places.slice();
-        let start = array[index];
-        array.splice(index,1);
+        let start = array[index - 1];
+        array.splice(index - 1,1);
         array.unshift(start);
         this.places = array;
     }
@@ -71,11 +71,9 @@ export default class TripObject {
     movePlace(string){
         let regex = /,\s*/
         let splitArray = string.split(regex)
-        console.log(splitArray)
         if(splitArray[0] < this.places.length && splitArray[1] <= this.places.length) {
             let array = this.places.slice();
             let element = array[splitArray[0] - 1]
-            console.log(array + " | " + element)
             array.splice(Number(splitArray[1]), 0, element)
             array.splice(Number(splitArray[0] - 1), 1)
             this.places = array;
