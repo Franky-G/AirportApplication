@@ -97,13 +97,12 @@ export default class SearchModule extends Component {
     }
 
     helperAddPlaceListItem(element, tripIndex) {
-        let placeListItem = [{style: {position: "absolute", right: 5, top: 1, width: 19, height: 19, backgroundColor: "#1E4D2B", color: "#FFFFFF", borderRadius: 5, border: "1px solid #000000"},
-            onClick: (e) => {e.stopPropagation(); this.state.trips[tripIndex].positionUp(element); this.forceUpdate()}, text: "^"},
-            {style: {position: "absolute", right: 5, top: 22, width: 19, height: 19, backgroundColor: "#1E4D2B", color: "#FFFFFF", borderRadius: 5, border: "1px solid #000000"},
-            onClick: (e) => {e.stopPropagation(); this.state.trips[tripIndex].positionDown(element); this.forceUpdate()}, text: "v"},
-            {style: {position: "absolute", right: 30, top: 5, width: 30, height: 30, backgroundColor: "#1E4D2B", color: "#FFFFFF", borderRadius: 8, border: "1px solid #000000"},
-            onClick: (e) => {e.stopPropagation(); this.state.trips[tripIndex].removePlace(element); this.forceUpdate()}, text: "X"}]
-        return ( placeListItem.map(items => <div className="vertical-center justify-content-center" style={items.style} onClick={items.onClick}>{items.text}</div>) );
+        const helpPlaceListItem = (e, tripIndex, methodName, params) => { e.stopPropagation(); this.state.trips[tripIndex][methodName](params); this.forceUpdate(); }
+        let placeListItem = [{right: 5, top: 1, width:19, height: 19, borderRadius: 5, text: "^", onclick: (e) => helpPlaceListItem(e, tripIndex, "positionUp", element)},
+            {right: 5, top: 22, width: 19, height: 19, borderRadius: 5, text: "v", onclick: (e) => helpPlaceListItem(e, tripIndex, "positionDown", element)},
+            {right: 30, top: 5, width: 30, height: 30, borderRadius: 8, text: "X", onclick: (e) => helpPlaceListItem(e, tripIndex, "removePlace", element)}]
+        return ( placeListItem.map(items => <div className="vertical-center justify-content-center" style={{position: "absolute", right: items.right, top: items.top, width: items.width, height: items.height,
+            backgroundColor: "#1E4D2B", color: "#FFFFFF", borderRadius: items.borderRadius, border: "1px solid #000000"}} onClick={items.onclick}>{items.text}</div>) );
     }
 
     addTripListItem(index){
