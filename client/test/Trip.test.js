@@ -144,12 +144,6 @@ function testInputField() {
 
 test("Add Input Field", testInputField)
 
-function testButtonColor() {
-    const color = shallow(<Trip/>)
-    color.instance().toggleButtonColor()
-}
-
-test("Toggle Button Color", testButtonColor)
 
 function testRenderPlaceList() {
     const list = shallow(<Trip/>)
@@ -203,3 +197,19 @@ test("Add Place or Distance", testAddPlaceOrDistance)
 // }
 
 // test("Format Trip Distance", testFormatTripDistance)
+
+function testBlurState(){
+    const close = shallow(<Trip/>)
+    close.instance().blurState()
+    expect(close.state().openPopover).toEqual(false)
+}
+test("Test Blur State", testBlurState)
+
+function testServerListReq(){
+    const close = shallow(<Trip/>)
+    close.instance().serverListRequest()
+    expect(close.state().openPopover).toEqual(false)
+}
+test("Test Blur State",testServerListReq)
+
+
