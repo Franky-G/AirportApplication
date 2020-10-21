@@ -185,7 +185,8 @@ For Sprint 2, it also adds request for Distance and Find in the Microserver.
 ![User Interface Sprint 3](https://github.com/csucs314f20/t10/blob/master/reports/images/Sprint3UserInterface.png)
 
 #### Build a Trip
-This option will allow the user to create a trip with support of unlimited number of destinations. It also allows the user to name the trip. For the user's convenience, the trip will be displayed on the map along with round trip distance. It also shows an itinerary with leg and cumulative distances for the round trip. There is also a functionality for the user to save the trip and load a saved trip.
+This option will allow the user to create a trip with support for an unlimited number of destinations. It also allows the user to name the trip. For the user's convenience, the trip will be displayed on the map along with round trip distance. A trip can be created by adding coordinates via the search bar and airports also via the search bar. The user can also use our 'record' functionality to record a trip by map clicks. All of these methods to add locations are interchangeable with each trip. 
+ 
 
 #### Modify a Trip
 This option will allow the user to modify a saved trip. It will allow the user to chose a different starting location while maintaining the order of the destinations. It will also allow the user to reverse the order of the destinations from the starting location. It will also allow the user to reorder individual destinations. It will allow the user to remove destinations, along with the functionality of adding notes to the trip, also correct their mistakes on the existing information.
