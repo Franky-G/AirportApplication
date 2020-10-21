@@ -111,7 +111,9 @@ export default class Atlas extends Component {
   }
 
   setTripPlaces(array){
-    this.setState({atlasTripPlaces: array})
+    if (!array.includes(null)) {
+        this.setState({atlasTripPlaces: array})
+    }
   }
 
   geoPosition(){
