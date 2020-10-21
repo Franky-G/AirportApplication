@@ -26,8 +26,8 @@ export default class SearchModule extends Component {
     render(){
         return(
             <div><FileIO {...this.state} ref={(ref) => this.FileIOREF=ref} loadPlaces={this.loadPlaces}/>
-            {this.renderTripUI()}
-            {this.state.searchListOpen && this.renderSearchList()}
+                {this.renderTripUI()}
+                {this.state.searchListOpen && this.renderSearchList()}
             </div> );
     }
 
@@ -54,8 +54,8 @@ export default class SearchModule extends Component {
     addInputField(array){
         return(
             <div><InputGroup>
-                    <Input className="justify-content-center" name={array.name} placeholder={"Enter Lat, Lng or Airport Name"} style={{backgroundColor: "#ffffff", width: array.width, borderRadius: "3px 3px 3px 3px", border: "1px solid #FFFFFF", left: 27, height: 30, boxShadow: "1px 1px 1px 0 #000000", overflow: "hidden"}} onChange={() => this.updateInputState()}/>
-                    <InputGroupAddon addonType="append" ><Button size="sm" style={{padding: 3, left: 27, boxShadow: "1px 1px 1px 0 #000000"}} onClick={() => this.addCoordsLocationToTrip()}>Search</Button></InputGroupAddon>
+                <Input className="justify-content-center" name={array.name} placeholder={"Enter Lat, Lng or Airport Name"} style={{backgroundColor: "#ffffff", width: array.width, borderRadius: "3px 3px 3px 3px", border: "1px solid #FFFFFF", left: 27, height: 30, boxShadow: "1px 1px 1px 0 #000000", overflow: "hidden"}} onChange={() => this.updateInputState()}/>
+                <InputGroupAddon addonType="append" ><Button size="sm" style={{padding: 3, left: 27, boxShadow: "1px 1px 1px 0 #000000"}} onClick={() => this.addCoordsLocationToTrip()}>Search</Button></InputGroupAddon>
             </InputGroup></div> );
     }
 
@@ -84,8 +84,8 @@ export default class SearchModule extends Component {
     addPlaceOrDistance(array){
         return(
             <div><Row id="placePanel" className="justify-content-center">
-                    <div className="tripBackdrop" style={{width:280, height: array.height, fontSize: 40}} ><label style={labelStyle} className="vertical-center justify-content-center" >{array.text}</label></div>
-                </Row></div>
+                <div className="tripBackdrop" style={{width:280, height: array.height, fontSize: 40}} ><label style={labelStyle} className="vertical-center justify-content-center" >{array.text}</label></div>
+            </Row></div>
         );
     }
 
@@ -287,16 +287,25 @@ export default class SearchModule extends Component {
         );
     }
 
+    placeLoop(arr, ind){for (let i = 0; i < this.state.trips[ind].places.length; ++i) {arr.push(this.addPlaceListItem(i, ind));}}
+
+    tripLoop(arr, ind) {for (let i = 0; i < this.state.trips.length; ++i) {arr.push(this.addTripListItem(i, ind));}}
+
+    getSearchListArray(ind, TorP){
+        let searchListArr = [];
+        if (TorP === 0){this.placeLoop(searchListArr, ind)}
+        else{this.tripLoop(searchListArr, ind)}
+        return searchListArr;
+    }
+
     renderPlaceList(index, tripOrPlace, styleArray){
-        if(this.state.trips.length === 0) {return;}
-        let searchListArray = []
-        if(tripOrPlace === 0) { for (let i = 0; i < this.state.trips[index].places.length; ++i) { searchListArray.push(this.addPlaceListItem(i, index)); } }
-        else { for (let i = 0; i < this.state.trips.length; ++i) { searchListArray.push(this.addTripListItem(i, index)); } }
+        if(this.state.trips.length === 0) { return; }
+        let searchListArray = this.getSearchListArray(index, tripOrPlace);
         return(
             <div tabIndex="0"><ListGroup>
-                    <div style={styleArray[tripOrPlace].style}>
-                        {searchListArray.map((element, index) => (<div key={index}>{element}</div>))} </div>
-                </ListGroup></div> );
+                <div style={styleArray[tripOrPlace].style}>
+                    {searchListArray.map((element, index) => (<div key={index}>{element}</div>))} </div>
+            </ListGroup></div> );
     }
 
     toggleButtonColor(){
