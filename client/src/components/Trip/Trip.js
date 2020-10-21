@@ -94,7 +94,7 @@ export default class SearchModule extends Component {
         return(
             <div>
                 <ListGroupItem id="searchListStyle" className="vertical-center" tag="button" title={tripNote} action onClick={(e) => {e.stopPropagation(); this.onClickCall(element, tripIndex)}}>
-                    {this.state.trips[tripIndex].places[element][1]} | {this.state.trips[tripIndex].places[element][2]}
+                    {this.state.trips[tripIndex].places[element][1] + 1} | {this.state.trips[tripIndex].places[element][2]}
                     {this.helperAddPlaceListItem(element, tripIndex)}</ListGroupItem></div> );
     }
 
