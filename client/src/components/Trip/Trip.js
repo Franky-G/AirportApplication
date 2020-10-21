@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Row, InputGroup, PopoverHeader, PopoverBody, Popover, Button, ListGroupItem, ListGroup, ButtonDropdown, DropdownMenu, DropdownToggle, DropdownItem, InputGroupAddon} from "reactstrap";
+import {Row, InputGroup, PopoverHeader, PopoverBody, Popover, Button, ListGroupItem, ListGroup, ButtonDropdown, DropdownMenu, DropdownToggle, DropdownItem, InputGroupAddon, Container} from "reactstrap";
 import Input from "@material-ui/core/Input";
 import {sendServerRequest} from "../../utils/restfulAPI";
 import FileIO from "../Atlas/FileIO"
@@ -20,11 +20,15 @@ export default class SearchModule extends Component {
         this.state = {
             designerOpen: '', searchPlaces: "", filter: "",
             trips: [new TripObject("test", [[L.latLng(40,-105), 0, "ferrari"], [L.latLng(41,-105), 1, "Batman"]], "test note")],
-            distance: 0, distanceArr: null, stateIndex: 0, openDropdown: false, openPopover: false, popupInput: "", searchCoords: ""} }
+            distance: 0, distanceArr: null, stateIndex: 0, openDropdown: false, openPopover: false, popupInput: "", searchCoords: "",
+            searchListOpen: false, searchListArray: [], numberFound: 0} }
 
     render(){
         return(
-            <div><FileIO {...this.state} ref={(ref) => this.FileIOREF=ref} loadPlaces={this.loadPlaces}/>{this.renderTripUI()}</div> );
+            <div><FileIO {...this.state} ref={(ref) => this.FileIOREF=ref} loadPlaces={this.loadPlaces}/>
+            {this.renderTripUI()}
+            {this.state.searchListOpen && this.renderSearchList()}
+            </div> );
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -50,22 +54,20 @@ export default class SearchModule extends Component {
     addInputField(array){
         return(
             <div><InputGroup>
-                    <Input className="justify-content-center" name={array.name} style={{backgroundColor: "#FFFFFF", width: array.width, borderRadius: "3px 3px 3px 3px", border: "1px solid #FFFFFF", left: 27, height: 30, boxShadow: "1px 1px 1px 0 #000000", overflow: "hidden"}} onChange={() => this.updateInputState()}/>
+                    <Input className="justify-content-center" name={array.name} placeholder={"Enter Lat, Lng or Airport Name"} style={{backgroundColor: "#ffffff", width: array.width, borderRadius: "3px 3px 3px 3px", border: "1px solid #FFFFFF", left: 27, height: 30, boxShadow: "1px 1px 1px 0 #000000", overflow: "hidden"}} onChange={() => this.updateInputState()}/>
                     <InputGroupAddon addonType="append" ><Button size="sm" style={{padding: 3, left: 27, boxShadow: "1px 1px 1px 0 #000000"}} onClick={() => this.addCoordsLocationToTrip()}>Search</Button></InputGroupAddon>
             </InputGroup></div> );
     }
 
     addCoordsLocationToTrip(){
-        console.log('coords',this.state.searchPlaces)
         try {
             let coordParse = require('coordinate-parser')
-            console.log(this.state.searchPlaces)
             let coordLocation = new coordParse(this.state.searchPlaces);
             let coordLat = coordLocation.getLatitude();
             let coordLng = coordLocation.getLongitude();
             this.addCoordPlace(coordLat, coordLng)
         } catch (error) {
-            alert("Invalid Coordinate Input!")
+            this.serverListRequest()
         }
     }
 
@@ -89,7 +91,7 @@ export default class SearchModule extends Component {
     addPlaceListItem(element, tripIndex){
         return(
             <div>
-                <ListGroupItem id="searchListStyle" tag="button" title={this.state.trips[this.state.stateIndex].places[element][2]} action onClick={(e) => {e.stopPropagation(); this.onClickCall(element, tripIndex)}}>
+                <ListGroupItem id="searchListStyle" className="vertical-center" tag="button" title={this.state.trips[this.state.stateIndex].places[element][2]} action onClick={(e) => {e.stopPropagation(); this.onClickCall(element, tripIndex)}}>
                     {this.state.trips[tripIndex].places[element][1]} | {this.state.trips[tripIndex].places[element][0].lat.toFixed(3)}{this.state.trips[tripIndex].places[element][0].lng.toFixed(3)}
                     {this.helperAddPlaceListItem(element, tripIndex)}</ListGroupItem></div> );
     }
@@ -113,13 +115,11 @@ export default class SearchModule extends Component {
     }
 
     loadPlaces(places, name, radius){
-        console.log("places Loaded: " + places)
         let array = this.state.trips.slice();
         let placesArray = []
         for(let i = 0; i < places.length; ++i){
             placesArray.push([L.latLng(places[i].latitude,places[i].longitude), name + " " + i, places[i].name])
         }
-        console.log(placesArray)
         array.push(new TripObject(name, placesArray, radius))
         this.setState({trips: array})
     }
@@ -222,13 +222,17 @@ export default class SearchModule extends Component {
                 </Button>
                 <Popover isOpen={this.state.openPopover} placement="bottom" target="Popover" offset="125">
                     <PopoverHeader>How To Use</PopoverHeader>
-                    <PopoverBody style={{maxWidth: 300}}><p>
+                    <PopoverBody style={{maxWidth: 300}}>
+                        <p>
                             Create a trip!<br/>
                             - Toggle the trip manager on/off to start recording places via mouse clicks, or input coordinates / locations in the search bar and add place<br/><br/>
                             - Re-sort or remove a place <br/>
                             - Modify the trip under 'Modify' button <br/>
                             Add input(s) separated by ',' at the top and select an action<br/>
-                            - Add different trips</p>
+                            - Add different trips
+                            - Save / Load a trip
+                            - Select trip and click distance for round trip distance
+                        </p>
                     </PopoverBody>
                 </Popover></div>
         );
@@ -304,7 +308,67 @@ export default class SearchModule extends Component {
     }
 
     blurState(){
-        if(this.state.openPopover === false){ return; }
+        if(this.state.openPopover === false){}
         else { this.setState({openPopover: !this.state.openPopover}) }
+    }
+
+    serverListRequest() {
+        this.sendFindServerRequest(this.state.searchPlaces, 20);
+    }
+
+    async sendFindServerRequest(matchPattern, limitInt) {
+        await sendServerRequest({requestType: "find", requestVersion: 2, match: matchPattern, limit: limitInt})
+            .then(places => {
+                if (places) {
+                    try {
+                        let outerArray = [];
+                        for (let i = 0; i < limitInt; ++i) {
+                            let elementArray = []
+                            if (places.data.places[i] !== undefined) {
+                                elementArray.push(places.data.places[i].name);
+                                elementArray.push(places.data.places[i].latitude);
+                                elementArray.push(places.data.places[i].longitude);
+                            }
+                            outerArray.push(elementArray);
+                        }
+                        this.setState({searchListArray: outerArray, searchListOpen: true, numberFound: places.data.found});
+                    } catch (error) {
+                        console.error(error)
+                    }
+                }
+            });
+    }
+
+    addListGroupItem(index){
+        return (
+            <ListGroupItem style={{maxWidth: 268}} tag="button" action
+                           onClick={() => {this.addSearchItem(index); this.setState({searchListOpen: false})}}>{this.state.searchListArray[index][0]}</ListGroupItem>
+        );
+    }
+
+    addSearchItem(index){
+        let tripsArray = this.state.trips
+        tripsArray[this.state.stateIndex].places.push([L.latLng(this.state.searchListArray[index][1], this.state.searchListArray[index][2]), this.state.trips[this.state.stateIndex].places.length, this.state.searchListArray[index][0]])
+        this.setState({trips: tripsArray})
+    }
+
+    renderSearchList(){
+        let searchListArray = []
+        for(let i = 0; i < this.state.numberFound; ++i){
+            if(i >= 20){break;}
+            searchListArray.push(this.addListGroupItem(i));
+        }
+        console.log(this.state.searchListArray)
+        return(
+            <div tabIndex="0">
+                <Container style={{padding: 0, position: "fixed", top: 221, left: 70, width: 280,
+                    maxHeight: 230, overflow: "auto", zIndex: 1500}}>
+                    <ListGroup onBlur={() => this.setState({searchListOpen: false})}>
+                        <div onClick={() => this.setState({searchListOpen: false})}>
+                            {searchListArray.map((element, index) => (<div key={index}>{element}</div>))} </div>
+                    </ListGroup>
+                </Container>
+            </div>
+        );
     }
 }
