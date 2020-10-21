@@ -64,7 +64,7 @@ export default class WorldMarkers extends Component {
     }
 
     makePolyline(){
-        const initMarker = ref => {if (ref) {ref.leafletElement.openPopup()}}
+
         let array = [];
         for(let i = 0; i < this.props.atlasTripPlaces.length; ++i){
             array.push(this.props.atlasTripPlaces[i][0])
@@ -72,14 +72,7 @@ export default class WorldMarkers extends Component {
         if(array[0] !== null && array[1] !== null) {
             if(this.props.prevLocation[0] !== null && this.props.prevLocation[1] !== null) {
                 return (
-                    <div>
-                        <Polyline color="green" positions={array}/>
-                        <Polyline ref={initMarker} color="green" positions={this.props.prevLocation} >
-                            <Popup autoPan={false} className="popupStyle">
-                                Distance: {this.props.polyDistance} M
-                            </Popup>
-                        </Polyline>
-                    </div>
+                    this.renderPolyline(array)
                 );
             } else {
                 return(
@@ -87,5 +80,19 @@ export default class WorldMarkers extends Component {
                 );
             }
         }
+    }
+
+    renderPolyline(array){
+        const initMarker = ref => {if (ref) {ref.leafletElement.openPopup()}}
+        return(
+            <div>
+                <Polyline color="green" positions={array}/>
+                <Polyline ref={initMarker} color="green" positions={this.props.prevLocation} >
+                    <Popup autoPan={false} className="popupStyle">
+                        Distance: {this.props.polyDistance} M
+                    </Popup>
+                </Polyline>
+            </div>
+        );
     }
 }
