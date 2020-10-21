@@ -172,7 +172,7 @@ test("Add Place or Distance", testAddPlaceOrDistance)
 // }
 //
 // test("Splice Trips", testSpliceTrips)
-
+//
 // function testCloseTripUI() {
 //     const close = shallow(<Trip/>)
 //     let initial = close.state().designerOpen
@@ -183,20 +183,27 @@ test("Add Place or Distance", testAddPlaceOrDistance)
 // }
 //
 // test("Close Trip UI", testCloseTripUI)
-
+//
 // function testToggleDropDown() {
 //     const drop = shallow(<Trip/>)
 //     drop.instance().toggleDropdown()
 // }
 //
 // test("Toggle Drop Down", testToggleDropDown)
-
+//
 // function testFormatTripDistance() {
 //     const dist = shallow(<Trip/>)
 //     dist.instance().formatTripDistance()
 // }
-
+//
 // test("Format Trip Distance", testFormatTripDistance)
+
+function testRenderSearchList() {
+    const search = shallow(<Trip/>)
+    search.instance().renderSearchList()
+}
+
+test("Calling render to test if it exists", testRenderSearchList)
 
 function testBlurState(){
     const close = shallow(<Trip/>)
@@ -211,5 +218,4 @@ function testServerListReq(){
     expect(close.state().openPopover).toEqual(false)
 }
 test("Test Blur State",testServerListReq)
-
 
