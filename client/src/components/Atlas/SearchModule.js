@@ -154,7 +154,6 @@ export default class SearchModule extends Component {
                 this.props.prevLocation[0].lat.toString(), this.props.prevLocation[0].lng.toString())
         }
         if (!this.state.searchTextFrom && this.state.searchTextTo) {
-            console.log(this.props.prevLocation)
             this.sendDistanceServerRequest(this.props.prevLocation[0].lat.toString(), this.props.prevLocation[0].lng.toString(),
                 this.state.searchTextTo.split(',')[0], this.state.searchTextTo.split(',')[1])
         }

@@ -27,14 +27,10 @@ export default class SearchModule extends Component {
         return(
             <div><FileIO {...this.state} ref={(ref) => this.FileIOREF=ref} loadPlaces={this.loadPlaces}/>
                 {this.renderTripUI()}
-                {this.state.searchListOpen && this.renderSearchList()}
-            </div> );
-    }
+                {this.state.searchListOpen && this.renderSearchList()} </div> ); }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-        if(prevState.trips.length !== 0 && prevProps.atlasTripPlaces !== this.state.trips[this.state.stateIndex].places ){
-            this.props.setTripPlaces(this.state.trips[this.state.stateIndex].places) }
-    }
+        if(prevState.trips.length !== 0 && prevProps.atlasTripPlaces !== this.state.trips[this.state.stateIndex].places ){ this.props.setTripPlaces(this.state.trips[this.state.stateIndex].places) } }
 
     addLoadSaveDistanceButtons(array){
         return(
@@ -46,8 +42,7 @@ export default class SearchModule extends Component {
     addATrip(){
         let tripsArray = this.state.trips.slice();
         tripsArray.push(new TripObject("New Trip", [], ""))
-        this.setState({trips: tripsArray})
-    }
+        this.setState({trips: tripsArray}) }
 
     addASpace(){ return( <Row style={{height:5}}/>);}
 
@@ -55,9 +50,7 @@ export default class SearchModule extends Component {
         return(
             <div><InputGroup>
                 <Input className="justify-content-center" name={array.name} placeholder={"Enter Lat, Lng or Airport Name"} style={{backgroundColor: "#ffffff", width: array.width, borderRadius: "3px 3px 3px 3px", border: "1px solid #FFFFFF", left: 27, height: 30, boxShadow: "1px 1px 1px 0 #000000", overflow: "hidden"}} onChange={() => this.updateInputState()}/>
-                <InputGroupAddon addonType="append" ><Button size="sm" style={{padding: 3, left: 27, boxShadow: "1px 1px 1px 0 #000000"}} onClick={() => this.addCoordsLocationToTrip()}>Search</Button></InputGroupAddon>
-            </InputGroup></div> );
-    }
+                <InputGroupAddon addonType="append" ><Button size="sm" style={{padding: 3, left: 27, boxShadow: "1px 1px 1px 0 #000000"}} onClick={() => this.addCoordsLocationToTrip()}>Search</Button></InputGroupAddon></InputGroup></div> ); }
 
     addCoordsLocationToTrip(){
         try {
@@ -65,11 +58,8 @@ export default class SearchModule extends Component {
             let coordLocation = new coordParse(this.state.searchPlaces);
             let coordLat = coordLocation.getLatitude();
             let coordLng = coordLocation.getLongitude();
-            this.addCoordPlace(coordLat, coordLng)
-        } catch (error) {
-            this.serverListRequest()
-        }
-    }
+            this.addCoordPlace(coordLat, coordLng) }
+            catch (error) { this.serverListRequest() } }
 
     addCoordPlace(lat, lng){
         let coords = L.latLng(lat, lng);
@@ -78,16 +68,12 @@ export default class SearchModule extends Component {
         let placeNote = "Location at: " + coords.lat.toFixed(3) + ", " + coords.lng.toFixed(3);
         slice[this.state.stateIndex].places.push([coords, index, placeNote]);
         this.setState({trips: slice});
-        this.onClickCall(index ,this.state.stateIndex);
-    }
+        this.onClickCall(index ,this.state.stateIndex); }
 
     addPlaceOrDistance(array){
         return(
             <div><Row id="placePanel" className="justify-content-center">
-                <div className="tripBackdrop" style={{width:280, height: array.height, fontSize: 40}} ><label style={labelStyle} className="vertical-center justify-content-center" >{array.text}</label></div>
-            </Row></div>
-        );
-    }
+                <div className="tripBackdrop" style={{width:280, height: array.height, fontSize: 40}} ><label style={labelStyle} className="vertical-center justify-content-center" >{array.text}</label></div></Row></div> ); }
 
     addPlaceListItem(element, tripIndex){
         let tripNote = this.state.trips[this.state.stateIndex].places[element][0].lat.toFixed(3) + ", " + this.state.trips[this.state.stateIndex].places[element][0].lng.toFixed(3)
@@ -112,15 +98,12 @@ export default class SearchModule extends Component {
             <ListGroupItem id="searchListStyle" tag="button" title={this.state.trips[this.state.stateIndex].note} action onClick={(e) => {e.stopPropagation(); this.setState({stateIndex: index})}}>
                 {this.state.trips[index].name}
                 <div className="vertical-center justify-content-center" style={{position: "absolute", right: 5, top: 5, width: 30, height: 30, backgroundColor: "#1E4D2B", color: "#FFFFFF", borderRadius: 8, border: "1px solid #000000"}}
-                     onClick={(e) => {e.stopPropagation(); this.spliceTrips(index); this.forceUpdate()}}>X</div></ListGroupItem> );
-    }
+                     onClick={(e) => {e.stopPropagation(); this.spliceTrips(index); this.forceUpdate()}}>X</div></ListGroupItem> ); }
 
     loadPlaces(places, name, radius){
         let array = this.state.trips.slice();
         let placesArray = []
-        for(let i = 0; i < places.length; ++i){
-            placesArray.push([L.latLng(places[i].latitude,places[i].longitude), i, places[i].name])
-        }
+        for(let i = 0; i < places.length; ++i){ placesArray.push([L.latLng(places[i].latitude,places[i].longitude), i, places[i].name]) }
         array.push(new TripObject(name, placesArray, radius))
         this.setState({trips: array})
     }
@@ -129,13 +112,11 @@ export default class SearchModule extends Component {
         let array = this.state.trips;
         array.splice(index, 1)
         if(this.state.stateIndex - 1 < 0) { this.setState({trips: array}) }
-        else { this.setState({trips:array, stateIndex: this.state.stateIndex - 1}) }
-    }
+        else { this.setState({trips:array, stateIndex: this.state.stateIndex - 1}) } }
 
     closeTripUI() {
         if (this.state.designerOpen === '') { this.setState({designerOpen: 'designerIsOpen'}) }
-        else {this.setState({designerOpen: '',}) }
-    }
+        else {this.setState({designerOpen: '',}) } }
 
     toggleDropdown(){ this.setState({openDropdown: !this.state.openDropdown}) }
 
@@ -143,13 +124,11 @@ export default class SearchModule extends Component {
 
     returnPlacesSize(){
         if(this.state.trips.length === 0){ return 0; }
-        return this.state.trips[this.state.stateIndex].places.length
-    }
+        return this.state.trips[this.state.stateIndex].places.length }
 
     onClickCall(element, tripIndex){
         this.props.setWhereIsMarker(this.state.trips[tripIndex].places[element][0]);
-        this.setState({index: tripIndex})
-    }
+        this.setState({index: tripIndex}) }
 
     formatTripDistance() {
         let jsonStr = '{"places":[]}';let obj = JSON.parse(jsonStr);
@@ -165,8 +144,7 @@ export default class SearchModule extends Component {
         distancePlaces = distancePlaces.slice(10,distancePlaces.length-1);
         distancePlaces = JSON.parse(distancePlaces)
         this.calculateTripDistance(distancePlaces);
-        return(distancePlaces)
-    }
+        return(distancePlaces) }
 
     calculateTripDistance(latLngString){
         sendServerRequest({ requestType: "trip", requestVersion: 3,
@@ -176,16 +154,12 @@ export default class SearchModule extends Component {
             let distances = distance.data.distances;
             for(let i = 0; i < distances.length; i++){ totalDistance += distances[i]; }
             this.setState({distance: totalDistance, distanceArr: distance.data.distances})
-        });
-    }
+        }); }
 
     getFormatForSave() {
         let tripSavePlaces = this.formatTripDistance()
-        const fileContents = {
-            requestType: "trip", requestVersion: 3,
-            options: {title:this.state.trips[this.state.stateIndex].name, earthRadius: "3959.0"},
-            places: tripSavePlaces,
-            distances: this.state.distanceArr
+        const fileContents = {requestType: "trip", requestVersion: 3, options: {title:this.state.trips[this.state.stateIndex].name, earthRadius: "3959.0"},
+            places: tripSavePlaces, distances: this.state.distanceArr
         }
         const fileString = JSON.stringify(fileContents);
         this.FileIOREF.downloadFile(fileString, this.state.trips[this.state.stateIndex].name+'.json', 'application/json')
@@ -197,9 +171,7 @@ export default class SearchModule extends Component {
                 <DropdownToggle caret color="primary">Modify</DropdownToggle>
                 <DropdownMenu style={{position: "absolute", top: -255, left: -5, width: 285, fontSize: 14}}>
                     <Input name="popupInput" placeholder="Enter format and select action" style={{margins: 2, position: "relative", left: 25, background: "linear-gradient(#cccccc, #FFFFFF)", color: "#000000", borderRadius: 5}}  onChange={() => this.updatePopupInput()}/>
-                    {this.helpRenderDropdown()}
-                </DropdownMenu></ButtonDropdown> );
-    }
+                    {this.helpRenderDropdown()}</DropdownMenu></ButtonDropdown> ); }
 
     helpRenderDropdown() {
         const dropDownAction = (methodName, params) => { this.state.trips[this.state.stateIndex][methodName](params); }
@@ -217,8 +189,7 @@ export default class SearchModule extends Component {
 
     renderPopover(){
         return( <div className="d-flex">
-                <Button id="Popover"
-                        style={{position: "absolute", margin: 0, padding: 0, color: "#1E4D2B", backgroundColor: "#C8C372",
+                <Button id="Popover" style={{position: "absolute", margin: 0, padding: 0, color: "#1E4D2B", backgroundColor: "#C8C372",
                             width: 30, height: 30, borderRadius: 30, left:10, top: 15, border: "2px ridge #1E4D2B", zIndex: 1001}}
                         onClick={(e) => {e.stopPropagation(); this.setState({openPopover: !this.state.openPopover})}}
                         onBlur={() => this.blurState()}>
@@ -236,11 +207,7 @@ export default class SearchModule extends Component {
                             - Add different trips<br/>
                             - Save / Load a trip<br/>
                             - Select trip and click distance for round trip distance
-                        </p>
-                    </PopoverBody>
-                </Popover></div>
-        );
-    }
+                        </p></PopoverBody></Popover></div> ); }
 
     renderPlacesAndTrips(){
         return(
@@ -255,10 +222,7 @@ export default class SearchModule extends Component {
                     {this.renderDropdown()}</Row>
                 {this.addASpace()}
                 {this.addPlaceOrDistance(placesAndTrips[1])}
-                {this.addASpace()}
-            </div>
-        );
-    }
+                {this.addASpace()}</div> ); }
 
     renderTripUI(){
         return(
@@ -268,24 +232,17 @@ export default class SearchModule extends Component {
                      onClick={() => this.closeTripUI()}>X</div>
                 <Row className="justify-content-center">
                     <h4 style={{background: "linear-gradient(#1E4D2B, #002b0c)", padding: 4, left: 50,
-                        border:"2px ridge #FFFFFF", borderRadius: "3px 3px 3px 3px", boxShadow: "1px 2px 1px 0 #000000", overflow:"hidden"}}>Trip Designer</h4>
-                </Row>
+                        border:"2px ridge #FFFFFF", borderRadius: "3px 3px 3px 3px", boxShadow: "1px 2px 1px 0 #000000", overflow:"hidden"}}>Trip Designer</h4></Row>
                 {this.renderPopover()}
                 <div style={{position: "absolute", left: 10, top: 105, width: 320, height: 150, zIndex: 1100, overflow: "auto"}}>
-                    {this.renderPlaceList(this.state.stateIndex, 0, listType)}
-                </div>
+                    {this.renderPlaceList(this.state.stateIndex, 0, listType)}</div>
                 <Row style={{height:15}}/>
                 <div style={{position: "relative", left: -17}}>
-                    {this.addInputField(inputArray[0])}
-                </div>
+                    {this.addInputField(inputArray[0])}</div>
                 {this.renderPlacesAndTrips()}
                 {this.renderPlaceList(this.state.stateIndex, 1, listType)}
                 <Row style={{top:5}}>
-                    {this.addLoadSaveDistanceButtons(loadSaveDistance)}
-                </Row>
-            </div>
-        );
-    }
+                    {this.addLoadSaveDistanceButtons(loadSaveDistance)}</Row></div> ); }
 
     placeLoop(arr, ind){for (let i = 0; i < this.state.trips[ind].places.length; ++i) {arr.push(this.addPlaceListItem(i, ind));}}
 
@@ -304,30 +261,23 @@ export default class SearchModule extends Component {
         return(
             <div tabIndex="0"><ListGroup>
                 <div style={styleArray[tripOrPlace].style}>
-                    {searchListArray.map((element, index) => (<div key={index}>{element}</div>))} </div>
-            </ListGroup></div> );
-    }
+                    {searchListArray.map((element, index) => (<div key={index}>{element}</div>))} </div></ListGroup></div> ); }
 
     toggleButtonColor(){
         if(this.props.recordingTrip === 1){ return "success" }
-        else { return "danger" }
-    }
+        else { return "danger" } }
 
     updateInputState(){ if (event.target.name === "searchPlaces"){this.setState({searchPlaces: event.target.value});} }
 
     resetTripPlaces(){
         this.state.trips[this.state.stateIndex].resetPlaces()
-        this.forceUpdate();
-    }
+        this.forceUpdate(); }
 
     blurState(){
         if(this.state.openPopover === false){}
-        else { this.setState({openPopover: !this.state.openPopover}) }
-    }
+        else { this.setState({openPopover: !this.state.openPopover}) } }
 
-    serverListRequest() {
-        this.sendFindServerRequest(this.state.searchPlaces, 20);
-    }
+    serverListRequest() { this.sendFindServerRequest(this.state.searchPlaces, 20); }
 
     async sendFindServerRequest(matchPattern, limitInt) {
         await sendServerRequest({requestType: "find", requestVersion: 2, match: matchPattern, limit: limitInt})
@@ -345,19 +295,13 @@ export default class SearchModule extends Component {
                             outerArray.push(elementArray);
                         }
                         this.setState({searchListArray: outerArray, searchListOpen: true, numberFound: places.data.found});
-                    } catch (error) {
-                        console.error(error)
-                    }
-                }
-            });
-    }
+                    } catch (error) { console.error(error) }
+                } }); }
 
     addListGroupItem(index){
         return (
             <ListGroupItem id="searchListStyle" style={{maxWidth: 268, height: 55}} tag="button" action
-                           onClick={() => {this.addSearchItem(index); this.setState({searchListOpen: false})}}>{this.state.searchListArray[index][0]}</ListGroupItem>
-        );
-    }
+                           onClick={() => {this.addSearchItem(index); this.setState({searchListOpen: false})}}>{this.state.searchListArray[index][0]}</ListGroupItem> ); }
 
     addSearchItem(index){
         let tripsArray = this.state.trips
@@ -371,17 +315,11 @@ export default class SearchModule extends Component {
             if(i >= 20){break;}
             searchListArray.push(this.addListGroupItem(i));
         }
-        console.log(this.state.searchListArray)
         return(
             <div tabIndex="0">
                 <Container style={{padding: 0, margin: 0, position: "fixed", top: 209, left: 67, width: 290, backgroundColor: "#C8C372",
                     maxHeight: 230, overflow: "auto", borderRadius: 5, border: "2px solid #C8C372", zIndex: 1050}}>
                     <ListGroup style={{padding:0}} onBlur={() => this.setState({searchListOpen: false})}>
                         <div onClick={() => this.setState({searchListOpen: false})}>
-                            {searchListArray.map((element, index) => (<div key={index}>{element}</div>))} </div>
-                    </ListGroup>
-                </Container>
-            </div>
-        );
-    }
+                            {searchListArray.map((element, index) => (<div key={index}>{element}</div>))} </div></ListGroup></Container></div> ); }
 }
