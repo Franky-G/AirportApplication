@@ -140,7 +140,7 @@ export default class SearchModule extends Component {
 
     toggleDropdown(){ this.setState({openDropdown: !this.state.openDropdown}) }
 
-    addPlace(latLng, index){ this.state.trips[this.state.stateIndex].places.push([latLng, index, (latLng.lat.toFixed(3) + ", " + latLng.lng.toFixed(3))]) }
+    addPlace(latLng, index, note){ this.state.trips[this.state.stateIndex].places.push([latLng, index, note]) }
 
     returnPlacesSize(){
         if(this.state.trips.length === 0){ return 0; }
@@ -194,7 +194,7 @@ export default class SearchModule extends Component {
         return(
             <ButtonDropdown direction="up" isOpen={this.state.openDropdown} style={{position: "relative", left: 27, zIndex: 1100,}} size="sm" toggle={() => this.setState({openDropdown: !this.state.openDropdown})}>
                 <DropdownToggle caret color="primary">Modify</DropdownToggle>
-                <DropdownMenu style={{position: "absolute", top: -250, left: -5, width: 285, fontSize: 14}}>
+                <DropdownMenu style={{position: "absolute", top: -255, left: -5, width: 285, fontSize: 14}}>
                     <Input name="popupInput" placeholder="Enter format and select action" style={{margins: 2, position: "relative", left: 25, background: "linear-gradient(#cccccc, #FFFFFF)", color: "#000000", borderRadius: 5}}  onChange={() => this.updatePopupInput()}/>
                     {this.helpRenderDropdown()}
                 </DropdownMenu></ButtonDropdown> );
@@ -231,8 +231,8 @@ export default class SearchModule extends Component {
                             - Re-sort or remove a place <br/>
                             - Modify the trip under 'Modify' button <br/>
                             Add input(s) separated by ',' at the top and select an action<br/>
-                            - Add different trips
-                            - Save / Load a trip
+                            - Add different trips<br/>
+                            - Save / Load a trip<br/>
                             - Select trip and click distance for round trip distance
                         </p>
                     </PopoverBody>

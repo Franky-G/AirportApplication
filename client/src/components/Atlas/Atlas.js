@@ -143,7 +143,7 @@ export default class Atlas extends Component {
 
   helperHomeButton() {
     if(this.state.tripRecord) {
-      this.tripREF.addPlace(L.latLng(this.state.homeLocation[0], this.state.homeLocation[1]), this.tripREF.returnPlacesSize());
+      this.tripREF.addPlace(L.latLng(this.state.homeLocation[0], this.state.homeLocation[1]), this.tripREF.returnPlacesSize(), "Home");
     }
   }
 
@@ -194,7 +194,8 @@ export default class Atlas extends Component {
       this.setState({prevLocation: slicedArray, markerPosition: mapClickInfo.latlng, mapCenter: mapClickInfo.latlng})
     }
     if(this.state.tripRecord === true){
-      this.tripREF.addPlace(mapClickInfo.latlng, this.tripREF.returnPlacesSize());
+      let note = mapClickInfo.latlng.lat.toFixed(3) + ", " + mapClickInfo.latlng.lng.toFixed(3)
+      this.tripREF.addPlace(mapClickInfo.latlng, this.tripREF.returnPlacesSize(), note);
       this.forceUpdate()
     }
     return(
