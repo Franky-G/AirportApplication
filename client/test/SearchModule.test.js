@@ -98,3 +98,17 @@ function testSwitchToWhereIsModule(){
 
 }
 test("Test Switch To Distance Module", testSwitchToWhereIsModule)
+
+function testCalculateButton() {
+    const button = shallow(<SearchModule/>)
+    button.instance().renderCalculateButton()
+}
+
+test("Testing Render Calculate Button", testCalculateButton)
+
+function testSearchModule() {
+    const module = shallow(<SearchModule/>)
+    module.instance().renderSearchModule()
+}
+
+test("Search Module", testSearchModule)
