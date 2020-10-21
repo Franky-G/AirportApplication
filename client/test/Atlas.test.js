@@ -141,3 +141,11 @@ function testHelperHomeButton(){
 }
 
 test("test HelperHomeButton", testHelperHomeButton)
+
+function testSetMarker() {
+  const marker = shallow(<Atlas/>)
+  let mapClickInfo = {latlng: {lat: 40, lng: -105}}
+  marker.instance().setMarker(mapClickInfo)
+}
+
+test("Set Marker", testSetMarker)

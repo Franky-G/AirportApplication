@@ -58,13 +58,6 @@ function testDistanceCalc(){
 }
 test("Test Trip Distance", testDistanceCalc)
 
-// function testTripDistance(){
-//     const trip = shallow(<Trip/>)
-//     trip.instance().formatTripDistance()
-//     expect(trip.state().trips[0].places).toEqual([])
-// }
-// test("Test Format Trip Distance", testTripDistance)
-
 function testGetFormatForSave() {
     const save = shallow(<Trip/>)
     let initial = [{"lat":40.89427932709685,"lng":-106.68509331531826},{"lat":36.197684669556466,"lng":-102.95057724108594}]
@@ -86,14 +79,6 @@ function testGetFormatForSave() {
 }
 
 test("Get Format For Save", testGetFormatForSave)
-
-// function testAddAtrip() {
-//     const trip = mount(<Atlas/>)
-//     trip.instance().addATrip();
-// }
-//
-// test("Add a trip", testAddAtrip)
-
 
 function testRender() {
     const render = shallow(<Trip/>)
@@ -166,38 +151,6 @@ function testAddPlaceOrDistance() {
 
 test("Add Place or Distance", testAddPlaceOrDistance)
 
-// function testSpliceTrips() {
-//     const splice = shallow(<Trip/>)
-//     splice.instance().spliceTrips(splice.state().stateIndex)
-// }
-//
-// test("Splice Trips", testSpliceTrips)
-//
-// function testCloseTripUI() {
-//     const close = shallow(<Trip/>)
-//     let initial = close.state().designerOpen
-//     expect(initial).toEqual('')
-//     close.instance().closeTripUI()
-//     let temp = close.state().designerOpen
-//     expect(temp).toEqual("designerIsOpen")
-// }
-//
-// test("Close Trip UI", testCloseTripUI)
-//
-// function testToggleDropDown() {
-//     const drop = shallow(<Trip/>)
-//     drop.instance().toggleDropdown()
-// }
-//
-// test("Toggle Drop Down", testToggleDropDown)
-//
-// function testFormatTripDistance() {
-//     const dist = shallow(<Trip/>)
-//     dist.instance().formatTripDistance()
-// }
-//
-// test("Format Trip Distance", testFormatTripDistance)
-
 function testRenderSearchList() {
     const search = shallow(<Trip/>)
     search.instance().renderSearchList()
@@ -219,3 +172,16 @@ function testServerListReq(){
 }
 test("Test Blur State",testServerListReq)
 
+function helperRenderDropDown() {
+    const drop = shallow(<Trip/>)
+    drop.instance().helpRenderDropdown()
+}
+
+test("Helper Function", helperRenderDropDown)
+
+function testPlacesSize() {
+    const size = shallow(<Trip/>)
+    size.instance().returnPlacesSize()
+}
+
+test("Places Size", testPlacesSize)
