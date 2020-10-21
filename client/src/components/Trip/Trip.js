@@ -19,7 +19,7 @@ export default class SearchModule extends Component {
         this.loadPlaces = this.loadPlaces.bind(this);
         this.state = {
             designerOpen: '', searchPlaces: "", filter: "",
-            trips: [new TripObject("test", [[L.latLng(40,-105), 0, "ferrari"], [L.latLng(41,-105), 1, "Batman"]], "test note")],
+            trips: [new TripObject("My Trip", [], "My Favorite Places")],
             distance: 0, distanceArr: null, stateIndex: 0, openDropdown: false, openPopover: false, popupInput: "", searchCoords: "",
             searchListOpen: false, searchListArray: [], numberFound: 0} }
 
@@ -75,7 +75,8 @@ export default class SearchModule extends Component {
         let coords = L.latLng(lat, lng);
         let index = this.state.trips[this.state.stateIndex].places.length;
         let slice = this.state.trips.slice();
-        slice[this.state.stateIndex].places.push([coords, index, '']);
+        let placeNote = "Location at: " + coords.lat + ", " + coords.lng;
+        slice[this.state.stateIndex].places.push([coords, index, placeNote]);
         this.setState({trips: slice});
         this.onClickCall(index ,this.state.stateIndex);
     }
@@ -89,10 +90,11 @@ export default class SearchModule extends Component {
     }
 
     addPlaceListItem(element, tripIndex){
+        let tripNote = this.state.trips[this.state.stateIndex].places[element][0].lat.toFixed(3) + ", " + this.state.trips[this.state.stateIndex].places[element][0].lng.toFixed(3)
         return(
             <div>
-                <ListGroupItem id="searchListStyle" className="vertical-center" tag="button" title={this.state.trips[this.state.stateIndex].places[element][2]} action onClick={(e) => {e.stopPropagation(); this.onClickCall(element, tripIndex)}}>
-                    {this.state.trips[tripIndex].places[element][1]} | {this.state.trips[tripIndex].places[element][0].lat.toFixed(3)}{this.state.trips[tripIndex].places[element][0].lng.toFixed(3)}
+                <ListGroupItem id="searchListStyle" className="vertical-center" tag="button" title={tripNote} action onClick={(e) => {e.stopPropagation(); this.onClickCall(element, tripIndex)}}>
+                    {this.state.trips[tripIndex].places[element][1]} | {this.state.trips[tripIndex].places[element][2]}
                     {this.helperAddPlaceListItem(element, tripIndex)}</ListGroupItem></div> );
     }
 
@@ -118,7 +120,7 @@ export default class SearchModule extends Component {
         let array = this.state.trips.slice();
         let placesArray = []
         for(let i = 0; i < places.length; ++i){
-            placesArray.push([L.latLng(places[i].latitude,places[i].longitude), name + " " + i, places[i].name])
+            placesArray.push([L.latLng(places[i].latitude,places[i].longitude), i, places[i].name])
         }
         array.push(new TripObject(name, placesArray, radius))
         this.setState({trips: array})
@@ -138,7 +140,7 @@ export default class SearchModule extends Component {
 
     toggleDropdown(){ this.setState({openDropdown: !this.state.openDropdown}) }
 
-    addPlace(latLng, index){ this.state.trips[this.state.stateIndex].places.push([latLng, index, ("Latitude: " + latLng.lat.toFixed(4) + " | Longitude: " + latLng.lng.toFixed(4))]) }
+    addPlace(latLng, index){ this.state.trips[this.state.stateIndex].places.push([latLng, index, (latLng.lat.toFixed(3) + ", " + latLng.lng.toFixed(3))]) }
 
     returnPlacesSize(){
         if(this.state.trips.length === 0){ return 0; }
