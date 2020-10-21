@@ -75,7 +75,7 @@ export default class SearchModule extends Component {
         let coords = L.latLng(lat, lng);
         let index = this.state.trips[this.state.stateIndex].places.length;
         let slice = this.state.trips.slice();
-        let placeNote = "Location at: " + coords.lat + ", " + coords.lng;
+        let placeNote = "Location at: " + coords.lat.toFixed(3) + ", " + coords.lng.toFixed(3);
         slice[this.state.stateIndex].places.push([coords, index, placeNote]);
         this.setState({trips: slice});
         this.onClickCall(index ,this.state.stateIndex);

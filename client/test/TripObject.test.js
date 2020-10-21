@@ -87,7 +87,7 @@ function testModifyStart(){
     object.modifyStart(2)
     let testObject = object;
     expect(testObject.name).toEqual("test")
-    expect(testObject.places).toEqual([[L.latLng(5, 6), 2, "test"], [L.latLng(1, 2), 0, "test"], [L.latLng(3, 4), 0, "test"]])
+    expect(testObject.places).toEqual([[L.latLng(3, 4), 0, "test"], [L.latLng(1, 2), 0, "test"], [L.latLng(3, 4), 0, "test"]])
     expect(testObject.note).toEqual("test note")
 }
 
