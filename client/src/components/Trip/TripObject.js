@@ -63,7 +63,7 @@ export default class TripObject {
     modifyStart(index){
         let array = this.places.slice();
         let start = array[index - 1];
-        array.splice(index,1);
+        array.splice(index - 1,1);
         array.unshift(start);
         this.places = array;
     }
