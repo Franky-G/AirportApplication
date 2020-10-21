@@ -287,10 +287,14 @@ export default class SearchModule extends Component {
         );
     }
 
+    placeLoop(arr, ind){for (let i = 0; i < this.state.trips[ind].places.length; ++i) {arr.push(this.addPlaceListItem(i, ind));}}
+
+    tripLoop(arr, ind) {for (let i = 0; i < this.state.trips.length; ++i) {arr.push(this.addTripListItem(i, ind));}}
+
     getSearchListArray(ind, TorP){
         let searchListArr = [];
-        if (TorP === 0){ for (let i = 0; i < this.state.trips[ind].places.length; ++i) { searchListArr.push(this.addPlaceListItem(i, ind)); }}
-        else{ for (let i = 0; i < this.state.trips.length; ++i) { searchListArr.push(this.addTripListItem(i, ind)); }}
+        if (TorP === 0){this.placeLoop(searchListArr, ind)}
+        else{this.tripLoop(searchListArr, ind)}
         return searchListArr;
     }
 
