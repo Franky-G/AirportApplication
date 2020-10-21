@@ -199,13 +199,14 @@ export default class SearchModule extends Component {
     }
 
     helpRenderDropdown() {
+        const dropDownAction = (methodName, params) => { this.state.trips[this.state.stateIndex][methodName](params); }
         let dropDownItems = [{onClick: ()=> this.state.trips[this.state.stateIndex].reversePlaces(), text: "Reverse Trip"},
-            {onClick: ()=> this.state.trips[this.state.stateIndex].reversePlacesAt(Number(this.state.popupInput)), text: "Reverse Trip At: '3'"},
-            {onClick: ()=> this.state.trips[this.state.stateIndex].modifyStart(Number(this.state.popupInput)), text: "Set Start Location At: '2'"},
-            {onClick: ()=> this.state.trips[this.state.stateIndex].movePlace(this.state.popupInput), text: "Set Destination Position: '1, 2'"},
-            {onClick: ()=> this.state.trips[this.state.stateIndex].setPlaceNote(this.state.popupInput), text: "Destination Note: 'Bring camera, 3'"},
-            {onClick: ()=> this.state.trips[this.state.stateIndex].setNote(this.state.popupInput), text: "Make A Note For Trip: Hover for note"},
-            {onClick: ()=> this.state.trips[this.state.stateIndex].setName(this.state.popupInput), text: "Name Trip: A meaningful name"}];
+            {onClick: ()=> dropDownAction("reversePlacesAt", Number(this.state.popupInput)), text: "Reverse Trip At: '3'"},
+            {onClick: ()=> dropDownAction("modifyStart", Number(this.state.popupInput)), text: "Set Start Location At: '2'"},
+            {onClick: ()=> dropDownAction("movePlace", this.state.popupInput), text: "Set Destination Position: '1, 2'"},
+            {onClick: ()=> dropDownAction("setPlaceNote", this.state.popupInput), text: "Destination Note: 'Bring camera, 3'"},
+            {onClick: ()=> dropDownAction("setNote", this.state.popupInput), text: "Make A Note For Trip: Hover for note"},
+            {onClick: ()=> dropDownAction("setName", this.state.popupInput), text: "Name Trip: A meaningful name"}];
         return ( dropDownItems.map(items => <DropdownItem style={{position: "relative", left: -15}} onClick={items.onClick}>{items.text}</DropdownItem>) );
     }
 
