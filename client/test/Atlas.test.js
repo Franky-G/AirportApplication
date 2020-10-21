@@ -1,6 +1,6 @@
 import './jestConfig/enzyme.config.js';
 import React from 'react';
-import {shallow} from 'enzyme';
+import {shallow, mount} from 'enzyme';
 import Atlas from '../src/components/Atlas/Atlas';
 
 const startProperties = {
@@ -115,3 +115,29 @@ function testSearchBar() {
 }
 
 test("search Bar Coords", testSearchBar)
+
+function setSearchTextIsEmpty(){
+  const atlas = shallow(<Atlas/>)
+  expect(atlas.state().searchTextToIsEmpty).toBe(true)
+  atlas.instance().setSearchTextIsEmpty(false)
+  expect(atlas.state().searchTextToIsEmpty).toBe(false)
+}
+
+test("TestSearchTextIsEmpty", setSearchTextIsEmpty)
+
+function setWhereIsMarker(){
+  const atlas = shallow(<Atlas/>)
+  expect(atlas.state().whereIsMarker).toEqual(null)
+  atlas.instance().setWhereIsMarker(L.latLng(0,0))
+  expect(atlas.state().whereIsMarker).toEqual(L.latLng(0,0))
+  expect(atlas.state().mapCenter).toEqual([L.latLng(0,0).lat, L.latLng(0,0).lng])
+}
+
+test("test setWhereIsMarker", setWhereIsMarker)
+
+function testHelperHomeButton(){
+  const atlas = shallow(<Atlas/>);
+  atlas.instance().helperHomeButton();
+}
+
+test("test HelperHomeButton", testHelperHomeButton)
