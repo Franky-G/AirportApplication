@@ -144,12 +144,6 @@ function testInputField() {
 
 test("Add Input Field", testInputField)
 
-function testButtonColor() {
-    const color = shallow(<Trip/>)
-    color.instance().toggleButtonColor()
-}
-
-test("Toggle Button Color", testButtonColor)
 
 function testRenderPlaceList() {
     const list = shallow(<Trip/>)
@@ -211,9 +205,17 @@ function testRenderSearchList() {
 
 test("Calling render to test if it exists", testRenderSearchList)
 
-function testServerListRequest() {
-    const request = shallow(<Trip/>)
-    request.instance().serverListRequest()
+function testBlurState(){
+    const close = shallow(<Trip/>)
+    close.instance().blurState()
+    expect(close.state().openPopover).toEqual(false)
 }
+test("Test Blur State", testBlurState)
 
-test("testing Server List Request", testServerListRequest)
+function testServerListReq(){
+    const close = shallow(<Trip/>)
+    close.instance().serverListRequest()
+    expect(close.state().openPopover).toEqual(false)
+}
+test("Test Blur State",testServerListReq)
+
