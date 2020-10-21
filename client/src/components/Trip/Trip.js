@@ -155,7 +155,9 @@ export default class SearchModule extends Component {
         let jsonStr = '{"places":[]}';let obj = JSON.parse(jsonStr);
         if (this.state.trips[this.state.stateIndex].places.length === 0) { this.setState({distance: 0}); return; }
         for(let i = 0; i < this.state.trips[this.state.stateIndex].places.length; i++) {
-            let lat = this.state.trips[this.state.stateIndex].places[i][0].lat.toString();
+            let indx = this.state.stateIndex
+            let lat = this.state.trips[indx].places[i][0].lat;
+            lat = lat.toString()
             let long = this.state.trips[this.state.stateIndex].places[i][0].lng.toString();
             obj['places'].push({"name":this.state.trips[this.state.stateIndex].places[i][2],"latitude":lat,"longitude":long});
         }
