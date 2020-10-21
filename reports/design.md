@@ -189,7 +189,7 @@ This option will allow the user to create a trip with support for an unlimited n
  
 
 #### Modify a Trip
-This option will allow the user to modify a saved trip. It will allow the user to chose a different starting location while maintaining the order of the destinations. It will also allow the user to reverse the order of the destinations from the starting location. It will also allow the user to reorder individual destinations. It will allow the user to remove destinations, along with the functionality of adding notes to the trip, also correct their mistakes on the existing information.
+This option will allow the user to modify a saved trip. It will allow the user to chose a different starting location while maintaining the order of the destinations. It will also allow the user to reverse the order of the destinations from the starting location. It will also allow the user to reorder individual destinations. It will allow the user to remove destinations, along with the functionality of adding notes to the trip, also correct their mistakes on the existing information. Allows the user to add an entire trip using a valid json load file. An entire trip can be saved and loaded from the save resulting in a new trip. 
 
 ### Component Hierarchy
 ![Component Hierarchy Sprint 3](https://github.com/csucs314f20/t10/blob/master/reports/images/Sprint3ComponentHierarchy.png)
