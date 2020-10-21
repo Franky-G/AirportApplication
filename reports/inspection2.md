@@ -20,13 +20,13 @@
 
 | file:line | problem | hi/med/low | who found | github#  |
 | --- | --- | :---: | :---: | --- |
-| Atlas.js:103-111 | searchREF to cause Interface Faults | low | Jimit B. | |
-| Atlas.js:186-203 | Multiple if/else blocks causes Exception Faults | low | Jimit B. | |
-| SearchModule.js:74-81 | event.target causes Data Faults when no event specified | low | Jimit B. | |
+| Atlas.js:103-111 | searchREF to cause Interface Faults | low | Jimit B. | Issue #653 |
+| Atlas.js:186-203 | Multiple if/else blocks causes Exception Faults | low | Jimit B. | Issue #654 |
+| SearchModule.js:74-81 | event.target causes Data Faults when no event specified | low | Jimit B. | Issue #655 |
 | Atlas.js:215-219 | recordingTrip state variable is int, used as bool. Case where recordingTrip>1? | low | Jake B. | Issue #647 |
-| Atlas.js:113-115 | State is set no matter the value. Could cause logical issues | low | Kyle C | Issue #642 |
+| Atlas.js:113-115 | State is set no matter the value. Could cause logical issues | low | Kyle C. | Issue #642 |
 | SearchModule.js:163-178 | Values passed in are never being checked for null or invalid. Results in a setState of undefined | low | Kyle C. | Issue #645 |
 | Atlas.js:233 | Function is only called once. Thus removing the need for a one line function | low | Frank G. | Issue #641 |
 | SearchModule.js:163 | Server request does not check whether or not whats being sent is violating schema specifications | med | Frank G. | Issue #643 |
-| SearchModule.js:55-70 | Method uses error checking rather than exclusion to detect invalid inputs | low | Sean M | Issue #644 |
-| Atlas.js:231-233 | Method could be consolidated into another function | low | Sean M | Issue #649 |
+| SearchModule.js:55-70 | Method uses error checking rather than exclusion to detect invalid inputs | low | Sean M. | Issue #644 |
+| Atlas.js:231-233 | Method could be consolidated into another function | low | Sean M. | Issue #649 |
