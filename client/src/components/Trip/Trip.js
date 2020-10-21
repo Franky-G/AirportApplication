@@ -20,7 +20,7 @@ export default class SearchModule extends Component {
         this.state = {
             designerOpen: '', searchPlaces: "", filter: "",
             trips: [new TripObject("test", [[L.latLng(40,-105), 0, "ferrari"], [L.latLng(41,-105), 1, "Batman"]], "test note")],
-            distance: 0, distanceArr: null, stateIndex: 0, openDropdown: false, openPopover: false, popupInput: "", } }
+            distance: 0, distanceArr: null, stateIndex: 0, openDropdown: false, openPopover: false, popupInput: "", searchCoords: ""} }
 
     render(){
         return(
@@ -51,8 +51,32 @@ export default class SearchModule extends Component {
         return(
             <div><InputGroup>
                     <Input className="justify-content-center" name={array.name} style={{backgroundColor: "#FFFFFF", width: array.width, borderRadius: "3px 3px 3px 3px", border: "1px solid #FFFFFF", left: 27, height: 30, boxShadow: "1px 1px 1px 0 #000000", overflow: "hidden"}} onChange={() => this.updateInputState()}/>
-                    <InputGroupAddon addonType="append" ><Button size="sm" style={{padding: 3, left: 27, boxShadow: "1px 1px 1px 0 #000000"}}>Search</Button></InputGroupAddon>
-            </InputGroup></div> ); }
+                    <InputGroupAddon addonType="append" ><Button size="sm" style={{padding: 3, left: 27, boxShadow: "1px 1px 1px 0 #000000"}} onClick={() => this.addCoordsLocationToTrip()}>Search</Button></InputGroupAddon>
+            </InputGroup></div> );
+    }
+
+    addCoordsLocationToTrip(){
+        console.log('coords',this.state.searchPlaces)
+        try {
+            let coordParse = require('coordinate-parser')
+            console.log(this.state.searchPlaces)
+            let coordLocation = new coordParse(this.state.searchPlaces);
+            let coordLat = coordLocation.getLatitude();
+            let coordLng = coordLocation.getLongitude();
+            this.addCoordPlace(coordLat, coordLng)
+        } catch (error) {
+            alert("Invalid Coordinate Input!")
+        }
+    }
+
+    addCoordPlace(lat, lng){
+        let coords = L.latLng(lat, lng);
+        let index = this.state.trips[this.state.stateIndex].places.length;
+        let slice = this.state.trips.slice();
+        slice[this.state.stateIndex].places.push([coords, index, '']);
+        this.setState({trips: slice});
+        this.onClickCall(index ,this.state.stateIndex);
+    }
 
     addPlaceOrDistance(array){
         return(
