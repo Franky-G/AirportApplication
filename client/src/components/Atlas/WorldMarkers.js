@@ -64,21 +64,19 @@ export default class WorldMarkers extends Component {
     }
 
     makePolyline(){
-
         let array = [];
         for(let i = 0; i < this.props.atlasTripPlaces.length; ++i){
             array.push(this.props.atlasTripPlaces[i][0])
         }
-        if(array[0] !== null && array[1] !== null) {
-            if(this.props.prevLocation[0] !== null && this.props.prevLocation[1] !== null) {
-                return (
-                    this.renderPolyline(array)
-                );
-            } else {
-                return(
-                    <div><Polyline color="green" positions={array}/></div>
-                );
-            }
+        if(array[0] !== null && array[1] !== null && this.props.prevLocation[0] !== null && this.props.prevLocation[1] !== null) {
+            return (
+                this.renderPolyline(array)
+            );
+        }
+        if(array[0] !== null && array[1] !== null){
+            return(
+                <div><Polyline color="green" positions={array}/></div>
+            );
         }
     }
 
