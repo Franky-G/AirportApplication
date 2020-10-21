@@ -49,9 +49,9 @@
 
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
-| Epics | *4* | *count* |
-| Tasks |  *27*   | *count* | 
-| Story Points |  *57*  | *sum* | 
+| Epics | *4* | *3* |
+| Tasks |  *27*   | *24* | 
+| Story Points |  *57*  | *78* | 
 
 - The team's ability to complete the planned tasks/story points based on the previous sprint result is beyond sufficent. The team will use integration methods 
 that will allow each memeber to work efficiently and in a timely manner. The team shares a high confidence to perform well during this sprint. 
@@ -74,7 +74,13 @@ Reflection will be done in regards to the retrospective from sprint 2 and the te
 
 ### Epics done  
 
+- v3 Protocol: For this epic, the team added trip to supported requests in config. It also added the trip type. This epic updates the requestVersion to 3. It modifies the find behavior when no match is specified.
+- Build a Trip: This epic allows the user to create a trip with support of unlimited number of destinations. It allows the user to name the trip. he trip designer shows the round trip distance of their selected destinations. For better visualization, the trip is also displayed on the map. It shows an itinerary with leg and cumulative distances for the round trip. It allows the user to save the trip, along with the functionality of loading a save trip. Moreover, it allows the user to enter coordinates of different formats and also search for a place and adds their selected choice to the trip. The user can load a trip and also make changes to their existing trip allowing them to modify their destinations with multiple functionalities.
+- Modify Trip: After the user develops a trip, this epic allows the user to select a new starting location while maintaining the order of the destinations. It allows the user to reverse the order of the destinations from the starting location. It also allows the user to reorder the destinations in their trip. It allows them to modify the trip by removing destinations of their choice. It allows the user to add notes to their trip and correct mistakes in the existing information for the trip. Added functionality are also compatible after the user loads a saved trip. 
+
 ### Epics not done 
+
+- Filter Trip: This epic will allow the user to find destination in their trip if the number of destination grows in their trip. It will only display the desired places in the itinerary.
 
 ### What went well
 
