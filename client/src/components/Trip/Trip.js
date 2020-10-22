@@ -167,7 +167,7 @@ export default class SearchModule extends Component {
         const dropDownAction = (methodName, params) => { this.state.trips[this.state.stateIndex][methodName](params); }
         let dropDownItems = [{onClick: ()=> this.state.trips[this.state.stateIndex].reversePlaces(), text: "Reverse Trip"},
             {onClick: ()=> {this.inputCheck() && dropDownAction("reversePlacesAt", Number(this.state.popupInput))}, text: "Reverse Trip At: '3'"},
-            {onClick: ()=> {this.inputCheck() && dropDownAction("modifyStart", Number(this.state.popupInput))}, text: "Set Start Location At: '2'"},
+            {onClick: ()=> {dropDownAction("modifyStart", Number(this.state.popupInput)) && this.inputCheck()}, text: "Set Start Location At: '2'"},
             {onClick: ()=> {this.inputCheck() && dropDownAction("movePlace", this.state.popupInput)}, text: "Set Destination Position: '1, 2'"},
             {onClick: ()=> {this.inputCheck() && dropDownAction("setPlaceNote", this.state.popupInput)}, text: "Destination Note: 'Bring camera, 3'"},
             {onClick: ()=> {this.inputCheck() && dropDownAction("setNote", this.state.popupInput)}, text: "Make A Note For Trip: Hover for note"},
