@@ -4,6 +4,7 @@ import Input from "@material-ui/core/Input";
 import {sendServerRequest} from "../../utils/restfulAPI";
 import FileIO from "../Atlas/FileIO"
 import TripObject from "../Trip/TripObject"
+import {SListArrayHelper} from "../../components/Cheese"
 const labelStyle = {opacity: 0.2, overflow:"hidden"}
 const inputArray = [{width: 228, label: "Add Place", width2: 70, name: "searchPlaces"}, {width: 229, label: "Filter", width2: 50, name: "filter"}]
 const placesAndTrips = [{height: 150, text: "Places"}, {height: 90, text: "Trips"}]
@@ -310,10 +311,10 @@ export default class SearchModule extends Component {
     }
 
     renderSearchList(){
-        let searchListArray = []
+        let SLArray = []
         for(let i = 0; i < this.state.numberFound; ++i){
             if(i >= 20){break;}
-            searchListArray.push(this.addListGroupItem(i));
+            SLArray.push(this.addListGroupItem(i));
         }
         return(
             <div tabIndex="0">
@@ -321,5 +322,5 @@ export default class SearchModule extends Component {
                     maxHeight: 230, overflow: "auto", borderRadius: 5, border: "2px solid #C8C372", zIndex: 1050}}>
                     <ListGroup style={{padding:0}} onBlur={() => this.setState({searchListOpen: false})}>
                         <div onClick={() => this.setState({searchListOpen: false})}>
-                            {searchListArray.map((element, index) => (<div key={index}>{element}</div>))} </div></ListGroup></Container></div> ); }
+                            {SListArrayHelper(SLArray)} </div></ListGroup></Container></div> ); }
 }
