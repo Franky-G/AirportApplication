@@ -105,7 +105,9 @@ export default class Find extends Component {
         let numFound = this.state.numberFound
         let maxFound = 20;
         for(let j = 0; j < numFound; j++){
-            if(j >= maxFound){break;}
+            if(j >= maxFound){
+                break;
+            }
             searchListArray.push(this.addListGroupItem(j));
         }
         return(
