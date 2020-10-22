@@ -165,3 +165,10 @@ function testServerRequest2() {
 }
 
 test("Server Request", testServerRequest2)
+
+function testServerRequest3() {
+    const request = shallow(<Find/>)
+    request.instance().sendFindServerRequest("dave", 50)
+}
+
+test("Server Request", testServerRequest3)
