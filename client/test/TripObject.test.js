@@ -152,3 +152,10 @@ function testMovePlace() {
 }
 
 test("Test Move Place", testMovePlace)
+
+function testSetPlaceNote() {
+    const object = new TripObject("test", [[L.latLng(1, 2), 0 , "test"], [L.latLng(3, 4), 0, "test"], [L.latLng(5, 6), 2 , "test"], [L.latLng(7, 8), 3 , "test"]], "test note")
+    object.setPlaceNote("denver")
+}
+
+test("Set place note", testSetPlaceNote)

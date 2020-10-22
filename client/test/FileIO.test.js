@@ -26,3 +26,10 @@ function testDownloadFile() {
 }
 
 test("Download File", testDownloadFile)
+
+function testProcessFile() {
+    const process = shallow(<FileIO/>)
+    process.instance().processFiles()
+}
+
+test("Process File", testProcessFile)

@@ -151,3 +151,17 @@ function testRenderMain() {
 
 test("Rendering render", testRenderMain)
 
+function testHelpClickOutside() {
+    const click = shallow(<Find/>)
+    click.instance().handleClickOutside()
+    expect(click.state().searchIsOn).toEqual(false)
+}
+
+test("Handle Click Outside", testHelpClickOutside)
+
+function testServerRequest2() {
+    const request = shallow(<Find/>)
+    request.instance().sendFindServerRequest("dave", 20)
+}
+
+test("Server Request", testServerRequest2)
