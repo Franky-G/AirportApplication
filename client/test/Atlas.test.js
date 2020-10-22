@@ -125,6 +125,16 @@ function setSearchTextIsEmpty(){
 
 test("TestSearchTextIsEmpty", setSearchTextIsEmpty)
 
+function setSearchTextIsNotEmpty(){
+  const atlas = shallow(<Atlas/>)
+  expect(atlas.state().searchTextToIsEmpty).toBe(true)
+  atlas.instance().setSearchTextIsEmpty(false)
+  atlas.instance().setSearchTextIsEmpty(true)
+  expect(atlas.state().searchTextToIsEmpty).toBe(true)
+}
+
+test("TestSearchTextIsNotEmpty", setSearchTextIsNotEmpty)
+
 function setWhereIsMarker(){
   const atlas = shallow(<Atlas/>)
   expect(atlas.state().whereIsMarker).toEqual(null)
