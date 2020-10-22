@@ -166,15 +166,17 @@ export default class SearchModule extends Component {
     helpRenderDropdown() {
         const dropDownAction = (methodName, params) => { this.state.trips[this.state.stateIndex][methodName](params); }
         let dropDownItems = [{onClick: ()=> this.state.trips[this.state.stateIndex].reversePlaces(), text: "Reverse Trip"},
-            {onClick: ()=> dropDownAction("reversePlacesAt", Number(this.state.popupInput)), text: "Reverse Trip At: '3'"},
-            {onClick: ()=> dropDownAction("modifyStart", Number(this.state.popupInput)), text: "Set Start Location At: '2'"},
-            {onClick: ()=> dropDownAction("movePlace", this.state.popupInput), text: "Set Destination Position: '1, 2'"},
-            {onClick: ()=> dropDownAction("setPlaceNote", this.state.popupInput), text: "Destination Note: 'Bring camera, 3'"},
-            {onClick: ()=> dropDownAction("setNote", this.state.popupInput), text: "Make A Note For Trip: Hover for note"},
-            {onClick: ()=> dropDownAction("setName", this.state.popupInput), text: "Name Trip: A meaningful name"}];
+            {onClick: ()=> {this.inputCheck() && dropDownAction("reversePlacesAt", Number(this.state.popupInput))}, text: "Reverse Trip At: '3'"},
+            {onClick: ()=> {dropDownAction("modifyStart", Number(this.state.popupInput)) && this.inputCheck()}, text: "Set Start Location At: '2'"},
+            {onClick: ()=> {this.inputCheck() && dropDownAction("movePlace", this.state.popupInput)}, text: "Set Destination Position: '1, 2'"},
+            {onClick: ()=> {this.inputCheck() && dropDownAction("setPlaceNote", this.state.popupInput)}, text: "Destination Note: 'Bring camera, 3'"},
+            {onClick: ()=> {this.inputCheck() && dropDownAction("setNote", this.state.popupInput)}, text: "Make A Note For Trip: Hover for note"},
+            {onClick: ()=> {this.inputCheck() && dropDownAction("setName", this.state.popupInput)}, text: "Name Trip: A meaningful name"}];
         return ( dropDownItems.map(items => <DropdownItem style={{position: "relative", left: -15}} onClick={items.onClick}>{items.text}</DropdownItem>) );}
 
     updatePopupInput(){ this.setState({popupInput: event.target.value}) }
+
+    inputCheck(){if(this.state.popupInput === ""){return false;} else {return true;}}
 
     renderPopover(){
         return( <div className="d-flex">
@@ -228,19 +230,13 @@ export default class SearchModule extends Component {
     renderPlaceList(index, tripOrPlace, styleArray){
         if(this.state.trips.length === 0) { return; }
         let searchListArray = this.getSearchListArray(index, tripOrPlace);
-        return(
-            <div tabIndex="0"><ListGroup>
-                <div style={styleArray[tripOrPlace].style}>{SListArrayHelper(searchListArray)} </div></ListGroup></div> ); }
+        return(<div tabIndex="0"><ListGroup><div style={styleArray[tripOrPlace].style}>{SListArrayHelper(searchListArray)} </div></ListGroup></div>);}
 
-    toggleButtonColor(){
-        if(this.props.recordingTrip === 1){ return "success" }
-        else { return "danger" } }
+    toggleButtonColor(){if(this.props.recordingTrip === 1){ return "success" } else { return "danger" } }
 
     updateInputState(){ if (event.target.name === "searchPlaces"){this.setState({searchPlaces: event.target.value});} }
 
-    resetTripPlaces(){
-        this.state.trips[this.state.stateIndex].resetPlaces()
-        this.forceUpdate(); }
+    resetTripPlaces(){ this.state.trips[this.state.stateIndex].resetPlaces(); this.forceUpdate(); }
 
     blurState(){
         if(this.state.openPopover === false){}
