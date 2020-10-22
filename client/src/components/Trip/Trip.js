@@ -4,7 +4,7 @@ import Input from "@material-ui/core/Input";
 import {sendServerRequest} from "../../utils/restfulAPI";
 import FileIO from "../Atlas/FileIO"
 import TripObject from "../Trip/TripObject"
-import {SListArrayHelper, modifyText} from "../../components/Cheese"
+import {SListArrayHelper, modifyText, addPOrDHelper} from "../../components/Cheese"
 const labelStyle = {opacity: 0.2, overflow:"hidden"}
 const inputArray = [{width: 228, label: "Add Place", width2: 70, name: "searchPlaces"}, {width: 229, label: "Filter", width2: 50, name: "filter"}]
 const placesAndTrips = [{height: 150, text: "Places"}, {height: 90, text: "Trips"}]
@@ -71,18 +71,14 @@ export default class SearchModule extends Component {
         this.setState({trips: slice});
         this.onClickCall(index ,this.state.stateIndex); }
 
-    addPlaceOrDistance(array){
-        return(
-            <div><Row id="placePanel" className="justify-content-center">
-                <div className="tripBackdrop" style={{width:280, height: array.height, fontSize: 40}} ><label style={labelStyle} className="vertical-center justify-content-center" >{array.text}</label></div></Row></div> ); }
+    addPlaceOrDistance(array){ return( addPOrDHelper(array, labelStyle)); }
 
     addPlaceListItem(element, tripIndex){
         let tripNote = this.state.trips[this.state.stateIndex].places[element][0].lat.toFixed(3) + ", " + this.state.trips[this.state.stateIndex].places[element][0].lng.toFixed(3)
         return(
             <div>
                 <ListGroupItem id="searchListStyle" className="vertical-center" tag="button" title={tripNote} action onClick={(e) => {e.stopPropagation(); this.onClickCall(element, tripIndex)}}>
-                    {this.state.trips[tripIndex].places[element][1] + 1} | {this.state.trips[tripIndex].places[element][2]}
-                    {this.helperAddPlaceListItem(element, tripIndex)}</ListGroupItem></div> );}
+                    {this.state.trips[tripIndex].places[element][1] + 1} | {this.state.trips[tripIndex].places[element][2]}{this.helperAddPlaceListItem(element, tripIndex)}</ListGroupItem></div> );}
 
     helperAddPlaceListItem(element, tripIndex) {
         const helpPlaceListItem = (e, tripIndex, methodName, params) => { e.stopPropagation(); this.state.trips[tripIndex][methodName](params); this.forceUpdate(); }
@@ -146,8 +142,7 @@ export default class SearchModule extends Component {
 
     calculateTripDistance(latLngString){
         sendServerRequest({ requestType: "trip", requestVersion: 3,
-            options: {title: this.state.trips[this.state.stateIndex].name, earthRadius: "3959.0"}, places: latLngString
-        }).then(distance => {
+            options: {title: this.state.trips[this.state.stateIndex].name, earthRadius: "3959.0"}, places: latLngString}).then(distance => {
             let totalDistance = 0;
             let distances = distance.data.distances;
             for(let i = 0; i < distances.length; i++){ totalDistance += distances[i]; }
@@ -156,9 +151,7 @@ export default class SearchModule extends Component {
 
     getFormatForSave() {
         let tripSavePlaces = this.formatTripDistance()
-        const fileContents = {requestType: "trip", requestVersion: 3, options: {title:this.state.trips[this.state.stateIndex].name, earthRadius: "3959.0"},
-            places: tripSavePlaces, distances: this.state.distanceArr
-        }
+        const fileContents = {requestType: "trip", requestVersion: 3, options: {title:this.state.trips[this.state.stateIndex].name, earthRadius: "3959.0"}, places: tripSavePlaces, distances: this.state.distanceArr}
         const fileString = JSON.stringify(fileContents);
         this.FileIOREF.downloadFile(fileString, this.state.trips[this.state.stateIndex].name+'.json', 'application/json')}
 
@@ -214,18 +207,13 @@ export default class SearchModule extends Component {
                 <div className="vertical-center justify-content-center" style={{position: "absolute",  top: 16, left: 262, height: 25, width: 25, borderRadius: "3px 3px 3px 3px", backgroundColor:"#C8C372", fontSize: 20, border: "1px ridge #1E4D2B", color: "#1E4D2B", cursor: "pointer"}}
                      onClick={() => {this.closeTripUI(); this.setState({searchListOpen: false})}}>X</div>
                 <Row className="justify-content-center">
-                    <h4 style={{background: "linear-gradient(#1E4D2B, #002b0c)", padding: 4, left: 50,
-                        border:"2px ridge #FFFFFF", borderRadius: "3px 3px 3px 3px", boxShadow: "1px 2px 1px 0 #000000", overflow:"hidden"}}>Trip Designer</h4></Row>
+                    <h4 style={{background: "linear-gradient(#1E4D2B, #002b0c)", padding: 4, left: 50, border:"2px ridge #FFFFFF", borderRadius: "3px 3px 3px 3px", boxShadow: "1px 2px 1px 0 #000000", overflow:"hidden"}}>Trip Designer</h4></Row>
                 {this.renderPopover()}
-                <div style={{position: "absolute", left: 10, top: 105, width: 320, height: 150, zIndex: 1100, overflow: "auto"}}>
-                    {this.renderPlaceList(this.state.stateIndex, 0, listType)}</div>
-                <Row style={{height:15}}/>
-                <div style={{position: "relative", left: -17}}>
-                    {this.addInputField(inputArray[0])}</div>
+                <div style={{position: "absolute", left: 10, top: 105, width: 320, height: 150, zIndex: 1100, overflow: "auto"}}>{this.renderPlaceList(this.state.stateIndex, 0, listType)}</div>
+                <Row style={{height:15}}/><div style={{position: "relative", left: -17}}>{this.addInputField(inputArray[0])}</div>
                 {this.renderPlacesAndTrips()}
                 {this.renderPlaceList(this.state.stateIndex, 1, listType)}
-                <Row style={{top:5}}>
-                    {this.addLoadSaveDistanceButtons(loadSaveDistance)}</Row></div> ); }
+                <Row style={{top:5}}>{this.addLoadSaveDistanceButtons(loadSaveDistance)}</Row></div> ); }
 
     placeLoop(arr, ind){for (let i = 0; i < this.state.trips[ind].places.length; ++i) {arr.push(this.addPlaceListItem(i, ind));}}
 
@@ -263,8 +251,7 @@ export default class SearchModule extends Component {
     async sendFindServerRequest(matchPattern, limitInt) {
         await sendServerRequest({requestType: "find", requestVersion: 2, match: matchPattern, limit: limitInt})
             .then(places => {
-                if (places) {
-                    try {
+                if (places) { try {
                         let outerArray = [];
                         for (let i = 0; i < limitInt; ++i) {
                             let elementArray = []
@@ -272,9 +259,7 @@ export default class SearchModule extends Component {
                                 elementArray.push(places.data.places[i].name);
                                 elementArray.push(places.data.places[i].latitude);
                                 elementArray.push(places.data.places[i].longitude);
-                            }
-                            outerArray.push(elementArray);
-                        }
+                            } outerArray.push(elementArray); }
                         this.setState({searchListArray: outerArray, searchListOpen: true, numberFound: places.data.found});
                     } catch (error) { console.error(error) }
                 } }); }
