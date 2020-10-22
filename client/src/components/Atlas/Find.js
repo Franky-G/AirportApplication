@@ -2,6 +2,7 @@ import {sendServerRequest} from "../../utils/restfulAPI";
 import React, {Component} from "react";
 import {Button, Col, Container, Input, ListGroup, ListGroupItem, Row} from "reactstrap";
 import Fade from "@material-ui/core/Fade";
+import {SListArrayHelper} from "../Cheese";
 
 
 const distanceButtonStyle = {
@@ -30,7 +31,6 @@ export default class Find extends Component {
         super(props);
         this.setWrapperRef = this.setWrapperRef.bind(this);
         this.handleClickOutside = this.handleClickOutside.bind(this);
-
         this.state = {
             numberFound: 0,
             searchArray: [],
@@ -116,7 +116,7 @@ export default class Find extends Component {
                     maxHeight: 230, overflow: "auto", zIndex: 1015}}>
                     <ListGroup onBlur={() => this.setState({searchIsOn: false})}>
                         <div onClick={() => this.setState({searchIsOn: false})}>
-                            {searchListArray.map((element, index) => (<div key={index}>{element}</div>))} </div>
+                            {SListArrayHelper(searchListArray)} </div>
                     </ListGroup>
                 </Container>
             </div>
