@@ -4,7 +4,7 @@ import Input from "@material-ui/core/Input";
 import {sendServerRequest} from "../../utils/restfulAPI";
 import FileIO from "../Atlas/FileIO"
 import TripObject from "../Trip/TripObject"
-import {SListArrayHelper} from "../../components/Cheese"
+import {SListArrayHelper, modifyText} from "../../components/Cheese"
 const labelStyle = {opacity: 0.2, overflow:"hidden"}
 const inputArray = [{width: 228, label: "Add Place", width2: 70, name: "searchPlaces"}, {width: 229, label: "Filter", width2: 50, name: "filter"}]
 const placesAndTrips = [{height: 150, text: "Places"}, {height: 90, text: "Trips"}]
@@ -82,8 +82,7 @@ export default class SearchModule extends Component {
             <div>
                 <ListGroupItem id="searchListStyle" className="vertical-center" tag="button" title={tripNote} action onClick={(e) => {e.stopPropagation(); this.onClickCall(element, tripIndex)}}>
                     {this.state.trips[tripIndex].places[element][1] + 1} | {this.state.trips[tripIndex].places[element][2]}
-                    {this.helperAddPlaceListItem(element, tripIndex)}</ListGroupItem></div> );
-    }
+                    {this.helperAddPlaceListItem(element, tripIndex)}</ListGroupItem></div> );}
 
     helperAddPlaceListItem(element, tripIndex) {
         const helpPlaceListItem = (e, tripIndex, methodName, params) => { e.stopPropagation(); this.state.trips[tripIndex][methodName](params); this.forceUpdate(); }
@@ -91,8 +90,7 @@ export default class SearchModule extends Component {
             {right: 5, top: 22, width: 19, height: 19, borderRadius: 5, text: "v", onclick: (e) => helpPlaceListItem(e, tripIndex, "positionDown", element)},
             {height: 30, onclick: (e) => helpPlaceListItem(e, tripIndex, "removePlace", element), right: 30, text: "X", top: 5, width: 30, borderRadius: 8}]
         return ( placeListItem.map(items => <div className="vertical-center justify-content-center" style={{position: "absolute", right: items.right, top: items.top, width: items.width, height: items.height,
-            backgroundColor: "#1E4D2B", color: "#FFFFFF", borderRadius: items.borderRadius, border: "1px solid #000000"}} onClick={items.onclick}>{items.text}</div>) );
-    }
+            backgroundColor: "#1E4D2B", color: "#FFFFFF", borderRadius: items.borderRadius, border: "1px solid #000000"}} onClick={items.onclick}>{items.text}</div>) );}
 
     addTripListItem(index){
         return(
@@ -106,8 +104,7 @@ export default class SearchModule extends Component {
         let placesArray = []
         for(let i = 0; i < places.length; ++i){ placesArray.push([L.latLng(places[i].latitude,places[i].longitude), i, places[i].name]) }
         array.push(new TripObject(name, placesArray, radius))
-        this.setState({trips: array})
-    }
+        this.setState({trips: array})}
 
     spliceTrips(index){
         let array = this.state.trips;
@@ -163,8 +160,7 @@ export default class SearchModule extends Component {
             places: tripSavePlaces, distances: this.state.distanceArr
         }
         const fileString = JSON.stringify(fileContents);
-        this.FileIOREF.downloadFile(fileString, this.state.trips[this.state.stateIndex].name+'.json', 'application/json')
-    }
+        this.FileIOREF.downloadFile(fileString, this.state.trips[this.state.stateIndex].name+'.json', 'application/json')}
 
     renderDropdown(){
         return(
@@ -183,32 +179,18 @@ export default class SearchModule extends Component {
             {onClick: ()=> dropDownAction("setPlaceNote", this.state.popupInput), text: "Destination Note: 'Bring camera, 3'"},
             {onClick: ()=> dropDownAction("setNote", this.state.popupInput), text: "Make A Note For Trip: Hover for note"},
             {onClick: ()=> dropDownAction("setName", this.state.popupInput), text: "Name Trip: A meaningful name"}];
-        return ( dropDownItems.map(items => <DropdownItem style={{position: "relative", left: -15}} onClick={items.onClick}>{items.text}</DropdownItem>) );
-    }
+        return ( dropDownItems.map(items => <DropdownItem style={{position: "relative", left: -15}} onClick={items.onClick}>{items.text}</DropdownItem>) );}
 
     updatePopupInput(){ this.setState({popupInput: event.target.value}) }
 
     renderPopover(){
         return( <div className="d-flex">
-                <Button id="Popover" style={{position: "absolute", margin: 0, padding: 0, color: "#1E4D2B", backgroundColor: "#C8C372",
-                            width: 30, height: 30, borderRadius: 30, left:10, top: 15, border: "2px ridge #1E4D2B", zIndex: 1001}}
+                <Button id="Popover" style={{position: "absolute", margin: 0, padding: 0, color: "#1E4D2B", backgroundColor: "#C8C372", width: 30, height: 30, borderRadius: 30, left:10, top: 15, border: "2px ridge #1E4D2B", zIndex: 1001}}
                         onClick={(e) => {e.stopPropagation(); this.setState({openPopover: !this.state.openPopover})}}
-                        onBlur={() => this.blurState()}>
-                    ?
-                </Button>
+                        onBlur={() => this.blurState()}> ? </Button>
                 <Popover isOpen={this.state.openPopover} placement="bottom" target="Popover" offset="125">
                     <PopoverHeader>How To Use</PopoverHeader>
-                    <PopoverBody style={{maxWidth: 300}}>
-                        <p>
-                            Create a trip!<br/>
-                            - Toggle the trip manager on/off to start recording places via mouse clicks, or input coordinates / locations in the search bar and add place<br/><br/>
-                            - Re-sort or remove a place <br/>
-                            - Modify the trip under 'Modify' button <br/>
-                            Add input(s) separated by ',' at the top and select an action<br/>
-                            - Add different trips<br/>
-                            - Save / Load a trip<br/>
-                            - Select trip and click distance for round trip distance
-                        </p></PopoverBody></Popover></div> ); }
+                    <PopoverBody style={{maxWidth: 300}}>{modifyText()}</PopoverBody></Popover></div> ); }
 
     renderPlacesAndTrips(){
         return(
@@ -253,16 +235,14 @@ export default class SearchModule extends Component {
         let searchListArr = [];
         if (TorP === 0){this.placeLoop(searchListArr, ind)}
         else{this.tripLoop(searchListArr, ind)}
-        return searchListArr;
-    }
+        return searchListArr;}
 
     renderPlaceList(index, tripOrPlace, styleArray){
         if(this.state.trips.length === 0) { return; }
         let searchListArray = this.getSearchListArray(index, tripOrPlace);
         return(
             <div tabIndex="0"><ListGroup>
-                <div style={styleArray[tripOrPlace].style}>
-                    {searchListArray.map((element, index) => (<div key={index}>{element}</div>))} </div></ListGroup></div> ); }
+                <div style={styleArray[tripOrPlace].style}>{SListArrayHelper(searchListArray)} </div></ListGroup></div> ); }
 
     toggleButtonColor(){
         if(this.props.recordingTrip === 1){ return "success" }
@@ -307,8 +287,7 @@ export default class SearchModule extends Component {
     addSearchItem(index){
         let tripsArray = this.state.trips
         tripsArray[this.state.stateIndex].places.push([L.latLng(this.state.searchListArray[index][1], this.state.searchListArray[index][2]), this.state.trips[this.state.stateIndex].places.length, this.state.searchListArray[index][0]])
-        this.setState({trips: tripsArray})
-    }
+        this.setState({trips: tripsArray})}
 
     renderSearchList(){
         let SLArray = []
