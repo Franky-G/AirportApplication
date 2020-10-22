@@ -102,9 +102,13 @@ export default class Find extends Component {
 
     renderSearchList(){
         let searchListArray = []
-        for(let i = 0; i < this.state.numberFound; ++i){
-            if(i >= 20){break;}
-            searchListArray.push(this.addListGroupItem(i));
+        let numFound = this.state.numberFound
+        let maxFound = 20;
+        for(let j = 0; j < numFound; j++){
+            if(j >= maxFound){
+                break;
+            }
+            searchListArray.push(this.addListGroupItem(j));
         }
         return(
             <div ref={this.setWrapperRef} tabIndex="0">
