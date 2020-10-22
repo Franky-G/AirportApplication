@@ -136,7 +136,7 @@ test("testReversePlaces", testReversePlaces)
 
 function testReversePlacesAt(){
     const object = new TripObject("test", [[L.latLng(1, 2), 0 , "test"], L.latLng(3, 4), [L.latLng(5, 6), 2 , "test"], [L.latLng(7, 8), 3 , "test"]], "test note")
-    object.reversePlacesAt(1)
+    object.reversePlacesAt(2)
     let testObject = object;
     expect(testObject.name).toEqual("test")
     expect(testObject.places).toEqual([[L.latLng(1, 2), 0 , "test"], [L.latLng(7, 8), 3 , "test"], [L.latLng(5, 6), 2 , "test"], L.latLng(3, 4)])

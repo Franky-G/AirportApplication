@@ -229,7 +229,7 @@ export default class SearchModule extends Component {
             <div id="tripDiv" className={this.state.designerOpen}>
                 <Row style={{height:5}}/>
                 <div className="vertical-center justify-content-center" style={{position: "absolute",  top: 16, left: 262, height: 25, width: 25, borderRadius: "3px 3px 3px 3px", backgroundColor:"#C8C372", fontSize: 20, border: "1px ridge #1E4D2B", color: "#1E4D2B", cursor: "pointer"}}
-                     onClick={() => this.closeTripUI()}>X</div>
+                     onClick={() => {this.closeTripUI(); this.setState({searchListOpen: false})}}>X</div>
                 <Row className="justify-content-center">
                     <h4 style={{background: "linear-gradient(#1E4D2B, #002b0c)", padding: 4, left: 50,
                         border:"2px ridge #FFFFFF", borderRadius: "3px 3px 3px 3px", boxShadow: "1px 2px 1px 0 #000000", overflow:"hidden"}}>Trip Designer</h4></Row>
