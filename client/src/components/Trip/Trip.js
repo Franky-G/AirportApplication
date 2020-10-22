@@ -86,9 +86,9 @@ export default class SearchModule extends Component {
 
     helperAddPlaceListItem(element, tripIndex) {
         const helpPlaceListItem = (e, tripIndex, methodName, params) => { e.stopPropagation(); this.state.trips[tripIndex][methodName](params); this.forceUpdate(); }
-        let placeListItem = [{right: 5, top: 1, width:19, height: 19, borderRadius: 5, text: "^", onclick: (e) => helpPlaceListItem(e, tripIndex, "positionUp", element)},
+        let placeListItem = [{borderRadius: 5, text: "^", right: 5, height: 19, top: 1, width:19, onclick: (e) => helpPlaceListItem(e, tripIndex, "positionUp", element)},
             {right: 5, top: 22, width: 19, height: 19, borderRadius: 5, text: "v", onclick: (e) => helpPlaceListItem(e, tripIndex, "positionDown", element)},
-            {right: 30, top: 5, width: 30, height: 30, borderRadius: 8, text: "X", onclick: (e) => helpPlaceListItem(e, tripIndex, "removePlace", element)}]
+            {height: 30, onclick: (e) => helpPlaceListItem(e, tripIndex, "removePlace", element), right: 30, text: "X", top: 5, width: 30, borderRadius: 8}]
         return ( placeListItem.map(items => <div className="vertical-center justify-content-center" style={{position: "absolute", right: items.right, top: items.top, width: items.width, height: items.height,
             backgroundColor: "#1E4D2B", color: "#FFFFFF", borderRadius: items.borderRadius, border: "1px solid #000000"}} onClick={items.onclick}>{items.text}</div>) );
     }
