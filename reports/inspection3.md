@@ -2,9 +2,9 @@
  
 | Inspection | Details |
 | ----- | ----- |
-| Subject | *file and methods/line range to review for meeting* |
+| Subject | *Trip.js (15-287)* |
 | Meeting | *date, time, location* |
-| Checklist | *Inspection [Checklist](https://github.com/csucs314f20/t10/blob/master/reports/checklist.md) for T10* |\
+| Checklist | *Inspection [Checklist](https://github.com/csucs314f20/t10/blob/master/reports/checklist.md) for T10* |
 
 ### Roles
 
