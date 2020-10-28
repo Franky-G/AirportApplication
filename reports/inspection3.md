@@ -3,7 +3,7 @@
 | Inspection | Details |
 | ----- | ----- |
 | Subject | *Trip.js (15-287)* |
-| Meeting | *date, time, location* |
+| Meeting | *10/30/20, 2:00 PM MST, Discord* |
 | Checklist | *Inspection [Checklist](https://github.com/csucs314f20/t10/blob/master/reports/checklist.md) for T10* |
 
 ### Roles
