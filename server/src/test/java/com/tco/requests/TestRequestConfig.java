@@ -56,31 +56,31 @@ public class TestRequestConfig {
   @DisplayName("Config Type Filter")
   public void testTypeFilter() {
     String[] temp = conf.getFilters().get("type");
-    assertEquals(temp.length, 3);
+    assertEquals(3, temp.length);
   }
 
   @Test
   @DisplayName("Config Type Filter")
   public void testTypeFilterSupport() {
     String[] temp = conf.getFilters().get("type");
-    assertEquals(temp[0], "airport");
-    assertEquals(temp[1], "heliport");
-    assertEquals(temp[2], "balloonport");
+    assertEquals("airport", temp[0]);
+    assertEquals("heliport", temp[1]);
+    assertEquals("balloonport", temp[2]);
   }
 
   @Test
   @DisplayName("Config Where Filter")
   public void testWhereFilter() {
     String temp[] = conf.getFilters().get("where");
-    assertEquals(temp.length, 247);
+    assertEquals(247, temp.length);
   }
 
   @Test
   @DisplayName("Config Where Filter")
   public void testWhereFilterSupport() {
     String temp[] = conf.getFilters().get("where");
-    assertEquals(temp[0], "Andorra");
-    assertEquals(temp[temp.length - 1], "Unknown or unassigned country");
+    assertEquals("Andorra", temp[0]);
+    assertEquals("Unknown or unassigned country", temp[temp.length - 1]);
   }
 
   @Test
