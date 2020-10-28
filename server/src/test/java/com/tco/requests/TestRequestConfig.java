@@ -70,17 +70,9 @@ public class TestRequestConfig {
 
   @Test
   @DisplayName("Config Where Filter")
-  public void testWhereFilter() {
-    String temp[] = conf.getFilters().get("where");
-    assertEquals(247, temp.length);
-  }
-
-  @Test
-  @DisplayName("Config Where Filter")
   public void testWhereFilterSupport() {
     String temp[] = conf.getFilters().get("where");
     assertEquals("Andorra", temp[0]);
-    assertEquals("Unknown or unassigned country", temp[temp.length - 1]);
   }
 
   @Test
