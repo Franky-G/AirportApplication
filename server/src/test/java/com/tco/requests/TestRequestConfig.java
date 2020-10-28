@@ -9,6 +9,7 @@ import org.junit.jupiter.api.DisplayName;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -50,4 +51,38 @@ public class TestRequestConfig {
     List<String> suppReq = conf.getSupportedRequests();
     assertEquals(temp, suppReq);
   }
+
+  @Test
+  @DisplayName("Config Type Filter")
+  public void testTypeFilter() {
+    String[] temp = conf.getFilters().get("type");
+    assertEquals(3, temp.length);
+  }
+
+  @Test
+  @DisplayName("Config Type Filter")
+  public void testTypeFilterSupport() {
+    String[] temp = conf.getFilters().get("type");
+    assertEquals("airport", temp[0]);
+    assertEquals("heliport", temp[1]);
+    assertEquals("balloonport", temp[2]);
+  }
+
+  @Test
+  @DisplayName("Config Where Filter")
+  public void testWhereFilterSupport() {
+    String temp[] = conf.getFilters().get("where");
+    assertEquals("Andorra", temp[0]);
+  }
+
+  @Test
+  @DisplayName("Config Where Filter")
+  public void testWhereConfigFilter() {
+    conf.buildResponse();
+    Map<String, String[]> filters = conf.getFilters();
+    assertEquals(true, filters.containsKey("type"));
+    assertEquals(true, filters.containsKey("where"));
+    assertEquals(false, filters.containsKey("filters"));
+  }
+
 }
