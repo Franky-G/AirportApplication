@@ -216,7 +216,7 @@ The state is located in Footer and Atlas. The props passed to child components a
 ### Class Diagram
 ![Class Diagram Sprint 3](https://github.com/csucs314f20/t10/blob/master/reports/images/Sprint3ClassDiagram.png)
 
-The changes in class diagram for Sprint 2 are:
+The changes in class diagram for Sprint 3 are:
 * Config: objects allow the server to provide configuration information to the client.
 * Distance: objects allow the client to request the distance between two geographic locations.
 * Find: objects allow the client to provide the user a list of possible destinations based on some criteria.
@@ -225,4 +225,44 @@ The changes in class diagram for Sprint 2 are:
 For Sprint 3, it adds request for Trip in the Microserver.
 
 # Sprint 4 
+
+### User Interface
+![User Interface Sprint 3](https://github.com/csucs314f20/t10/blob/master/reports/images/Sprint4UserInterface.png)
+
+#### Filter Search
+This epic will introduce functionality to allow the user to filter their search to specific categories. This includes filters like region and country. Overall this will allow the user to receive a list of more customized places and shorten the overall list to search.
+
+#### Shorter
+This epic will allow the user to create a shorter overall trip while still visiting the same destinations. When the user uses any trip functionality the time the user waits till the action is complete will be less than one second. Provide better results using user concurrency which will also reduce overall computation time.
+
+#### User Experience
+This epic will simplify the overall user experience. This will be done by giving the user information only when the user needs it. Using hamburgers and other methods will reduce clutter and allow the user to view information on the website easier. We will verify intuitive functionality by getting opinions from outside sources.
+
+#### Feeling Lucky?
+This epic will allow the user to get a place to visit that is suggested by the system. It will add that location to the current trip and calculate distance accordingly.
+
+### Component Hierarchy
+![Component Hierarchy Sprint 3](https://github.com/csucs314f20/t10/blob/master/reports/images/Sprint3ComponentHierarchy.png)
+
+* App renders the major components on the screen.
+* About renders information about the team, along with team's mission statement and short bios for each teammember, along with their contact information. 
+* Header renders an icon and a team name in the top banner.
+* Footer renders the current server connection in the bottom footer.
+* Atlas renders a map. 
+  * FleIO is used to load and save a trip.
+  * Find allows the user to find places along with searching of places by names and municipalities around the world.
+  * Search Module works to find distance along with the coordinate parser, which allows the user to enter multiple formats of coordinates.
+  * Where Is allows the user to enter coordinates of multiple formats and as soon as the user click the "Go To" button, the map drops a marker at that coordinates.
+* Trip will allow the user to build a trip and modify a trip. This functions will allow the user to build a trip with support of unlimited destinations, modify their existing trip with multiple functionality. 
+ 
+
+### Class Diagram
+![Class Diagram Sprint 3](https://github.com/csucs314f20/t10/blob/master/reports/images/Sprint3ClassDiagram.png)
+
+The changes in class diagram for Sprint 4 are:
+* Config: The filters element contains two properties. The type property identifies the different kinds of places available. The where property identifies locations by geographic elements.
+* Distance: objects allow the client to request the distance between two geographic locations.
+* Find: The narrow element contains filters to apply to the find request on the server.
+* Trip: Response is a string which corresponds to a numeric value for the number of seconds allowed for optimization. An optional coordinates may provide a string containing coordinates in a different format other than decimal degrees. 
+
 # Sprint 5
