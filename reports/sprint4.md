@@ -52,8 +52,8 @@ Provide better results using user concurrency which will also reduce overall com
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
 | Epics | *5* | *count* |
-| Tasks |  *19*   | *count* | 
-| Story Points |  *44*  | *sum* | 
+| Tasks |  *21*   | *count* | 
+| Story Points |  *48*  | *sum* | 
 
 * The team's ability to complete the planned tasks/story points based on the previous sprint result is beyond sufficent. The team will use integration methods that will allow each memeber to work efficiently and in a timely manner. The team shares a high confidence to perform well during this sprint. Reflection will be done in regards to the retrospective from sprint 3 and the team will make reasonable attempts to complete any changes.
 
@@ -62,6 +62,7 @@ Provide better results using user concurrency which will also reduce overall com
 | Date | Tasks closed  | Tasks in progress | Impediments |
 | :--- | :--- | :--- | :--- |
 | *10/27/2020* | *0* | *5* | *None* | 
+| *10/28/2020* | *6* | *5* | *None* | 
 
 
 ## Review
