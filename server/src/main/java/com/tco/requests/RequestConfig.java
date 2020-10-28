@@ -23,11 +23,7 @@ public class RequestConfig extends RequestHeader {
     this.requestVersion = RequestHeader.CURRENT_SUPPORTED_VERSION;
     this.supportedRequests = Arrays.asList("config", "distance", "find", "trip");
     this.filters = new HashMap<>();
-    String type[] = new String[3];
-    type[0] = "airport";
-    type[1] = "heliport";
-    type[2] = "balloonport";
-    this.filters.put("type", type);
+    this.filters.put("type", new String[] {"airport","heliport","balloonport"});
     this.filters.put("where", ProcessFindRequest.getCountries());
     log.trace("buildResponse -> {}", this);
   }
@@ -35,9 +31,9 @@ public class RequestConfig extends RequestHeader {
   public String getServerName() {
     return serverName;
   }
-
   public List<String> getSupportedRequests() {
     return supportedRequests;
   }
+  public Map<String, String[]> getFilters() {return filters; }
 }
 
