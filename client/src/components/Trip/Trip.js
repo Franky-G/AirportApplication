@@ -51,23 +51,24 @@ export default class SearchModule extends Component {
         return(
             <div><InputGroup>
                 <Input className="justify-content-center" name={array.name} placeholder={"Enter Lat, Lng or Airport Name"} style={{backgroundColor: "#ffffff", width: array.width, borderRadius: "3px 3px 3px 3px", border: "1px solid #FFFFFF", left: 27, height: 30, boxShadow: "1px 1px 1px 0 #000000", overflow: "hidden"}} onChange={() => this.updateInputState()}/>
-                <InputGroupAddon addonType="append" ><Button size="sm" style={{padding: 3, left: 27, boxShadow: "1px 1px 1px 0 #000000"}} onClick={() => this.addCoordsLocationToTrip()}>Search</Button></InputGroupAddon></InputGroup></div> ); }
+                <InputGroupAddon addonType="append" ><Button size="sm" style={{padding: 3, left: 27, boxShadow: "1px 1px 1px 0 #000000"}} onClick={() => this.validateCoords()}>Search</Button></InputGroupAddon></InputGroup></div> ); }
 
-    addCoordsLocationToTrip(){
+    validateCoords(){
         try {
             let coordParse = require('coordinate-parser')
-            let coordLocation = new coordParse(this.state.searchPlaces);
+            let coordStr = this.state.searchPlaces
+            let coordLocation = new coordParse(coordStr);
             let coordLat = coordLocation.getLatitude();
             let coordLng = coordLocation.getLongitude();
-            this.addCoordPlace(coordLat, coordLng) }
+            this.addCoordPlace(coordLat, coordLng, coordStr) }
             catch (error) { this.serverListRequest() } }
 
-    addCoordPlace(lat, lng){
+    addCoordPlace(lat, lng, coordStr){
         let coords = L.latLng(lat, lng);
         let index = this.state.trips[this.state.stateIndex].places.length;
         let slice = this.state.trips.slice();
         let placeNote = "Location at: " + coords.lat.toFixed(3) + ", " + coords.lng.toFixed(3);
-        slice[this.state.stateIndex].places.push([coords, index, placeNote]);
+        slice[this.state.stateIndex].places.push([coords, index, placeNote, coordStr]);
         this.setState({trips: slice});
         this.onClickCall(index ,this.state.stateIndex); }
 
@@ -132,7 +133,7 @@ export default class SearchModule extends Component {
             let lat = this.state.trips[indx].places[i][0].lat;
             lat = lat.toString()
             let long = this.state.trips[this.state.stateIndex].places[i][0].lng.toString();
-            obj['places'].push({"name":this.state.trips[this.state.stateIndex].places[i][2],"latitude":lat,"longitude":long});
+            obj['places'].push({"name":this.state.trips[this.state.stateIndex].places[i][2],"latitude":lat,"longitude":long, "coordinates": this.state.trips[this.state.stateIndex].places[i][3]});
         }
         let distancePlaces = JSON.stringify(obj);
         distancePlaces = distancePlaces.slice(10,distancePlaces.length-1);
