@@ -44,6 +44,7 @@ public class TestRequestTrip {
         trip2Trips = new HashMap[2];
         this.optionsTest2.put("title", "2 dest test");
         this.optionsTest2.put("earthRadius", "3959.0");
+        this.optionsTest2.put("response", "2.0");
         HashMap<String, String> trip2Dest = new HashMap<>();
         trip2Dest.put("name", "New York");
         trip2Dest.put("latitude", "40.743970970422126");
@@ -162,6 +163,13 @@ public class TestRequestTrip {
     public void testEarthRadiusTrip2() {
         String earthRadius = trip2.getEarthRadius();
         assertEquals("3959.0", earthRadius);
+    }
+
+    @Test
+    @DisplayName("Response Trip 2")
+    public void testResponseTrip2() {
+        String response = trip2.getResponse();
+        assertEquals("2.0", response);
     }
 
     @Test
