@@ -12,6 +12,7 @@ public class RequestTrip extends RequestHeader {
     private Map <String, String> options;
     private String title;
     private String earthRadius;
+    private String response;
     private Long distances[];
     private final transient Logger log = LoggerFactory.getLogger(RequestTrip.class);
 
@@ -26,6 +27,7 @@ public class RequestTrip extends RequestHeader {
         this.options = options;
         this.title = this.options.get("title");
         this.earthRadius = this.options.get("earthRadius");
+        this.response = this.options.get("response");
         this.places = new HashMap[places.length];
         this.places = places;
         this.distances = new Long[places.length];
@@ -60,6 +62,7 @@ public class RequestTrip extends RequestHeader {
 
     public Map<String, String>[] getPlaces() { return this.places; }
     public String getEarthRadius() {return this.earthRadius; }
+    public String getResponse() { return this.response; }
     public Long [] getTripDistance() { return this.distances; }
     public String getTitle() { return this.title; }
 }
