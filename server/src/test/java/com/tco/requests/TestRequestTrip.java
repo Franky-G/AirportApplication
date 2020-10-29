@@ -24,6 +24,7 @@ public class TestRequestTrip {
         this.options = new HashMap<>();
         this.options.put("title", "test");
         this.options.put("earthRadius", "3959.0");
+        this.options.put("units", "miles");
         this.places = new HashMap[3];
         this.places[0] = new HashMap<>();
         this.places[0].put("name", "Denver");
@@ -45,6 +46,7 @@ public class TestRequestTrip {
         this.optionsTest2.put("title", "2 dest test");
         this.optionsTest2.put("earthRadius", "3959.0");
         this.optionsTest2.put("response", "2.0");
+        this.optionsTest2.put("units", "kilometers");
         HashMap<String, String> trip2Dest = new HashMap<>();
         trip2Dest.put("name", "New York");
         trip2Dest.put("latitude", "40.743970970422126");
@@ -211,5 +213,14 @@ public class TestRequestTrip {
     public void testTotalDistanceTrip1() {
         trip.buildResponse();
         assertEquals(136, trip.getTotalTripDistance());
+    }
+
+    @Test
+    @DisplayName("Test Units for Trip")
+    public void testUnits() {
+        trip.buildResponse();
+        assertEquals("miles", trip.getUnits());
+        trip2.buildResponse();
+        assertEquals("kilometers", trip2.getUnits());
     }
 }
