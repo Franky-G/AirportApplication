@@ -38,18 +38,21 @@ public class ProcessFindRequest {
     }
 
     public static void setQUERY(String matchPattern, int limitInt, boolean isPlaces, boolean isFound){
+        if (limitInt > 10000){ limitInt = 10000; }
         QUERY = "SELECT world.name AS name, world.latitude AS latitude, world.longitude AS longitude, world.id AS id, world.altitude AS altitude, world.municipality AS municipality, world.type AS type, region.name AS region, country.name AS country FROM continent INNER JOIN country ON continent.id = country.continent INNER JOIN region ON country.id = region.iso_country INNER JOIN world on region.id = world.iso_region ";
         if (matchPattern.isEmpty() && limitInt == 0) { QUERY += "ORDER BY RAND() LIMIT 1"; }
         else if (matchPattern.isEmpty()) { QUERY += "ORDER BY RAND() LIMIT " + limitInt; }
         else {
-            QUERY += "WHERE country.name LIKE '%" + matchPattern + "%' OR region.name like '%" + matchPattern + "%' OR world.name like '%" + matchPattern + "%' OR world.municipality like '%" + matchPattern + "%' ORDER BY world.name ASC LIMIT ";
+            QUERY += "WHERE country.name LIKE '%" + matchPattern + "%' OR region.name like '%" + matchPattern + "%' OR world.name like '%" + matchPattern + "%' OR world.municipality like '%" + matchPattern + "%' ORDER BY world.name";
             setQUERYHelper(limitInt, isPlaces, isFound);
         }
     }
 
     public static void setQUERYHelper(int limitInt, boolean isPlaces, boolean isFound){
-        if ((!isPlaces && isFound) || (isPlaces && !isFound && limitInt == 0)){ QUERY += "150"; }
-        else{ QUERY += limitInt; }
+        if (!((!isPlaces && isFound) || (isPlaces && !isFound && limitInt == 0))){
+            QUERY += " ASC LIMIT " + limitInt;
+        }
+        else { QUERY += " ASC LIMIT 10000"; }
     }
 
     public static List<LinkedHashMap<String,String>> processPlaces(String matchPattern, int limitInt, Map<String,String[]> narrowFilter) {
@@ -133,14 +136,15 @@ public class ProcessFindRequest {
     }
 
     public static void onlyType(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, Map<String, String[]> narrowFilter){
-        onlyTypeHelper(list, resultPlace, resultPlace.get("type"), Arrays.asList(narrowFilter.get("type")).contains("airport"));
+        List<String> specificType = Arrays.asList(narrowFilter.get("type"));
+        onlyTypeHelper(list, resultPlace, specificType, specificType.contains("airport"));
     }
 
-    public static void onlyTypeHelper(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, String resultType, boolean conAir){
-        if ((resultPlace.get("type").endsWith("airport") || Objects.equals(resultPlace.get("type"), resultType)) && conAir){
+    public static void onlyTypeHelper(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, List<String> specificType, boolean conAir){
+        if ((resultPlace.get("type").endsWith("airport") || specificType.contains(resultPlace.get("type"))) && conAir){
             list.add(resultPlace);
         }
-        if (Objects.equals(resultPlace.get("type"), resultType) && !conAir){
+        if (specificType.contains(resultPlace.get("type")) && !conAir){
             list.add(resultPlace);
         }
     }
