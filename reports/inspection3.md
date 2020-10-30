@@ -20,9 +20,9 @@
 
 | file:line | problem | hi/med/low | who found | github#  |
 | --- | --- | :---: | :---: | --- |
-| Trip.js:269-272 | searchListArray with 0 elements to cause Data Faults. | low | jimit | |
-| Trip.js:99-104 | for loop uncertain to terminate. (Check upper-bound of array) | low | jimit | |
-| Trip.js:128-137 | Flow defects: Wrong values with edge cases. | low | jimit | |
+| Trip.js:269-272 | searchListArray with 0 elements to cause Data Faults. | low | jimit | Issue #805 |
+| Trip.js:99-104 | for loop uncertain to terminate. (Check upper-bound of array) | low | jimit | Issue #806 |
+| Trip.js:128-137 | Flow defects: Wrong values with edge cases. | low | jimit | Issue #808 |
 | Trip.js:40 | onClick calls function that returns something without assigning anything | med | frankyg | |
 | Trip.js:264 | One line Function is only called once and can be replaced/removed | low | frankyg | |
 | Trip.js:116 | Toggle function is never called and can be removed | low | frankyg | |
