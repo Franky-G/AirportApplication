@@ -11,7 +11,7 @@
 | Name | Preparation Time |
 | ---- | ---- |
 | Jimit Bhalavat | 50 mins |
-| Frank Gansukh |  |
+| Frank Gansukh | 37 mins |
 
 ### Problems found
 
