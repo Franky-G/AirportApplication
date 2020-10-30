@@ -148,7 +148,8 @@ public class TestRequestFind {
 
         List<LinkedHashMap<String,String>> places = fin.getPlaces();
         String name = places.get(1).get("name");
-        assertEquals("1 Razryvno-Moiseevskaya Helipad", name);
+        if (!hasTravis) { assertEquals("'S Gravenvoeren heliport", name); }
+        else{ assertEquals("Aappilattoq (Qaasuitsup) Heliport", name); }
     }
 
     @Test
@@ -160,8 +161,8 @@ public class TestRequestFind {
         fin.buildResponse();
 
         List<LinkedHashMap<String,String>> places = fin.getPlaces();
-        String name = places.get(5).get("name");
-        assertEquals("1 Razryvno-Moiseevskaya Helipad", name);
+        String name = places.get(0).get("name");
+        assertEquals("\"Der Dingel\" Airfield", name);
     }
 
     @Test
@@ -174,7 +175,7 @@ public class TestRequestFind {
         fin.buildResponse();
 
         List<LinkedHashMap<String,String>> places = fin.getPlaces();
-        String name = places.get(8).get("name");
-        assertEquals("185 Monmouth Parkway Associates Helistop", name);
+        String name = places.get(0).get("name");
+        assertEquals("02 Ranch Airport", name);
     }
 }

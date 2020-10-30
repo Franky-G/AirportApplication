@@ -59,9 +59,7 @@ public class ProcessFindRequest {
         setServerParameters();
         try { runQuery(QUERY, allLocations); }
         catch (Exception e) { System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage()); }
-        if (!narrowFilter.isEmpty()) {
-            filterList(allLocations, narrowFilter, false);
-        }
+        if (!narrowFilter.isEmpty()) { filterList(allLocations, narrowFilter, false); }
         return allLocations;
     }
 
@@ -120,25 +118,29 @@ public class ProcessFindRequest {
     public static void placesFilter(List<LinkedHashMap<String,String>> placeHolder, List<LinkedHashMap<String,String>> list, String[] countries, String[] diffPorts){
         for (int i=0; i<placeHolder.size(); i++) {
             LinkedHashMap<String,String> resultPlace = placeHolder.get(i);
-            String resultCountry = placeHolder.get(i).get("country");
-            String resultType = placeHolder.get(i).get("type");
+            String resultCountry = resultPlace.get("country");
+            String resultType = resultPlace.get("type");
             if (countries != null && diffPorts == null) { // Only where specified
                 onlyWhere(list, resultPlace, countries, resultCountry);
             }
-            if (countries == null && diffPorts != null){ // Only type specified
+            else if (countries == null && diffPorts != null){ // Only type specified
                 onlyType(list, resultPlace, diffPorts, resultType);
             }
-            if (countries != null && diffPorts != null){ // Both specified
-                if (Arrays.asList(diffPorts).contains("airport")) {
-                    if ((resultType.endsWith("airport") || Arrays.asList(diffPorts).contains(resultType)) && Arrays.asList(countries).contains(resultCountry)){
-                        list.add(resultPlace);
-                    }
-                }
-                else{
-                    if (Arrays.asList(diffPorts).contains(resultType) && Arrays.asList(countries).contains(resultCountry)){
-                        list.add(resultPlace);
-                    }
-                }
+            else { // Both specified
+                bothKeys(list, resultPlace, countries, diffPorts);
+            }
+        }
+    }
+
+    public static void bothKeys(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, String[] countries, String[] diffPorts){
+        if (Arrays.asList(diffPorts).contains("airport")) {
+            if ((resultPlace.get("type").endsWith("airport") || Arrays.asList(diffPorts).contains(resultPlace.get("type"))) && Arrays.asList(countries).contains(resultPlace.get("country"))){
+                list.add(resultPlace);
+            }
+        }
+        else{
+            if (Arrays.asList(diffPorts).contains(resultPlace.get("type")) && Arrays.asList(countries).contains(resultPlace.get("country"))){
+                list.add(resultPlace);
             }
         }
     }
@@ -152,14 +154,19 @@ public class ProcessFindRequest {
     // make a helper if complexity issues arise (check if diffPorts contains airport)
     public static void onlyType(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, String[] diffPorts, String resultType){
         if (Arrays.asList(diffPorts).contains("airport")){ // type = airport check
-            if (resultType.endsWith("airport") || Arrays.asList(diffPorts).contains(resultType)){
-                list.add(resultPlace);
-            }
+            onlyTypeHelper(list, resultPlace, resultType, true);
         }
         else {
-            if (Arrays.asList(diffPorts).contains(resultType)){
-                list.add(resultPlace);
-            }
+            onlyTypeHelper(list, resultPlace, resultType, false);
+        }
+    }
+
+    public static void onlyTypeHelper(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, String resultType, boolean conAir){
+        if ((resultPlace.get("type").endsWith("airport") || Arrays.asList(resultPlace.get("type")).contains(resultType)) && conAir){
+            list.add(resultPlace);
+        }
+        if (Arrays.asList(resultPlace.get("type")).contains(resultType) && !conAir){
+            list.add(resultPlace);
         }
     }
 
