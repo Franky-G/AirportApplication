@@ -126,6 +126,19 @@ public class TestRequestFind {
     }
 
     @Test
+    public void testNarrow(){
+        Map<String,String[]> temp = new HashMap<>();
+        temp.put("type", new String[] {"airport"});
+        temp.put("where", new String[] {"United States"});
+
+        fin = new RequestFind("", 100, temp);
+        fin.buildResponse();
+
+        Map<String,String[]> narrow = fin.getNarrow();
+        assertEquals(temp, narrow);
+    }
+
+    @Test
     public void testNarrowWhere(){
         Map<String,String[]> temp = new HashMap<>();
         temp.put("where", new String[] {"Germany", "Belgium", "Greenland"});
