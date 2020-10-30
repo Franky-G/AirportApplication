@@ -116,31 +116,15 @@ public class ProcessFindRequest {
     }
 
     public static void placesFilter(List<LinkedHashMap<String,String>> placeHolder, List<LinkedHashMap<String,String>> list, String[] countries, String[] diffPorts){
-        for (int i=0; i<placeHolder.size(); i++) {
-            LinkedHashMap<String,String> resultPlace = placeHolder.get(i);
+        for (LinkedHashMap<String, String> resultPlace : placeHolder) {
             String resultCountry = resultPlace.get("country");
             String resultType = resultPlace.get("type");
             if (countries != null && diffPorts == null) { // Only where specified
                 onlyWhere(list, resultPlace, countries, resultCountry);
-            }
-            else if (countries == null && diffPorts != null){ // Only type specified
+            } else if (countries == null && diffPorts != null) { // Only type specified
                 onlyType(list, resultPlace, diffPorts, resultType);
-            }
-            else { // Both specified
+            } else { // Both specified
                 bothKeys(list, resultPlace, countries, diffPorts);
-            }
-        }
-    }
-
-    public static void bothKeys(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, String[] countries, String[] diffPorts){
-        if (Arrays.asList(diffPorts).contains("airport")) {
-            if ((resultPlace.get("type").endsWith("airport") || Arrays.asList(diffPorts).contains(resultPlace.get("type"))) && Arrays.asList(countries).contains(resultPlace.get("country"))){
-                list.add(resultPlace);
-            }
-        }
-        else{
-            if (Arrays.asList(diffPorts).contains(resultPlace.get("type")) && Arrays.asList(countries).contains(resultPlace.get("country"))){
-                list.add(resultPlace);
             }
         }
     }
@@ -151,21 +135,36 @@ public class ProcessFindRequest {
         }
     }
 
-    // make a helper if complexity issues arise (check if diffPorts contains airport)
     public static void onlyType(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, String[] diffPorts, String resultType){
-        if (Arrays.asList(diffPorts).contains("airport")){ // type = airport check
-            onlyTypeHelper(list, resultPlace, resultType, true);
-        }
-        else {
-            onlyTypeHelper(list, resultPlace, resultType, false);
-        }
+        onlyTypeHelper(list, resultPlace, resultType, Arrays.asList(diffPorts).contains("airport"));
     }
 
     public static void onlyTypeHelper(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, String resultType, boolean conAir){
-        if ((resultPlace.get("type").endsWith("airport") || Arrays.asList(resultPlace.get("type")).contains(resultType)) && conAir){
+        if ((resultPlace.get("type").endsWith("airport") || Objects.equals(resultPlace.get("type"), resultType)) && conAir){
             list.add(resultPlace);
         }
-        if (Arrays.asList(resultPlace.get("type")).contains(resultType) && !conAir){
+        if (Objects.equals(resultPlace.get("type"), resultType) && !conAir){
+            list.add(resultPlace);
+        }
+    }
+
+    public static void bothKeys(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, String[] countries, String[] diffPorts){
+        if (Arrays.asList(diffPorts).contains("airport")) {
+            BKHelperHas(list, resultPlace, countries, diffPorts);
+        }
+        else{
+            BKHelperNo(list, resultPlace, countries, diffPorts);
+        }
+    }
+
+    public static void BKHelperHas(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, String[] countries, String[] diffPorts){
+        if ((resultPlace.get("type").endsWith("airport") || Arrays.asList(diffPorts).contains(resultPlace.get("type"))) && Arrays.asList(countries).contains(resultPlace.get("country"))){
+            list.add(resultPlace);
+        }
+    }
+
+    public static void BKHelperNo(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, String[] countries, String[] diffPorts){
+        if (Arrays.asList(diffPorts).contains(resultPlace.get("type")) && Arrays.asList(countries).contains(resultPlace.get("country"))){
             list.add(resultPlace);
         }
     }

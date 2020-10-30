@@ -128,14 +128,14 @@ public class TestRequestFind {
     @Test
     public void testNarrowWhere(){
         Map<String,String[]> temp = new HashMap<>();
-        temp.put("where", new String[] {"Russia", "United States"});
+        temp.put("where", new String[] {"Germany", "Belgium"});
 
-        fin = new RequestFind("_", 8, temp);
+        fin = new RequestFind("port", 8, temp);
         fin.buildResponse();
 
         List<LinkedHashMap<String,String>> places = fin.getPlaces();
         String name = places.get(0).get("name");
-        assertEquals("02 Ranch Airport", name);
+        assertEquals("'S Gravenvoeren heliport", name);
     }
 
     @Test
@@ -162,20 +162,21 @@ public class TestRequestFind {
 
         List<LinkedHashMap<String,String>> places = fin.getPlaces();
         String name = places.get(0).get("name");
-        assertEquals("\"Der Dingel\" Airfield", name);
+        if (!hasTravis) { assertEquals("\"Der Dingel\" Airfield", name); }
+        else { assertEquals("Aappilattoq (Qaasuitsup) Heliport", name); }
     }
 
     @Test
     public void testNarrowBoth(){
         Map<String,String[]> temp = new HashMap<>();
         temp.put("type", new String[] {"airport", "balloonport", "heliport"});
-        temp.put("where", new String[] {"United States", "Canada"});
+        temp.put("where", new String[] {"Germany", "Belgium"});
 
-        fin = new RequestFind("_", 22, temp);
+        fin = new RequestFind("port", 22, temp);
         fin.buildResponse();
 
         List<LinkedHashMap<String,String>> places = fin.getPlaces();
         String name = places.get(0).get("name");
-        assertEquals("02 Ranch Airport", name);
+        assertEquals("'s Gravenwezel heliport", name);
     }
 }
