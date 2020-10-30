@@ -53,24 +53,26 @@ public class ProcessFindRequest {
     }
 
     public static List<LinkedHashMap<String,String>> processPlaces(String matchPattern, int limitInt, Map<String,String[]> narrowFilter) {
+        if (narrowFilter == null) { narrowFilter = Collections.emptyMap(); }
         List<LinkedHashMap<String, String>> allLocations = new ArrayList<>();
         matcher = setMatch(matchPattern);
         setQUERY(matcher, limitInt, true, false);
         setServerParameters();
         try { runQuery(QUERY, allLocations); }
         catch (Exception e) { System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage()); }
-        if (!narrowFilter.isEmpty()) { filterList(allLocations, narrowFilter, false); }
+        if (!narrowFilter.isEmpty()) { filterList(allLocations, narrowFilter); }
         return allLocations;
     }
 
     public static int processFound(String matchPattern, int limitInt, Map<String,String[]> narrowFilter){
+        if (narrowFilter == null) { narrowFilter = Collections.emptyMap(); }
         List<LinkedHashMap<String,String>> foundList = new ArrayList<>();
         matcher = setMatch(matchPattern);
         setQUERY(matcher, limitInt, false, true);
         setServerParameters();
         try { runQuery(QUERY, foundList); }
         catch (Exception e) { System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage()); }
-        if (!narrowFilter.isEmpty()) { filterList(foundList, narrowFilter, true); }
+        if (!narrowFilter.isEmpty()) { filterList(foundList, narrowFilter); }
         return foundList.size();
     }
 
@@ -101,11 +103,10 @@ public class ProcessFindRequest {
         return location;
     }
 
-    private static void filterList(List<LinkedHashMap<String,String>> list, Map<String, String[]> narrowFilter, boolean isFound) {
+    private static void filterList(List<LinkedHashMap<String,String>> list, Map<String, String[]> narrowFilter) {
         List<LinkedHashMap<String,String>> placeHolder = new ArrayList<>(list);
         list.clear();
-        if (!isFound) { placesFilter(placeHolder, list, narrowFilter); }
-//        else{ foundFilter(placeHolder, list, narrowFilter); }
+        placesFilter(placeHolder, list, narrowFilter);
     }
 
     public static void placesFilter(List<LinkedHashMap<String,String>> placeHolder, List<LinkedHashMap<String,String>> list, Map<String, String[]> narrowFilter){
