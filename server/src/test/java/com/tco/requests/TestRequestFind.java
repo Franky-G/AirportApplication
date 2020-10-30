@@ -179,6 +179,6 @@ public class TestRequestFind {
         List<LinkedHashMap<String,String>> places = fin.getPlaces();
         String name = places.get(0).get("name");
         if (!hasTravis) { assertEquals("'s Gravenwezel heliport", name); }
-        else { assertEquals("assertEquals(\"'s Gravenwezel heliport\", name); }", name); }
+        else { assertEquals("Aappilattoq (Kujalleq) Heliport", name); }
     }
 }
