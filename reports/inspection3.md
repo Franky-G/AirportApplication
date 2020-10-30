@@ -25,7 +25,7 @@
 | Trip.js:128-137 | Flow defects: Wrong values with edge cases. | low | jimit | Issue #808 |
 | Trip.js:40 | onClick calls function that returns something without assigning anything | med | frankyg | Issue #804 |
 | Trip.js:264 | One line Function is only called once and can be replaced/removed | low | frankyg | Issue #807 |
-| Trip.js:116 | Toggle function is never called and can be removed | low | frankyg | #Issue #810 |
+| Trip.js:116 | Toggle function is never called and can be removed | low | frankyg | Issue #810 |
 | Trip.js:54 | Search function returns 400 (Bad Request) when empty | med | kc7 | Issue #809 |
 | Trip.js:246 | Function just calls another function logic can be condensed | low | kc7 | Issue #811 |
 | Trip.js:180 | Out of bounds error check not handled | med | smunoz | Issue #813 |
