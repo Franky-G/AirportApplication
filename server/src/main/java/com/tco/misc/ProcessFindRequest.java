@@ -117,15 +117,17 @@ public class ProcessFindRequest {
 
     public static void placesFilter(List<LinkedHashMap<String,String>> placeHolder, List<LinkedHashMap<String,String>> list, String[] countries, String[] diffPorts){
         for (LinkedHashMap<String, String> resultPlace : placeHolder) {
-            String resultCountry = resultPlace.get("country");
-            String resultType = resultPlace.get("type");
-            if (countries != null && diffPorts == null) { // Only where specified
-                onlyWhere(list, resultPlace, countries, resultCountry);
-            } else if (countries == null && diffPorts != null) { // Only type specified
-                onlyType(list, resultPlace, diffPorts, resultType);
-            } else { // Both specified
-                bothKeys(list, resultPlace, countries, diffPorts);
-            }
+            placesFilterHelper(list, resultPlace, countries, diffPorts);
+        }
+    }
+
+    public static void placesFilterHelper(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, String[] countries, String[] diffPorts){
+        if (countries != null && diffPorts == null) { // Only where specified
+            onlyWhere(list, resultPlace, countries, resultPlace.get("country"));
+        } else if (countries == null && diffPorts != null) { // Only type specified
+            onlyType(list, resultPlace, diffPorts, resultPlace.get("type"));
+        } else { // Both specified
+            bothKeys(list, resultPlace, countries, diffPorts);
         }
     }
 
