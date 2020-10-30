@@ -6,8 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -19,7 +18,7 @@ public class TestRequestFind {
     @BeforeEach
     public void createConfigurationForTestCases(){
         fin = new RequestFind();
-        fin = new RequestFind("port", 100);
+        fin = new RequestFind("port", 100, Collections.emptyMap());
     }
 
     @Test
@@ -108,7 +107,7 @@ public class TestRequestFind {
 
     @Test
     public void testNoMatchANDLimit(){
-        fin = new RequestFind("", 0);
+        fin = new RequestFind("", 0, Collections.emptyMap());
         fin.buildResponse();
         int found = fin.getFound();
 
@@ -118,11 +117,50 @@ public class TestRequestFind {
 
     @Test
     public void testNoMatchHASLimit(){
-        fin = new RequestFind("", 14);
+        fin = new RequestFind("", 14, Collections.emptyMap());
         fin.buildResponse();
         int found = fin.getFound();
 
         if (!hasTravis) { assertEquals(14, found); }
         else { assertEquals(3, found) ;}
+    }
+
+    @Test
+    public void testNarrowWhere(){
+        Map<String,String[]> temp = new HashMap<>();
+        temp.put("where", new String[] {"Russia", "United States"});
+
+        fin = new RequestFind("_", 8, temp);
+        fin.buildResponse();
+
+        List<LinkedHashMap<String,String>> places = fin.getPlaces();
+        String name = places.get(0).get("name");
+        assertEquals("02 Ranch Airport", name);
+    }
+
+    @Test
+    public void testNarrowTypeN(){
+        Map<String,String[]> temp = new HashMap<>();
+        temp.put("type", new String[] {"baloonport", "heliport"});
+
+        fin = new RequestFind("_", 72, temp);
+        fin.buildResponse();
+
+        List<LinkedHashMap<String,String>> places = fin.getPlaces();
+        String name = places.get(1).get("name");
+        assertEquals("1 Razryvno-Moiseevskaya Helipad", name);
+    }
+
+    @Test
+    public void testNarrowTypeY(){
+        Map<String,String[]> temp = new HashMap<>();
+        temp.put("type", new String[] {"airport", "balloonport", "heliport"});
+
+        fin = new RequestFind("_", 72, temp);
+        fin.buildResponse();
+
+        List<LinkedHashMap<String,String>> places = fin.getPlaces();
+        String name = places.get(5).get("name");
+        assertEquals("1 Razryvno-Moiseevskaya Helipad", name);
     }
 }
