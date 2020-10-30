@@ -53,24 +53,26 @@ public class ProcessFindRequest {
     }
 
     public static List<LinkedHashMap<String,String>> processPlaces(String matchPattern, int limitInt, Map<String,String[]> narrowFilter) {
+        if (narrowFilter == null) { narrowFilter = Collections.emptyMap(); }
         List<LinkedHashMap<String, String>> allLocations = new ArrayList<>();
         matcher = setMatch(matchPattern);
         setQUERY(matcher, limitInt, true, false);
         setServerParameters();
         try { runQuery(QUERY, allLocations); }
         catch (Exception e) { System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage()); }
-        if (!narrowFilter.isEmpty()) { filterList(allLocations, narrowFilter, false); }
+        if (!narrowFilter.isEmpty()) { filterList(allLocations, narrowFilter); }
         return allLocations;
     }
 
     public static int processFound(String matchPattern, int limitInt, Map<String,String[]> narrowFilter){
+        if (narrowFilter == null) { narrowFilter = Collections.emptyMap(); }
         List<LinkedHashMap<String,String>> foundList = new ArrayList<>();
         matcher = setMatch(matchPattern);
         setQUERY(matcher, limitInt, false, true);
         setServerParameters();
         try { runQuery(QUERY, foundList); }
         catch (Exception e) { System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage()); }
-        if (!narrowFilter.isEmpty()) { filterList(foundList, narrowFilter, true); }
+        if (!narrowFilter.isEmpty()) { filterList(foundList, narrowFilter); }
         return foundList.size();
     }
 
@@ -101,44 +103,37 @@ public class ProcessFindRequest {
         return location;
     }
 
-    private static void filterList(List<LinkedHashMap<String,String>> list, Map<String, String[]> narrowFilter, boolean isFound) {
-        String[] countries = narrowFilter.get("where");
-        String[] diffPorts = narrowFilter.get("type");
+    private static void filterList(List<LinkedHashMap<String,String>> list, Map<String, String[]> narrowFilter) {
         List<LinkedHashMap<String,String>> placeHolder = new ArrayList<>(list);
         list.clear();
-
-        if (!isFound) {
-            placesFilter(placeHolder, list, countries, diffPorts);
-        }
-//        else{
-//            foundFilter
-//        }
+        placesFilter(placeHolder, list, narrowFilter);
     }
 
-    public static void placesFilter(List<LinkedHashMap<String,String>> placeHolder, List<LinkedHashMap<String,String>> list, String[] countries, String[] diffPorts){
+    public static void placesFilter(List<LinkedHashMap<String,String>> placeHolder, List<LinkedHashMap<String,String>> list, Map<String, String[]> narrowFilter){
         for (LinkedHashMap<String, String> resultPlace : placeHolder) {
-            placesFilterHelper(list, resultPlace, countries, diffPorts);
+            placesFilterHelper(list, resultPlace, narrowFilter);
         }
     }
 
-    public static void placesFilterHelper(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, String[] countries, String[] diffPorts){
-        if (countries != null && diffPorts == null) { // Only where specified
-            onlyWhere(list, resultPlace, countries, resultPlace.get("country"));
-        } else if (countries == null && diffPorts != null) { // Only type specified
-            onlyType(list, resultPlace, diffPorts, resultPlace.get("type"));
+    public static void placesFilterHelper(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, Map<String, String[]> narrowFilter){
+        if (narrowFilter.get("where") != null && narrowFilter.get("type") == null) { // Only where specified
+            onlyWhere(list, resultPlace, narrowFilter);
+        } else if (narrowFilter.get("where") == null && narrowFilter.get("type") != null) { // Only type specified
+            onlyType(list, resultPlace, narrowFilter);
         } else { // Both specified
-            bothKeys(list, resultPlace, countries, diffPorts);
+            bothKeys(list, resultPlace, narrowFilter);
         }
     }
 
-    public static void onlyWhere(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, String[] countries, String resultCountry){
-        if (Arrays.asList(countries).contains(resultCountry)) {
+    public static void onlyWhere(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, Map<String, String[]> narrowFilter){
+        List<String> where = Arrays.asList(narrowFilter.get("where"));
+        if (where.contains(resultPlace.get("country")) || where.contains(resultPlace.get("municipality")) || where.contains(resultPlace.get("region"))) {
             list.add(resultPlace);
         }
     }
 
-    public static void onlyType(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, String[] diffPorts, String resultType){
-        onlyTypeHelper(list, resultPlace, resultType, Arrays.asList(diffPorts).contains("airport"));
+    public static void onlyType(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, Map<String, String[]> narrowFilter){
+        onlyTypeHelper(list, resultPlace, resultPlace.get("type"), Arrays.asList(narrowFilter.get("type")).contains("airport"));
     }
 
     public static void onlyTypeHelper(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, String resultType, boolean conAir){
@@ -150,23 +145,25 @@ public class ProcessFindRequest {
         }
     }
 
-    public static void bothKeys(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, String[] countries, String[] diffPorts){
-        if (Arrays.asList(diffPorts).contains("airport")) {
-            BKHelperHas(list, resultPlace, countries, diffPorts);
+    public static void bothKeys(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, Map<String, String[]> narrowFilter){
+        if (Arrays.asList(narrowFilter.get("type")).contains("airport")) {
+            BKHelperHas(list, resultPlace, narrowFilter, Arrays.asList(narrowFilter.get("where")));
         }
         else{
-            BKHelperNo(list, resultPlace, countries, diffPorts);
+            BKHelperNo(list, resultPlace, narrowFilter, Arrays.asList(narrowFilter.get("where")));
         }
     }
 
-    public static void BKHelperHas(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, String[] countries, String[] diffPorts){
-        if ((resultPlace.get("type").endsWith("airport") || Arrays.asList(diffPorts).contains(resultPlace.get("type"))) && Arrays.asList(countries).contains(resultPlace.get("country"))){
+    public static void BKHelperHas(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, Map<String, String[]> narrowFilter, List<String> where){
+        if ((resultPlace.get("type").endsWith("airport") || Arrays.asList(narrowFilter.get("type")).contains(resultPlace.get("type")))
+                && (where.contains(resultPlace.get("country")) || where.contains(resultPlace.get("municipality")) || where.contains(resultPlace.get("region")))){
             list.add(resultPlace);
         }
     }
 
-    public static void BKHelperNo(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, String[] countries, String[] diffPorts){
-        if (Arrays.asList(diffPorts).contains(resultPlace.get("type")) && Arrays.asList(countries).contains(resultPlace.get("country"))){
+    public static void BKHelperNo(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, Map<String, String[]> narrowFilter, List<String> where){
+        if (Arrays.asList(narrowFilter.get("type")).contains(resultPlace.get("type"))
+                && (where.contains(resultPlace.get("country")) || where.contains(resultPlace.get("municipality")) || where.contains(resultPlace.get("region")))){
             list.add(resultPlace);
         }
     }

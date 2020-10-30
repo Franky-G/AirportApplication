@@ -29,10 +29,10 @@ public class TestRequestFind {
     }
 
     @Test
-    @DisplayName("Version number is equal to 3")
+    @DisplayName("Version number is equal to 4")
     public void testVersion() {
         int version = fin.getRequestVersion();
-        assertEquals(3, version);
+        assertEquals(4, version);
     }
 
     @Test
@@ -123,6 +123,19 @@ public class TestRequestFind {
 
         if (!hasTravis) { assertEquals(14, found); }
         else { assertEquals(3, found) ;}
+    }
+
+    @Test
+    public void testNarrow(){
+        Map<String,String[]> temp = new HashMap<>();
+        temp.put("type", new String[] {"airport"});
+        temp.put("where", new String[] {"United States"});
+
+        fin = new RequestFind("", 100, temp);
+        fin.buildResponse();
+
+        Map<String,String[]> narrow = fin.getNarrow();
+        assertEquals(temp, narrow);
     }
 
     @Test

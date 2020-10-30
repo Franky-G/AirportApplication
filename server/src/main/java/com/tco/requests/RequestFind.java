@@ -45,5 +45,5 @@ public class RequestFind extends RequestHeader {
     public List<LinkedHashMap<String, String>> getPlaces(){
         return places;
     }
-
+    public Map<String,String[]> getNarrow() { return narrow; }
 }
