@@ -4,7 +4,7 @@ import Input from "@material-ui/core/Input";
 import {sendServerRequest} from "../../utils/restfulAPI";
 import FileIO from "../Atlas/FileIO"
 import TripObject from "../Trip/TripObject"
-import {SListArrayHelper, modifyText, addPOrDHelper} from "../../components/Cheese"
+import {SListArrayHelper, modifyText, addPOrDHelper} from "../Cheese"
 const labelStyle = {opacity: 0.2, overflow:"hidden"}
 const inputArray = [{width: 228, label: "Add Place", width2: 70, name: "searchPlaces"}, {width: 229, label: "Filter", width2: 50, name: "filter"}]
 const placesAndTrips = [{height: 150, text: "Places"}, {height: 90, text: "Trips"}]
@@ -177,7 +177,7 @@ export default class SearchModule extends Component {
 
     updatePopupInput(){ this.setState({popupInput: event.target.value}) }
 
-    inputCheck(){if(this.state.popupInput === ""){return false;} else {return true;}}
+    inputCheck(){return this.state.popupInput !== "";}
 
     renderPopover(){
         return( <div className="d-flex">
@@ -243,10 +243,10 @@ export default class SearchModule extends Component {
         if(this.state.openPopover === false){}
         else { this.setState({openPopover: !this.state.openPopover}) } }
 
-    serverListRequest() { this.sendFindServerRequest(this.state.searchPlaces, 20); }
+    serverListRequest() { this.sendFindServerRequest(this.state.searchPlaces, 20, {}); }
 
-    async sendFindServerRequest(matchPattern, limitInt) {
-        await sendServerRequest({requestType: "find", requestVersion: 2, match: matchPattern, limit: limitInt})
+    async sendFindServerRequest(matchPattern, limitInt, map) {
+        await sendServerRequest({requestType: "find", requestVersion: 2, match: matchPattern, limit: limitInt, narrow: map})
             .then(places => {
                 if (places) { try {
                         let outerArray = [];

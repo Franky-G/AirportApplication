@@ -130,11 +130,11 @@ export default class Find extends Component {
     /* ------- Server ------- */
 
     returnPlaces() {
-        this.sendFindServerRequest(this.state.searchBarText, 20);
+        this.sendFindServerRequest(this.state.searchBarText, 20, {});
     }
 
-    sendFindServerRequest(matchPattern, limitInt) {
-        sendServerRequest({requestType: "find", requestVersion: 2, match: matchPattern, limit: limitInt})
+    sendFindServerRequest(matchPattern, limitInt, map) {
+        sendServerRequest({requestType: "find", requestVersion: 2, match: matchPattern, limit: limitInt, narrow: map})
             .then(places => {
                 if (places) {
                     try {
