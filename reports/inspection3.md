@@ -14,6 +14,7 @@
 | Frank Gansukh | 37 mins |
 | Sean Munoz | 35 mins |
 | Kyle Cummings | 38 mins |
+| Jake Barth | 35 mins |
 
 ### Problems found
 
@@ -30,3 +31,6 @@
 | Trip.js:248-262 | Search function not working | high | smunoz | |
 | Trip.js:54 | Search function returns 400 (Bad Request) when empty | med | kc7 | |
 | Trip.js:246 | Function just calls another function logic can be condensed | low | kc7 | |
+| Trip.js:135-137 | No checking or validation of places in array | low | jakebart | |
+| Trip.js:198-200 | ButtonList only used here, other buttons do not use the array for labels etc. | low | jakebart | |
+| Trip.js:180 | Function not needed, could be a boolean statement in function block where InputCheck is called | low | jakebart | |
