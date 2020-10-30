@@ -12,6 +12,7 @@
 | ---- | ---- |
 | Jimit Bhalavat | 50 mins |
 | Frank Gansukh | 37 mins |
+| Sean Munoz | 35 mins |
 
 ### Problems found
 
@@ -21,5 +22,8 @@
 | Trip.js:99-104 | for loop uncertain to terminate. (Check upper-bound of array) | low | jimit | |
 | Trip.js:128-137 | Flow defects: Wrong values with edge cases. | low | jimit | |
 | Trip.js:40 | onClick calls function that returns something without assigning anything | med | frankyg | |
-| Trip.js.264 | One line Function is only called once and can be replaced/removed | low | frankyg | |
-| Trip.js.116 | Toggle function is never called and can be removed | low | frankyg | |
+| Trip.js:264 | One line Function is only called once and can be replaced/removed | low | frankyg | |
+| Trip.js:116 | Toggle function is never called and can be removed | low | frankyg | |
+| Trip.js:180 | Out of bounds error check not handled | med | smunoz | |
+| Trip.js:180 | Statement can be simplified | low | smunoz | |
+| Trip.js:248-262 | Search function not working | high | smunoz | |
