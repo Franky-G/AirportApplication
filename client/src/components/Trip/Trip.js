@@ -4,7 +4,7 @@ import Input from "@material-ui/core/Input";
 import {sendServerRequest} from "../../utils/restfulAPI";
 import FileIO from "../Atlas/FileIO"
 import TripObject from "../Trip/TripObject"
-import {SListArrayHelper, modifyText, addPOrDHelper} from "../../components/Cheese"
+import {SListArrayHelper, modifyText, addPOrDHelper} from "../Cheese"
 const labelStyle = {opacity: 0.2, overflow:"hidden"}
 const inputArray = [{width: 228, label: "Add Place", width2: 70, name: "searchPlaces"}, {width: 229, label: "Filter", width2: 50, name: "filter"}]
 const placesAndTrips = [{height: 150, text: "Places"}, {height: 90, text: "Trips"}]
@@ -168,7 +168,7 @@ export default class SearchModule extends Component {
         const dropDownAction = (methodName, params) => { this.state.trips[this.state.stateIndex][methodName](params); }
         let dropDownItems = [{onClick: ()=> this.state.trips[this.state.stateIndex].reversePlaces(), text: "Reverse Trip"},
             {onClick: ()=> {this.inputCheck() && dropDownAction("reversePlacesAt", Number(this.state.popupInput))}, text: "Reverse Trip At: '3'"},
-            {onClick: ()=> {dropDownAction("modifyStart", Number(this.state.popupInput)) && this.inputCheck()}, text: "Set Start Location At: '2'"},
+            {text: "Set Start Location At: '2'", onClick: ()=> {this.inputCheck() && dropDownAction("modifyStart", Number(this.state.popupInput))}},
             {onClick: ()=> {this.inputCheck() && dropDownAction("movePlace", this.state.popupInput)}, text: "Set Destination Position: '1, 2'"},
             {onClick: ()=> {this.inputCheck() && dropDownAction("setPlaceNote", this.state.popupInput)}, text: "Destination Note: 'Bring camera, 3'"},
             {onClick: ()=> {this.inputCheck() && dropDownAction("setNote", this.state.popupInput)}, text: "Make A Note For Trip: Hover for note"},
@@ -177,7 +177,7 @@ export default class SearchModule extends Component {
 
     updatePopupInput(){ this.setState({popupInput: event.target.value}) }
 
-    inputCheck(){if(this.state.popupInput === ""){return false;} else {return true;}}
+    inputCheck(){return !(this.state.popupInput === "" || Number(this.state.popupInput) < 0);}
 
     renderPopover(){
         return( <div className="d-flex">
