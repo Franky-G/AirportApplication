@@ -13,6 +13,7 @@
 | Jimit Bhalavat | 50 mins |
 | Frank Gansukh | 37 mins |
 | Sean Munoz | 35 mins |
+| Kyle Cummings | 38 mins |
 
 ### Problems found
 
@@ -27,3 +28,5 @@
 | Trip.js:180 | Out of bounds error check not handled | med | smunoz | |
 | Trip.js:180 | Statement can be simplified | low | smunoz | |
 | Trip.js:248-262 | Search function not working | high | smunoz | |
+| Trip.js:54 | Search function returns 400 (Bad Request) when empty | med | kc7 | |
+| Trip.js:246 | Function just calls another function logic can be condensed | low | kc7 | |
