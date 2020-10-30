@@ -1,8 +1,6 @@
 package com.tco.misc;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 public class ProcessFindRequest {
     private static String QUERY, matcher, db_url, db_user, db_pass;
@@ -28,35 +26,15 @@ public class ProcessFindRequest {
         }
     }
 
-    public static List<LinkedHashMap<String,String>> processPlaces(String matchPattern, int limitInt) {
-        List<LinkedHashMap<String, String>> allLocations = new ArrayList<>();
-        matcher = setMatch(matchPattern);
-        setQUERY(matcher, limitInt, true, false);
-        setServerParameters();
-        try { runQuery(QUERY, allLocations); }
-        catch (Exception e) { System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage()); }
-        return allLocations;
-    }
-
-    public static int processFound(String matchPattern, int limitInt){
-        List<LinkedHashMap<String,String>> foundList = new ArrayList<>();
-        matcher = setMatch(matchPattern);
-        setQUERY(matcher, limitInt, false, true);
-        setServerParameters();
-        try { runQuery(QUERY, foundList); }
-        catch (Exception e) { System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage()); }
-        return foundList.size();
-    }
-
     private static String setMatch(String matchPattern) {
         if (matchPattern == null){ return ""; }
-        String temp = "";
+        StringBuilder temp = new StringBuilder();
         for (int i=0; i<matchPattern.length(); i++){
             char c = matchPattern.charAt(i);
             if (!Character.isDigit(c) && !Character.isLetter(c) && Character.isSpaceChar(c)){ c = '_'; }
-            temp += c;
+            temp.append(c);
         }
-        return temp;
+        return temp.toString();
     }
 
     public static void setQUERY(String matchPattern, int limitInt, boolean isPlaces, boolean isFound){
@@ -72,6 +50,38 @@ public class ProcessFindRequest {
     public static void setQUERYHelper(int limitInt, boolean isPlaces, boolean isFound){
         if ((!isPlaces && isFound) || (isPlaces && !isFound && limitInt == 0)){ QUERY += "150"; }
         else{ QUERY += limitInt; }
+    }
+
+    public static List<LinkedHashMap<String,String>> processPlaces(String matchPattern, int limitInt, Map<String,String[]> narrowFilter) {
+        List<LinkedHashMap<String, String>> allLocations = new ArrayList<>();
+        matcher = setMatch(matchPattern);
+        setQUERY(matcher, limitInt, true, false);
+        setServerParameters();
+        try { runQuery(QUERY, allLocations); }
+        catch (Exception e) { System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage()); }
+        if (!narrowFilter.isEmpty()) { filterList(allLocations, narrowFilter, false); }
+        return allLocations;
+    }
+
+    public static int processFound(String matchPattern, int limitInt, Map<String,String[]> narrowFilter){
+        List<LinkedHashMap<String,String>> foundList = new ArrayList<>();
+        matcher = setMatch(matchPattern);
+        setQUERY(matcher, limitInt, false, true);
+        setServerParameters();
+        try { runQuery(QUERY, foundList); }
+        catch (Exception e) { System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage()); }
+        if (!narrowFilter.isEmpty()) { filterList(foundList, narrowFilter, true); }
+        return foundList.size();
+    }
+
+    public static void runQuery(String QUERY, List<LinkedHashMap<String, String>> list) throws SQLException {
+        Connection con = DriverManager.getConnection(db_url, db_user, db_pass);
+        Statement query = con.createStatement();
+        ResultSet result = query.executeQuery(QUERY);
+        while(result.next()) { list.add(getHashMap(result)); }
+        result.close();
+        query.close();
+        con.close();
     }
 
     public static LinkedHashMap<String,String> getHashMap(ResultSet result) throws SQLException {
@@ -91,14 +101,74 @@ public class ProcessFindRequest {
         return location;
     }
 
-    public static void runQuery(String QUERY, List<LinkedHashMap<String, String>> list) throws SQLException {
-        Connection con = DriverManager.getConnection(db_url, db_user, db_pass);
-        Statement query = con.createStatement();
-        ResultSet result = query.executeQuery(QUERY);
-        while(result.next()) { list.add(getHashMap(result)); }
-        result.close();
-        query.close();
-        con.close();
+    private static void filterList(List<LinkedHashMap<String,String>> list, Map<String, String[]> narrowFilter, boolean isFound) {
+        String[] countries = narrowFilter.get("where");
+        String[] diffPorts = narrowFilter.get("type");
+        List<LinkedHashMap<String,String>> placeHolder = new ArrayList<>(list);
+        list.clear();
+
+        if (!isFound) {
+            placesFilter(placeHolder, list, countries, diffPorts);
+        }
+//        else{
+//            foundFilter
+//        }
+    }
+
+    public static void placesFilter(List<LinkedHashMap<String,String>> placeHolder, List<LinkedHashMap<String,String>> list, String[] countries, String[] diffPorts){
+        for (LinkedHashMap<String, String> resultPlace : placeHolder) {
+            placesFilterHelper(list, resultPlace, countries, diffPorts);
+        }
+    }
+
+    public static void placesFilterHelper(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, String[] countries, String[] diffPorts){
+        if (countries != null && diffPorts == null) { // Only where specified
+            onlyWhere(list, resultPlace, countries, resultPlace.get("country"));
+        } else if (countries == null && diffPorts != null) { // Only type specified
+            onlyType(list, resultPlace, diffPorts, resultPlace.get("type"));
+        } else { // Both specified
+            bothKeys(list, resultPlace, countries, diffPorts);
+        }
+    }
+
+    public static void onlyWhere(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, String[] countries, String resultCountry){
+        if (Arrays.asList(countries).contains(resultCountry)) {
+            list.add(resultPlace);
+        }
+    }
+
+    public static void onlyType(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, String[] diffPorts, String resultType){
+        onlyTypeHelper(list, resultPlace, resultType, Arrays.asList(diffPorts).contains("airport"));
+    }
+
+    public static void onlyTypeHelper(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, String resultType, boolean conAir){
+        if ((resultPlace.get("type").endsWith("airport") || Objects.equals(resultPlace.get("type"), resultType)) && conAir){
+            list.add(resultPlace);
+        }
+        if (Objects.equals(resultPlace.get("type"), resultType) && !conAir){
+            list.add(resultPlace);
+        }
+    }
+
+    public static void bothKeys(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, String[] countries, String[] diffPorts){
+        if (Arrays.asList(diffPorts).contains("airport")) {
+            BKHelperHas(list, resultPlace, countries, diffPorts);
+        }
+        else{
+            BKHelperNo(list, resultPlace, countries, diffPorts);
+        }
+    }
+
+    public static void BKHelperHas(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, String[] countries, String[] diffPorts){
+        if ((resultPlace.get("type").endsWith("airport") || Arrays.asList(diffPorts).contains(resultPlace.get("type"))) && Arrays.asList(countries).contains(resultPlace.get("country"))){
+            list.add(resultPlace);
+        }
+    }
+
+    public static void BKHelperNo(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, String[] countries, String[] diffPorts){
+        if (Arrays.asList(diffPorts).contains(resultPlace.get("type")) && Arrays.asList(countries).contains(resultPlace.get("country"))){
+            list.add(resultPlace);
+        }
     }
 
     public static String[] getCountries() {
@@ -108,7 +178,7 @@ public class ProcessFindRequest {
         try (
              Connection con = DriverManager.getConnection(db_url, db_user, db_pass);
              Statement query = con.createStatement();
-             ResultSet result = query.executeQuery(QUERYcountries);
+             ResultSet result = query.executeQuery(QUERYcountries)
              )
         {
             List<String> temp = new ArrayList<>();

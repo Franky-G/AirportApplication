@@ -8,6 +8,7 @@ import java.util.*;
 public class RequestFind extends RequestHeader {
 
     private List<LinkedHashMap<String, String>> places = new ArrayList<>();
+    private Map<String, String[]> narrow;
     private String match;
     private int limit;
     private int found;
@@ -18,18 +19,19 @@ public class RequestFind extends RequestHeader {
         this.requestVersion = RequestHeader.CURRENT_SUPPORTED_VERSION;
     }
 
-    public RequestFind(String matchPattern, int limitInt) {
+    public RequestFind(String matchPattern, int limitInt, Map<String,String[]> narrowFilter) {
         this();
         this.places = null;
         this.found = 0;
         this.match = matchPattern;
         this.limit = limitInt;
+        this.narrow = narrowFilter;
     }
 
     @Override
     public void buildResponse() {
-        this.places = ProcessFindRequest.processPlaces(this.match, this.limit);
-        this.found = ProcessFindRequest.processFound(this.match, this.limit);
+        this.places = ProcessFindRequest.processPlaces(this.match, this.limit, this.narrow);
+        this.found = ProcessFindRequest.processFound(this.match, this.limit, this.narrow);
         log.trace("buildResponse -> {}", this);
     }
 
