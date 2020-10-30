@@ -163,4 +163,18 @@ public class TestRequestFind {
         String name = places.get(5).get("name");
         assertEquals("1 Razryvno-Moiseevskaya Helipad", name);
     }
+
+    @Test
+    public void testNarrowBoth(){
+        Map<String,String[]> temp = new HashMap<>();
+        temp.put("type", new String[] {"airport", "balloonport", "heliport"});
+        temp.put("where", new String[] {"United States", "Canada"});
+
+        fin = new RequestFind("_", 22, temp);
+        fin.buildResponse();
+
+        List<LinkedHashMap<String,String>> places = fin.getPlaces();
+        String name = places.get(8).get("name");
+        assertEquals("185 Monmouth Parkway Associates Helistop", name);
+    }
 }

@@ -128,9 +128,18 @@ public class ProcessFindRequest {
             if (countries == null && diffPorts != null){ // Only type specified
                 onlyType(list, resultPlace, diffPorts, resultType);
             }
-//            if (countries != null && diffPorts != null){ // Both specified
-//
-//            }
+            if (countries != null && diffPorts != null){ // Both specified
+                if (Arrays.asList(diffPorts).contains("airport")) {
+                    if ((resultType.endsWith("airport") || Arrays.asList(diffPorts).contains(resultType)) && Arrays.asList(countries).contains(resultCountry)){
+                        list.add(resultPlace);
+                    }
+                }
+                else{
+                    if (Arrays.asList(diffPorts).contains(resultType) && Arrays.asList(countries).contains(resultCountry)){
+                        list.add(resultPlace);
+                    }
+                }
+            }
         }
     }
 
@@ -140,7 +149,7 @@ public class ProcessFindRequest {
         }
     }
 
-    // make a helper if complexity issues arise (check if diffports contains aiport)
+    // make a helper if complexity issues arise (check if diffPorts contains airport)
     public static void onlyType(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, String[] diffPorts, String resultType){
         if (Arrays.asList(diffPorts).contains("airport")){ // type = airport check
             if (resultType.endsWith("airport") || Arrays.asList(diffPorts).contains(resultType)){
