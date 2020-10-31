@@ -24,8 +24,8 @@ public class RequestFind extends RequestHeader {
         this.places = null;
         this.found = 0;
         this.match = matchPattern;
-        this.limit = limitInt;
         this.narrow = narrowFilter;
+        this.limit = Math.min(limitInt, 10000);
     }
 
     @Override

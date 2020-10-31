@@ -101,7 +101,7 @@ public class TestRequestFind {
         fin.buildResponse();
         int found = fin.getFound();
 
-        if (!hasTravis) { assertEquals(150, found); }
+        if (!hasTravis) { assertEquals(10000, found); }
         else { assertEquals(3, found) ;}
     }
 
@@ -162,7 +162,7 @@ public class TestRequestFind {
 
         List<LinkedHashMap<String,String>> places = fin.getPlaces();
         String name = places.get(1).get("name");
-        if (!hasTravis) { assertEquals("'S Gravenvoeren heliport", name); }
+        if (!hasTravis) { assertEquals("1 Razryvno-Moiseevskaya Helipad", name); }
         else{ assertEquals("Aappilattoq (Qaasuitsup) Heliport", name); }
     }
 
