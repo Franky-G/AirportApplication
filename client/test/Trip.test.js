@@ -5,6 +5,7 @@ import Trip from "../src/components/Trip/Trip";
 import {Map} from 'react-leaflet'; //Dont delete
 import 'leaflet/dist/leaflet.css';
 import 'bootstrap/dist/css/bootstrap.css';
+import TripObject from "../src/components/Trip/TripObject";
 
 const loadSaveDistance = [{style: {position: "absolute", padding: 4, left: 10}, label: "Load"},
     {style: {position: "absolute", padding: 4, left: 58}, label: "Save"},
@@ -185,3 +186,29 @@ function testPlacesSize() {
 }
 
 test("Places Size", testPlacesSize)
+
+function testSearchListArray() {
+    const list = shallow(<Trip/>)
+    let initial = list.state().searchListArray.length
+    expect(initial).toEqual(0)
+    list.state().searchListArray[0] = {lat: "40", lng: "-105"}
+    let last = list.state().searchListArray.length
+    expect(last).toEqual(1)
+}
+
+test("Testing Defects", testSearchListArray)
+
+function testUncertainForLoop() {
+    const uncertain = shallow(<Trip/>)
+    let places = [{"name":"Denver",       "latitude": "39.7", "longitude": "-105.0"},
+        {"name":"Boulder",      "latitude": "40.0", "longitude": "-105.4"},
+        {"name":"Fort Collins", "latitude": "40.6", "longitude": "-105.1"}]
+    let radius = "3959.0"
+    let placesArray = []
+    let array = uncertain.state().trips.slice();
+    for(let i = 0; i < places.length; ++i){ placesArray.push([L.latLng(places[i].latitude,places[i].longitude), i, places[i].name]) }
+    array.push(new TripObject(name, placesArray, radius))
+    expect(uncertain.state().trips.length).toEqual(1)
+}
+
+test("Testing Defects", testUncertainForLoop)

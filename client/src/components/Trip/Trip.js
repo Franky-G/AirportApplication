@@ -101,7 +101,7 @@ export default class SearchModule extends Component {
         let placesArray = []
         for(let i = 0; i < places.length; ++i){ placesArray.push([L.latLng(places[i].latitude,places[i].longitude), i, places[i].name]) }
         array.push(new TripObject(name, placesArray, radius))
-        this.setState({trips: array})}
+        this.setState({trips: array}) }
 
     spliceTrips(index){
         let array = this.state.trips;
@@ -226,7 +226,7 @@ export default class SearchModule extends Component {
         let searchListArr = [];
         if (TorP === 0){this.placeLoop(searchListArr, ind)}
         else{this.tripLoop(searchListArr, ind)}
-        return searchListArr;}
+        return searchListArr; }
 
     renderPlaceList(index, tripOrPlace, styleArray){
         if(this.state.trips.length === 0) { return; }
