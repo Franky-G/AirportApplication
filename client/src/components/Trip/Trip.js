@@ -53,15 +53,17 @@ export default class SearchModule extends Component {
                 <Input className="justify-content-center" name={array.name} placeholder={"Enter Lat, Lng or Airport Name"} style={{backgroundColor: "#ffffff", width: array.width, borderRadius: "3px 3px 3px 3px", border: "1px solid #FFFFFF", left: 27, height: 30, boxShadow: "1px 1px 1px 0 #000000", overflow: "hidden"}} onChange={() => this.updateInputState()}/>
                 <InputGroupAddon addonType="append" ><Button size="sm" style={{padding: 3, left: 27, boxShadow: "1px 1px 1px 0 #000000"}} onClick={() => this.validateCoords()}>Search</Button></InputGroupAddon></InputGroup></div> ); }
 
-    validateCoords(){
-        try {
+    validateCoords() {
+        if (this.state.searchPlaces) { try {
             let coordParse = require('coordinate-parser')
             let coordStr = this.state.searchPlaces
-            let coordLocation = new coordParse(coordStr);
+            let coordLocation = new coordParse(this.state.searchPlaces);
             let coordLat = coordLocation.getLatitude();
             let coordLng = coordLocation.getLongitude();
-            this.addCoordPlace(coordLat, coordLng, coordStr) }
-            catch (error) { this.sendFindServerRequest() } }
+            this.addCoordPlace(coordLat, coordLng, coordStr)
+        } catch (error) {this.sendFindServerRequest()}}
+        else{alert("Trip Search Box Is Empty!")}
+    }
 
     addCoordPlace(lat, lng, coordStr){
         let coords = L.latLng(lat, lng);
