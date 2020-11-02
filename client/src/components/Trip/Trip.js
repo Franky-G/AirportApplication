@@ -61,7 +61,7 @@ export default class SearchModule extends Component {
             let coordLat = coordLocation.getLatitude();
             let coordLng = coordLocation.getLongitude();
             this.addCoordPlace(coordLat, coordLng, coordStr) }
-            catch (error) { this.serverListRequest() } }
+            catch (error) { this.sendFindServerRequest() } }
 
     addCoordPlace(lat, lng, coordStr){
         let coords = L.latLng(lat, lng);
@@ -243,14 +243,12 @@ export default class SearchModule extends Component {
         if(this.state.openPopover === false){}
         else { this.setState({openPopover: !this.state.openPopover}) } }
 
-    serverListRequest() { this.sendFindServerRequest(this.state.searchPlaces, 20, {}); }
-
-    async sendFindServerRequest(matchPattern, limitInt, map) {
-        await sendServerRequest({requestType: "find", requestVersion: 2, match: matchPattern, limit: limitInt, narrow: map})
+    async sendFindServerRequest() {
+        await sendServerRequest({requestType: "find", requestVersion: 2, match: this.state.searchPlaces, limit: 20, narrow: {}})
             .then(places => {
                 if (places) { try {
                         let outerArray = [];
-                        for (let i = 0; i < limitInt; ++i) {
+                        for (let i = 0; i < 20; ++i) {
                             let elementArray = []
                             if (places.data.places[i] !== undefined) {
                                 elementArray.push(places.data.places[i].name);

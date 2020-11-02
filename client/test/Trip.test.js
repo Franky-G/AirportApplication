@@ -166,12 +166,12 @@ function testBlurState(){
 }
 test("Test Blur State", testBlurState)
 
-function testServerListReq(){
+function testFindServerReq(){
     const close = shallow(<Trip/>)
-    close.instance().serverListRequest()
+    close.instance().sendFindServerRequest()
     expect(close.state().openPopover).toEqual(false)
 }
-test("Test Blur State",testServerListReq)
+test("Test Find Server Req",testFindServerReq)
 
 function helperRenderDropDown() {
     const drop = shallow(<Trip/>)
