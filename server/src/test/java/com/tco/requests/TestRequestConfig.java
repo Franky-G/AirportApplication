@@ -6,12 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestRequestConfig {
 
@@ -55,34 +52,50 @@ public class TestRequestConfig {
   @Test
   @DisplayName("Config Type Filter")
   public void testTypeFilter() {
-    String[] temp = conf.getFilters().get("type");
-    assertEquals(3, temp.length);
+    Map<String,String[]> temp = new HashMap<>();
+    temp.put("type", new String[] {"airport", "heliport", "balloonport"});
+    conf = new RequestConfig(temp);
+    String[] types = conf.getFilters().get("type");
+    assertEquals(3, types.length);
   }
 
   @Test
   @DisplayName("Config Type Filter")
   public void testTypeFilterSupport() {
-    String[] temp = conf.getFilters().get("type");
-    assertEquals("airport", temp[0]);
-    assertEquals("heliport", temp[1]);
-    assertEquals("balloonport", temp[2]);
+    Map<String,String[]> temp = new HashMap<>();
+    temp.put("type", new String[] {"airport", "heliport", "balloonport"});
+
+    conf = new RequestConfig(temp);
+    String[] types = conf.getFilters().get("type");
+    assertEquals("airport", types[0]);
+    assertEquals("heliport", types[1]);
+    assertEquals("balloonport", types[2]);
   }
 
   @Test
   @DisplayName("Config Where Filter")
   public void testWhereFilterSupport() {
-    String temp[] = conf.getFilters().get("where");
-    assertEquals("Andorra", temp[0]);
+    Map<String,String[]> temp = new HashMap<>();
+    temp.put("where", new String[] {"Andorra"});
+
+    conf = new RequestConfig(temp);
+    String[] where = conf.getFilters().get("where");
+    assertEquals("Andorra", where[0]);
   }
 
   @Test
   @DisplayName("Config Where Filter")
   public void testWhereConfigFilter() {
+    Map<String,String[]> temp = new HashMap<>();
+    temp.put("type", new String[] {"airport", "heliport", "balloonport"});
+    temp.put("where", new String[] {"Andorra"});
+
+    conf = new RequestConfig(temp);
     conf.buildResponse();
     Map<String, String[]> filters = conf.getFilters();
-    assertEquals(true, filters.containsKey("type"));
-    assertEquals(true, filters.containsKey("where"));
-    assertEquals(false, filters.containsKey("filters"));
+    assertTrue(filters.containsKey("type"));
+    assertTrue(filters.containsKey("where"));
+    assertFalse(filters.containsKey("filters"));
   }
 
 }

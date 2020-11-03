@@ -163,28 +163,4 @@ public class ProcessFindRequest {
             list.add(resultPlace);
         }
     }
-
-    public static String[] getCountries() {
-        String[] where = new String[0];
-        String QUERYcountries = "SELECT name from country;";
-        setServerParameters();
-        try (
-             Connection con = DriverManager.getConnection(db_url, db_user, db_pass);
-             Statement query = con.createStatement();
-             ResultSet result = query.executeQuery(QUERYcountries)
-             )
-        {
-            List<String> temp = new ArrayList<>();
-            while(result.next()) {
-                temp.add(result.getString("name"));
-            }
-            where = new String[temp.size()];
-            where = temp.toArray(where);
-            return where;
-        }
-        catch (Exception e) {
-            System.err.println("Exception: Can't Connect To Data Base.");
-        }
-        return where;
-    }
 }
