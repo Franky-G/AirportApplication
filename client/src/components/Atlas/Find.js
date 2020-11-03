@@ -1,6 +1,6 @@
 import {sendServerRequest} from "../../utils/restfulAPI";
 import React, {Component} from "react";
-import {Button, Col, Container, Input, ListGroup, ListGroupItem, Row} from "reactstrap";
+import {Button, Col, Container, Input, ListGroup, ListGroupItem, Row, Modal, ModalBody, ModalHeader} from "reactstrap";
 import Fade from "@material-ui/core/Fade";
 import {SListArrayHelper} from "../Cheese";
 
@@ -36,12 +36,14 @@ export default class Find extends Component {
         super(props);
         this.setWrapperRef = this.setWrapperRef.bind(this);
         this.handleClickOutside = this.handleClickOutside.bind(this);
+        this.toggleFilterModal = this.toggleFilterModal.bind(this);
         this.state = {
             numberFound: 0,
             searchArray: [],
             map: {},
             searchBarText: "",
             searchIsOn: false,
+            isFilter: false
         }
     }
 
@@ -50,6 +52,7 @@ export default class Find extends Component {
             <div>
                 {this.props.showLocationSearch && this.props.searchModule && this.renderLocationModule(searchBarArray)}
                 {this.state.searchIsOn && this.renderSearchList()}
+                {this.state.isFilter && this.toggleFilterModal()}
             </div>
         );
     }
@@ -83,12 +86,25 @@ export default class Find extends Component {
         if (target.name === "searchBar") {this.setState({searchBarText: target.value});}
     }
 
+    toggleFilterModal(){ this.setState({isFilter: !this.state.isFilter}) }
+
+    filterModal(){
+        return (
+          <Modal isOpen={this.state.isFilter} toggle={this.toggleFilterModal}>
+              <ModalHeader toggle={this.toggleFilterModal}>Specify the Country/Region/Municipality</ModalHeader>
+              <ModalBody>
+                  <h1>test</h1>
+              </ModalBody>
+          </Modal>
+        );
+    }
+
     renderLocationModule(SBArray) {
         return (
             <Fade in={true} timeout={350}>
                 <div style={searchModuleStyle}>
                     <Button className="p-1" style={filterButtonStyle}
-                            onClick = {() => {this.returnPlaces()}}> Filters </Button>
+                            onClick = {() => {this.filterModal()}}> Filters </Button>
                     <Row>
                         <Col>
                             <Input name={SBArray[0].name} style={SBArray[0].style} placeholder={SBArray[0].placeholder}
