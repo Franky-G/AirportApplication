@@ -10,6 +10,11 @@ const distanceButtonStyle = {
     background: "radial-gradient(#C8C372,#1E4D2B)", color: "#000000", border: "1px solid #C8C372"
 }
 
+const filterButtonStyle = {
+    position: "absolute", top: -31, left: 10, zIndex: 1005, height: 32, fontSize: 12,
+    background: "radial-gradient(#C8C372,#1E4D2B)", color: "#000000", border: "1px solid #C8C372"
+}
+
 // const searchListStyle = {margin: 0, padding: 8, height: "100%", maxWidth: 268, color: "#FFFFFF", zIndex: 1009, fontSize: 13, borderRadius: "3px 3px 3px 3px", border: "2px solid #1E4D2B", background: "#002b0c"}
 
 const searchBarArray = [{name: "searchBar", style: {margin: 5, width: "97%"}, placeholder: "Enter name of place"}];
@@ -34,6 +39,7 @@ export default class Find extends Component {
         this.state = {
             numberFound: 0,
             searchArray: [],
+            map: {},
             searchBarText: "",
             searchIsOn: false,
         }
@@ -81,6 +87,8 @@ export default class Find extends Component {
         return (
             <Fade in={true} timeout={350}>
                 <div style={searchModuleStyle}>
+                    <Button className="p-1" style={filterButtonStyle}
+                            onClick = {() => {this.returnPlaces()}}> Filters </Button>
                     <Row>
                         <Col>
                             <Input name={SBArray[0].name} style={SBArray[0].style} placeholder={SBArray[0].placeholder}

@@ -18,8 +18,7 @@ public class RequestConfig extends RequestHeader {
   }
 
   public RequestConfig(Map<String,String[]> filter){
-    this.requestType = "config";
-    this.requestVersion = RequestHeader.CURRENT_SUPPORTED_VERSION;
+    this();
     this.filters = filter;
   }
 
