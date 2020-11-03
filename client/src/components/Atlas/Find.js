@@ -1,6 +1,6 @@
 import {sendServerRequest} from "../../utils/restfulAPI";
 import React, {Component} from "react";
-import {Button, Col, Container, Input, ListGroup, ListGroupItem, Row, Modal, ModalBody, ModalHeader} from "reactstrap";
+import {Button, Col, Container, Input, ListGroup, ListGroupItem, Row, Modal, ModalBody, ModalHeader, Form, FormGroup, Label} from "reactstrap";
 import Fade from "@material-ui/core/Fade";
 import {SListArrayHelper} from "../Cheese";
 
@@ -42,6 +42,10 @@ export default class Find extends Component {
             searchArray: [],
             map: {},
             searchBarText: "",
+            filterModalText: "",
+            isBalloon: false,
+            isAirport: false,
+            isHeliport: false,
             searchIsOn: false,
             isFilter: false
         }
@@ -52,7 +56,7 @@ export default class Find extends Component {
             <div>
                 {this.props.showLocationSearch && this.props.searchModule && this.renderLocationModule(searchBarArray)}
                 {this.state.searchIsOn && this.renderSearchList()}
-                {this.state.isFilter && this.toggleFilterModal()}
+                {this.filterModal()}
             </div>
         );
     }
@@ -84,16 +88,35 @@ export default class Find extends Component {
     handleInputChange(){
         const target = event.target;
         if (target.name === "searchBar") {this.setState({searchBarText: target.value});}
+        if (target.name === "whereText") {this.setState({filterModalText: target.value})}
     }
 
     toggleFilterModal(){ this.setState({isFilter: !this.state.isFilter}) }
 
+    toggleAirport(){ this.setState({isAirport: !this.state.isAirport})}
+
+    toggleBalloon(){ this.setState({isBalloon: !this.state.isBalloon})}
+
+    toggleHeliport(){ this.setState({isHeliport: !this.state.isHeliport})}
+
     filterModal(){
         return (
           <Modal isOpen={this.state.isFilter} toggle={this.toggleFilterModal}>
-              <ModalHeader toggle={this.toggleFilterModal}>Specify the Country/Region/Municipality</ModalHeader>
+              <ModalHeader toggle={this.toggleFilterModal}><b>Specify filters before searching</b></ModalHeader>
               <ModalBody>
-                  <h1>test</h1>
+                  <Form>
+                      <FormGroup row>
+                          <Label><b><em>Select Types</em></b></Label>
+                          <Col sm={{size:10}}><FormGroup check><Label check><Input type="checkbox" onChange={this.toggleAirport.bind(this)}/>{' '} Airport</Label></FormGroup></Col>
+                          <Col sm={{size:10}}><FormGroup check><Label check><Input type="checkbox" onChange={this.toggleBalloon.bind(this)}/>{' '} Balloonport</Label></FormGroup></Col>
+                          <Col sm={{size:10}}><FormGroup check><Label check><Input type="checkbox" onChange={this.toggleHeliport.bind(this)}/>{' '} Heliport</Label></FormGroup></Col>
+                      </FormGroup>
+                      <FormGroup row>
+                          <Label for="whereCheck"><b><em>Enter Country/Region name or Municipality below (Use a comma to specify more than one)</em></b></Label>
+                          <Input type="textarea" name="whereText" id="whereFilter" onChange={() => this.handleInputChange()}/>
+                      </FormGroup>
+                      <Input type="submit" onClick={() => this.sendConfigServerRequest()}>Submit</Input>
+                  </Form>
               </ModalBody>
           </Modal>
         );
@@ -104,7 +127,7 @@ export default class Find extends Component {
             <Fade in={true} timeout={350}>
                 <div style={searchModuleStyle}>
                     <Button className="p-1" style={filterButtonStyle}
-                            onClick = {() => {this.filterModal()}}> Filters </Button>
+                            onClick = {() => {this.toggleFilterModal()}}> Filters </Button>
                     <Row>
                         <Col>
                             <Input name={SBArray[0].name} style={SBArray[0].style} placeholder={SBArray[0].placeholder}
@@ -151,31 +174,58 @@ export default class Find extends Component {
         this.wrapperRef = node;
     }
 
+    setFilter(){
+        const temp = new Map()
+        console.log("temp is initially " + temp)
+        const types = ["airport", "balloonport", "heliport"];
+        let where = []
+        if (!this.state.isAirport){ delete types[0] }
+        if (!this.state.isBalloon){ delete types[1] }
+        if (!this.state.isHeliport){ delete types[2] }
+        where.push(this.state.filterModalText)
+        temp.set("type", types)
+        temp.set("where", where)
+        console.log("temp is now " + temp)
+        return(
+          temp
+        );
+    }
+
     /* ------- Server ------- */
 
     returnPlaces() {
-        this.sendFindServerRequest(this.state.searchBarText, 20, {});
+        this.sendFindServerRequest(this.state.searchBarText, 20, this.state.map)
     }
 
     sendFindServerRequest(matchPattern, limitInt, map) {
         sendServerRequest({requestType: "find", requestVersion: 2, match: matchPattern, limit: limitInt, narrow: map})
-            .then(places => {
-                if (places) {
+            .then(fin => {
+                if (fin) {
                     try {
                         let outerArray = [];
                         for (let i = 0; i < limitInt; ++i) {
                             let elementArray = []
-                            if (places.data.places[i] !== undefined) {
-                                elementArray.push(places.data.places[i].name);
-                                elementArray.push(places.data.places[i].latitude);
-                                elementArray.push(places.data.places[i].longitude);
+                            if (fin.data.places[i] !== undefined) {
+                                elementArray.push(fin.data.places[i].name);
+                                elementArray.push(fin.data.places[i].latitude);
+                                elementArray.push(fin.data.places[i].longitude);
                             }
                             outerArray.push(elementArray);
                         }
-                        this.setState({searchArray: outerArray, searchIsOn: true, numberFound: places.data.found});
+                        this.setState({searchArray: outerArray, searchIsOn: true, numberFound: fin.data.found});
                     } catch (error) {
                         console.error(error)
                     }
+                }
+            });
+    }
+
+    sendConfigServerRequest(){
+        const tempMap = this.setFilter()
+        sendServerRequest({requestType: "config", requestVersion: 4})
+            .then(conf => {
+                if (conf) {
+                    this.setState({map: conf.data.filters})
                 }
             });
     }

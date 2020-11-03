@@ -27,6 +27,8 @@ public class RequestConfig extends RequestHeader {
     this.serverName = "t10 tech10";
     this.requestVersion = RequestHeader.CURRENT_SUPPORTED_VERSION;
     this.supportedRequests = Arrays.asList("config", "distance", "find", "trip");
+    this.filters.put("type", new String[] {"heliport"});
+    this.filters.put("where", new String[] {"New Jersey"});
     log.trace("buildResponse -> {}", this);
   }
 
