@@ -69,8 +69,7 @@ export default class SearchModule extends Component {
         let coords = L.latLng(lat, lng);
         let index = this.state.trips[this.state.stateIndex].places.length;
         let slice = this.state.trips.slice();
-        let placeNote = coordStr;
-        slice[this.state.stateIndex].places.push([coords, index, placeNote, coordStr]);
+        slice[this.state.stateIndex].places.push([coords, index, coordStr, coordStr]);
         this.setState({trips: slice});
         this.onClickCall(index ,this.state.stateIndex); }
 
@@ -114,8 +113,6 @@ export default class SearchModule extends Component {
     closeTripUI() {
         if (this.state.designerOpen === '') { this.setState({designerOpen: 'designerIsOpen'}) }
         else {this.setState({designerOpen: '',}) } }
-
-    toggleDropdown(){ this.setState({openDropdown: !this.state.openDropdown}) }
 
     addPlace(latLng, index, note){ this.state.trips[this.state.stateIndex].places.push([latLng, index, note]) }
 
@@ -261,11 +258,6 @@ export default class SearchModule extends Component {
                     } catch (error) { console.error(error) }
                 } }); }
 
-    addListGroupItem(index){
-        return (
-            <ListGroupItem id="searchListStyle" style={{maxWidth: 268, height: 55}} tag="button" action
-                           onClick={() => {this.addSearchItem(index); this.setState({searchListOpen: false})}}>{this.state.searchListArray[index][0]}</ListGroupItem> ); }
-
     addSearchItem(index){
         let tripsArray = this.state.trips
         tripsArray[this.state.stateIndex].places.push([L.latLng(this.state.searchListArray[index][1], this.state.searchListArray[index][2]), this.state.trips[this.state.stateIndex].places.length, this.state.searchListArray[index][0]])
@@ -275,7 +267,7 @@ export default class SearchModule extends Component {
         let SLArray = []
         for(let i = 0; i < this.state.numberFound; ++i){
             if(i >= 20){break;}
-            SLArray.push(this.addListGroupItem(i));
+            SLArray.push(<ListGroupItem id="searchListStyle" style={{maxWidth: 268, height: 55}} tag="button" action onClick={() => {this.addSearchItem(i); this.setState({searchListOpen: false})}}>{this.state.searchListArray[i][0]}</ListGroupItem>);
         }
         return(
             <div tabIndex="0">

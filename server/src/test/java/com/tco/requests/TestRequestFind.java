@@ -194,4 +194,19 @@ public class TestRequestFind {
         if (!hasTravis) { assertEquals("'s Gravenwezel heliport", name); }
         else { assertEquals("Aappilattoq (Kujalleq) Heliport", name); }
     }
+
+    @Test
+    public void testNarrowBothNo(){
+        Map<String,String[]> temp = new HashMap<>();
+        temp.put("type", new String[] {"balloonport", "heliport"});
+        temp.put("where", new String[] {"Germany", "Belgium", "Greenland"});
+
+        fin = new RequestFind("port", 4, temp);
+        fin.buildResponse();
+
+        List<LinkedHashMap<String,String>> places = fin.getPlaces();
+        String name = places.get(0).get("name");
+        if (!hasTravis) { assertEquals("'s Gravenwezel heliport", name); }
+        else { assertEquals("Aappilattoq (Kujalleq) Heliport", name); }
+    }
 }

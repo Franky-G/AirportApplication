@@ -109,10 +109,6 @@ public class ProcessFindRequest {
     private static void filterList(List<LinkedHashMap<String,String>> list, Map<String, String[]> narrowFilter) {
         List<LinkedHashMap<String,String>> placeHolder = new ArrayList<>(list);
         list.clear();
-        placesFilter(placeHolder, list, narrowFilter);
-    }
-
-    public static void placesFilter(List<LinkedHashMap<String,String>> placeHolder, List<LinkedHashMap<String,String>> list, Map<String, String[]> narrowFilter){
         for (LinkedHashMap<String, String> resultPlace : placeHolder) {
             placesFilterHelper(list, resultPlace, narrowFilter);
         }
@@ -137,14 +133,10 @@ public class ProcessFindRequest {
 
     public static void onlyType(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, Map<String, String[]> narrowFilter){
         List<String> specificType = Arrays.asList(narrowFilter.get("type"));
-        onlyTypeHelper(list, resultPlace, specificType, specificType.contains("airport"));
-    }
-
-    public static void onlyTypeHelper(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, List<String> specificType, boolean conAir){
-        if ((resultPlace.get("type").endsWith("airport") || specificType.contains(resultPlace.get("type"))) && conAir){
+        if ((resultPlace.get("type").endsWith("airport") || specificType.contains(resultPlace.get("type"))) && specificType.contains("airport")){
             list.add(resultPlace);
         }
-        if (specificType.contains(resultPlace.get("type")) && !conAir){
+        if (specificType.contains(resultPlace.get("type")) && !specificType.contains("airport")){
             list.add(resultPlace);
         }
     }
