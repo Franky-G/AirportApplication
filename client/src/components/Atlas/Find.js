@@ -99,13 +99,6 @@ export default class Find extends Component {
         this.setState({filterModalText: ""})
     }
 
-    // filterModalHelper(A, B, H){
-    //     return (
-    //         <Col sm={{size: 10}}><FormGroup check><Label check></Label></FormGroup></Col>
-    //     <Input type="checkbox" onChange={() => this.setState({isAirport: !this.state.isAirport})}/>{' '} Airport
-    //     );
-    // }
-
     filterModal(){
         return (
           <Modal isOpen={this.state.isFilter} toggle={this.toggleFilterModal}>
@@ -116,7 +109,7 @@ export default class Find extends Component {
                           <Label><b><em>Select Types</em></b></Label>
                           <Col sm={{size:10}}><FormGroup check><Label check><Input type="checkbox" onChange={() => this.setState({isAirport: !this.state.isAirport})}/>{' '} Airport</Label></FormGroup></Col>
                           <Col sm={{size:10}}><FormGroup check><Label check><Input onChange={() => this.setState({isBalloon: !this.state.isBalloon})} type="checkbox"/>{' '} Balloonport</Label></FormGroup></Col>
-                          <Col sm={{size:10}}><FormGroup check><Label check><Input type="checkbox" onChange={() => this.setState({isHeliport: !this.state.isHeliport})}/>{' '} Heliport</Label></FormGroup></Col>
+                          <Col sm={{size:9}}><FormGroup check><Label check><Input type="checkbox" onChange={() => this.setState({isHeliport: !this.state.isHeliport})}/>{' '} Heliport</Label></FormGroup></Col>
                       </FormGroup>
                       <FormGroup row>
                           <Label for="whereCheck"><b><em>Enter Country/Region name or Municipality below (Use a comma to specify more than one)</em></b></Label>
@@ -221,11 +214,11 @@ export default class Find extends Component {
                     try {
                         let oArr = [];
                         let eArr = []
-                        for (let i = 0; i < limitInt; ++i) {
-                            if (fin.data.places[i] !== undefined) {
-                                eArr.push(fin.data.places[i].name);
-                                eArr.push(fin.data.places[i].latitude);
-                                eArr.push(fin.data.places[i].longitude);
+                        for (let j = 0; j < limitInt; ++j) {
+                            if (fin.data.places[j] !== undefined) {
+                                eArr.push(fin.data.places[j].name);
+                                eArr.push(fin.data.places[j].latitude);
+                                eArr.push(fin.data.places[j].longitude);
                             }
                             oArr.push(eArr);
                         }
