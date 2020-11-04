@@ -109,7 +109,7 @@ export default class Find extends Component {
                           <Label><b><em>Select Types</em></b></Label>
                           <Col sm={{size:10}}><FormGroup check><Label check><Input type="checkbox" onChange={() => this.setState({isAirport: !this.state.isAirport})}/>{' '} Airport</Label></FormGroup></Col>
                           <Col sm={{size:10}}><FormGroup check><Label check><Input onChange={() => this.setState({isBalloon: !this.state.isBalloon})} type="checkbox"/>{' '} Balloonport</Label></FormGroup></Col>
-                          <Col sm={{size:9}}><FormGroup check><Label check><Input type="checkbox" onChange={() => this.setState({isHeliport: !this.state.isHeliport})}/>Heliport</Label></FormGroup></Col>
+                          <Col sm={{size:10}}><FormGroup check><Label check><Input type="checkbox" id="cheese" onChange={() => this.setState({isHeliport: !this.state.isHeliport})}/>{' '}Heliport</Label></FormGroup></Col>
                       </FormGroup>
                       <FormGroup row>
                           <Label for="whereCheck"><b><em>Enter Country/Region name or Municipality below (Use a comma to specify more than one)</em></b></Label>
