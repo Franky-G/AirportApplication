@@ -65,6 +65,8 @@ Provide better results using user concurrency which will also reduce overall com
 | *10/28/2020* | *6* | *5* | *None* | 
 | *10/30/2020* | *11* | *3* | *None* | 
 | *11/02/2020* | *12* | *5* | *None* | 
+| *11/04/2020* | *12* | *5* | *None* | 
+
 
 
 ## Review
