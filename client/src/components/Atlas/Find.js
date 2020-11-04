@@ -109,7 +109,7 @@ export default class Find extends Component {
                           <Label><b><em>Select Types</em></b></Label>
                           <Col sm={{size:10}}><FormGroup check><Label check><Input type="checkbox" onChange={() => this.setState({isAirport: !this.state.isAirport})}/>{' '} Airport</Label></FormGroup></Col>
                           <Col sm={{size:10}}><FormGroup check><Label check><Input onChange={() => this.setState({isBalloon: !this.state.isBalloon})} type="checkbox"/>{' '} Balloonport</Label></FormGroup></Col>
-                          <Col sm={{size:9}}><FormGroup check><Label check><Input type="checkbox" onChange={() => this.setState({isHeliport: !this.state.isHeliport})}/>{' '} Heliport</Label></FormGroup></Col>
+                          <Col sm={{size:9}}><FormGroup check><Label check><Input type="checkbox" onChange={() => this.setState({isHeliport: !this.state.isHeliport})}/>Heliport</Label></FormGroup></Col>
                       </FormGroup>
                       <FormGroup row>
                           <Label for="whereCheck"><b><em>Enter Country/Region name or Municipality below (Use a comma to specify more than one)</em></b></Label>
@@ -182,14 +182,10 @@ export default class Find extends Component {
             }
         }
         if (types.length !== 0 && where.length === 0){
-            temp = {
-                type: types
-            }
+            temp = { type: types }
         }
         if (types.length === 0 && where.length !== 0){
-            temp = {
-                where: where
-            }
+            temp = { where: where }
         }
         return temp
     }
@@ -216,9 +212,7 @@ export default class Find extends Component {
                         let eArr = []
                         for (let j = 0; j < limitInt; ++j) {
                             if (fin.data.places[j] !== undefined) {
-                                eArr.push(fin.data.places[j].name);
-                                eArr.push(fin.data.places[j].latitude);
-                                eArr.push(fin.data.places[j].longitude);
+                                eArr = this.sFSReqHelper(fin.data.places[j].name, fin.data.places[j].latitude, fin.data.places[j].longitude)
                             }
                             oArr.push(eArr);
                         }
@@ -228,6 +222,14 @@ export default class Find extends Component {
                     }
                 }
             });
+    }
+
+    sFSReqHelper(p, lat, long){
+        let eArr = []
+        eArr.push(p)
+        eArr.push(lat)
+        eArr.push(long)
+        return eArr
     }
 }
 
