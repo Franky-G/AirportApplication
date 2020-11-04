@@ -47,7 +47,7 @@ public class Optimization {
 
     public Long totalDistance(Integer[] tourTemp) {
         Long tempDist[] = new Long[this.places.length];
-        Long tempTotalDist = null;
+        Long tempTotalDist;
         if (tourTemp.length == 0) {
             tempDist = new Long[tourTemp.length];
         }
