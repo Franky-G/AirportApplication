@@ -33,6 +33,41 @@ public class Optimization {
         return distances;
     }
 
+    public Long nearestNeighbor() {
+        Long best = null;
+        for (int i = 0; i < places.length; i++) {
+            Integer[] tourTemp = createTour(i);
+            Long tempDist = totalDistance(tourTemp);
+            if (tempDist < best) {
+                best = tempDist;
+            }
+        }
+        return best;
+    }
+
+    public Long totalDistance(Integer[] tourTemp) {
+        Long tempDist[] = new Long[this.places.length];
+        Long tempTotalDist = null;
+        if (tourTemp.length == 0) {
+            tempDist = new Long[tourTemp.length];
+        }
+        else {
+            for (int i = 0; i < tourTemp.length - 1; i++) {
+                tempDist[i] = CalculateDistance.ComputeDistance(this.places[tourTemp[i]], this.places[tourTemp[i+1]], Double.parseDouble(this.options.get("earthRadius")));
+            }
+            tempDist[tourTemp.length - 1] = CalculateDistance.ComputeDistance(this.places[tourTemp[tourTemp.length-1]], this.places[tourTemp[0]], Double.parseDouble(this.options.get("earthRadius")));
+        }
+        tempTotalDist = getTotalDist(tempDist);
+        return tempTotalDist;
+    }
+
+    public Long getTotalDist(Long[] dist) {
+        Long tempTotalDist = null;
+        for (int i = 0; i < dist.length; i++) {
+            tempTotalDist += dist[i];
+        }
+        return tempTotalDist;
+    }
 
     public Integer[] createTour(int startIndex){
         tour[0] = startIndex;
