@@ -24,7 +24,7 @@ public class RequestConfig extends RequestHeader {
     this.supportedRequests = Arrays.asList("config", "distance", "find", "trip");
     this.filters = new HashMap<>();
     this.filters.put("type", new String[] {"airport","heliport","balloonport"});
-    this.filters.put("where", ProcessFindRequest.getCountries());
+    this.filters.put("where", ProcessFindRequest.getWhere());
     log.trace("buildResponse -> {}", this);
   }
 

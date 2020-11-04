@@ -2,7 +2,6 @@ import './jestConfig/enzyme.config.js';
 import React from "react";
 import { shallow } from 'enzyme';
 import Find from "../src/components/Atlas/Find";
-import {sendServerRequest} from "../src/utils/restfulAPI";
 
 function simulateOnClick(button, parentWrapper) {
     button.simulate('click');
@@ -89,32 +88,6 @@ function testRenSearchList(){
 }
 
 test ("Render Search List", testRenSearchList);
-
-function testReturnPlaces(){
-    const fin = shallow(<Find/>);
-    let match = "dave";
-    let limit = 10;
-    sendServerRequest({requestType: "find", requestVersion: 2, match: match, limit: limit})
-        .then(places => {
-            try{
-                let outerArray = [];
-                for (let i = 0; i < limitInt; ++i) {
-                    let elementArray = []
-                    if (places.data.places[i] !== undefined) {
-                        elementArray.push(places.data.places[i].name);
-                        elementArray.push(places.data.places[i].latitude);
-                        elementArray.push(places.data.places[i].longitude);
-                    }
-                    outerArray.push(elementArray);
-                }
-            } catch (error){
-                console.log(error)
-            }
-        });
-    fin.instance().returnPlaces();
-}
-
-test ("Send return places", testReturnPlaces);
 
 function testServerRequest(){
     const fin = shallow(<Find/>);

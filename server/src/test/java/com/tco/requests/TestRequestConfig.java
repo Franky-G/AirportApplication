@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TestRequestConfig {
 
@@ -71,8 +71,8 @@ public class TestRequestConfig {
   @Test
   @DisplayName("Config Where Filter")
   public void testWhereFilterSupport() {
-    String temp[] = conf.getFilters().get("where");
-    assertEquals("Andorra", temp[0]);
+    String[] temp = conf.getFilters().get("where");
+    assertEquals(29317, temp.length);
   }
 
   @Test
@@ -80,9 +80,9 @@ public class TestRequestConfig {
   public void testWhereConfigFilter() {
     conf.buildResponse();
     Map<String, String[]> filters = conf.getFilters();
-    assertEquals(true, filters.containsKey("type"));
-    assertEquals(true, filters.containsKey("where"));
-    assertEquals(false, filters.containsKey("filters"));
+    assertTrue(filters.containsKey("type"));
+    assertTrue(filters.containsKey("where"));
+    assertFalse(filters.containsKey("filters"));
   }
 
 }
