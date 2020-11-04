@@ -10,16 +10,11 @@ public class RequestConfig extends RequestHeader {
   private String serverName;
   private List<String> supportedRequests = new ArrayList<>();
   private final transient Logger log = LoggerFactory.getLogger(RequestConfig.class);
-  private Map<String, String[]> filters = new HashMap<>();
+  private Map<String, String[]> filters;
 
   public RequestConfig() {
     this.requestType = "config";
     this.requestVersion = RequestHeader.CURRENT_SUPPORTED_VERSION;
-  }
-
-  public RequestConfig(Map<String,String[]> filter){
-    this();
-    this.filters = filter;
   }
 
   @Override
@@ -27,8 +22,9 @@ public class RequestConfig extends RequestHeader {
     this.serverName = "t10 tech10";
     this.requestVersion = RequestHeader.CURRENT_SUPPORTED_VERSION;
     this.supportedRequests = Arrays.asList("config", "distance", "find", "trip");
-    this.filters.put("type", new String[] {"heliport"});
-    this.filters.put("where", new String[] {"New Jersey"});
+    this.filters = new HashMap<>();
+    this.filters.put("type", new String[] {"airport","heliport","balloonport"});
+    this.filters.put("where", ProcessFindRequest.getWhere());
     log.trace("buildResponse -> {}", this);
   }
 
@@ -38,6 +34,6 @@ public class RequestConfig extends RequestHeader {
   public List<String> getSupportedRequests() {
     return supportedRequests;
   }
-  public Map<String, String[]> getFilters() { return filters; }
+  public Map<String, String[]> getFilters() {return filters; }
 }
 

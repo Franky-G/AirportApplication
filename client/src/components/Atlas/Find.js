@@ -1,6 +1,20 @@
 import {sendServerRequest} from "../../utils/restfulAPI";
 import React, {Component} from "react";
-import {Button, Col, Container, Input, ListGroup, ListGroupItem, Row, Modal, ModalBody, ModalHeader, Form, FormGroup, Label} from "reactstrap";
+import {
+    Button,
+    Col,
+    Container,
+    Form,
+    FormGroup,
+    Input,
+    Label,
+    ListGroup,
+    ListGroupItem,
+    Modal,
+    ModalBody,
+    ModalHeader,
+    Row
+} from "reactstrap";
 import Fade from "@material-ui/core/Fade";
 import {SListArrayHelper} from "../Cheese";
 
@@ -40,7 +54,6 @@ export default class Find extends Component {
         this.state = {
             numberFound: 0,
             searchArray: [],
-            map: {},
             searchBarText: "",
             filterModalText: "",
             isBalloon: false,
@@ -91,7 +104,7 @@ export default class Find extends Component {
         if (target.name === "whereText") {this.setState({filterModalText: target.value})}
     }
 
-    toggleFilterModal(){ this.setState({isFilter: !this.state.isFilter}) }
+    toggleFilterModal(){this.setState({isFilter: !this.state.isFilter})}
 
     toggleAirport(){ this.setState({isAirport: !this.state.isAirport})}
 
@@ -99,7 +112,15 @@ export default class Find extends Component {
 
     toggleHeliport(){ this.setState({isHeliport: !this.state.isHeliport})}
 
+    resetFilter(){
+        this.setState({isAirport: false})
+        this.setState({isBalloon: false})
+        this.setState({isHeliport: false})
+        this.setState({filterModalText: ""})
+    }
+
     filterModal(){
+        console.log(this.state.isHeliport)
         return (
           <Modal isOpen={this.state.isFilter} toggle={this.toggleFilterModal}>
               <ModalHeader toggle={this.toggleFilterModal}><b>Specify filters before searching</b></ModalHeader>
@@ -115,7 +136,6 @@ export default class Find extends Component {
                           <Label for="whereCheck"><b><em>Enter Country/Region name or Municipality below (Use a comma to specify more than one)</em></b></Label>
                           <Input type="textarea" name="whereText" id="whereFilter" onChange={() => this.handleInputChange()}/>
                       </FormGroup>
-                      <Input type="submit" onClick={() => this.sendConfigServerRequest()}>Submit</Input>
                   </Form>
               </ModalBody>
           </Modal>
@@ -127,7 +147,7 @@ export default class Find extends Component {
             <Fade in={true} timeout={350}>
                 <div style={searchModuleStyle}>
                     <Button className="p-1" style={filterButtonStyle}
-                            onClick = {() => {this.toggleFilterModal()}}> Filters </Button>
+                            onClick = {() => {this.resetFilter(); this.toggleFilterModal()}}> Filters </Button>
                     <Row>
                         <Col>
                             <Input name={SBArray[0].name} style={SBArray[0].style} placeholder={SBArray[0].placeholder}
@@ -174,27 +194,47 @@ export default class Find extends Component {
         this.wrapperRef = node;
     }
 
+    setFilterHelper(types, where){
+        let temp = {}
+        if (!(types.length === 0 && where.length === 0)) {
+            temp = {
+                type: types,
+                where: where
+            }
+        }
+        if (types.length !== 0 && where.length === 0){
+            temp = {
+                type: types
+            }
+        }
+        if (types.length === 0 && where.length !== 0){
+            temp = {
+                where: where
+            }
+        }
+        return temp
+    }
+
     setFilter(){
-        const temp = new Map()
-        console.log("temp is initially " + temp)
-        const types = ["airport", "balloonport", "heliport"];
+        let types = []
         let where = []
-        if (!this.state.isAirport){ delete types[0] }
-        if (!this.state.isBalloon){ delete types[1] }
-        if (!this.state.isHeliport){ delete types[2] }
-        where.push(this.state.filterModalText)
-        temp.set("type", types)
-        temp.set("where", where)
-        console.log("temp is now " + temp)
-        return(
-          temp
-        );
+        if (this.state.isAirport){ types.push("airport")}
+        if (this.state.isBalloon){ types.push("balloonport") }
+        if (this.state.isHeliport){ types.push("heliport") }
+        if (this.state.filterModalText !== "") { where = this.setWhere(this.state.filterModalText) }
+        return this.setFilterHelper(types, where)
+    }
+
+    setWhere(string){
+        let regex = /,\s*/
+        console.log(string.split(regex))
+        return string.split(regex)
     }
 
     /* ------- Server ------- */
 
     returnPlaces() {
-        this.sendFindServerRequest(this.state.searchBarText, 20, this.state.map)
+        this.sendFindServerRequest(this.state.searchBarText, 20, this.setFilter())
     }
 
     sendFindServerRequest(matchPattern, limitInt, map) {
@@ -216,16 +256,6 @@ export default class Find extends Component {
                     } catch (error) {
                         console.error(error)
                     }
-                }
-            });
-    }
-
-    sendConfigServerRequest(){
-        const tempMap = this.setFilter()
-        sendServerRequest({requestType: "config", requestVersion: 4})
-            .then(conf => {
-                if (conf) {
-                    this.setState({map: conf.data.filters})
                 }
             });
     }
