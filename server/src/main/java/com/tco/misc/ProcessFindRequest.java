@@ -26,15 +26,19 @@ public class ProcessFindRequest {
         }
     }
 
+    private static String setMatchHelper(String temp, char c){
+        if (!Character.isDigit(c) && !Character.isLetter(c) && Character.isSpaceChar(c)){ c = '_'; }
+        temp += c;
+        return temp;
+    }
+
     private static String setMatch(String matchPattern) {
         if (matchPattern == null || matchPattern.equals("78LuckyBoy78")){ return ""; }
-        StringBuilder temp = new StringBuilder();
+        String temp = "";
         for (int i=0; i<matchPattern.length(); i++){
-            char c = matchPattern.charAt(i);
-            if (!Character.isDigit(c) && !Character.isLetter(c) && Character.isSpaceChar(c)){ c = '_'; }
-            temp.append(c);
+            temp = setMatchHelper(temp, matchPattern.charAt(i));
         }
-        return temp.toString();
+        return temp;
     }
 
     public static void setQUERY(String matchPattern, int limitInt, boolean isPlaces, boolean isFound){

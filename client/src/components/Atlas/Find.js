@@ -1,20 +1,6 @@
 import {sendServerRequest} from "../../utils/restfulAPI";
 import React, {Component} from "react";
-import {
-    Button,
-    Col,
-    Container,
-    Form,
-    FormGroup,
-    Input,
-    Label,
-    ListGroup,
-    ListGroupItem,
-    Modal,
-    ModalBody,
-    ModalHeader,
-    Row
-} from "reactstrap";
+import {Button, Col, Container, Form, FormGroup, Input, Label, ListGroup, ListGroupItem, Modal, ModalBody, ModalHeader, Row} from "reactstrap";
 import Fade from "@material-ui/core/Fade";
 import {SListArrayHelper} from "../Cheese";
 
@@ -101,7 +87,7 @@ export default class Find extends Component {
     handleInputChange(){
         const target = event.target;
         if (target.name === "searchBar") {this.setState({searchBarText: target.value});}
-        if (target.name === "whereText") {this.setState({filterModalText: target.value})}
+        if ("whereText" === target.name) {this.setState({filterModalText: target.value})}
     }
 
     toggleFilterModal(){this.setState({isFilter: !this.state.isFilter})}
@@ -120,7 +106,6 @@ export default class Find extends Component {
     }
 
     filterModal(){
-        console.log(this.state.isHeliport)
         return (
           <Modal isOpen={this.state.isFilter} toggle={this.toggleFilterModal}>
               <ModalHeader toggle={this.toggleFilterModal}><b>Specify filters before searching</b></ModalHeader>
@@ -128,9 +113,9 @@ export default class Find extends Component {
                   <Form>
                       <FormGroup row>
                           <Label><b><em>Select Types</em></b></Label>
-                          <Col sm={{size:10}}><FormGroup check><Label check><Input type="checkbox" onChange={this.toggleAirport.bind(this)}/>{' '} Airport</Label></FormGroup></Col>
-                          <Col sm={{size:10}}><FormGroup check><Label check><Input type="checkbox" onChange={this.toggleBalloon.bind(this)}/>{' '} Balloonport</Label></FormGroup></Col>
-                          <Col sm={{size:10}}><FormGroup check><Label check><Input type="checkbox" onChange={this.toggleHeliport.bind(this)}/>{' '} Heliport</Label></FormGroup></Col>
+                          <Col sm={{size:10}}><FormGroup check><Label check><Input type="checkbox" onChange={() => this.setState({isAirport: !this.state.isAirport})}/>{' '} Airport</Label></FormGroup></Col>
+                          <Col sm={{size:10}}><FormGroup check><Label check><Input type="checkbox" onChange={() => this.setState({isBalloon: !this.state.isBalloon})}/>{' '} Balloonport</Label></FormGroup></Col>
+                          <Col sm={{size:10}}><FormGroup check><Label check><Input type="checkbox" onChange={() => this.setState({isHeliport: !this.state.isHeliport})}/>{' '} Heliport</Label></FormGroup></Col>
                       </FormGroup>
                       <FormGroup row>
                           <Label for="whereCheck"><b><em>Enter Country/Region name or Municipality below (Use a comma to specify more than one)</em></b></Label>
@@ -156,7 +141,7 @@ export default class Find extends Component {
                     </Row>
                     <Col style={{position: "absolute", left: 277, top: 103}}>
                         <Button className="p-1" style={distanceButtonStyle}
-                                onClick = {() => {this.returnPlaces()}}> Search </Button>
+                                onClick = {() => {this.sendFindServerRequest(this.state.searchBarText, 20, this.setFilter())}}> Search </Button>
                     </Col>
                     <p style={searchTypeStyle}>
                         Location = {this.state.searchBarText}<br/>
@@ -218,41 +203,32 @@ export default class Find extends Component {
     setFilter(){
         let types = []
         let where = []
+        let regex = /,\s*/
         if (this.state.isAirport){ types.push("airport")}
         if (this.state.isBalloon){ types.push("balloonport") }
         if (this.state.isHeliport){ types.push("heliport") }
-        if (this.state.filterModalText !== "") { where = this.setWhere(this.state.filterModalText) }
+        if (this.state.filterModalText !== "") { where = this.state.filterModalText.split(regex) }
         return this.setFilterHelper(types, where)
     }
 
-    setWhere(string){
-        let regex = /,\s*/
-        console.log(string.split(regex))
-        return string.split(regex)
-    }
-
     /* ------- Server ------- */
-
-    returnPlaces() {
-        this.sendFindServerRequest(this.state.searchBarText, 20, this.setFilter())
-    }
 
     sendFindServerRequest(matchPattern, limitInt, map) {
         sendServerRequest({requestType: "find", requestVersion: 2, match: matchPattern, limit: limitInt, narrow: map})
             .then(fin => {
                 if (fin) {
                     try {
-                        let outerArray = [];
+                        let oArr = [];
                         for (let i = 0; i < limitInt; ++i) {
-                            let elementArray = []
+                            let eArr = []
                             if (fin.data.places[i] !== undefined) {
-                                elementArray.push(fin.data.places[i].name);
-                                elementArray.push(fin.data.places[i].latitude);
-                                elementArray.push(fin.data.places[i].longitude);
+                                eArr.push(fin.data.places[i].name);
+                                eArr.push(fin.data.places[i].latitude);
+                                eArr.push(fin.data.places[i].longitude);
                             }
-                            outerArray.push(elementArray);
+                            oArr.push(eArr);
                         }
-                        this.setState({searchArray: outerArray, searchIsOn: true, numberFound: fin.data.found});
+                        this.setState({searchArray: oArr, searchIsOn: true, numberFound: fin.data.found});
                     } catch (error) {
                         console.error(error)
                     }
