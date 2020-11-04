@@ -142,8 +142,8 @@ export default class SearchModule extends Component {
         return(distancePlaces) }
 
     calculateTripDistance(latLngString){
-        sendServerRequest({ requestVersion: 3, requestType: "trip",
-            options: {title: this.state.trips[this.state.stateIndex].name, earthRadius: this.state.earthRadius}, places: latLngString}).then(distance => {
+        sendServerRequest({ requestVersion: 3, requestType: "trip", places: latLngString,
+            options: {earthRadius: this.state.earthRadius, title: this.state.trips[this.state.stateIndex].name}}).then(distance => {
             let totalDistance = 0;
             let distances = distance.data.distances;
             for(let i = 0; i < distances.length; i++){ totalDistance += distances[i]; }
