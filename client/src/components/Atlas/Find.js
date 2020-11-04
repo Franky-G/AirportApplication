@@ -92,18 +92,19 @@ export default class Find extends Component {
 
     toggleFilterModal(){this.setState({isFilter: !this.state.isFilter})}
 
-    toggleAirport(){ this.setState({isAirport: !this.state.isAirport})}
-
-    toggleBalloon(){ this.setState({isBalloon: !this.state.isBalloon})}
-
-    toggleHeliport(){ this.setState({isHeliport: !this.state.isHeliport})}
-
     resetFilter(){
         this.setState({isAirport: false})
         this.setState({isBalloon: false})
         this.setState({isHeliport: false})
         this.setState({filterModalText: ""})
     }
+
+    // filterModalHelper(A, B, H){
+    //     return (
+    //         <Col sm={{size: 10}}><FormGroup check><Label check></Label></FormGroup></Col>
+    //     <Input type="checkbox" onChange={() => this.setState({isAirport: !this.state.isAirport})}/>{' '} Airport
+    //     );
+    // }
 
     filterModal(){
         return (
@@ -114,7 +115,7 @@ export default class Find extends Component {
                       <FormGroup row>
                           <Label><b><em>Select Types</em></b></Label>
                           <Col sm={{size:10}}><FormGroup check><Label check><Input type="checkbox" onChange={() => this.setState({isAirport: !this.state.isAirport})}/>{' '} Airport</Label></FormGroup></Col>
-                          <Col sm={{size:10}}><FormGroup check><Label check><Input type="checkbox" onChange={() => this.setState({isBalloon: !this.state.isBalloon})}/>{' '} Balloonport</Label></FormGroup></Col>
+                          <Col sm={{size:10}}><FormGroup check><Label check><Input onChange={() => this.setState({isBalloon: !this.state.isBalloon})} type="checkbox"/>{' '} Balloonport</Label></FormGroup></Col>
                           <Col sm={{size:10}}><FormGroup check><Label check><Input type="checkbox" onChange={() => this.setState({isHeliport: !this.state.isHeliport})}/>{' '} Heliport</Label></FormGroup></Col>
                       </FormGroup>
                       <FormGroup row>
@@ -219,8 +220,8 @@ export default class Find extends Component {
                 if (fin) {
                     try {
                         let oArr = [];
+                        let eArr = []
                         for (let i = 0; i < limitInt; ++i) {
-                            let eArr = []
                             if (fin.data.places[i] !== undefined) {
                                 eArr.push(fin.data.places[i].name);
                                 eArr.push(fin.data.places[i].latitude);
