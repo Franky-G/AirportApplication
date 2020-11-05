@@ -112,9 +112,9 @@ public class Optimization {
         return this.distances;
     }
 
-    private void TwoOptReverse(Map<String, String>[] places, int i1, int k) {
+    private void TwoOptReverse(Integer[] places, int i1, int k) {
         while(i1 < k) {
-            Map<String, String> temp = places[i1];
+            Integer temp = places[i1];
             places[i1] = places[k];
             places[k] = temp;
             i1++;
@@ -122,9 +122,13 @@ public class Optimization {
         }
     }
 
-    public Map<String, String>[] TwoOpt(Map<String, String>[] places, Map<String, String> options) {
+    public Integer[] TwoOpt() {
         Integer distances[][] = this.getDistances();
-
+        Integer[] places = new Integer[this.tour.length+1];;
+        for (int i = 0; i < places.length-1; i++) {
+            places[i] = this.tour[i];
+        }
+        places[places.length-1] = this.tour[0];
         boolean improvement = true;
         while (improvement) {
             improvement = false;
@@ -138,7 +142,6 @@ public class Optimization {
                 }
             }
         }
-
         return places;
     }
 
