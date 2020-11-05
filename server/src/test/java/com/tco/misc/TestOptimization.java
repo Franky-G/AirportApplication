@@ -1,8 +1,10 @@
 package com.tco.misc;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -82,7 +84,7 @@ public class TestOptimization {
         Integer[][] distanceMatrix;
         Integer[][] expectedDistMatrix = {{0, 7011, 59}, {7011, 0, 7006}, {59, 7006, 0}};
         distanceMatrix = optPlaces.getDistances();
-        assertEquals(Arrays.deepToString(expectedDistMatrix),Arrays.deepToString(distanceMatrix));
+        assertEquals(Arrays.deepToString(expectedDistMatrix), Arrays.deepToString(distanceMatrix));
     }
 
     @Test
@@ -102,6 +104,32 @@ public class TestOptimization {
     }
 
     @Test
+    public void testTotalDistancePlaces(){
+        Integer[] tour = {0,1,2};
+        Long calculatedDistance;
+        calculatedDistance =  optPlaces.totalDistance(tour);
+        assertEquals(14076,calculatedDistance);
+        Integer [] tour1 = {0,1,2,3,4};
+        calculatedDistance = optPlaces1.totalDistance(tour1);
+        assertEquals(2660, calculatedDistance);
+    }
+
+    @Test
+    @DisplayName("Test Total Distance")
+    public void testTotalDistance() {
+        Long totalDist[] = new Long[3];
+        totalDist[0] = 20L; totalDist[1] = 30L; totalDist[2] = 10L;
+        Long dist = optPlaces.getTotalDist(totalDist);
+        assertEquals(60, dist);
+    }
+
+    @Test
+    @DisplayName("Nearest Neighbor")
+    public void testNearestNeighbor() {
+        Long dist = optPlaces1.nearestNeighbor();
+        assertEquals(1825, dist);
+    }
+
     public void testContains(){
         Boolean expected;
         Boolean expected1;
@@ -127,16 +155,4 @@ public class TestOptimization {
         tour =  optPlaces1.createTour(2);
         assertEquals(Arrays.deepToString(expectedTour),Arrays.deepToString(tour));
     }
-
-
-
-
-//    @Test
-//    public void testTotalDistancePlaces(){
-//        Integer[] tour = {0,1,2};
-//        Long calculatedDistance;
-//        Long expectedDistance = 10L;
-//        calculatedDistance =  optPlaces.totalDistance(tour);
-//        assertEquals(expectedDistance,calculatedDistance);
-//    }
 }
