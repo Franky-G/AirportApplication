@@ -112,6 +112,17 @@ public class TestOptimization {
         assertEquals(false, expected1);
     }
 
+    @Test
+    public void testCreateTourPlaces1Reverse(){
+        Integer[] tour;
+        Integer[] expectedTour = {4,1,2,3,0};
+        tour =  optPlaces1.createTour(4);
+        assertEquals(Arrays.deepToString(expectedTour),Arrays.deepToString(tour));
+    }
+
+
+
+
 //    @Test
 //    public void testTotalDistancePlaces(){
 //        Integer[] tour = {0,1,2};
