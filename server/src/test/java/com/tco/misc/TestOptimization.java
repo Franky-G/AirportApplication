@@ -120,6 +120,14 @@ public class TestOptimization {
         assertEquals(Arrays.deepToString(expectedTour),Arrays.deepToString(tour));
     }
 
+    @Test
+    public void testCreateTourPlaces1Start2(){
+        Integer[] tour;
+        Integer[] expectedTour = {2,3,0,1,4};
+        tour =  optPlaces1.createTour(2);
+        assertEquals(Arrays.deepToString(expectedTour),Arrays.deepToString(tour));
+    }
+
 
 
 
