@@ -115,21 +115,15 @@ public class TestOptimization {
     }
 
     @Test
-    @DisplayName("Test Total Distance")
-    public void testTotalDistance() {
-        Long totalDist[] = new Long[3];
-        totalDist[0] = 20L; totalDist[1] = 30L; totalDist[2] = 10L;
-        Long dist = optPlaces.getTotalDist(totalDist);
-        assertEquals(60, dist);
-    }
-
-    @Test
     @DisplayName("Nearest Neighbor")
     public void testNearestNeighbor() {
         Long dist = optPlaces1.nearestNeighbor();
-        assertEquals(1825, dist);
+        assertEquals(2033, dist);
+        dist = optPlaces.nearestNeighbor();
+        assertEquals(14076, dist);
     }
 
+    @Test
     public void testContains(){
         Boolean expected;
         Boolean expected1;
