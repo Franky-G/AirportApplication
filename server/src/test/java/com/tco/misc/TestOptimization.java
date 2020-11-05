@@ -101,6 +101,17 @@ public class TestOptimization {
         assertEquals(Arrays.deepToString(expectedTour),Arrays.deepToString(tour));
     }
 
+    @Test
+    public void testContains(){
+        Boolean expected;
+        Boolean expected1;
+        Boolean[] contains = {false, false, false};
+        expected = optPlaces1.contains(contains, false);
+        expected1 = optPlaces1.contains(contains, true);
+        assertEquals(true, expected);
+        assertEquals(false, expected1);
+    }
+
 //    @Test
 //    public void testTotalDistancePlaces(){
 //        Integer[] tour = {0,1,2};
