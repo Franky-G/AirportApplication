@@ -80,6 +80,7 @@ public class TestOptimization {
     }
 
     @Test
+    @DisplayName("Compute Distance Matrix")
     public void testComputeDistanceMatrix(){
         Integer[][] distanceMatrix;
         Integer[][] expectedDistMatrix = {{0, 7011, 59}, {7011, 0, 7006}, {59, 7006, 0}};
@@ -88,6 +89,7 @@ public class TestOptimization {
     }
 
     @Test
+    @DisplayName("Create Tour (Places indx 2)")
     public void testCreateTourPlaces(){
         Integer[] tour;
         Integer[] expectedTour = {2,0,1};   //TEST with 3 locations
@@ -96,6 +98,7 @@ public class TestOptimization {
     }
 
     @Test
+    @DisplayName("Create Tour (Places indx 0)")
     public void testCreateTourPlaces1(){
         Integer[] tour;
         Integer[] expectedTour = {0,3,2,1,4};   //TEST with 5 locations
@@ -104,6 +107,7 @@ public class TestOptimization {
     }
 
     @Test
+    @DisplayName("Total Distance")
     public void testTotalDistancePlaces(){
         Integer[] tour = {0,1,2};
         Long calculatedDistance;
@@ -124,6 +128,7 @@ public class TestOptimization {
     }
 
     @Test
+    @DisplayName("Create Tour (Places indx 2)")
     public void testContains(){
         Boolean expected;
         Boolean expected1;
@@ -135,6 +140,7 @@ public class TestOptimization {
     }
 
     @Test
+    @DisplayName("Create Tour (Places1 indx 4)")
     public void testCreateTourPlaces1Reverse(){
         Integer[] tour;
         Integer[] expectedTour = {4,1,2,3,0};
@@ -143,6 +149,7 @@ public class TestOptimization {
     }
 
     @Test
+    @DisplayName("Create Tour (Places1 indx 2)")
     public void testCreateTourPlaces1Start2(){
         Integer[] tour;
         Integer[] expectedTour = {2,3,0,1,4};
