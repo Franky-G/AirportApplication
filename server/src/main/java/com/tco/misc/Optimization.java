@@ -9,7 +9,7 @@ public class Optimization {
     Map<String, String> options;
     Integer[][] distances;
     Boolean[] visitedArr;
-    Map<String, String>[] tour;
+    Integer[] tour;
 
     public Optimization(Map<String, String>[] places, Map<String, String> options){
         this.places = new HashMap[places.length];
@@ -20,7 +20,7 @@ public class Optimization {
         this.distances = createDistanceMatrix();
         this.visitedArr = new Boolean[places.length];
         Arrays.fill(visitedArr, false);
-        this.tour = new HashMap[places.length];
+        this.tour = new Integer[places.length];
     }
 
     public Integer[][] createDistanceMatrix(){
@@ -33,23 +33,60 @@ public class Optimization {
         return distances;
     }
 
+    public Long nearestNeighbor() {
+        Long best = null;
+        for (int i = 0; i < places.length; i++) {
+            Integer[] tourTemp = createTour(i);
+            Long tempDist = totalDistance(tourTemp);
+            if (tempDist < best) {
+                best = tempDist;
+            }
+        }
+        return best;
+    }
 
-    public Map<String, String>[] createTour(int startIndex){
-        tour[startIndex] = places[startIndex];
+    public Long totalDistance(Integer[] tourTemp) {
+        Long tempDist[] = new Long[this.places.length];
+        Long tempTotalDist;
+        if (tourTemp.length == 0) {
+            tempDist = new Long[tourTemp.length];
+        }
+        else {
+            for (int i = 0; i < tourTemp.length - 1; i++) {
+                tempDist[i] = CalculateDistance.ComputeDistance(this.places[tourTemp[i]], this.places[tourTemp[i+1]], Double.parseDouble(this.options.get("earthRadius")));
+            }
+            tempDist[tourTemp.length - 1] = CalculateDistance.ComputeDistance(this.places[tourTemp[tourTemp.length-1]], this.places[tourTemp[0]], Double.parseDouble(this.options.get("earthRadius")));
+        }
+        tempTotalDist = getTotalDist(tempDist);
+        return tempTotalDist;
+    }
+
+    public Long getTotalDist(Long[] dist) {
+        Long tempTotalDist = null;
+        for (int i = 0; i < dist.length; i++) {
+            tempTotalDist += dist[i];
+        }
+        return tempTotalDist;
+    }
+
+    public Integer[] createTour(int startIndex){
+        tour[0] = startIndex;
         visitedArr[startIndex] = true;
-        int minDist = 999999999;
         int minCol = 0;
         int minRow = startIndex;
+        int counterIndex = 0;
         while(contains(visitedArr, false)) {
+            int minDist = Integer.MAX_VALUE;
             for(int col = 0; col < places.length; col++) {
                 if (distances[minRow][col] < minDist && !visitedArr[col] && distances[minRow][col] != 0) {
                     minCol = col;
                     minDist = distances[minRow][col];
                 }
             }
+            counterIndex++;
             visitedArr[minCol] = true;
             minRow = minCol;
-            //append place to tour
+            tour[counterIndex] = minRow;
         }
         return tour;
     }

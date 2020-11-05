@@ -22,7 +22,7 @@ export default class SearchModule extends Component {
             designerOpen: '', searchPlaces: "", filter: "",
             trips: [new TripObject("My Trip", [], "My Favorite Places")],
             distance: 0, distanceArr: null, stateIndex: 0, openDropdown: false, openPopover: false, popupInput: "", searchCoords: "",
-            searchListOpen: false, searchListArray: [], numberFound: 0} }
+            searchListOpen: false, searchListArray: [], numberFound: 0, earthRadius: "3959.0"} }
 
     render(){
         return(
@@ -98,6 +98,7 @@ export default class SearchModule extends Component {
                      onClick={(e) => {e.stopPropagation(); this.spliceTrips(index); this.forceUpdate()}}>X</div></ListGroupItem> ); }
 
     loadPlaces(places, name, radius){
+        this.setState({earthRadius: radius})
         let array = this.state.trips.slice();
         let placesArray = []
         for(let i = 0; i < places.length; ++i){ placesArray.push([L.latLng(places[i].latitude,places[i].longitude), i, places[i].name]) }
@@ -141,8 +142,8 @@ export default class SearchModule extends Component {
         return(distancePlaces) }
 
     calculateTripDistance(latLngString){
-        sendServerRequest({ requestType: "trip", requestVersion: 3,
-            options: {title: this.state.trips[this.state.stateIndex].name, earthRadius: "3959.0"}, places: latLngString}).then(distance => {
+        sendServerRequest({ requestVersion: 3, requestType: "trip", places: latLngString,
+            options: {earthRadius: this.state.earthRadius, title: this.state.trips[this.state.stateIndex].name}}).then(distance => {
             let totalDistance = 0;
             let distances = distance.data.distances;
             for(let i = 0; i < distances.length; i++){ totalDistance += distances[i]; }
@@ -151,7 +152,7 @@ export default class SearchModule extends Component {
 
     getFormatForSave() {
         let tripSavePlaces = this.formatTripDistance()
-        const fileContents = {requestType: "trip", requestVersion: 3, options: {title:this.state.trips[this.state.stateIndex].name, earthRadius: "3959.0"}, places: tripSavePlaces, distances: this.state.distanceArr}
+        const fileContents = {requestType: "trip", requestVersion: 3, options: {title:this.state.trips[this.state.stateIndex].name, earthRadius: this.state.earthRadius}, places: tripSavePlaces, distances: this.state.distanceArr}
         const fileString = JSON.stringify(fileContents);
         this.FileIOREF.downloadFile(fileString, this.state.trips[this.state.stateIndex].name+'.json', 'application/json')}
 
@@ -196,7 +197,7 @@ export default class SearchModule extends Component {
                 <Row style={{height: 30}}>
                     <Button style={{position: "absolute", left: 90}} color={this.toggleButtonColor()} size="sm" onClick={this.props.setTripRecord}>Record</Button>
                     <Button style={buttonList[0].style} size="sm" onClick={() => this.addATrip()}>{buttonList[0].label}</Button>
-                    <Button style={buttonList[1].style} size="sm" onClick={() => {this.state.trips[this.state.stateIndex].resetPlaces(); this.state.distance = 0; this.forceUpdate()}}>{buttonList[1].label}</Button>
+                    <Button style={buttonList[1].style} size="sm" onClick={() => {this.state.trips[this.state.stateIndex].resetPlaces(); this.state.earthRadius = "3959.0"; this.state.distance = 0; this.forceUpdate()}}>{buttonList[1].label}</Button>
                     {this.renderDropdown()}</Row>
                 {this.addASpace()}
                 {this.addPlaceOrDistance(placesAndTrips[1])}

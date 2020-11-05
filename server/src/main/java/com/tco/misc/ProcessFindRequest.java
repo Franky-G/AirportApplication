@@ -26,15 +26,19 @@ public class ProcessFindRequest {
         }
     }
 
+    private static String setMatchHelper(String temp, char c){
+        if (!Character.isDigit(c) && !Character.isLetter(c) && Character.isSpaceChar(c)){ c = '_'; }
+        temp += c;
+        return temp;
+    }
+
     private static String setMatch(String matchPattern) {
-        if (matchPattern == null){ return ""; }
-        StringBuilder temp = new StringBuilder();
+        if (matchPattern == null || matchPattern.equals("78LuckyBoy78")){ return ""; }
+        String temp = "";
         for (int i=0; i<matchPattern.length(); i++){
-            char c = matchPattern.charAt(i);
-            if (!Character.isDigit(c) && !Character.isLetter(c) && Character.isSpaceChar(c)){ c = '_'; }
-            temp.append(c);
+            temp = setMatchHelper(temp, matchPattern.charAt(i));
         }
-        return temp.toString();
+        return temp;
     }
 
     public static void setQUERY(String matchPattern, int limitInt, boolean isPlaces, boolean isFound){
@@ -164,27 +168,39 @@ public class ProcessFindRequest {
         }
     }
 
-    public static String[] getCountries() {
+    public static String[] getWhere() {
         String[] where = new String[0];
-        String QUERYcountries = "SELECT name from country;";
+        String QUERYcountries = "SELECT name AS name FROM country ORDER BY name";
+        String QUERYregion = "SELECT name AS name FROM region ORDER BY name";
+        String QUERYmunicipality = "SELECT distinct(municipality) AS name FROM continent INNER JOIN country ON continent.id = country.continent INNER JOIN region ON country.id = region.iso_country INNER JOIN world ON region.id = world.iso_region order by municipality";
         setServerParameters();
         try (
              Connection con = DriverManager.getConnection(db_url, db_user, db_pass);
              Statement query = con.createStatement();
-             ResultSet result = query.executeQuery(QUERYcountries)
+             ResultSet result = query.executeQuery(QUERYcountries);
+             ResultSet result1 = query.executeQuery(QUERYregion);
+             ResultSet result2 = query.executeQuery(QUERYmunicipality)
              )
         {
             List<String> temp = new ArrayList<>();
-            while(result.next()) {
-                temp.add(result.getString("name"));
-            }
+            getWhereHelper(temp, result);
+            getWhereHelper(temp, result1);
+            getWhereHelper(temp, result2);
+
             where = new String[temp.size()];
             where = temp.toArray(where);
             return where;
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.err.println("Exception: Can't Connect To Data Base.");
         }
         return where;
+    }
+
+    public static void getWhereHelper(List<String> temp, ResultSet result) throws SQLException {
+        while (result.next()){
+            if (result.getString("name") != null) {
+                temp.add(result.getString("name"));
+            }
+        }
     }
 }

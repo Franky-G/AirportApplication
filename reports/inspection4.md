@@ -2,8 +2,8 @@
  
 | Inspection | Details |
 | ----- | ----- |
-| Subject | *file and methods/line range to review for meeting* |
-| Meeting | *date, time, location* |
+| Subject | *Atlas.js (1-234)* |
+| Meeting | *11/06/20, 2:00 PM MST, Discord* |
 | Checklist | *Inspection [Checklist](https://github.com/csucs314f20/t10/blob/master/reports/checklist.md) for T10* |
 
 ### Roles
