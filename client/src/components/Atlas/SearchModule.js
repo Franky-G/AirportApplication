@@ -45,7 +45,7 @@ export default class SearchModule extends Component {
     addSearchButton() {
         return (
             <div>
-                <button className="home-btn" style={{top: 133, left: 25, zIndex: 1017, borderRadius: "0px 0px 0px 0px"}}
+                <button className="home-btn" style={{top: 133, left: 25, zIndex: 1016, borderRadius: "0px 0px 0px 0px"}}
                         onClick={() => this.toggleShowSearchModule()}>
                     <span><img src={searchButtonIcon} style={{width: 16, height: "auto"}} title="Search" alt="search"/></span>
                 </button>
@@ -99,7 +99,7 @@ export default class SearchModule extends Component {
 
     renderLuckyButton() {
         return(
-            <button className="home-btn" style={{position: "absolute", left: 25, top: 102, zIndex: 1016}} onClick={() => this.findREF.sendFindServerRequest("78LuckyBoy78", 1, {})}>L</button>
+            <button className="home-btn" style={{position: "absolute", left: 25, top: 102, zIndex: 1014}} onClick={() => this.findREF.sendFindServerRequest("78LuckyBoy78", 1, {})}>L</button>
         );
     }
 

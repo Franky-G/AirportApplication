@@ -169,7 +169,7 @@ export default class Atlas extends Component {
   renderTripButton(){
     return(
         <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={() => this.setDropdown()}
-                        style={{position: "absolute", top: 164, zIndex: 1018, padding: 0, margin: 0, fontSize: 9, outline: 0}}>
+                        style={{position: "absolute", top: 164, zIndex: 1016, padding: 0, margin: 0, fontSize: 9, outline: 0}}>
           <DropdownToggle id="tripRecording" className={this.state.tripStyle} caret size="sm"
                           style={{borderLeft: "2px solid rgba(0,0,0,0.3)", borderRight: "2px solid rgba(0,0,0,0.3)",
             borderBottom: "2px solid rgba(0,0,0,0.3)", borderTop: "1px solid rgba(0,0,0,0.2)", borderRadius: "0 0 4px 4px", outline: 0}}>
