@@ -22,9 +22,6 @@ public class Optimization {
         this.options = options;
         this.distances = new Integer[places.length][places.length];
         this.distances = createDistanceMatrix();
-        this.visitedArr = new Boolean[places.length];
-        Arrays.fill(visitedArr, false);
-        this.tour = new Integer[places.length];
     }
 
     public Integer[][] createDistanceMatrix(){
@@ -52,6 +49,9 @@ public class Optimization {
     }
 
     public Integer[] createTour(int startIndex){
+        this.visitedArr = new Boolean[places.length];
+        Arrays.fill(visitedArr, false);
+        this.tour = new Integer[places.length];
         tour[0] = startIndex;
         visitedArr[startIndex] = true;
         int minCol = 0;
@@ -86,24 +86,17 @@ public class Optimization {
 
     public Long totalDistance(Integer[] tourTemp) {
         Long tempDist[] = new Long[this.places.length];
-        Long tempTotalDist;
+        Long tempTotalDist = 0L;
         if (tourTemp.length == 0) {
             tempDist = new Long[tourTemp.length];
         }
         else {
             for (int i = 0; i < tourTemp.length - 1; i++) {
                 tempDist[i] = CalculateDistance.ComputeDistance(this.places[tourTemp[i]], this.places[tourTemp[i+1]], Double.parseDouble(this.options.get("earthRadius")));
+                tempTotalDist += tempDist[i];
             }
             tempDist[tourTemp.length - 1] = CalculateDistance.ComputeDistance(this.places[tourTemp[tourTemp.length-1]], this.places[tourTemp[0]], Double.parseDouble(this.options.get("earthRadius")));
-        }
-        tempTotalDist = getTotalDist(tempDist);
-        return tempTotalDist;
-    }
-
-    public Long getTotalDist(Long[] dist) {
-        Long tempTotalDist = 0L;
-        for (int i = 0; i < dist.length; i++) {
-            tempTotalDist += dist[i];
+            tempTotalDist += tempDist[tourTemp.length - 1];
         }
         return tempTotalDist;
     }
