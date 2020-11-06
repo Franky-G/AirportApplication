@@ -216,6 +216,9 @@ export default class Find extends Component {
                             }
                             oArr.push(eArr);
                         }
+                        if(matchPattern === "78LuckyBoy78"){
+                            return this.props.setWhereIsMarker(L.latLng(oArr[0][1], oArr[0][2]));
+                        }
                         this.setState({searchArray: oArr, searchIsOn: true, numberFound: fin.data.found});
                     } catch (error) {
                         console.error(error)
@@ -224,9 +227,9 @@ export default class Find extends Component {
             });
     }
 
-    sFSReqHelper(p, lat, long){
+    sFSReqHelper(name, lat, long){
         let eArr = []
-        eArr.push(p)
+        eArr.push(name)
         eArr.push(lat)
         eArr.push(long)
         return eArr

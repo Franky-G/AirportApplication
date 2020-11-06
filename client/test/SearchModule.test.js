@@ -1,6 +1,6 @@
 import './jestConfig/enzyme.config.js';
 import React from 'react'
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import SearchModule from "../src/components/Atlas/SearchModule";
 import {sendServerRequest} from "../src/utils/restfulAPI";
 
@@ -14,9 +14,9 @@ function testShowDistanceSearch() {
 test('Search Distance From', testShowDistanceSearch);
 
 function testDistanceButton() {
-    const DistanceTemp = shallow(<SearchModule/>);
+    const DistanceTemp = mount(<SearchModule/>);
 
-    simulateOnClick(DistanceTemp.find('button'), DistanceTemp);
+    simulateOnClick(DistanceTemp.find('button').at(1), DistanceTemp);
     let firstClick = DistanceTemp.state().showDistanceSearch;
     expect(firstClick).toEqual(false);
 }
@@ -31,7 +31,7 @@ test('Testing distance button', testDistanceButton)
 function testSearchButton() {
     const SearchButton = shallow(<SearchModule/>);
 
-    simulateOnClick(SearchButton.find('button'), SearchButton);
+    simulateOnClick(SearchButton.find('button').at(0), SearchButton);
     let firstClick = SearchButton.state().searchIsOn;
     expect(firstClick).toEqual(false);
 }

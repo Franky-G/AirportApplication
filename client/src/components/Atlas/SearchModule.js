@@ -29,13 +29,14 @@ export default class SearchModule extends Component {
         return (
             <div>
                 {this.addSearchButton()}
+                {this.renderLuckyButton()}
                 <RadioButtons {...this.state}
                               switchToDistanceModule={this.switchToDistanceModule}
                               switchToLocationModule={this.switchToLocationModule}
                               switchToWhereIsModule={this.switchToWhereIsModule}/>
                 <WhereIs {...this.state}
                          searchBarCoordsIntermediate={this.searchBarCoordsIntermediate}/>
-                <Find {...this.state} {...this.props}/>
+                <Find {...this.state} {...this.props} ref={(ref) => this.findREF=ref}/>
                 {this.state.searchModule && this.renderSearchModule()}
             </div>
         );
@@ -44,7 +45,7 @@ export default class SearchModule extends Component {
     addSearchButton() {
         return (
             <div>
-                <button className="home-btn" style={{top: 100, left: 25, zIndex: 1013}}
+                <button className="home-btn" style={{top: 133, left: 25, zIndex: 1016, borderRadius: "0px 0px 0px 0px"}}
                         onClick={() => this.toggleShowSearchModule()}>
                     <span><img src={searchButtonIcon} style={{width: 16, height: "auto"}} title="Search" alt="search"/></span>
                 </button>
@@ -94,6 +95,12 @@ export default class SearchModule extends Component {
     renderCalculateButton = () => {
         return (<div><Button className="p-1 distanceButtonStyle" style={{color: "#000000", fontSize: 12, border: "1px solid #C8C372"}}
                              onClick={() => {this.formatDistanceCoords()}}> Calculate </Button></div>)
+    }
+
+    renderLuckyButton() {
+        return(
+            <button className="home-btn" style={{position: "absolute", left: 25, top: 102, zIndex: 1014}} onClick={() => this.findREF.sendFindServerRequest("78LuckyBoy78", 1, {})}>L</button>
+        );
     }
 
     renderSearchFieldTo() {
