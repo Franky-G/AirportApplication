@@ -115,14 +115,23 @@ public class Optimization {
         }
     }
 
+    private Integer[] makeArray(Integer[] arr, int length) {
+        Integer[] ret = new Integer[length];
+        for (int i = 0; i < length; i++) {
+            if (i >= arr.length) {
+                ret[i] = 0;
+            } else {
+                ret[i] = arr[i];
+            }
+        }
+        return ret;
+    }
+
     public Integer[] TwoOpt(int start) {
         Integer[] myTour = this.createTour(start);
         Integer[][] distances = this.getDistances();
         int n = myTour.length;
-        Integer[] places = new Integer[myTour.length+1];
-        for (int i = 0; i < places.length-1; i++) {
-            places[i] = myTour[i];
-        }
+        Integer[] places = this.makeArray(myTour, n+1);
         places[places.length-1] = myTour[0];
         boolean improvement = true;
         Integer distDelta = 0;
@@ -138,10 +147,7 @@ public class Optimization {
                 }
             }
         }
-        Integer[] ret = new Integer[places.length-1];;
-        for (int i = 0; i < places.length-1; i++) {
-            ret[i] = places[i];
-        }
-        return ret;
+        myTour = this.makeArray(places, myTour.length);
+        return myTour;
     }
 }
