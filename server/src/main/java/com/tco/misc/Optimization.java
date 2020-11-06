@@ -129,17 +129,16 @@ public class Optimization {
 
     public Integer[] TwoOpt(int start) {
         Integer[] myTour = this.createTour(start);
-        Integer[][] distances = this.getDistances();
         int n = myTour.length;
         Integer[] places = this.makeArray(myTour, n+1);
         places[places.length-1] = myTour[0];
         boolean improvement = true;
-        Integer distDelta = 0;
+        Integer distDelta;
         while (improvement) {
             improvement = false;
             for (int i = 0; i <= n-3; i++) {
                 for (int k = i+2; k <= n-1; k++) {
-                    distDelta = (distances[places[i]][places[k]] + distances[places[i+1]][places[k+1]])-(distances[places[i]][places[i+1]] + distances[places[k]][places[k+1]]);
+                    distDelta = (this.distances[places[i]][places[k]] + this.distances[places[i+1]][places[k+1]])-(this.distances[places[i]][places[i+1]] + this.distances[places[k]][places[k+1]]);
                     if (distDelta < 0) {
                         TwoOptReverse(places, i+1, k);
                         improvement = true;
