@@ -272,7 +272,7 @@ export default class SearchModule extends Component {
         }
         return(
             <div tabIndex="0">
-                <Container style={{padding: 0, margin: 0, position: "fixed", top: 209, left: 67, width: 290, backgroundColor: "#C8C372",
+                <Container style={{padding: 0, margin: 0, position: "fixed", top: 252, left: 67, width: 290, backgroundColor: "#C8C372",
                     maxHeight: 230, overflow: "auto", borderRadius: 5, border: "2px solid #C8C372", zIndex: 1050}}>
                     <ListGroup style={{padding:0}} onBlur={() => this.setState({searchListOpen: false})}>
                         <div onClick={() => this.setState({searchListOpen: false})}>
