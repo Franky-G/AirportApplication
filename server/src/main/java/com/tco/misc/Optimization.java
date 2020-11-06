@@ -130,11 +130,12 @@ public class Optimization {
         }
         places[places.length-1] = myTour[0];
         boolean improvement = true;
+        Integer distDelta = 0;
         while (improvement) {
             improvement = false;
             for (int i = 0; i <= n-3; i++) {
                 for (int k = i+2; k <= n-1; k++) {
-                    Integer distDelta = (distances[places[i]][places[k]] + distances[places[i+1]][places[k+1]])-(distances[places[i]][places[i+1]] + distances[places[k]][places[k+1]]);
+                    distDelta = (distances[places[i]][places[k]] + distances[places[i+1]][places[k+1]])-(distances[places[i]][places[i+1]] + distances[places[k]][places[k+1]]);
                     if (distDelta < 0) {
                         TwoOptReverse(places, i+1, k);
                         improvement = true;
