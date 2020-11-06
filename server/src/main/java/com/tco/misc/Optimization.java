@@ -113,6 +113,10 @@ public class Optimization {
     }
 
 
+
+
+
+
     private void TwoOptReverse(Integer[] places, int i1, int k) {
         while(i1 < k) {
             Integer temp = places[i1];
@@ -123,19 +127,21 @@ public class Optimization {
         }
     }
 
-    public Integer[] TwoOpt() {
-        Integer distances[][] = this.getDistances();
-        Integer[] places = new Integer[this.tour.length+1];;
+    public Integer[] TwoOpt(int start) {
+        Integer[] myTour = this.createTour(start);
+        Integer[][] distances = this.getDistances();
+        int n = myTour.length;
+        Integer[] places = new Integer[myTour.length+1];
         for (int i = 0; i < places.length-1; i++) {
-            places[i] = this.tour[i];
+            places[i] = myTour[i];
         }
-        places[places.length-1] = this.tour[0];
+        places[places.length-1] = myTour[0];
         boolean improvement = true;
         while (improvement) {
             improvement = false;
-            for (int i = 0; i <= places.length-3; i++) {
-                for (int k = i+2; k <= places.length-1; k++) {
-                    Integer distDelta = (distances[i][k] + distances[i+1][k+1])-(distances[i+1][i]+distances[k][k+1]);
+            for (int i = 0; i <= n-3; i++) {
+                for (int k = i+2; k <= n-1; k++) {
+                    Integer distDelta = (distances[places[i]][places[k]] + distances[places[i+1]][places[k+1]])-(distances[places[i]][places[i+1]] + distances[places[k]][places[k+1]]);
                     if (distDelta < 0) {
                         TwoOptReverse(places, i+1, k);
                         improvement = true;
@@ -143,6 +149,10 @@ public class Optimization {
                 }
             }
         }
-        return places;
+        Integer[] ret = new Integer[places.length-1];;
+        for (int i = 0; i < places.length-1; i++) {
+            ret[i] = places[i];
+        }
+        return ret;
     }
 }
