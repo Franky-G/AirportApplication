@@ -119,7 +119,7 @@ public class Optimization {
         Integer[] ret = new Integer[length];
         for (int i = 0; i < length; i++) {
             if (i >= arr.length) {
-                ret[i] = 0;
+                ret[i] = arr[0];
             } else {
                 ret[i] = arr[i];
             }
@@ -130,10 +130,9 @@ public class Optimization {
     public Integer[] TwoOpt(int start) {
         Integer[] myTour = this.createTour(start);
         int n = myTour.length;
-        Integer[] places = this.makeArray(myTour, n+1);
-        places[places.length-1] = myTour[0];
         boolean improvement = true;
         Integer distDelta;
+        Integer[] places = this.makeArray(myTour, n+1);
         while (improvement) {
             improvement = false;
             for (int i = 0; i <= n-3; i++) {
