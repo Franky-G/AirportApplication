@@ -96,6 +96,12 @@ export default class SearchModule extends Component {
                              onClick={() => {this.formatDistanceCoords()}}> Calculate </Button></div>)
     }
 
+    renderLuckyButton() {
+        return(
+            <button className="home-btn" style={{position: "absolute", left: 25, top: 102, zIndex: 1016}} onClick={() => this.props.setWhereIsMarker(this.findREF.sendFindServerRequest("78Malding78", 1, {}))}>L</button>
+        );
+    }
+
     renderSearchFieldTo() {
         return (<Input name="searchBarTo" placeholder="To" className="inputFieldSearchField" style={inputFieldStyleFrom}
                        color="primary" onChange={this.handleInputChange()}/>);
