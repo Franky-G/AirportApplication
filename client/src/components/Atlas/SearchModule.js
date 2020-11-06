@@ -35,7 +35,7 @@ export default class SearchModule extends Component {
                               switchToWhereIsModule={this.switchToWhereIsModule}/>
                 <WhereIs {...this.state}
                          searchBarCoordsIntermediate={this.searchBarCoordsIntermediate}/>
-                <Find {...this.state} {...this.props}/>
+                <Find {...this.state} {...this.props} ref={(ref) => this.findREF=ref}/>
                 {this.state.searchModule && this.renderSearchModule()}
             </div>
         );
