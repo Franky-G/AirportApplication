@@ -10,12 +10,13 @@
 
 | Name | Preparation Time |
 | ---- | ---- |
-|  |  |
+| Jimit Bhalavat | 45 mins |
 |  |  |
 
 ### Problems found
 
 | file:line | problem | hi/med/low | who found | github#  |
 | --- | --- | :---: | :---: | --- |
-|  | | | | |
-|  | | | | |
+| Atlas.js:113-117 | Array upper bound equals size causes Data Faults | low | jimit | |
+| Atlas.js:188-206 | Multiple if/else block causes Interface Faults | low | jimit | |
+| Atlas.js:225-234 | All possible error conditions not considered | low | jimit | |
