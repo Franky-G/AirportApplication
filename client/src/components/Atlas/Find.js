@@ -217,7 +217,7 @@ export default class Find extends Component {
                             oArr.push(eArr);
                         }
                         if(matchPattern === "78LuckyBoy78"){
-                            return L.latLng(oArr[0][1], oArr[0][2])
+                            return this.props.setWhereIsMarker(L.latLng(oArr[0][1], oArr[0][2]));
                         }
                         this.setState({searchArray: oArr, searchIsOn: true, numberFound: fin.data.found});
                     } catch (error) {

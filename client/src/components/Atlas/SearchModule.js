@@ -29,6 +29,7 @@ export default class SearchModule extends Component {
         return (
             <div>
                 {this.addSearchButton()}
+                {this.renderLuckyButton()}
                 <RadioButtons {...this.state}
                               switchToDistanceModule={this.switchToDistanceModule}
                               switchToLocationModule={this.switchToLocationModule}
@@ -44,7 +45,7 @@ export default class SearchModule extends Component {
     addSearchButton() {
         return (
             <div>
-                <button className="home-btn" style={{top: 100, left: 25, zIndex: 1013}}
+                <button className="home-btn" style={{top: 133, left: 25, zIndex: 1017, borderRadius: "0px 0px 0px 0px"}}
                         onClick={() => this.toggleShowSearchModule()}>
                     <span><img src={searchButtonIcon} style={{width: 16, height: "auto"}} title="Search" alt="search"/></span>
                 </button>
@@ -98,7 +99,7 @@ export default class SearchModule extends Component {
 
     renderLuckyButton() {
         return(
-            <button className="home-btn" style={{position: "absolute", left: 25, top: 102, zIndex: 1016}} onClick={() => this.props.setWhereIsMarker(this.findREF.sendFindServerRequest("78Malding78", 1, {}))}>L</button>
+            <button className="home-btn" style={{position: "absolute", left: 25, top: 102, zIndex: 1016}} onClick={() => this.findREF.sendFindServerRequest("78LuckyBoy78", 1, {})}>L</button>
         );
     }
 
