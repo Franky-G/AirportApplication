@@ -105,11 +105,6 @@ public class Optimization {
         return this.distances;
     }
 
-
-
-
-
-
     private void TwoOptReverse(Integer[] places, int i1, int k) {
         while(i1 < k) {
             Integer temp = places[i1];

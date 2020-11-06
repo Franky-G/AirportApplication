@@ -227,10 +227,6 @@ public class TestOptimization {
         assertEquals(3728, totalDist);
     }
 
-
-
-
-
     @Test
     @DisplayName("Testing Two Opt")
     public void testTwoOpt() {
