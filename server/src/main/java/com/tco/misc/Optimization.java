@@ -1,30 +1,33 @@
 package com.tco.misc;
 
-import org.mariadb.jdbc.internal.logging.Logger;
-import org.mariadb.jdbc.internal.logging.LoggerFactory;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Optimization {
-    private Optimization opt;
-    Map<String, String>[] places;
-    Map<String, String> options;
-    Integer[][] distances;
-    Boolean[] visitedArr;
-    Integer[] tour;
-    private final transient Logger log = LoggerFactory.getLogger(Optimization.class);
 
-    public Optimization(Map<String, String>[] places, Map<String, String> options){
-        this.places = new HashMap[places.length];
-        this.places = places;
-        this.options = new HashMap<>();
-        this.options = options;
-        this.distances = new Integer[places.length][places.length];
-        this.distances = createDistanceMatrix();
+    public static Map<String, String>[] nearestNeighbor(Map<String, String>[] places, Map<String, String> options) {
+        Boolean[] visitedArr = new Boolean[places.length];
+        Integer[] tour = new Integer[places.length];
+        Integer[][] distances = new Integer[places.length][places.length];
+        distances = createDistanceMatrix(places, options, distances);
+        Long best = Long.MAX_VALUE;
+        Long tempDist;
+        Integer[] tourTemp;
+        Integer[] tourBest = new Integer[places.length];
+        for (int i = 0; i < places.length; i++) {
+            tourTemp = createTour(i, distances, places, visitedArr, tour);
+            tempDist = totalDistance(tourTemp, places, options);
+            if (tempDist < best) {
+                tourBest = tourTemp;
+                best = tempDist;
+            }
+        }
+        Map<String, String>[] placesTemp = reorderPlaces(tourBest, places);
+        return placesTemp;
     }
 
-    public Integer[][] createDistanceMatrix(){
+    public static Integer[][] createDistanceMatrix(Map<String, String>[] places, Map<String, String> options, Integer[][] distances) {
         for (int i = 0; i < places.length; ++i) {
             for (int j = i; j < places.length; ++j) {
                 distances[i][j] = Math.toIntExact(CalculateDistance.ComputeDistance(places[i], places[j], Double.valueOf(options.get("earthRadius"))));
@@ -34,24 +37,10 @@ public class Optimization {
         return distances;
     }
 
-    public Long nearestNeighbor() {
-        Long best = Long.MAX_VALUE;
-        Long tempDist;
-        Integer[] tourTemp;
-        for (int i = 0; i < places.length; i++) {
-            tourTemp = createTour(i);
-            tempDist = totalDistance(tourTemp);
-            if (tempDist < best) {
-                best = tempDist;
-            }
-        }
-        return best;
-    }
-
-    public Integer[] createTour(int startIndex){
-        this.visitedArr = new Boolean[places.length];
+    public static Integer[] createTour(int startIndex, Integer[][] distances, Map<String, String>[] places, Boolean[] visitedArr, Integer[] tour){
+        visitedArr = new Boolean[places.length];
         Arrays.fill(visitedArr, false);
-        this.tour = new Integer[places.length];
+        tour = new Integer[places.length];
         tour[0] = startIndex;
         visitedArr[startIndex] = true;
         int minCol = 0;
@@ -73,7 +62,7 @@ public class Optimization {
         return tour;
     }
 
-    public boolean contains(Boolean[] boolArr, boolean t){
+    public static boolean contains(Boolean[] boolArr, boolean t){
         boolean result = false;
         for(Boolean i : boolArr){
             if(i == t){
@@ -84,25 +73,30 @@ public class Optimization {
         return result;
     }
 
-    public Long totalDistance(Integer[] tourTemp) {
-        Long tempDist[] = new Long[this.places.length];
+    public static Long totalDistance(Integer[] tourTemp, Map<String, String>[] places, Map<String, String> options) {
+        Long tempDist[] = new Long[places.length];
         Long tempTotalDist = 0L;
         if (tourTemp.length == 0) {
             tempDist = new Long[tourTemp.length];
         }
         else {
             for (int i = 0; i < tourTemp.length - 1; i++) {
-                tempDist[i] = CalculateDistance.ComputeDistance(this.places[tourTemp[i]], this.places[tourTemp[i+1]], Double.parseDouble(this.options.get("earthRadius")));
+                tempDist[i] = CalculateDistance.ComputeDistance(places[tourTemp[i]], places[tourTemp[i+1]], Double.parseDouble(options.get("earthRadius")));
                 tempTotalDist += tempDist[i];
             }
-            tempDist[tourTemp.length - 1] = CalculateDistance.ComputeDistance(this.places[tourTemp[tourTemp.length-1]], this.places[tourTemp[0]], Double.parseDouble(this.options.get("earthRadius")));
+            tempDist[tourTemp.length - 1] = CalculateDistance.ComputeDistance(places[tourTemp[tourTemp.length-1]], places[tourTemp[0]], Double.parseDouble(options.get("earthRadius")));
             tempTotalDist += tempDist[tourTemp.length - 1];
         }
         return tempTotalDist;
     }
 
-    public Integer[][] getDistances(){
-        return this.distances;
+    public static Map<String, String>[] reorderPlaces(Integer[] indices, Map<String, String>[] places) {
+        Map<String, String>[] reorder = new HashMap[places.length];
+        for (int i = 0; i < places.length; i++) {
+            reorder[i] = new HashMap<>();
+            reorder[i].putAll(places[indices[i]]);
+        }
+        return reorder;
     }
 
     private void TwoOptReverse(Integer[] places, int i1, int k) {

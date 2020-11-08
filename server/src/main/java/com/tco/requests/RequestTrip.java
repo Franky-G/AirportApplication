@@ -1,5 +1,6 @@
 package com.tco.requests;
 
+import com.tco.misc.Optimization;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.tco.misc.CalculateDistance;
@@ -15,6 +16,8 @@ public class RequestTrip extends RequestHeader {
     private String response;
     private Long distances[];
     private String units;
+    private Long distanceNN;
+    private Optimization opt;
     private final transient Logger log = LoggerFactory.getLogger(RequestTrip.class);
 
     public RequestTrip() {
@@ -37,17 +40,29 @@ public class RequestTrip extends RequestHeader {
 
     @Override
     public void buildResponse() {
-        if (this.places.length == 0) {
-            this.distances = new Long[this.places.length];
+        if (this.options.get("response") != null && Double.valueOf(this.options.get("response")).doubleValue() > 0.0) {
+            this.places = Optimization.nearestNeighbor(this.places, this.options);
+            this.distances = calculateDistanceArray(this.places, this.options);
         }
         else {
-            this.distances = new Long[this.places.length];
-            for (int i = 0; i < this.places.length - 1; i++) {
-                this.distances[i] = CalculateDistance.ComputeDistance(this.places[i], this.places[i+1], Double.parseDouble(this.options.get("earthRadius")));
-            }
-            this.distances[this.places.length - 1] = CalculateDistance.ComputeDistance(this.places[this.places.length - 1], this.places[0], Double.parseDouble(this.options.get("earthRadius")));
+            this.distances = calculateDistanceArray(this.places, this.options);
         }
         log.trace("buildResponse -> {}", this);
+    }
+
+    public Long[] calculateDistanceArray(Map<String, String>[] places, Map<String, String> options) {
+        Long[] distanceTemp;
+        if (places.length == 0) {
+            distanceTemp = new Long[places.length];
+        }
+        else {
+            distanceTemp = new Long[places.length];
+            for (int i = 0; i < places.length - 1; i++) {
+                distanceTemp[i] = CalculateDistance.ComputeDistance(places[i], places[i+1], Double.parseDouble(options.get("earthRadius")));
+            }
+            distanceTemp[places.length - 1] = CalculateDistance.ComputeDistance(places[places.length - 1], places[0], Double.parseDouble(options.get("earthRadius")));
+        }
+        return distanceTemp;
     }
 
     public Long getTotalTripDistance() {
