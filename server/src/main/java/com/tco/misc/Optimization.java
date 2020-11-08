@@ -109,7 +109,7 @@ public class Optimization {
         }
     }
 
-    private static Integer[] makeArray(Integer[] arr, int length) {
+    public static Integer[] makeArray(Integer[] arr, int length) {
         Integer[] ret = new Integer[length];
         for (int i = 0; i < length; i++) {
             if (i >= arr.length) {
@@ -122,7 +122,6 @@ public class Optimization {
     }
 
     public static Integer[] TwoOpt(int tourLength, Integer[][] distances, Integer[] myTour) {
-        myTour = makeArray(myTour, myTour.length+1);
         boolean improvement = true;
         Integer distDelta;
         while (improvement) {
