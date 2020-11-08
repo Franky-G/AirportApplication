@@ -257,7 +257,8 @@ public class TestOptimization {
     @Test
     @DisplayName("Testing Two Opt")
     public void testTwoOpt() {
-        Integer optimized[] = optPlaces1.TwoOpt(2);
+        Integer optimized[] = new Integer[places1.length];
+        optimized = Optimization.TwoOpt(2, places1, options);
         Integer expected0[] = {2, 3, 0, 4, 1};
         assertEquals(Arrays.deepToString(expected0),Arrays.deepToString(optimized));
     }

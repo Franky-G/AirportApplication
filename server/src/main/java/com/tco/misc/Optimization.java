@@ -99,7 +99,7 @@ public class Optimization {
         return reorder;
     }
 
-    private void TwoOptReverse(Integer[] places, int i1, int k) {
+    private static void TwoOptReverse(Integer[] places, int i1, int k) {
         while(i1 < k) {
             Integer temp = places[i1];
             places[i1] = places[k];
@@ -109,7 +109,7 @@ public class Optimization {
         }
     }
 
-    private Integer[] makeArray(Integer[] arr, int length) {
+    private static Integer[] makeArray(Integer[] arr, int length) {
         Integer[] ret = new Integer[length];
         for (int i = 0; i < length; i++) {
             if (i >= arr.length) {
@@ -121,25 +121,29 @@ public class Optimization {
         return ret;
     }
 
-    public Integer[] TwoOpt(int start) {
-        Integer[] myTour = this.createTour(start);
+    public static Integer[] TwoOpt(int start, Map<String, String>[] places, Map<String, String> options) {
+        Boolean[] visitedArr = new Boolean[places.length];
+        Integer[][] distances = new Integer[places.length][places.length];
+        distances = createDistanceMatrix(places, options, distances);
+        Integer[] myTour = new Integer[places.length+1];
+        myTour = createTour(start, distances, places, visitedArr, myTour);
         int n = myTour.length;
+        Integer[] placesOpt = makeArray(myTour, n+1);
         boolean improvement = true;
         Integer distDelta;
-        Integer[] places = this.makeArray(myTour, n+1);
         while (improvement) {
             improvement = false;
             for (int i = 0; i <= n-3; i++) {
                 for (int k = i+2; k <= n-1; k++) {
-                    distDelta = (this.distances[places[i]][places[k]] + this.distances[places[i+1]][places[k+1]])-(this.distances[places[i]][places[i+1]] + this.distances[places[k]][places[k+1]]);
+                    distDelta = (distances[placesOpt[i]][placesOpt[k]] + distances[placesOpt[i+1]][placesOpt[k+1]])-(distances[placesOpt[i]][placesOpt[i+1]] + distances[placesOpt[k]][placesOpt[k+1]]);
                     if (distDelta < 0) {
-                        TwoOptReverse(places, i+1, k);
+                        TwoOptReverse(placesOpt, i+1, k);
                         improvement = true;
                     }
                 }
             }
         }
-        myTour = this.makeArray(places, myTour.length);
+        myTour = makeArray(placesOpt, n);
         return myTour;
     }
 }
