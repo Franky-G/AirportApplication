@@ -13,6 +13,7 @@
 | Jimit Bhalavat | 45 mins |
 | Jake Barth | 40 mins |
 | Frank Gansukh | 32 mins |
+| Kyle Cummings | 30 mins |
 
 ### Problems found
 
@@ -27,3 +28,5 @@
 | Atlas.js:208-210 | one line function "setDropdown()" only called once, can be replaced | low | frankyg | |
 | Atlas.js:236-238 | one line function "setSearchTextIsEmpty(state)" only called once, can be replaced, also... when it is called, the parameter is missing 'state' | med | frankyg | |
 | Atlas.js:152-158 | function "openTrip()" not called in Atlas, may not be an issue if it's called in other files | low | frankyg | |
+| Atlas.js:198-202 | If not tested when this.state.tripRecord === true | low | kc7 | |
+| Atlas.js:212-215 | setPrevLocationState() needs to be tested | low | kc7 | |
