@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.graalvm.compiler.nodes.calc.IntegerDivRemNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -258,7 +259,10 @@ public class TestOptimization {
     @DisplayName("Testing Two Opt")
     public void testTwoOpt() {
         Integer optimized[] = new Integer[places1.length];
-        optimized = Optimization.TwoOpt(2, places1, options);
+        Integer[][] distances = new Integer[places1.length][places1.length];
+        distances =  Optimization.createDistanceMatrix(places1, options, distances);
+        Boolean[] visitedArr = new Boolean[places.length];
+        optimized = Optimization.TwoOpt(2, places1, distances, visitedArr, optimized);
         Integer expected0[] = {2, 3, 0, 4, 1};
         assertEquals(Arrays.deepToString(expected0),Arrays.deepToString(optimized));
     }

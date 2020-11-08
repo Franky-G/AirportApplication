@@ -121,11 +121,7 @@ public class Optimization {
         return ret;
     }
 
-    public static Integer[] TwoOpt(int start, Map<String, String>[] places, Map<String, String> options) {
-        Boolean[] visitedArr = new Boolean[places.length];
-        Integer[][] distances = new Integer[places.length][places.length];
-        distances = createDistanceMatrix(places, options, distances);
-        Integer[] myTour = new Integer[places.length];
+    public static Integer[] TwoOpt(int start, Map<String, String>[] places, Integer[][] distances, Boolean[] visitedArr, Integer[] myTour) {
         myTour = createTour(start, distances, places, visitedArr, myTour);
         myTour = makeArray(myTour, myTour.length+1);
         boolean improvement = true;
