@@ -9,20 +9,18 @@ const labelStyle = {opacity: 0.2, overflow:"hidden"}
 const inputArray = [{width: 228, label: "Add Place", width2: 70, name: "searchPlaces"}, {width: 229, label: "Filter", width2: 50, name: "filter"}]
 const placesAndTrips = [{height: 150, text: "Places"}, {height: 90, text: "Trips"}]
 const buttonList = [{style: {position: "absolute", right: 10}, label: "Add Trip"}, {style: {position: "absolute", left: 159}, label: "Reset"}]
-const loadSaveDistance = [{style: {position: "absolute", padding: 4, left: 10}, label: "Load"}, {style: {position: "absolute", padding: 4, left: 58}, label: "Save"}, {style: {position: "absolute", padding: 4, left: 108}, label: "Distance"}, {style: {position: "relative", padding: 4, left: 20, top: 30}}]
+const loadSaveDistance = [{style: {position: "absolute", padding: 4, left: 10}, label: "Load"}, {style: {position: "absolute", padding: 4, left: 57}, label: "Save"}, {style: {position: "absolute", padding: 4, left: 104}, label: "Distance"}, {style: {position: "relative", padding: 4, left: 20, top: 30}}, {style: {position: "absolute", padding: 4, left: 174}, label: "Optimize"}]
 const listType = [{style: {position: "absolute", width: 300, height: 148, overflow:"auto", zIndex: 1015}}, {style:{position: "absolute", width: 300, height: 90, left: 10, bottom: 65, color: "#FFFFFF", overflow:"auto", zIndex: 1015}}]
 
 export default class SearchModule extends Component {
     constructor(props) {
         super(props);
         this.closeTripUI = this.closeTripUI.bind(this); this.addATrip = this.addATrip.bind(this);
-        this.onClickCall = this.onClickCall.bind(this);
-        this.loadPlaces = this.loadPlaces.bind(this);
+        this.onClickCall = this.onClickCall.bind(this); this.loadPlaces = this.loadPlaces.bind(this);
         this.state = {
-            designerOpen: '', searchPlaces: "", filter: "",
-            trips: [new TripObject("My Trip", [], "My Favorite Places")],
+            designerOpen: '', searchPlaces: "", filter: "", trips: [new TripObject("My Trip", [], "My Favorite Places")],
             distance: 0, distanceArr: null, stateIndex: 0, openDropdown: false, openPopover: false, popupInput: "", searchCoords: "",
-            searchListOpen: false, searchListArray: [], numberFound: 0, earthRadius: "3959.0"} }
+            searchListOpen: false, searchListArray: [], numberFound: 0, earthRadius: "3959.0", responseReq: "0.0"} }
 
     render(){
         return(
@@ -38,6 +36,7 @@ export default class SearchModule extends Component {
             <div><Button size="sm" style={array[0].style} onClick={() => this.FileIOREF.openModal()}> {array[0].label}</Button>
                 <Button size="sm" style={array[1].style} onClick={() => this.getFormatForSave()}> {array[1].label} </Button>
                 <Button size="sm" style={array[2].style} onClick={() => {this.formatTripDistance()}}> {array[2].label} </Button>
+                <Button size="sm" style={array[4].style} onClick={() => {this.setOptimize()}}> {array[4].label} </Button>
                 <p style={array[3].style}>Total Trip Distance: {this.state.distance} Mile(s)</p></div> ); }
 
     addATrip(){
@@ -46,6 +45,10 @@ export default class SearchModule extends Component {
         this.setState({trips: tripsArray}) }
 
     addASpace(){ return( <Row style={{height:5}}/>);}
+
+    async setOptimize(){
+        await this.setState({responseReq: "1.0"}, this.formatTripDistance);
+    }
 
     addInputField(array){
         return(
@@ -143,11 +146,13 @@ export default class SearchModule extends Component {
 
     calculateTripDistance(latLngString){
         sendServerRequest({ requestVersion: 3, requestType: "trip", places: latLngString,
-            options: {earthRadius: this.state.earthRadius, title: this.state.trips[this.state.stateIndex].name}}).then(distance => {
+            options: {earthRadius: this.state.earthRadius, title: this.state.trips[this.state.stateIndex].name, response: this.state.responseReq}}).then(distance => {
             let totalDistance = 0;
             let distances = distance.data.distances;
             for(let i = 0; i < distances.length; i++){ totalDistance += distances[i]; }
             this.setState({distance: totalDistance, distanceArr: distance.data.distances})
+            if(this.state.responseReq === "1.0"){this.loadPlaces(distance.data.places, distance.data.options.title+" (Optimized)", "3959")}
+            this.setState({responseReq: "0.0"})
         }); }
 
     getFormatForSave() {

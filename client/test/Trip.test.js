@@ -10,7 +10,7 @@ import TripObject from "../src/components/Trip/TripObject";
 const loadSaveDistance = [{style: {position: "absolute", padding: 4, left: 10}, label: "Load"},
     {style: {position: "absolute", padding: 4, left: 58}, label: "Save"},
     {style: {position: "absolute", padding: 4, left: 108}, label: "Distance"},
-    {style: {position: "relative", padding: 4, left: 20, top: 30}}]
+    {style: {position: "relative", padding: 4, left: 20, top: 30}}, {style: {position: "absolute", padding: 4, left: 180}, label: "Optimize"}]
 const inputArray = [{width: 278, label: "Add Place", width2: 70, name: "searchPlaces"},
     {width: 229, label: "Filter", width2: 50, name: "filter"}]
 const listType = [{style: {position: "absolute", width: 300, height: 148, overflow:"auto", zIndex: 1015}},
