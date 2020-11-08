@@ -121,15 +121,14 @@ public class Optimization {
         return ret;
     }
 
-    public static Integer[] TwoOpt(int start, Map<String, String>[] places, Integer[][] distances, Boolean[] visitedArr, Integer[] myTour) {
-        myTour = createTour(start, distances, places, visitedArr, myTour);
+    public static Integer[] TwoOpt(int tourLength, Integer[][] distances, Integer[] myTour) {
         myTour = makeArray(myTour, myTour.length+1);
         boolean improvement = true;
         Integer distDelta;
         while (improvement) {
             improvement = false;
-            for (int i = 0; i <= places.length-3; i++) {
-                for (int k = i+2; k <= places.length-1; k++) {
+            for (int i = 0; i <= tourLength-3; i++) {
+                for (int k = i+2; k <= tourLength-1; k++) {
                     distDelta = (distances[myTour[i]][myTour[k]] + distances[myTour[i+1]][myTour[k+1]])-(distances[myTour[i]][myTour[i+1]] + distances[myTour[k]][myTour[k+1]]);
                     if (distDelta < 0) {
                         TwoOptReverse(myTour, i+1, k);
@@ -138,7 +137,7 @@ public class Optimization {
                 }
             }
         }
-        myTour = makeArray(myTour, places.length);
+        myTour = makeArray(myTour, tourLength);
         return myTour;
     }
 }

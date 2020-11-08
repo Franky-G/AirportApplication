@@ -262,7 +262,9 @@ public class TestOptimization {
         Integer[][] distances = new Integer[places1.length][places1.length];
         distances =  Optimization.createDistanceMatrix(places1, options, distances);
         Boolean[] visitedArr = new Boolean[places.length];
-        optimized = Optimization.TwoOpt(2, places1, distances, visitedArr, optimized);
+        Integer[] tour = new Integer[places1.length];
+        tour = Optimization.createTour(2, distances,places1,visitedArr, tour);
+        optimized = Optimization.TwoOpt(tour.length, distances, tour);
         Integer expected0[] = {2, 3, 0, 4, 1};
         assertEquals(Arrays.deepToString(expected0),Arrays.deepToString(optimized));
     }
