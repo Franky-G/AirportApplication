@@ -125,25 +125,24 @@ public class Optimization {
         Boolean[] visitedArr = new Boolean[places.length];
         Integer[][] distances = new Integer[places.length][places.length];
         distances = createDistanceMatrix(places, options, distances);
-        Integer[] myTour = new Integer[places.length+1];
+        Integer[] myTour = new Integer[places.length];
         myTour = createTour(start, distances, places, visitedArr, myTour);
-        int n = myTour.length;
-        Integer[] placesOpt = makeArray(myTour, n+1);
+        myTour = makeArray(myTour, myTour.length+1);
         boolean improvement = true;
         Integer distDelta;
         while (improvement) {
             improvement = false;
-            for (int i = 0; i <= n-3; i++) {
-                for (int k = i+2; k <= n-1; k++) {
-                    distDelta = (distances[placesOpt[i]][placesOpt[k]] + distances[placesOpt[i+1]][placesOpt[k+1]])-(distances[placesOpt[i]][placesOpt[i+1]] + distances[placesOpt[k]][placesOpt[k+1]]);
+            for (int i = 0; i <= places.length-3; i++) {
+                for (int k = i+2; k <= places.length-1; k++) {
+                    distDelta = (distances[myTour[i]][myTour[k]] + distances[myTour[i+1]][myTour[k+1]])-(distances[myTour[i]][myTour[i+1]] + distances[myTour[k]][myTour[k+1]]);
                     if (distDelta < 0) {
-                        TwoOptReverse(placesOpt, i+1, k);
+                        TwoOptReverse(myTour, i+1, k);
                         improvement = true;
                     }
                 }
             }
         }
-        myTour = makeArray(placesOpt, n);
+        myTour = makeArray(myTour, places.length);
         return myTour;
     }
 }
