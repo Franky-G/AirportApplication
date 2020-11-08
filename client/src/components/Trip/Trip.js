@@ -36,7 +36,7 @@ export default class SearchModule extends Component {
             <div><Button size="sm" style={array[0].style} onClick={() => this.FileIOREF.openModal()}> {array[0].label}</Button>
                 <Button size="sm" style={array[1].style} onClick={() => this.getFormatForSave()}> {array[1].label} </Button>
                 <Button size="sm" style={array[2].style} onClick={() => {this.formatTripDistance()}}> {array[2].label} </Button>
-                <Button size="sm" style={array[4].style} onClick={() => {this.setOptimize()}}> {array[4].label} </Button>
+                <Button style={array[4].style} size="sm" onClick={() => {this.setOptimize()}}> {array[4].label} </Button>
                 <p style={array[3].style}>Total Trip Distance: {this.state.distance} Mile(s)</p></div> ); }
 
     addATrip(){
@@ -151,7 +151,7 @@ export default class SearchModule extends Component {
             let distances = distance.data.distances;
             for(let i = 0; i < distances.length; i++){ totalDistance += distances[i]; }
             this.setState({distance: totalDistance, distanceArr: distance.data.distances})
-            if(this.state.responseReq === "1.0"){this.loadPlaces(distance.data.places, distance.data.options.title+" (Optimized)", "3959")}
+            if(this.state.responseReq === "1.0"){this.loadPlaces(distance.data.places, distance.data.options.title+" (Optimized)", this.state.earthRadius)}
             this.setState({responseReq: "0.0"})
         }); }
 
