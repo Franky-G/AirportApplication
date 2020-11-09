@@ -14,6 +14,7 @@
 | Jake Barth | 40 mins |
 | Frank Gansukh | 32 mins |
 | Kyle Cummings | 30 mins |
+| Sean Munoz | 30 mins |
 
 ### Problems found
 
@@ -30,3 +31,5 @@
 | Atlas.js:152-158 | function "openTrip()" not called in Atlas, may not be an issue if it's called in other files | low | frankyg | |
 | Atlas.js:198-202 | If not tested when this.state.tripRecord === true | low | kc7 | |
 | Atlas.js:212-215 | setPrevLocationState() needs to be tested | low | kc7 | |
+| Atlas.js:103 | Out of bounds check doesnt check all cases | low | smunoz | |
+| Atlas.js:135-143 | Helper Home function making redundant calls that can be optimized | low | smunoz | |
