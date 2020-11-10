@@ -101,7 +101,7 @@ export default class Atlas extends Component {
   }
 
   checkPrevArray(){
-    if(this.state.prevLocation[1] !== null){
+    if(this.state.prevLocation[0] !== null && this.state.prevLocation[1] !== null){
       return (
           <div>
             {this.searchREF.calcDist()}
@@ -133,12 +133,11 @@ export default class Atlas extends Component {
   }
 
   homeButtonSetStateVars() {
+    this.helperHomeButton()
     if(this.state.hasUserLocation) {
-      this.helperHomeButton()
       this.setState({markerPosition: null, prevLocation: [null,null], mapCenter: this.state.homeLocation, whereIsMarker: null});
     }
     else{
-      this.helperHomeButton()
       this.setState( {markerPosition: null, prevLocation: [null,null], mapCenter: MAP_CENTER_DEFAULT, whereIsMarker: null});
     }
   }
