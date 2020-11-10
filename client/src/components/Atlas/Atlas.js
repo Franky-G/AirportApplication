@@ -148,14 +148,6 @@ export default class Atlas extends Component {
     }
   }
 
-  openTrip(){
-    return(
-        <div>
-          {this.tripREF.closeTripUI()}
-        </div>
-    );
-  }
-
   renderHomeButton(){
     return(
         <div id="overlayDiv">
@@ -167,7 +159,7 @@ export default class Atlas extends Component {
 
   renderTripButton(){
     return(
-        <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={() => this.setDropdown()}
+        <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={() => this.setState({dropdownOpen: !this.state.dropdownOpen})}
                         style={{position: "absolute", top: 164, zIndex: 1016, padding: 0, margin: 0, fontSize: 9, outline: 0}}>
           <DropdownToggle id="tripRecording" className={this.state.tripStyle} caret size="sm"
                           style={{borderLeft: "2px solid rgba(0,0,0,0.3)", borderRight: "2px solid rgba(0,0,0,0.3)",
@@ -202,10 +194,6 @@ export default class Atlas extends Component {
     return(
         this.checkPrevArray()
     );
-  }
-
-  setDropdown(){
-    this.setState({dropdownOpen: !this.state.dropdownOpen})
   }
 
   setPrevLocationState(markerArray, distanceVal){
