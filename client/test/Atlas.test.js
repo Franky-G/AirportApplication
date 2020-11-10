@@ -159,3 +159,47 @@ function testSetMarker() {
 }
 
 test("Set Marker", testSetMarker)
+
+function testSetTripPlaces() {
+  const trip = shallow(<Atlas/>)
+  let array = [];
+  trip.instance().setTripPlaces(array);
+  expect(trip.state().atlasTripPlaces.length).toEqual(0);
+}
+
+test("Test Set Trip Places", testSetTripPlaces)
+
+function testSetMarkerEdge() {
+  const mark = shallow(<Atlas/>);
+  expect(mark.state().prevLocation.length).toEqual(2);
+}
+
+test("Set Marker edge case", testSetMarkerEdge)
+
+function testSetSearchBar() {
+  const search = shallow(<Atlas/>);
+  let coords = L.latLng(40, -105)
+  search.instance().setSearchBarCoords(coords);
+  expect(search.state().markerPosition).toEqual(null)
+}
+
+test("Set Search Bar", testSetSearchBar)
+
+function testSetSearchBarEdge() {
+  const search = shallow(<Atlas/>);
+  let coords = L.latLng(40, -105)
+  search.instance().setSearchBarCoords(coords);
+  expect(search.state().mapCenter.length).toEqual(2)
+}
+
+test("Set Search Bar", testSetSearchBarEdge)
+
+function testSetSearchBarEdge2() {
+  const search = shallow(<Atlas/>);
+  let coords = L.latLng(40, -105)
+  search.instance().setSearchBarCoords(coords);
+  expect(search.state().mapCenter[0]).toEqual(40.5734)
+  expect(search.state().mapCenter[1]).toEqual(-105.0865)
+}
+
+test("Set Search Bar", testSetSearchBarEdge2)
