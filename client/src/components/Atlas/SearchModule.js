@@ -99,7 +99,7 @@ export default class SearchModule extends Component {
 
     renderLuckyButton() {
         return(
-            <button className="home-btn" style={{position: "absolute", left: 25, top: 102, zIndex: 1014}} onClick={() => this.findREF.sendFindServerRequest("78LuckyBoy78", 1, {})}>L</button>
+            <button className="home-btn" title="Feeling Lucky?" style={{position: "absolute", left: 25, top: 102, zIndex: 1014}} onClick={() => this.findREF.sendFindServerRequest("78LuckyBoy78", 1, {})}>L</button>
         );
     }
 
