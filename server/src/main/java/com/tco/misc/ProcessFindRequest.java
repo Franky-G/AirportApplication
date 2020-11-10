@@ -50,16 +50,13 @@ public class ProcessFindRequest {
         return temp;
     }
 
-    public static void setQUERY() {
-        QUERY = "SELECT * " + helper1;
-        QUERY1 = "SELECT count(*) AS found " + helper1;
-    }
-
     public static void filterQUERYHelper(int limit){
         if (limit > 0){ QUERY += " ASC LIMIT " + limit; }
     }
 
     public static void filterQUERY(String match, int limit, Map<String, String[]> narrow) {
+        QUERY = "SELECT * " + helper1;
+        QUERY1 = "SELECT count(*) AS found " + helper1;
         if (narrow.isEmpty()) { narrowEmpty(match, limit); }
         else { narrowHas(match, limit, narrow); }
     }
@@ -90,7 +87,7 @@ public class ProcessFindRequest {
         List<String> wheres = getList(narrow.get("where"));
         if (narrow.get("type") != null && narrow.get("where") == null) { onlyType(types, typer, temp); } // Only Type Specified
         else if (narrow.get("where") != null && narrow.get("type") == null){ onlyWhere(wherer, temp); } // Only Where Specified
-        else if (wheres.size() > 0 && types.size() > 0){ hasBoth(types, wherer, typer, temp); } // Both Specified
+        else { hasBoth(types, wherer, typer, temp); } // Both Specified
     }
 
     public static List<String> getList(String[] arr){
@@ -134,7 +131,6 @@ public class ProcessFindRequest {
         int counter = 0;
         List<LinkedHashMap<String,String>> allLocations = new ArrayList<>();
         matcher = checkMatch(match);
-        setQUERY();
         filterQUERY(matcher, limit, narrow);
         setServerParameters();
         try{ runPlacesQuery(counter, allLocations); }
