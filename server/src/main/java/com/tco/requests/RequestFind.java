@@ -25,13 +25,13 @@ public class RequestFind extends RequestHeader {
         this.found = 0;
         this.match = matchPattern;
         this.narrow = narrowFilter;
-        this.limit = Math.min(limitInt, 10000);
+        this.limit = limitInt;
     }
 
     @Override
     public void buildResponse() {
         this.places = ProcessFindRequest.processPlaces(this.match, this.limit, this.narrow);
-        this.found = ProcessFindRequest.processFound(this.match, this.limit, this.narrow);
+        this.found = ProcessFindRequest.processFound(this.match, this.limit);
         log.trace("buildResponse -> {}", this);
     }
 

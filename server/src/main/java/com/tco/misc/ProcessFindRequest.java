@@ -1,9 +1,16 @@
 package com.tco.misc;
+import javax.xml.transform.Result;
 import java.sql.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ProcessFindRequest {
-    private static String QUERY, matcher, db_url, db_user, db_pass;
+    private static String QUERY, QUERY1, matcher, db_url, db_user, db_pass;
+    private static String helper1 = "FROM (SELECT world.name AS name, world.latitude AS latitude, world.longitude AS longitude, world.id AS id, " +
+                                    "world.altitude AS altitude, world.municipality AS municipality, world.type AS type, region.name AS region, country.name AS country " +
+                                    "FROM continent INNER JOIN country ON continent.id = country.continent  INNER JOIN region ON country.id = region.iso_country " +
+                                    "INNER JOIN world ON region.id = world.iso_region";
+    private static String helper2 = " ORDER BY tbl.name";
 
     public static void setServerParameters() {
         String hasTravis = System.getenv("TRAVIS");
@@ -26,147 +33,198 @@ public class ProcessFindRequest {
         }
     }
 
-    private static String setMatchHelper(String temp, char c){
-        if (!Character.isDigit(c) && !Character.isLetter(c) && Character.isSpaceChar(c)){ c = '_'; }
+    public static String checkMatchHelper(String temp, char c){
+        if (!Character.isDigit(c) && !Character.isLetter(c) && !Character.isSpaceChar(c)){
+            c = '_';
+        }
         temp += c;
         return temp;
     }
 
-    private static String setMatch(String matchPattern) {
-        if (matchPattern == null || matchPattern.equals("78LuckyBoy78")){ return ""; }
+    public static String checkMatch(String match){
+        if (match == null || match.equals("78LuckyBoy78")){
+            return "";
+        }
         String temp = "";
-        for (int i=0; i<matchPattern.length(); i++){
-            temp = setMatchHelper(temp, matchPattern.charAt(i));
+        for (int i=0; i<match.length(); i++){
+            temp = checkMatchHelper(temp, match.charAt(i));
         }
         return temp;
     }
 
-    public static void setQUERY(String matchPattern, int limitInt, boolean isPlaces, boolean isFound){
-        if (limitInt > 10000){ limitInt = 10000; }
-        QUERY = "SELECT world.name AS name, world.latitude AS latitude, world.longitude AS longitude, world.id AS id, world.altitude AS altitude, world.municipality AS municipality, world.type AS type, region.name AS region, country.name AS country FROM continent INNER JOIN country ON continent.id = country.continent INNER JOIN region ON country.id = region.iso_country INNER JOIN world on region.id = world.iso_region ";
-        if (matchPattern.isEmpty() && limitInt == 0) { QUERY += "ORDER BY RAND() LIMIT 1"; }
-        else if (matchPattern.isEmpty()) { QUERY += "ORDER BY RAND() LIMIT " + limitInt; }
+    public static void setQUERY() {
+        QUERY = "SELECT * " + helper1;
+        QUERY1 = "SELECT count(*) AS found " + helper1;
+    }
+
+    public static void filterQUERY(String match, int limit, Map<String, String[]> narrow) {
+
+        if (narrow.isEmpty()) {
+            narrowEmpty(match, limit);
+        }
         else {
-            QUERY += "WHERE country.name LIKE '%" + matchPattern + "%' OR region.name like '%" + matchPattern + "%' OR world.name like '%" + matchPattern + "%' OR world.municipality like '%" + matchPattern + "%' ORDER BY world.name";
-            setQUERYHelper(limitInt, isPlaces, isFound);
+            narrowHas(match, limit, narrow);
         }
     }
 
-    public static void setQUERYHelper(int limitInt, boolean isPlaces, boolean isFound){
-        if (!((!isPlaces && isFound) || (isPlaces && !isFound && limitInt == 0))){
-            QUERY += " ASC LIMIT " + limitInt;
+    public static void narrowEmpty(String match, int limit){
+        String temp = " WHERE country.name LIKE '%" + match + "%' OR region.name LIKE '%" + match + "%' OR world.name LIKE '%" + match + "%' OR world.municipality LIKE '%" + match + "%') AS tbl";
+        QUERY1 += temp + helper2;
+
+        if (match.isEmpty() && limit == 0) {
+            QUERY += ") AS tbl ORDER BY RAND() LIMIT 1";
+        } else if (match.isEmpty()) {
+            QUERY += ") AS tbl ORDER BY RAND() LIMIT " + limit;
         }
-        else { QUERY += " ASC LIMIT 10000"; }
+        else{
+            QUERY += temp + helper2;
+            if (limit > 0){
+                QUERY += " ASC LIMIT " + limit;
+            }
+        }
+
     }
 
-    public static List<LinkedHashMap<String,String>> processPlaces(String matchPattern, int limitInt, Map<String,String[]> narrowFilter) {
-        if (narrowFilter == null) { narrowFilter = Collections.emptyMap(); }
-        List<LinkedHashMap<String, String>> allLocations = new ArrayList<>();
-        matcher = setMatch(matchPattern);
-        setQUERY(matcher, limitInt, true, false);
+    public static void narrowHas(String match, int limit, Map<String,String[]> narrow){
+        String temp = " WHERE country.name LIKE '%" + match + "%' OR region.name LIKE '%" + match + "%' OR world.name LIKE '%" + match + "%' OR world.municipality LIKE '%" + match + "%') AS tbl";
+
+        QUERY1 += temp;
+
+        List<String> types;
+        List<String> wheres;
+        if (narrow.get("type") != null){
+            types = Arrays.asList(narrow.get("type"));
+        }
+        else{
+            types = Collections.singletonList("");
+        }
+        if (narrow.get("where") != null){
+            wheres = Arrays.asList(narrow.get("where"));
+        }
+        else{
+            wheres = Collections.singletonList("");
+        }
+        String typer = typeBuilder(types);
+        String wherer = wheres.stream().map(s -> "'" + s + "'").collect(Collectors.joining(", ", "(", ")"));
+
+        if (narrow.get("type") != null && narrow.get("where") == null) { // Only Type specified
+            if (types.contains("balloonport") || types.contains("heliport") || types.contains("airport")) {
+                String temp1 = " WHERE tbl.type IN " + typer;
+                QUERY += temp + temp1 +  " ORDER BY tbl.name";
+                QUERY1 += temp1 + " ORDER BY tbl.name";
+                if (limit > 0) {
+                    QUERY += " ASC LIMIT " + limit;
+                }
+            }
+        }
+
+        else if (narrow.get("where") != null && narrow.get("type") == null){ // Only Where specified
+            String temp1 = " WHERE (tbl.country IN " + wherer + " OR tbl.region IN " + wherer + " OR tbl.municipality IN " + wherer + ")";
+            QUERY += temp + temp1 + " ORDER BY tbl.name";
+            QUERY1 += temp1 + " ORDER BY tbl.name";
+            if (limit > 0){
+                QUERY += " ASC LIMIT " + limit;
+            }
+        }
+
+        else if (wheres.size() > 0 && types.size() > 0){ // Both Specified
+            if (types.contains("balloonport") || types.contains("heliport") || types.contains("airport")) {
+                String temp1 = " WHERE (tbl.country IN " + wherer + " OR tbl.region IN " + wherer + " OR tbl.municipality IN " + wherer + ") AND (tbl.type IN " + typer + ")";
+                QUERY += temp + temp1 + "ORDER BY tbl.name";
+                QUERY1 += temp1 + "ORDER BY tbl.name";
+                if (limit > 0) {
+                    QUERY += " ASC LIMIT " + limit;
+                }
+            }
+        }
+
+    }
+
+    public static String typeBuilder(List<String> types) {
+
+        return types.stream().map(s -> {
+            if (s.equals("airport")){
+                return "'small_airport', 'medium_airport', 'large_airport'";
+            }
+            return "'" + s + "'";
+        }).collect(Collectors.joining(", ", "(", ")"));
+    }
+
+    public static List<LinkedHashMap<String, String>> processPlaces(String match, int limit, Map<String, String[]> narrow) {
+        if (narrow == null){ narrow = Collections.emptyMap(); }
+
+        int counter = 0;
+        List<LinkedHashMap<String,String>> allLocations = new ArrayList<>();
+
+        matcher = checkMatch(match);
+        setQUERY();
+
+        filterQUERY(matcher, limit, narrow);
         setServerParameters();
-        try { runQuery(QUERY, allLocations); }
-        catch (Exception e) { System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage()); }
-        if (!narrowFilter.isEmpty()) { filterList(allLocations, narrowFilter); }
+
+        try{
+            Connection con = DriverManager.getConnection(db_url, db_user, db_pass);
+            Statement query = con.createStatement();
+            ResultSet result = query.executeQuery(QUERY);
+
+            while (result.next() && counter < 500){
+                LinkedHashMap<String, String> location = new LinkedHashMap<>();
+                location.put("name", result.getString("name"));
+                location.put("latitude", result.getString("latitude"));
+                location.put("longitude", result.getString("longitude"));
+                location.put("id", result.getString("id"));
+                location.put("altitude", result.getString("altitude"));
+                location.put("municipality", result.getString("municipality"));
+                location.put("type", result.getString("type"));
+                location.put("region", result.getString("region"));
+                location.put("country", result.getString("country"));
+
+                String idString = location.get("id");
+                if (idString != null){
+                    location.put("url", "https://www.aopa.org/destinations/airports/" + idString + "/details");
+                }
+                allLocations.add(location);
+                counter++;
+            }
+        } catch (Exception e) {
+            System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage());
+        }
+
         return allLocations;
     }
 
-    public static int processFound(String matchPattern, int limitInt, Map<String,String[]> narrowFilter){
-        if (narrowFilter == null) { narrowFilter = Collections.emptyMap(); }
-        List<LinkedHashMap<String,String>> foundList = new ArrayList<>();
-        matcher = setMatch(matchPattern);
-        setQUERY(matcher, limitInt, false, true);
-        setServerParameters();
-        try { runQuery(QUERY, foundList); }
-        catch (Exception e) { System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage()); }
-        if (!narrowFilter.isEmpty()) { filterList(foundList, narrowFilter); }
-        return foundList.size();
-    }
+    public static int processFound(String match, int limit){
+        matcher = checkMatch(match);
+        LinkedHashMap<String,String> foundMap = new LinkedHashMap<>();
 
-    public static void runQuery(String QUERY, List<LinkedHashMap<String, String>> list) throws SQLException {
-        Connection con = DriverManager.getConnection(db_url, db_user, db_pass);
-        Statement query = con.createStatement();
-        ResultSet result = query.executeQuery(QUERY);
-        while(result.next()) { list.add(getHashMap(result)); }
-        result.close();
-        query.close();
-        con.close();
-    }
+        try{
+            Connection con = DriverManager.getConnection(db_url, db_user, db_pass);
+            Statement query = con.createStatement();
+            ResultSet result = query.executeQuery(QUERY1);
 
-    public static LinkedHashMap<String,String> getHashMap(ResultSet result) throws SQLException {
-        LinkedHashMap<String, String> location = new LinkedHashMap<>();
-        location.put("name", result.getString("name"));
-        location.put("latitude", result.getString("latitude"));
-        location.put("longitude", result.getString("longitude"));
-        location.put("id", result.getString("id"));
-        location.put("altitude", result.getString("altitude"));
-        location.put("municipality", result.getString("municipality"));
-        location.put("type", result.getString("type"));
-        location.put("region", result.getString("region"));
-        location.put("country", result.getString("country"));
-
-        String idString = location.get("id");
-        location.put("url", "https://www.aopa.org/destinations/airports/" + idString + "/details");
-        return location;
-    }
-
-    private static void filterList(List<LinkedHashMap<String,String>> list, Map<String, String[]> narrowFilter) {
-        List<LinkedHashMap<String,String>> placeHolder = new ArrayList<>(list);
-        list.clear();
-        for (LinkedHashMap<String, String> resultPlace : placeHolder) {
-            placesFilterHelper(list, resultPlace, narrowFilter);
+            while (result.next()){
+                foundMap.put("found", result.getString("found"));
+            }
+        } catch (Exception e) {
+            System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage());
         }
+
+        int found = Integer.parseInt(foundMap.get("found"));
+        return foundReturn(matcher, limit, found);
     }
 
-    public static void placesFilterHelper(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, Map<String, String[]> narrowFilter){
-        if (narrowFilter.get("where") != null && narrowFilter.get("type") == null) { // Only where specified
-            onlyWhere(list, resultPlace, narrowFilter);
-        } else if (narrowFilter.get("where") == null && narrowFilter.get("type") != null) { // Only type specified
-            onlyType(list, resultPlace, narrowFilter);
-        } else { // Both specified
-            bothKeys(list, resultPlace, narrowFilter);
+    public static int foundReturn(String match, int limit, int found){
+        if (match.isEmpty() && limit == 0){
+            return 1;
         }
-    }
-
-    public static void onlyWhere(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, Map<String, String[]> narrowFilter){
-        List<String> where = Arrays.asList(narrowFilter.get("where"));
-        if (where.contains(resultPlace.get("country")) || where.contains(resultPlace.get("municipality")) || where.contains(resultPlace.get("region"))) {
-            list.add(resultPlace);
-        }
-    }
-
-    public static void onlyType(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, Map<String, String[]> narrowFilter){
-        List<String> specificType = Arrays.asList(narrowFilter.get("type"));
-        if ((resultPlace.get("type").endsWith("airport") || specificType.contains(resultPlace.get("type"))) && specificType.contains("airport")){
-            list.add(resultPlace);
-        }
-        if (specificType.contains(resultPlace.get("type")) && !specificType.contains("airport")){
-            list.add(resultPlace);
-        }
-    }
-
-    public static void bothKeys(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, Map<String, String[]> narrowFilter){
-        if (Arrays.asList(narrowFilter.get("type")).contains("airport")) {
-            BKHelperHas(list, resultPlace, narrowFilter, Arrays.asList(narrowFilter.get("where")));
+        if (match.isEmpty()){
+            return limit;
         }
         else{
-            BKHelperNo(list, resultPlace, narrowFilter, Arrays.asList(narrowFilter.get("where")));
+            return found;
         }
     }
 
-    public static void BKHelperHas(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, Map<String, String[]> narrowFilter, List<String> where){
-        if ((resultPlace.get("type").endsWith("airport") || Arrays.asList(narrowFilter.get("type")).contains(resultPlace.get("type")))
-                && (where.contains(resultPlace.get("country")) || where.contains(resultPlace.get("municipality")) || where.contains(resultPlace.get("region")))){
-            list.add(resultPlace);
-        }
-    }
-
-    public static void BKHelperNo(List<LinkedHashMap<String,String>> list, LinkedHashMap<String,String> resultPlace, Map<String, String[]> narrowFilter, List<String> where){
-        if (Arrays.asList(narrowFilter.get("type")).contains(resultPlace.get("type"))
-                && (where.contains(resultPlace.get("country")) || where.contains(resultPlace.get("municipality")) || where.contains(resultPlace.get("region")))){
-            list.add(resultPlace);
-        }
-    }
 
     public static String[] getWhere() {
         String[] where = new String[0];
