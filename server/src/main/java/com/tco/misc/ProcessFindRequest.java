@@ -57,12 +57,12 @@ public class ProcessFindRequest {
     public static void filterQUERY(String match, int limit, Map<String, String[]> narrow) {
         QUERY = "SELECT * " + helper1;
         QUERY1 = "SELECT count(*) AS found " + helper1;
-        if (narrow.isEmpty()) { narrowEmpty(match, limit); }
-        else { narrowHas(match, limit, narrow); }
+        String temp = " WHERE country.name LIKE '%" + match + "%' OR region.name LIKE '%" + match + "%' OR world.name LIKE '%" + match + "%' OR world.municipality LIKE '%" + match + "%') AS tbl";
+        if (narrow.isEmpty()) { narrowEmpty(match, limit, temp); }
+        else { narrowHas(match, limit, narrow, temp); }
     }
 
-    public static void narrowEmpty(String match, int limit){
-        String temp = " WHERE country.name LIKE '%" + match + "%' OR region.name LIKE '%" + match + "%' OR world.name LIKE '%" + match + "%' OR world.municipality LIKE '%" + match + "%') AS tbl";
+    public static void narrowEmpty(String match, int limit, String temp){
         QUERY1 += temp + helper2;
         if (match.isEmpty() && limit == 0) { QUERY += ") AS tbl ORDER BY RAND() LIMIT 1"; }
         else if (match.isEmpty()) { QUERY += ") AS tbl ORDER BY RAND() LIMIT " + limit; }
@@ -70,11 +70,9 @@ public class ProcessFindRequest {
             QUERY += temp + helper2;
             filterQUERYHelper(limit);
         }
-
     }
 
-    public static void narrowHas(String match, int limit, Map<String,String[]> narrow){
-        String temp = " WHERE country.name LIKE '%" + match + "%' OR region.name LIKE '%" + match + "%' OR world.name LIKE '%" + match + "%' OR world.municipality LIKE '%" + match + "%') AS tbl";
+    public static void narrowHas(String match, int limit, Map<String,String[]> narrow, String temp){
         String typer = typeBuilder(getList(narrow.get("type")));
         String wherer = getList(narrow.get("where")).stream().map(s -> "'" + s + "'").collect(Collectors.joining(", ", "(", ")"));
         QUERY1 += temp;
