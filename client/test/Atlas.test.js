@@ -168,3 +168,10 @@ function testSetTripPlaces() {
 }
 
 test("Test Set Trip Places", testSetTripPlaces)
+
+function testSetMarkerEdge() {
+  const mark = shallow(<Atlas/>);
+  expect(mark.state().prevLocation.length).toEqual(2);
+}
+
+test("Set Marker edge case", testSetMarkerEdge)
