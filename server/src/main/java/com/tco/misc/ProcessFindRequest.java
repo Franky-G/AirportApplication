@@ -57,6 +57,12 @@ public class ProcessFindRequest {
         QUERY1 = "SELECT count(*) AS found " + helper1;
     }
 
+    public static void filterQUERYHelper(int limit){
+        if (limit > 0){
+            QUERY += " ASC LIMIT " + limit;
+        }
+    }
+
     public static void filterQUERY(String match, int limit, Map<String, String[]> narrow) {
 
         if (narrow.isEmpty()) {
@@ -78,70 +84,43 @@ public class ProcessFindRequest {
         }
         else{
             QUERY += temp + helper2;
-            if (limit > 0){
-                QUERY += " ASC LIMIT " + limit;
-            }
+            filterQUERYHelper(limit);
         }
 
     }
 
     public static void narrowHas(String match, int limit, Map<String,String[]> narrow){
         String temp = " WHERE country.name LIKE '%" + match + "%' OR region.name LIKE '%" + match + "%' OR world.name LIKE '%" + match + "%' OR world.municipality LIKE '%" + match + "%') AS tbl";
-
-        QUERY1 += temp;
-
-        List<String> types;
-        List<String> wheres;
-        if (narrow.get("type") != null){
-            types = Arrays.asList(narrow.get("type"));
-        }
-        else{
-            types = Collections.singletonList("");
-        }
-        if (narrow.get("where") != null){
-            wheres = Arrays.asList(narrow.get("where"));
-        }
-        else{
-            wheres = Collections.singletonList("");
-        }
+        List<String> types = getList(narrow.get("type"));
+        List<String> wheres = getList(narrow.get("where"));
         String typer = typeBuilder(types);
         String wherer = wheres.stream().map(s -> "'" + s + "'").collect(Collectors.joining(", ", "(", ")"));
+        QUERY1 += temp;
 
         if (narrow.get("type") != null && narrow.get("where") == null) { // Only Type specified
-            if (types.contains("balloonport") || types.contains("heliport") || types.contains("airport")) {
-                String temp1 = " WHERE tbl.type IN " + typer;
-                QUERY += temp + temp1 +  " ORDER BY tbl.name";
-                QUERY1 += temp1 + " ORDER BY tbl.name";
-                if (limit > 0) {
-                    QUERY += " ASC LIMIT " + limit;
-                }
-            }
+            onlyType(types, typer, temp);
         }
-
         else if (narrow.get("where") != null && narrow.get("type") == null){ // Only Where specified
-            String temp1 = " WHERE (tbl.country IN " + wherer + " OR tbl.region IN " + wherer + " OR tbl.municipality IN " + wherer + ")";
-            QUERY += temp + temp1 + " ORDER BY tbl.name";
-            QUERY1 += temp1 + " ORDER BY tbl.name";
-            if (limit > 0){
-                QUERY += " ASC LIMIT " + limit;
-            }
+            onlyWhere(wherer, temp);
         }
-
         else if (wheres.size() > 0 && types.size() > 0){ // Both Specified
-            if (types.contains("balloonport") || types.contains("heliport") || types.contains("airport")) {
-                String temp1 = " WHERE (tbl.country IN " + wherer + " OR tbl.region IN " + wherer + " OR tbl.municipality IN " + wherer + ") AND (tbl.type IN " + typer + ")";
-                QUERY += temp + temp1 + "ORDER BY tbl.name";
-                QUERY1 += temp1 + "ORDER BY tbl.name";
-                if (limit > 0) {
-                    QUERY += " ASC LIMIT " + limit;
-                }
-            }
+            hasBoth(types, wherer, typer, temp);
         }
+        filterQUERYHelper(limit);
+    }
 
+    public static List<String> getList(String[] arr){
+        List<String> temp;
+        if (arr != null){
+            temp = Arrays.asList(arr);
+        }
+        else{
+            temp = Collections.singletonList("");
+        }
+        return temp;
     }
 
     public static String typeBuilder(List<String> types) {
-
         return types.stream().map(s -> {
             if (s.equals("airport")){
                 return "'small_airport', 'medium_airport', 'large_airport'";
@@ -150,47 +129,69 @@ public class ProcessFindRequest {
         }).collect(Collectors.joining(", ", "(", ")"));
     }
 
+    public static void onlyType(List<String> types, String typer, String temp){
+        if (types.contains("balloonport") || types.contains("heliport") || types.contains("airport")) {
+            String temp1 = " WHERE tbl.type IN " + typer;
+            QUERY += temp + temp1 +  " ORDER BY tbl.name";
+            QUERY1 += temp1 + " ORDER BY tbl.name";
+        }
+    }
+
+    public static void onlyWhere(String wherer, String temp){
+        String temp1 = " WHERE (tbl.country IN " + wherer + " OR tbl.region IN " + wherer + " OR tbl.municipality IN " + wherer + ")";
+        QUERY += temp + temp1 + " ORDER BY tbl.name";
+        QUERY1 += temp1 + " ORDER BY tbl.name";
+    }
+
+    public static void hasBoth(List<String> types, String wherer, String typer, String temp){
+        if (types.contains("balloonport") || types.contains("heliport") || types.contains("airport")) {
+            String temp1 = " WHERE (tbl.country IN " + wherer + " OR tbl.region IN " + wherer + " OR tbl.municipality IN " + wherer + ") AND (tbl.type IN " + typer + ")";
+            QUERY += temp + temp1 + "ORDER BY tbl.name";
+            QUERY1 += temp1 + "ORDER BY tbl.name";
+        }
+    }
+
     public static List<LinkedHashMap<String, String>> processPlaces(String match, int limit, Map<String, String[]> narrow) {
         if (narrow == null){ narrow = Collections.emptyMap(); }
-
         int counter = 0;
         List<LinkedHashMap<String,String>> allLocations = new ArrayList<>();
-
         matcher = checkMatch(match);
         setQUERY();
-
         filterQUERY(matcher, limit, narrow);
         setServerParameters();
-
-        try{
-            Connection con = DriverManager.getConnection(db_url, db_user, db_pass);
-            Statement query = con.createStatement();
-            ResultSet result = query.executeQuery(QUERY);
-
-            while (result.next() && counter < 500){
-                LinkedHashMap<String, String> location = new LinkedHashMap<>();
-                location.put("name", result.getString("name"));
-                location.put("latitude", result.getString("latitude"));
-                location.put("longitude", result.getString("longitude"));
-                location.put("id", result.getString("id"));
-                location.put("altitude", result.getString("altitude"));
-                location.put("municipality", result.getString("municipality"));
-                location.put("type", result.getString("type"));
-                location.put("region", result.getString("region"));
-                location.put("country", result.getString("country"));
-
-                String idString = location.get("id");
-                if (idString != null){
-                    location.put("url", "https://www.aopa.org/destinations/airports/" + idString + "/details");
-                }
-                allLocations.add(location);
-                counter++;
-            }
-        } catch (Exception e) {
-            System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage());
-        }
-
+        try{ runPlacesQuery(counter, allLocations); }
+        catch (Exception e) { System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage()); }
         return allLocations;
+    }
+
+    public static void runPlacesQuery(int counter, List<LinkedHashMap<String,String>> allLocations) throws SQLException {
+        Connection con = DriverManager.getConnection(db_url, db_user, db_pass);
+        Statement query = con.createStatement();
+        ResultSet result = query.executeQuery(QUERY);
+
+        while (result.next() && counter < 500){
+            allLocations.add(processPlacesHelper(result));
+            counter++;
+        }
+    }
+
+    public static LinkedHashMap<String, String> processPlacesHelper(ResultSet result) throws SQLException {
+        LinkedHashMap<String, String> location = new LinkedHashMap<>();
+        location.put("name", result.getString("name"));
+        location.put("latitude", result.getString("latitude"));
+        location.put("longitude", result.getString("longitude"));
+        location.put("id", result.getString("id"));
+        location.put("altitude", result.getString("altitude"));
+        location.put("municipality", result.getString("municipality"));
+        location.put("type", result.getString("type"));
+        location.put("region", result.getString("region"));
+        location.put("country", result.getString("country"));
+
+        String idString = location.get("id");
+        if (idString != null){
+            location.put("url", "https://www.aopa.org/destinations/airports/" + idString + "/details");
+        }
+        return location;
     }
 
     public static int processFound(String match, int limit){
