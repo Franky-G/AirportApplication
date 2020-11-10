@@ -175,3 +175,13 @@ function testSetMarkerEdge() {
 }
 
 test("Set Marker edge case", testSetMarkerEdge)
+
+function testSetSearchBar() {
+  const search = shallow(<Atlas/>);
+  let coords = L.latLng(40, -105)
+  search.instance().setSearchBarCoords(coords);
+  expect(search.state().markerPosition).toEqual(null)
+}
+
+test("Set Search Bar", testSetSearchBar)
+
