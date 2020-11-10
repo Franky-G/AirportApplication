@@ -159,3 +159,12 @@ function testSetMarker() {
 }
 
 test("Set Marker", testSetMarker)
+
+function testSetTripPlaces() {
+  const trip = shallow(<Atlas/>)
+  let array = [];
+  trip.instance().setTripPlaces(array);
+  expect(trip.state().atlasTripPlaces.length).toEqual(0);
+}
+
+test("Test Set Trip Places", testSetTripPlaces)
