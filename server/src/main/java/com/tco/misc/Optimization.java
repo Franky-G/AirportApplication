@@ -98,4 +98,47 @@ public class Optimization {
         }
         return reorder;
     }
+
+    private static void TwoOptReverse(Integer[] places, int i1, int k) {
+        while(i1 < k) {
+            Integer temp = places[i1];
+            places[i1] = places[k];
+            places[k] = temp;
+            i1++;
+            k--;
+        }
+    }
+
+    public static Integer[] makeArray(Integer[] arr, int length) {
+        Integer[] ret = new Integer[length];
+        for (int i = 0; i < length; i++) {
+            if (i >= arr.length) {
+                ret[i] = arr[0];
+            } else {
+                ret[i] = arr[i];
+            }
+        }
+        return ret;
+    }
+
+    public static Integer[] TwoOpt(Integer[][] distances, Integer[] myTour) {
+        int n = myTour.length;
+        Integer[] tour = makeArray(myTour, n+1);
+        boolean improvement = true;
+        Integer distDelta;
+        while (improvement) {
+            improvement = false;
+            for (int i = 0; i <= n-3; i++) {
+                for (int k = i+2; k <= n-1; k++) {
+                    distDelta = (distances[tour[i]][tour[k]] + distances[tour[i+1]][tour[k+1]])-(distances[tour[i]][tour[i+1]] + distances[tour[k]][tour[k+1]]);
+                    if (distDelta < 0) {
+                        TwoOptReverse(tour, i+1, k);
+                        improvement = true;
+                    }
+                }
+            }
+        }
+        myTour = makeArray(tour, n);
+        return myTour;
+    }
 }

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import org.graalvm.compiler.nodes.calc.IntegerDivRemNode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -252,5 +253,19 @@ public class TestOptimization {
         assertEquals("Denver", temp[0].get("name"));
         assertEquals("Fort Collins", temp[1].get("name"));
         assertEquals("Center Of Map", temp[2].get("name"));
+    }
+
+    @Test
+    @DisplayName("Testing Two Opt")
+    public void testTwoOpt() {
+        Integer optimized[] = new Integer[places1.length];
+        Integer[][] distances = new Integer[places1.length][places1.length];
+        distances =  Optimization.createDistanceMatrix(places1, options, distances);
+        Boolean[] visitedArr = new Boolean[places.length];
+        Integer[] tour = new Integer[places1.length];
+        tour = Optimization.createTour(2, distances,places1,visitedArr, tour);
+        optimized = Optimization.TwoOpt(distances, tour);
+        Integer expected0[] = {2, 3, 0, 4, 1};
+        assertEquals(Arrays.deepToString(expected0),Arrays.deepToString(optimized));
     }
 }
