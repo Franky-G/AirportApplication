@@ -264,8 +264,7 @@ public class TestOptimization {
         Boolean[] visitedArr = new Boolean[places.length];
         Integer[] tour = new Integer[places1.length];
         tour = Optimization.createTour(2, distances,places1,visitedArr, tour);
-        tour = Optimization.makeArray(tour, tour.length+1);
-        optimized = Optimization.TwoOpt(tour.length-1, distances, tour);
+        optimized = Optimization.TwoOpt(distances, tour);
         Integer expected0[] = {2, 3, 0, 4, 1};
         assertEquals(Arrays.deepToString(expected0),Arrays.deepToString(optimized));
     }

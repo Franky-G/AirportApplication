@@ -121,22 +121,24 @@ public class Optimization {
         return ret;
     }
 
-    public static Integer[] TwoOpt(int tourLength, Integer[][] distances, Integer[] myTour) {
+    public static Integer[] TwoOpt(Integer[][] distances, Integer[] myTour) {
+        int n = myTour.length;
+        Integer[] tour = makeArray(myTour, n+1);
         boolean improvement = true;
         Integer distDelta;
         while (improvement) {
             improvement = false;
-            for (int i = 0; i <= tourLength-3; i++) {
-                for (int k = i+2; k <= tourLength-1; k++) {
-                    distDelta = (distances[myTour[i]][myTour[k]] + distances[myTour[i+1]][myTour[k+1]])-(distances[myTour[i]][myTour[i+1]] + distances[myTour[k]][myTour[k+1]]);
+            for (int i = 0; i <= n-3; i++) {
+                for (int k = i+2; k <= n-1; k++) {
+                    distDelta = (distances[tour[i]][tour[k]] + distances[tour[i+1]][tour[k+1]])-(distances[tour[i]][tour[i+1]] + distances[tour[k]][tour[k+1]]);
                     if (distDelta < 0) {
-                        TwoOptReverse(myTour, i+1, k);
+                        TwoOptReverse(tour, i+1, k);
                         improvement = true;
                     }
                 }
             }
         }
-        myTour = makeArray(myTour, tourLength);
+        myTour = makeArray(tour, n);
         return myTour;
     }
 }
