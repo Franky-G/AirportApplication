@@ -205,3 +205,10 @@ function testSetTripRecord() {
 }
 
 test("Set Trip Record", testSetTripRecord)
+
+function testPrevLocation() {
+  const location = shallow(<Atlas/>)
+  expect(location.state().prevLocation.length).toEqual(2)
+}
+
+test("Testing State PrevLocation", testPrevLocation)
