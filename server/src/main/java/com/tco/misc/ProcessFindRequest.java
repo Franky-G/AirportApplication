@@ -144,6 +144,9 @@ public class ProcessFindRequest {
             allLocations.add(processPlacesHelper(result));
             counter++;
         }
+        result.close();
+        query.close();
+        con.close();
     }
 
     public static LinkedHashMap<String, String> processPlacesHelper(ResultSet result) throws SQLException {
@@ -171,6 +174,9 @@ public class ProcessFindRequest {
             Statement query = con.createStatement();
             ResultSet result = query.executeQuery(QUERY1);
             while (result.next()){ foundMap.put("found", result.getString("found")); }
+            result.close();
+            query.close();
+            con.close();
         }
         catch (Exception e) { System.err.println("Exception: Can't Connect To Data Base: " + e.getMessage()); }
         int found = Integer.parseInt(foundMap.get("found"));
@@ -214,5 +220,6 @@ public class ProcessFindRequest {
         while (result.next()){
             if (result.getString("name") != null && !result.getString("name").equals("(unassigned)")) { temp.add(result.getString("name")); }
         }
+        result.close();
     }
 }
