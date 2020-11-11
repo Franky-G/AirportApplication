@@ -227,19 +227,19 @@ For Sprint 3, it adds request for Trip in the Microserver.
 # Sprint 4 
 
 ### User Interface
-![User Interface Sprint 3](https://github.com/csucs314f20/t10/blob/master/reports/images/Sprint4UserInterface.png)
+![User Interface Sprint 4](https://github.com/csucs314f20/t10/blob/master/reports/images/Sprint4UserInterface.png)
 
 #### Filter Search
-This epic will introduce functionality to allow the user to filter their search to specific categories. This includes filters like region and country. Overall this will allow the user to receive a list of more customized places and shorten the overall list to search.
+This epic will introduce functionality to allow the user to filter their search to specific categories. This includes filters like region, municipality, and country. Overall this will allow the user to receive a list of more customized places and shorten the overall list to search. The user can click the filter button and chose from the available types and enter multiple countries for filtering their search. The user can click the Reset Filters button and it will clear their filters and allow them to chose new ones.
 
 #### Shorter
-This epic will allow the user to create a shorter overall trip while still visiting the same destinations. When the user uses any trip functionality the time the user waits till the action is complete will be less than one second. Provide better results using user concurrency which will also reduce overall computation time.
+This epic will allow the user to create a shorter overall trip while still visiting the same destinations. When the user uses any trip functionality the time the user waits till the action is complete will be less than one second. The user will get a result based on nearest neighbor and 2-opt. A new trip will be created with the label Optimized which will update the distances and places in the Trip designer. A new total distance will also be displayed.
 
 #### User Experience
 This epic will simplify the overall user experience. This will be done by giving the user information only when the user needs it. Using hamburgers and other methods will reduce clutter and allow the user to view information on the website easier. We will verify intuitive functionality by getting opinions from outside sources.
 
 #### Feeling Lucky?
-This epic will allow the user to get a place to visit that is suggested by the system. It will add that location to the current trip and calculate distance accordingly.
+This epic will allow the user to get a place to visit that is suggested by the system. The map will automatically drop a marker and zoom to that place.
 
 ### Component Hierarchy
 ![Component Hierarchy Sprint 3](https://github.com/csucs314f20/t10/blob/master/reports/images/Sprint3ComponentHierarchy.png)
@@ -254,8 +254,8 @@ This epic will allow the user to get a place to visit that is suggested by the s
   * Search Module works to find distance along with the coordinate parser, which allows the user to enter multiple formats of coordinates.
   * Where Is allows the user to enter coordinates of multiple formats and as soon as the user click the "Go To" button, the map drops a marker at that coordinates.
 * Trip will allow the user to build a trip and modify a trip. This functions will allow the user to build a trip with support of unlimited destinations, modify their existing trip with multiple functionality. 
+* A new optimize button allows the user to optimize their trip based on nearest neighbor and 2-opt. A new trip is created with the label optimized and the places are sorted based on optimization. A new total distance is also displayed in the Trip designer. For the user's convenience, the optimized trip is displayed on the map using polylines, and as soon as the user clicks on a place, a marker is dropped at that place.
  
-
 ### Class Diagram
 ![Class Diagram Sprint 3](https://github.com/csucs314f20/t10/blob/master/reports/images/Sprint3ClassDiagram.png)
 
