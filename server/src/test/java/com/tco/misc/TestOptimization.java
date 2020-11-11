@@ -256,16 +256,84 @@ public class TestOptimization {
     }
 
     @Test
-    @DisplayName("Testing Two Opt")
+    @DisplayName("Testing 2 Opt Places")
     public void testTwoOpt() {
+        Integer optimized[] = new Integer[places.length];
+        Integer[][] distances = new Integer[places.length][places.length];
+        distances =  Optimization.createDistanceMatrix(places, options, distances);
+        Boolean[] visitedArr = new Boolean[places.length];
+        Integer[] tour = new Integer[places.length];
+        tour = Optimization.createTour(0, distances,places,visitedArr, tour);
+        optimized = Optimization.TwoOpt(distances, tour);
+        Integer expected0[] = {0, 2, 1};
+        assertEquals(Arrays.deepToString(expected0),Arrays.deepToString(optimized));
+
+        tour = new Integer[places.length];
+        visitedArr = new Boolean[places.length];
+        tour = Optimization.createTour(1, distances,places,visitedArr, tour);
+        optimized = new Integer[places.length];
+        optimized = Optimization.TwoOpt(distances, tour);
+        Integer expected1[] = {1, 2, 0};
+        assertEquals(Arrays.deepToString(expected1),Arrays.deepToString(optimized));
+
+        tour = new Integer[places.length];
+        visitedArr = new Boolean[places.length];
+        tour = Optimization.createTour(2, distances,places,visitedArr, tour);
+        optimized = new Integer[places.length];
+        optimized = Optimization.TwoOpt(distances, tour);
+        Integer expected2[] = {2, 0, 1};
+        assertEquals(Arrays.deepToString(expected2),Arrays.deepToString(optimized));
+    }
+
+    @Test
+    @DisplayName("Testing 2 Opt Places 1")
+    public void testTwoOptP1() {
+        Integer optimized[] = new Integer[places1.length];
+        Integer[][] distances = new Integer[places1.length][places1.length];
+        distances =  Optimization.createDistanceMatrix(places1, options, distances);
+        Boolean[] visitedArr = new Boolean[places1.length];
+        Integer[] tour = new Integer[places1.length];
+        tour = Optimization.createTour(2, distances,places1,visitedArr, tour);
+        optimized = Optimization.TwoOpt(distances, tour);
+        Integer expected2[] = {2, 3, 0, 4, 1};
+        assertEquals(Arrays.deepToString(expected2),Arrays.deepToString(optimized));
+    }
+
+    @Test
+    @DisplayName("Testing 2 opt Places 1")
+    public void test2OptP1() {
         Integer optimized[] = new Integer[places1.length];
         Integer[][] distances = new Integer[places1.length][places1.length];
         distances =  Optimization.createDistanceMatrix(places1, options, distances);
         Boolean[] visitedArr = new Boolean[places.length];
         Integer[] tour = new Integer[places1.length];
-        tour = Optimization.createTour(2, distances,places1,visitedArr, tour);
+        tour = Optimization.createTour(0, distances,places1,visitedArr, tour);
         optimized = Optimization.TwoOpt(distances, tour);
-        Integer expected0[] = {2, 3, 0, 4, 1};
+        Integer expected0[] = {0, 3, 2, 1, 4};
         assertEquals(Arrays.deepToString(expected0),Arrays.deepToString(optimized));
+
+        tour = new Integer[places1.length];
+        visitedArr = new Boolean[places.length];
+        tour = Optimization.createTour(1, distances,places1,visitedArr, tour);
+        optimized = new Integer[places1.length];
+        optimized = Optimization.TwoOpt(distances, tour);
+        Integer expected1[] = {1, 2, 3, 0, 4};
+        assertEquals(Arrays.deepToString(expected1),Arrays.deepToString(optimized));
+
+        tour = new Integer[places1.length];
+        visitedArr = new Boolean[places.length];
+        tour = Optimization.createTour(3, distances,places1,visitedArr, tour);
+        optimized = new Integer[places1.length];
+        optimized = Optimization.TwoOpt(distances, tour);
+        Integer expected3[] = {3, 0, 4, 1, 2};
+        assertEquals(Arrays.deepToString(expected3),Arrays.deepToString(optimized));
+
+        tour = new Integer[places1.length];
+        visitedArr = new Boolean[places.length];
+        tour = Optimization.createTour(4, distances,places1,visitedArr, tour);
+        optimized = new Integer[places1.length];
+        optimized = Optimization.TwoOpt(distances, tour);
+        Integer expected4[] = {4, 1, 2, 3, 0};
+        assertEquals(Arrays.deepToString(expected4),Arrays.deepToString(optimized));
     }
 }
