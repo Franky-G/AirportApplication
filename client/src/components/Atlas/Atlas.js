@@ -40,19 +40,9 @@ export default class Atlas extends Component {
     this.resetAtlasTripPlaces = this.resetAtlasTripPlaces.bind(this);
 
     this.state = {
-      markerPosition: null,
-      homeLocation: MAP_CENTER_DEFAULT,
-      prevLocation: [null,null],
-      mapCenter: MAP_CENTER_DEFAULT,
-      whereIsMarker: null,
-      polyDistance: [0,0],
-      searchTextToIsEmpty: true,
-      hasUserLocation: null,
-      tripRecord: false,
-      dropdownOpen: false,
-      recordingTrip: 0,
-      tripStyle: "",
-      atlasTripPlaces: [],
+      markerPosition: null, homeLocation: MAP_CENTER_DEFAULT, prevLocation: [null,null], mapCenter: MAP_CENTER_DEFAULT,
+      whereIsMarker: null, polyDistance: [0,0], searchTextToIsEmpty: true, hasUserLocation: null,
+      tripRecord: false, dropdownOpen: false, recordingTrip: 0, tripStyle: "", atlasTripPlaces: [],
     };
   }
 
