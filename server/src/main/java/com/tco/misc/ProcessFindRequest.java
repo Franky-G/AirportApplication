@@ -196,18 +196,18 @@ public class ProcessFindRequest {
         String QUERYregion = "SELECT name AS name FROM region ORDER BY name";
         String QUERYmunicipality = "SELECT distinct(municipality) AS name FROM continent INNER JOIN country ON continent.id = country.continent INNER JOIN region ON country.id = region.iso_country INNER JOIN world ON region.id = world.iso_region order by municipality";
         setServerParameters();
-        try (
-             Connection con = DriverManager.getConnection(db_url, db_user, db_pass);
-             Statement query = con.createStatement();
-             ResultSet result = query.executeQuery(QUERYcountries);
-             ResultSet result1 = query.executeQuery(QUERYregion);
-             ResultSet result2 = query.executeQuery(QUERYmunicipality)
-             )
-        {
+        try {
+            Connection con = DriverManager.getConnection(db_url, db_user, db_pass);
+            Statement query = con.createStatement();
+            ResultSet result = query.executeQuery(QUERYcountries);
+            ResultSet result1 = query.executeQuery(QUERYregion);
+            ResultSet result2 = query.executeQuery(QUERYmunicipality);
             List<String> temp = new ArrayList<>();
             getWhereHelper(temp, result);
             getWhereHelper(temp, result1);
             getWhereHelper(temp, result2);
+            con.close();
+            query.close();
             where = new String[temp.size()];
             where = temp.toArray(where);
             return where;
