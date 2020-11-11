@@ -60,13 +60,6 @@ function testTripRecord() {
 
 test("Trip Record", testTripRecord)
 
-function testDropDown() {
-  const down = shallow(<Atlas/>)
-  down.instance().setDropdown()
-}
-
-test("Set Drop Down", testDropDown)
-
 function testTripButton() {
   const button = shallow(<Atlas/>)
   button.instance().renderTripButton()
