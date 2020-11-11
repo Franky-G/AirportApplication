@@ -254,8 +254,8 @@ This epic will allow the user to get a place to visit that is suggested by the s
   * Search Module works to find distance along with the coordinate parser, which allows the user to enter multiple formats of coordinates.
   * Where Is allows the user to enter coordinates of multiple formats and as soon as the user click the "Go To" button, the map drops a marker at that coordinates.
 * Trip will allow the user to build a trip and modify a trip. This functions will allow the user to build a trip with support of unlimited destinations, modify their existing trip with multiple functionality. 
+* A new optimize button allows the user to optimize their trip based on nearest neighbor and 2-opt. A new trip is created with the label optimized and the places are sorted based on optimization. A new total distance is also displayed in the Trip designer.
  
-
 ### Class Diagram
 ![Class Diagram Sprint 3](https://github.com/csucs314f20/t10/blob/master/reports/images/Sprint3ClassDiagram.png)
 
