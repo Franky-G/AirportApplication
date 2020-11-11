@@ -101,7 +101,7 @@ public class TestRequestFind {
         fin.buildResponse();
         int found = fin.getFound();
 
-        if (!hasTravis) { assertEquals(10000, found); }
+        if (!hasTravis) { assertEquals(40164, found); }
         else { assertEquals(3, found) ;}
     }
 
@@ -186,12 +186,12 @@ public class TestRequestFind {
         temp.put("type", new String[] {"airport", "balloonport", "heliport"});
         temp.put("where", new String[] {"Germany", "Belgium", "Greenland"});
 
-        fin = new RequestFind("port", 22, temp);
+        fin = new RequestFind("_", 22, temp);
         fin.buildResponse();
 
         List<LinkedHashMap<String,String>> places = fin.getPlaces();
         String name = places.get(0).get("name");
-        if (!hasTravis) { assertEquals("'s Gravenwezel heliport", name); }
+        if (!hasTravis) { assertEquals("\"Der Dingel\" Airfield", name); }
         else { assertEquals("Aappilattoq (Kujalleq) Heliport", name); }
     }
 
@@ -201,12 +201,26 @@ public class TestRequestFind {
         temp.put("type", new String[] {"balloonport", "heliport"});
         temp.put("where", new String[] {"Germany", "Belgium", "Greenland"});
 
-        fin = new RequestFind("port", 4, temp);
+        fin = new RequestFind("_", 4, temp);
         fin.buildResponse();
 
         List<LinkedHashMap<String,String>> places = fin.getPlaces();
         String name = places.get(0).get("name");
         if (!hasTravis) { assertEquals("'s Gravenwezel heliport", name); }
         else { assertEquals("Aappilattoq (Kujalleq) Heliport", name); }
+    }
+
+    @Test
+    public void testNarrowFound(){
+        Map<String,String[]> temp = new HashMap<>();
+        temp.put("type", new String[] {"airport", "heliport"});
+
+        fin = new RequestFind("_", 4, temp);
+        fin.buildResponse();
+
+        int found = fin.getFound();
+
+        if (!hasTravis) { assertEquals(47360, found); }
+        else { assertEquals(1, found); }
     }
 }

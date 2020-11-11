@@ -10,7 +10,7 @@ public class RequestFind extends RequestHeader {
     private List<LinkedHashMap<String, String>> places = new ArrayList<>();
     private Map<String, String[]> narrow;
     private String match;
-    private int limit;
+    private Integer limit;
     private int found;
     private final transient Logger log = LoggerFactory.getLogger(RequestFind.class);
 
@@ -19,31 +19,30 @@ public class RequestFind extends RequestHeader {
         this.requestVersion = RequestHeader.CURRENT_SUPPORTED_VERSION;
     }
 
-    public RequestFind(String matchPattern, int limitInt, Map<String,String[]> narrowFilter) {
+    public RequestFind(String matchPattern, Integer limitInt, Map<String,String[]> narrowFilter) {
         this();
         this.places = null;
         this.found = 0;
         this.match = matchPattern;
         this.narrow = narrowFilter;
-        this.limit = Math.min(limitInt, 10000);
+        this.limit = limitInt;
     }
 
     @Override
     public void buildResponse() {
-        this.places = ProcessFindRequest.processPlaces(this.match, this.limit, this.narrow);
-        this.found = ProcessFindRequest.processFound(this.match, this.limit, this.narrow);
+        if (this.limit != null) {
+            this.places = ProcessFindRequest.processPlaces(this.match, this.limit, this.narrow);
+            this.found = ProcessFindRequest.processFound(this.match, this.limit);
+        } else{
+            this.places = ProcessFindRequest.processPlaces(this.match, 0, this.narrow);
+            this.found = ProcessFindRequest.processFound(this.match, 0);
+        }
         log.trace("buildResponse -> {}", this);
     }
 
-    public int getLimit(){
-        return limit;
-    }
-    public String getMatch(){
-        return match;
-    }
+    public int getLimit(){ return limit; }
+    public String getMatch(){ return match; }
     public int getFound(){ return found; }
-    public List<LinkedHashMap<String, String>> getPlaces(){
-        return places;
-    }
+    public List<LinkedHashMap<String, String>> getPlaces(){ return places; }
     public Map<String,String[]> getNarrow() { return narrow; }
 }
