@@ -6,6 +6,7 @@ import {sendServerRequest} from "../../utils/restfulAPI";
 import WhereIs from "./WhereIs";
 import RadioButtons from "./RadioButtons";
 import Find from "./Find";
+import Fade from "@material-ui/core/Fade";
 
 const inputFieldStyleFrom = {zIndex: 1002, height: 34, top: 10, left: 70, position: "absolute"}
 
@@ -120,20 +121,22 @@ export default class SearchModule extends Component {
 
     renderDistanceModule() {
         return (
-            <div key="DistancePanel">
-                <Row xs={2} key={"searchDistance"}>
-                    <Col><Input name={"searchBarFrom"} style={{margin: 5, width: "100%"}} placeholder="From: (Lat,Lng)"
-                                onChange={() => this.handleInputChange()}/></Col>
-                    <Col style={{left: -20}}><Input name={"searchBarTo"} style={{margin: 5, width: 160}}
-                                                    placeholder="To: (Lat,Lng)"
-                                                    onChange={() => this.handleInputChange()}/></Col>
-                </Row>
-                <Col style={{left: 265, top: 55}}>{this.renderCalculateButton()}</Col>
-                <p className="searchTypeStyle">
-                    Use Search Bars Or Click On Map<br/>
-                    Distance = {this.state.distance} miles
-                </p>
-            </div>
+            <Fade in={true} timeout={350}>
+                <div key="DistancePanel">
+                    <Row xs={2} key={"searchDistance"}>
+                        <Col><Input name={"searchBarFrom"} style={{margin: 5, width: "100%"}} placeholder="From: (Lat,Lng)"
+                                    onChange={() => this.handleInputChange()}/></Col>
+                        <Col style={{left: -20}}><Input name={"searchBarTo"} style={{margin: 5, width: 160}}
+                                                        placeholder="To: (Lat,Lng)"
+                                                        onChange={() => this.handleInputChange()}/></Col>
+                    </Row>
+                    <Col style={{left: 265, top: 55}}>{this.renderCalculateButton()}</Col>
+                    <p className="searchTypeStyle">
+                        Use Search Bars Or Click On Map<br/>
+                        Distance = {this.state.distance} miles
+                    </p>
+                </div>
+            </Fade>
         );
     }
 
