@@ -26,6 +26,7 @@ public class TestOptimization {
     public void testJimit(){
         options = new HashMap<>();
         options.put("earthRadius", "3959.0");
+        options.put("response", "1");
 
 //////////////////////////////////////////////////////////////////////////////
         places = new HashMap[3];

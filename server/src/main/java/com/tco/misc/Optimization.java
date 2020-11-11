@@ -1,5 +1,4 @@
 package com.tco.misc;
-
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,6 +6,7 @@ import java.util.Map;
 public class Optimization {
 
     public static Map<String, String>[] nearestNeighbor(Map<String, String>[] places, Map<String, String> options) {
+        Long startTimer = System.currentTimeMillis();
         Boolean[] visitedArr = new Boolean[places.length];
         Integer[] tour = new Integer[places.length];
         Integer[][] distances = new Integer[places.length][places.length];
@@ -22,6 +22,10 @@ public class Optimization {
                 tourBest = tourTemp;
                 best = tempDist;
             }
+        }
+        Long totalTime = System.currentTimeMillis() - startTimer;
+        if(totalTime < (Double.parseDouble(options.get("response"))*1000)){
+            tourBest = TwoOpt(distances, tourBest);
         }
         Map<String, String>[] placesTemp = reorderPlaces(tourBest, places);
         return placesTemp;
