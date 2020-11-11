@@ -11,7 +11,12 @@ const distanceButtonStyle = {
 }
 
 const filterButtonStyle = {
-    position: "absolute", top: -31, left: 10, zIndex: 1005, height: 32, fontSize: 12,
+    position: "absolute", top: -31, left: -1, zIndex: 1005, height: 32, fontSize: 12,
+    background: "radial-gradient(#C8C372,#1E4D2B)", color: "#000000", border: "1px solid #C8C372"
+}
+
+const resetButtonStyle = {
+    position: "absolute", top: -31, left: -85, zIndex: 1005, height: 32, fontSize: 12,
     background: "radial-gradient(#C8C372,#1E4D2B)", color: "#000000", border: "1px solid #C8C372"
 }
 
@@ -26,7 +31,7 @@ const searchModuleStyle = {
 
 const searchTypeStyle = {
     position: "absolute", background: "#145906", color:"#FFFFFF", width: 320, height: 65, margin:5,
-    top: 40, borderRadius: "3px 3px 3px 3px", fontSize: 16, textOverflow: "ellipsis", overflow: "hidden",
+    top: 40, borderRadius: "3px 3px 3px 3px", fontSize: 13, textOverflow: "ellipsis", overflow: "hidden",
     border: "2px solid #000000", borderBottom: "3px solid #000000", borderTop: "3px solid #000000"
 }
 
@@ -42,6 +47,7 @@ export default class Find extends Component {
             searchArray: [],
             searchBarText: "",
             filterModalText: "",
+            hasFilter: "no",
             isBalloon: false,
             isAirport: false,
             isHeliport: false,
@@ -125,8 +131,6 @@ export default class Find extends Component {
         return (
             <Fade in={true} timeout={350}>
                 <div style={searchModuleStyle}>
-                    <Button className="p-1" style={filterButtonStyle}
-                            onClick = {() => {this.resetFilter(); this.toggleFilterModal()}}> Filters </Button>
                     <Row>
                         <Col>
                             <Input name={SBArray[0].name} style={SBArray[0].style} placeholder={SBArray[0].placeholder}
@@ -134,12 +138,17 @@ export default class Find extends Component {
                         </Col>
                     </Row>
                     <Col style={{position: "absolute", left: 277, top: 103}}>
+                        <Button className="p-1" style={filterButtonStyle}
+                                onClick = {() => {this.resetFilter(); this.toggleFilterModal()}}> Filters </Button>
+                        <Button className="p-1" style={resetButtonStyle}
+                                onClick = {() => {this.resetFilter()}}> Reset Filters </Button>
                         <Button className="p-1" style={distanceButtonStyle}
                                 onClick = {() => {this.sendFindServerRequest(this.state.searchBarText, 20, this.setFilter())}}> Search </Button>
                     </Col>
                     <p style={searchTypeStyle}>
                         Location = {this.state.searchBarText}<br/>
-                        Found = {this.state.numberFound}
+                        Found = {this.state.numberFound}<br/>
+                        Filters applied = {this.filterMessage()}
                     </p>
                 </div>
             </Fade>
@@ -233,6 +242,11 @@ export default class Find extends Component {
         eArr.push(lat)
         eArr.push(long)
         return eArr
+    }
+
+    filterMessage() {
+        if (this.state.isAirport || this.state.isBalloon || this.state.isHeliport || this.state.filterModalText !== ""){ return "YES"}
+        else{ return "NO" }
     }
 }
 
