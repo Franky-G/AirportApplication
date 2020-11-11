@@ -103,8 +103,23 @@ The user will get a result based on nearest neighbor and 2-opt. A new trip will 
 
 ### What we changed this sprint
 
+* Meetings were spent focusing on resolving issues and completing tasks in the most efficient and effective manner possible.
+* Distributed the tasks equally and therefore all the team members understood all the aspects of the epics.
+* Great team communication helped the team move through tasks and epics efficiently.
+
 ### What went well
+
+* Meetings were productive and members shared strengths and abilities with others when needed.
+* The team rigorously tested the server using Postman and testing other student's test from the student repository.
+* Members were able to work with each other's schedules to find time to work together; sometimes at obscure hours.
 
 ### Potential improvements
 
+* In the future we could make a more percise time estimate of the running time of nearest neighbor and 2-Opt.
+* We can apply 3-Opt and reduce computational time using concurrency.
+* Try to design thoroughly before starting to write code to ensure efficiency.
+
 ### What we will change next time
+
+* Try to finish tasks and epics in a timely manner.
+* Try to visualize edge cases and write tests for those before starting to write code. 
