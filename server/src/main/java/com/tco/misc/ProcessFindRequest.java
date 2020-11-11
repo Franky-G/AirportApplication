@@ -212,7 +212,7 @@ public class ProcessFindRequest {
 
     public static void getWhereHelper(List<String> temp, ResultSet result) throws SQLException {
         while (result.next()){
-            if (result.getString("name") != null) { temp.add(result.getString("name")); }
+            if (result.getString("name") != null && !result.getString("name").equals("(unassigned)")) { temp.add(result.getString("name")); }
         }
     }
 }

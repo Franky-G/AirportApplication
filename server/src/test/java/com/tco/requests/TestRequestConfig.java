@@ -72,7 +72,7 @@ public class TestRequestConfig {
   @DisplayName("Config Where Filter")
   public void testWhereFilterSupport() {
     String[] temp = conf.getFilters().get("where");
-    assertEquals(29317, temp.length);
+    assertEquals(29070, temp.length);
   }
 
   @Test
