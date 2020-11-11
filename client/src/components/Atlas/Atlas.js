@@ -37,21 +37,12 @@ export default class Atlas extends Component {
     this.setTripRecord = this.setTripRecord.bind(this);
     this.tripClicked = this.tripClicked.bind(this);
     this.setTripPlaces = this.setTripPlaces.bind(this);
+    this.resetAtlasTripPlaces = this.resetAtlasTripPlaces.bind(this);
 
     this.state = {
-      markerPosition: null,
-      homeLocation: MAP_CENTER_DEFAULT,
-      prevLocation: [null,null],
-      mapCenter: MAP_CENTER_DEFAULT,
-      whereIsMarker: null,
-      polyDistance: [0,0],
-      searchTextToIsEmpty: true,
-      hasUserLocation: null,
-      tripRecord: false,
-      dropdownOpen: false,
-      recordingTrip: 0,
-      tripStyle: "",
-      atlasTripPlaces: [],
+      markerPosition: null, homeLocation: MAP_CENTER_DEFAULT, prevLocation: [null,null], mapCenter: MAP_CENTER_DEFAULT,
+      whereIsMarker: null, polyDistance: [0,0], searchTextToIsEmpty: true, hasUserLocation: null,
+      tripRecord: false, dropdownOpen: false, recordingTrip: 0, tripStyle: "", atlasTripPlaces: [],
     };
   }
 
@@ -66,7 +57,8 @@ export default class Atlas extends Component {
                     setPrevLocationState={this.setPrevLocationState} ref={(ref) => this.searchREF=ref}
                     setSearchTextIsEmpty={this.setSearchTextIsEmpty} setWhereIsMarker={this.setWhereIsMarker}/>
                 <Trip {...this.state} ref={(ref) => this.tripREF=ref} setWhereIsMarker={this.setWhereIsMarker}
-                      setTripRecord={this.setTripRecord} tripClicked={this.tripClicked} setTripPlaces={this.setTripPlaces}/>
+                      setTripRecord={this.setTripRecord} tripClicked={this.tripClicked} setTripPlaces={this.setTripPlaces}
+                      resetAtlasTripPlaces={this.resetAtlasTripPlaces}/>
                 {this.renderLeafletMap() }
               </Col>
             </Row>
@@ -174,6 +166,10 @@ export default class Atlas extends Component {
           </DropdownMenu>
         </ButtonDropdown>
     );
+  }
+
+  resetAtlasTripPlaces(){
+    this.setState({atlasTripPlaces: []})
   }
 
   setMarker(mapClickInfo) {

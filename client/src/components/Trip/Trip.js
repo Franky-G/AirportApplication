@@ -109,6 +109,10 @@ export default class SearchModule extends Component {
         this.setState({trips: array}) }
 
     spliceTrips(index){
+        if(this.state.trips.length === 1){
+            this.state.trips[0].resetPlaces()
+            this.props.resetAtlasTripPlaces();
+        }
         let array = this.state.trips;
         array.splice(index, 1)
         if(this.state.stateIndex - 1 < 0) { this.setState({trips: array}) }
@@ -202,7 +206,7 @@ export default class SearchModule extends Component {
                 <Row style={{height: 30}}>
                     <Button style={{position: "absolute", left: 90}} color={this.toggleButtonColor()} size="sm" onClick={this.props.setTripRecord}>Record</Button>
                     <Button style={buttonList[0].style} size="sm" onClick={() => this.addATrip()}>{buttonList[0].label}</Button>
-                    <Button style={buttonList[1].style} size="sm" onClick={() => {this.state.trips[this.state.stateIndex].resetPlaces(); this.state.earthRadius = "3959.0"; this.state.distance = 0; this.forceUpdate()}}>{buttonList[1].label}</Button>
+                    <Button style={buttonList[1].style} size="sm" onClick={() => {this.state.trips[this.state.stateIndex].resetPlaces(); this.setState({earthRadius: "3959.0", distance: 0}); this.forceUpdate()}}>{buttonList[1].label}</Button>
                     {this.renderDropdown()}</Row>
                 {this.addASpace()}
                 {this.addPlaceOrDistance(placesAndTrips[1])}
