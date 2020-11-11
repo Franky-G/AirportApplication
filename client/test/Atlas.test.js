@@ -196,3 +196,12 @@ function testSetSearchBarEdge2() {
 }
 
 test("Set Search Bar", testSetSearchBarEdge2)
+
+function testSetTripRecord() {
+  const trip = shallow(<Atlas/>)
+  trip.setState({recordingTrip: 0})
+  trip.instance().setTripRecord()
+  expect(trip.state().recordingTrip).toEqual(1)
+}
+
+test("Set Trip Record", testSetTripRecord)
