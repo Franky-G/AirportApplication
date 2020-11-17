@@ -61,7 +61,7 @@
 
 | Date | Tasks closed  | Tasks in progress | Impediments |
 | :--- | :--- | :--- | :--- |
-| *11/16/20* | *0* | *5* |  | 
+| *11/16/20* | *0* | *5* | *none* | 
 
 
 ## Review
