@@ -80,8 +80,8 @@ export default class Atlas extends Component {
               maxBounds={MAP_BOUNDS} center={this.state.mapCenter} onClick={this.setMarker} id="theMap" viewport = {{}}>
             <TileLayer attribution={MAP_LAYER_ATTRIBUTION_STREET} url={MAP_LAYER_URL_STREET}/>
             {/*<LayersControl position = "topright">*/}
-            {/*  {layers.map (layer => (<LayersControl.BaseLayer name = {layer.name}/>))}*/}
-            {/*  {layers.map (temp => (<TileLayer attribution = {temp.attribution} url = {temp.link}/>))}*/}
+            {/*  {layers.map(layer => (<LayersControl.BaseLayer checked name = {layer.name}/>))}*/}
+            {/*  /!*{layers.map(temp => (<TileLayer attribution={temp.attribution} url={temp.link}/>))}*!/*/}
             {/*</LayersControl>*/}
              <LayersControl position = "topright">
                <LayersControl.BaseLayer checked name="Open Street Map">
