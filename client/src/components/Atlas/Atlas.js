@@ -12,6 +12,12 @@ const MAP_BOUNDS = [[-90, -180], [90, 180]];
 const MAP_CENTER_DEFAULT = [40.5734, -105.0865];
 const MAP_LAYER_ATTRIBUTION_STREET = "&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors";
 const MAP_LAYER_URL_STREET = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+const MAP_LAYER_BW_ATT = "&copy; <a href=\"http://osm.org/copyright\">OpenStreetMap</a> contributors"
+const MAP_LAYER_BW_URL = "https://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png"
+const MAP_LAYER_SAT_ATT = "&copy; <a href=\"Esri &mdash\">Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community</a> contributors"
+const MAP_LAYER_SAT_URL = "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png"
+const MAP_LAYER_TOP_ATT = "&copy; <a href=\https://opentopomap.org/about#mitwirkende\">TopographicMap</a> contributors"
+const MAP_LAYER_TOP_URL = "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"
 const MAP_MIN_ZOOM = 1;
 const MAP_MAX_ZOOM = 19;
 const HOME_BUTTON_STYLE = {top: 5, left: 1, width: 15, position: "absolute",}
@@ -62,6 +68,10 @@ export default class Atlas extends Component {
   }
 
   renderLeafletMap() {
+    let layers = [
+      {attribution: {MAP_LAYER_ATTRIBUTION_STREET}, url: {MAP_LAYER_URL_STREET}}, {attribution: {MAP_LAYER_BW_ATT}, url: {MAP_LAYER_BW_URL}},
+      {attribution: {MAP_LAYER_SAT_ATT}, url: {MAP_LAYER_SAT_URL}}, {attribution: {MAP_LAYER_TOP_ATT}, url: {MAP_LAYER_TOP_URL}}
+    ]
     return (
         <div id="container">
           {this.renderHomeButton()}
