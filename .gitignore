@@ -34,5 +34,5 @@ server/.m2/repository/
 target/
 
 
-.idea/
+.idea
 bin/server/

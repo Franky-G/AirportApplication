@@ -1,7 +1,7 @@
 import  React, {Component} from 'react';
 import {Col, Container, Row, DropdownItem, DropdownMenu, ButtonDropdown, DropdownToggle, Badge} from 'reactstrap';
 import homeIcon from '../../static/images/homeButtonIcon.png';
-import {Map, TileLayer} from 'react-leaflet';
+import {LayersControl, Map, TileLayer} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import SearchModule from "./SearchModule";
@@ -10,17 +10,11 @@ import WorldMarkers from "./WorldMarkers";
 
 const MAP_BOUNDS = [[-90, -180], [90, 180]];
 const MAP_CENTER_DEFAULT = [40.5734, -105.0865];
-const MAP_LAYER_ATTRIBUTION = "&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors";
-const MAP_LAYER_URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+const MAP_LAYER_ATTRIBUTION_STREET = "&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors";
+const MAP_LAYER_URL_STREET = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
 const MAP_MIN_ZOOM = 1;
 const MAP_MAX_ZOOM = 19;
-const HOME_BUTTON_STYLE = {
-  top: 5,
-  left: 1,
-  width: 15,
-  position: "absolute",
-}
-
+const HOME_BUTTON_STYLE = {top: 5, left: 1, width: 15, position: "absolute",}
 let zoomLevel = 15;
 function error(err) { console.warn(`ERROR(${err.code}): ${err.message}`); }
 
@@ -72,19 +66,30 @@ export default class Atlas extends Component {
         <div id="container">
           {this.renderHomeButton()}
           {this.renderTripButton()}
-          <Map
-              className={'mapStyle'}
-              boxZoom={false}
-              useFlyTo={true}
-              zoom={zoomLevel}
-              minZoom={MAP_MIN_ZOOM}
-              maxZoom={MAP_MAX_ZOOM}
-              maxBounds={MAP_BOUNDS}
-              center={this.state.mapCenter}
-              onClick={this.setMarker}
-              id="theMap"
-              viewport = {{}}>
-            <TileLayer url={MAP_LAYER_URL} attribution={MAP_LAYER_ATTRIBUTION}/>
+          <Map className={'mapStyle'} boxZoom={false} useFlyTo={true} zoom={zoomLevel} minZoom={MAP_MIN_ZOOM} maxZoom={MAP_MAX_ZOOM}
+              maxBounds={MAP_BOUNDS} center={this.state.mapCenter} onClick={this.setMarker} id="theMap" viewport = {{}}>
+            <TileLayer attribution={MAP_LAYER_ATTRIBUTION_STREET} url={MAP_LAYER_URL_STREET}/>
+            <LayersControl position = "topright">
+              <LayersControl.BaseLayer name="Open Street Map"><TileLayer attribution={MAP_LAYER_ATTRIBUTION_STREET} url={MAP_LAYER_URL_STREET}/></LayersControl.BaseLayer>
+              <LayersControl.BaseLayer name="Open Street Map Black and White">
+                <TileLayer
+                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png"
+                />
+              </LayersControl.BaseLayer>
+              <LayersControl.BaseLayer name="Satellite View">
+                <TileLayer
+                    url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png"
+                    attribution='&copy; <a href="Esri &mdash">Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community</a> contributors'
+                />
+              </LayersControl.BaseLayer>
+              <LayersControl.BaseLayer name="Topographic View">
+                <TileLayer
+                    url="https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"
+                    attribution='&copy; <a id="home-link" target="_top" href="../">Map tiles</a> by <a target="_top" href="http://stamen.com">Stamen Design</a>, under <a target="_top" href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a target="_top" href="http://openstreetmap.org">OpenStreetMap</a>, under <a target="_top" href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>'
+                />
+              </LayersControl.BaseLayer>
+            </LayersControl>
             <WorldMarkers {...this.state}/>
             {this.getMapZoom()}
           </Map>
