@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import SearchModule from "./SearchModule";
 import Trip from "../Trip/Trip"
 import WorldMarkers from "./WorldMarkers";
+import {attribution} from "leaflet/src/control/Control.Attribution";
 
 const MAP_BOUNDS = [[-90, -180], [90, 180]];
 const MAP_CENTER_DEFAULT = [40.5734, -105.0865];
@@ -69,8 +70,8 @@ export default class Atlas extends Component {
 
   renderLeafletMap() {
     let layers = [
-      {attribution: {MAP_LAYER_ATTRIBUTION_STREET}, url: {MAP_LAYER_URL_STREET}}, {attribution: {MAP_LAYER_BW_ATT}, url: {MAP_LAYER_BW_URL}},
-      {attribution: {MAP_LAYER_SAT_ATT}, url: {MAP_LAYER_SAT_URL}}, {attribution: {MAP_LAYER_TOP_ATT}, url: {MAP_LAYER_TOP_URL}}
+      {name: "Open Street Map", attribution: {MAP_LAYER_ATTRIBUTION_STREET}, link: {MAP_LAYER_URL_STREET}}, {name: "Open Street Map Black and White", attribution: {MAP_LAYER_BW_ATT}, link: {MAP_LAYER_BW_URL}},
+      {name: "Satellite View", attribution: {MAP_LAYER_SAT_ATT}, link: {MAP_LAYER_SAT_URL}}, {name: "Topographic View", attribution: {MAP_LAYER_TOP_ATT}, link: {MAP_LAYER_TOP_URL}}
     ]
     return (
         <div id="container">
@@ -80,26 +81,30 @@ export default class Atlas extends Component {
               maxBounds={MAP_BOUNDS} center={this.state.mapCenter} onClick={this.setMarker} id="theMap" viewport = {{}}>
             <TileLayer attribution={MAP_LAYER_ATTRIBUTION_STREET} url={MAP_LAYER_URL_STREET}/>
             <LayersControl position = "topright">
-              <LayersControl.BaseLayer name="Open Street Map"><TileLayer attribution={MAP_LAYER_ATTRIBUTION_STREET} url={MAP_LAYER_URL_STREET}/></LayersControl.BaseLayer>
-              <LayersControl.BaseLayer name="Open Street Map Black and White">
-                <TileLayer
-                    attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                    url="https://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png"
-                />
-              </LayersControl.BaseLayer>
-              <LayersControl.BaseLayer name="Satellite View">
-                <TileLayer
-                    url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png"
-                    attribution='&copy; <a href="Esri &mdash">Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community</a> contributors'
-                />
-              </LayersControl.BaseLayer>
-              <LayersControl.BaseLayer name="Topographic View">
-                <TileLayer
-                    url="https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"
-                    attribution='&copy; <a id="home-link" target="_top" href="../">Map tiles</a> by <a target="_top" href="http://stamen.com">Stamen Design</a>, under <a target="_top" href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a target="_top" href="http://openstreetmap.org">OpenStreetMap</a>, under <a target="_top" href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>'
-                />
-              </LayersControl.BaseLayer>
+              {layers.map (layer => (<LayersControl.BaseLayer name = {layer.name}/>))}
+              {/*{layers.map (layer => (<TileLayer attribution = {layer.attribution} url = {layer.link} />))}*/}
             </LayersControl>
+            // {/*<LayersControl position = "topright">*/}
+            // {/*  <LayersControl.BaseLayer name="Open Street Map"><TileLayer attribution={MAP_LAYER_ATTRIBUTION_STREET} url={MAP_LAYER_URL_STREET}/></LayersControl.BaseLayer>*/}
+            // {/*  <LayersControl.BaseLayer name="Open Street Map Black and White">*/}
+            // {/*    <TileLayer*/}
+            // {/*        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'*/}
+            // {/*        url="https://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png"*/}
+            // {/*    />*/}
+            // {/*  </LayersControl.BaseLayer>*/}
+            // {/*  <LayersControl.BaseLayer name="Satellite View">*/}
+            // {/*    <TileLayer*/}
+            // {/*        url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png"*/}
+            // {/*        attribution='&copy; <a href="Esri &mdash">Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community</a> contributors'*/}
+            // {/*    />*/}
+            // {/*  </LayersControl.BaseLayer>*/}
+            // {/*  <LayersControl.BaseLayer name="Topographic View">*/}
+            // {/*    <TileLayer*/}
+            // {/*        url="https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"*/}
+            // {/*        attribution='&copy; <a id="home-link" target="_top" href="../">Map tiles</a> by <a target="_top" href="http://stamen.com">Stamen Design</a>, under <a target="_top" href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a target="_top" href="http://openstreetmap.org">OpenStreetMap</a>, under <a target="_top" href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>'*/}
+            // {/*    />*/}
+            // {/*  </LayersControl.BaseLayer>*/}
+            // {/*</LayersControl>*/}
             <WorldMarkers {...this.state}/>
             {this.getMapZoom()}
           </Map>
