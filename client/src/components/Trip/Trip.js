@@ -167,7 +167,7 @@ export default class SearchModule extends Component {
 
     renderSaveDropDown(){
         return(
-          <ButtonDropdown direction="up" size="sm" style={{zIndex: 1100, left: 76}} isOpen={this.state.saveDropDown} toggle={() => this.toggleSaveDrop()}>
+          <ButtonDropdown direction="up" size="sm" style={{zIndex: 1100, left: 76}} isOpen={this.state.saveDropDown} toggle={() => this.setState({saveDropDown: !this.state.saveDropDown})}>
               <DropdownToggle caret>Save</DropdownToggle>
               <DropdownMenu>
                   <DropdownItem onClick={()=> this.getFormatForSave()}>JSON</DropdownItem>
@@ -178,8 +178,6 @@ export default class SearchModule extends Component {
           </ButtonDropdown>
         );
     }
-
-    toggleSaveDrop(){this.setState({saveDropDown: !this.state.saveDropDown})}
 
     renderDropdown(){
         return(
