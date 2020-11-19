@@ -18,10 +18,8 @@ const MAP_LAYER_SAT_ATT = "&copy; <a href=\"Esri &mdash\">Esri, i-cubed, USDA, U
 const MAP_LAYER_SAT_URL = "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png"
 const MAP_LAYER_TOP_ATT = "&copy; <a href=\https://opentopomap.org/about#mitwirkende\">TopographicMap</a> contributors"
 const MAP_LAYER_TOP_URL = "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"
-let layers = [
-  {name: "Open Street Map Black and White", attribution: MAP_LAYER_BW_ATT, link: MAP_LAYER_BW_URL}, {name: "Satellite View", attribution: MAP_LAYER_SAT_ATT, link: MAP_LAYER_SAT_URL},
-  {name: "Topographic View", attribution: MAP_LAYER_TOP_ATT, link: MAP_LAYER_TOP_URL}
-]
+let layers = [ {name: "Open Street Map Black and White", attribution: MAP_LAYER_BW_ATT, link: MAP_LAYER_BW_URL},
+  {name: "Satellite View", attribution: MAP_LAYER_SAT_ATT, link: MAP_LAYER_SAT_URL}, {name: "Topographic View", attribution: MAP_LAYER_TOP_ATT, link: MAP_LAYER_TOP_URL}]
 const MAP_MIN_ZOOM = 1;
 const MAP_MAX_ZOOM = 19;
 const HOME_BUTTON_STYLE = {top: 5, left: 1, width: 15, position: "absolute",}

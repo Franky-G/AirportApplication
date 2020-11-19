@@ -22,4 +22,4 @@
 | Optimization.java:128-147 | Code cognitive complexity | low | jakebart | |
 | Optimization.java:53-65 | All possible error conditions not considered causes Exception Faults | low | jimit | |
 | Optimization.java:135-143 | Multiple control statements causes Control Faults | low | jimit | |
-|  | | | | |
+| Find.js:185-200 | Multiple if/else blocks (can be condensed) causes Interface Faults | med | jimit | |
