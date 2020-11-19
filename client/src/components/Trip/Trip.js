@@ -159,19 +159,24 @@ export default class SearchModule extends Component {
             this.setState({responseReq: "0.0"})
         }); }
 
-    getFormatForSave() {
+    getFormatForSaveJSON() {
         let tripSavePlaces = this.formatTripDistance()
         const fileContents = {requestType: "trip", requestVersion: 3, options: {title:this.state.trips[this.state.stateIndex].name, earthRadius: this.state.earthRadius}, places: tripSavePlaces, distances: this.state.distanceArr}
         const fileString = JSON.stringify(fileContents);
-        this.FileIOREF.downloadFile(fileString, this.state.trips[this.state.stateIndex].name+'.json', 'application/json')}
+        this.FileIOREF.downloadFile(fileString, this.state.trips[this.state.stateIndex].name+'.json', 'application/json')
+    }
+
+    getFormatForSaveCSV(){
+        console.log(this.state.trips[this.state.stateIndex].name)
+    }
 
     renderSaveDropDown(){
         return(
           <ButtonDropdown direction="up" size="sm" style={{zIndex: 1100, left: 76}} isOpen={this.state.saveDropDown} toggle={() => this.setState({saveDropDown: !this.state.saveDropDown})}>
               <DropdownToggle caret>Save</DropdownToggle>
               <DropdownMenu>
-                  <DropdownItem onClick={()=> this.getFormatForSave()}>JSON</DropdownItem>
-                  <DropdownItem>CSV</DropdownItem>
+                  <DropdownItem onClick={()=> this.getFormatForSaveJSON()}>JSON</DropdownItem>
+                  <DropdownItem onClick={()=> this.getFormatForSaveCSV()}>JSON</DropdownItem>
                   <DropdownItem>KML</DropdownItem>
                   <DropdownItem>SVG</DropdownItem>
               </DropdownMenu>
