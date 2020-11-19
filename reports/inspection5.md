@@ -11,7 +11,7 @@
 | Name | Preparation Time |
 | ---- | ---- |
 | Jake Barth | 35 mins |
-|  |  |
+| Jimit Bhalavat | 40 mins |
 
 ### Problems found
 
@@ -20,4 +20,6 @@
 | Find.js:161-165 | Statement can be condensed | low | jakebart | |
 | Find.js:8-30 | Repeat hex color strings in styles | low | jakebart | |
 | Optimization.java:128-147 | Code cognitive complexity | low | jakebart | |
+| Optimization.java:53-65 | All possible error conditions not considered causes Exception Faults | low | jimit | |
+| Optimization.java:135-143 | Multiple control statements causes Control Faults | low | jimit | |
 |  | | | | |
