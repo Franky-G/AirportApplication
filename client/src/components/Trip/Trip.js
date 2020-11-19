@@ -9,7 +9,7 @@ const labelStyle = {opacity: 0.2, overflow:"hidden"}
 const inputArray = [{width: 228, label: "Add Place", width2: 70, name: "searchPlaces"}, {width: 229, label: "Filter", width2: 50, name: "filter"}]
 const placesAndTrips = [{height: 150, text: "Places"}, {height: 90, text: "Trips"}]
 const buttonList = [{style: {position: "absolute", right: 10}, label: "Add Trip"}, {style: {position: "absolute", left: 159}, label: "Reset"}]
-const loadSaveDistance = [{style: {position: "absolute", padding: 4, left: 10}, label: "Load"}, {style: {position: "absolute", padding: 4, left: 57}, label: "Save"}, {style: {position: "absolute", padding: 4, left: 104}, label: "Distance"}, {style: {position: "relative", padding: 4, left: 20, top: 30}}, {style: {position: "absolute", padding: 4, left: 174}, label: "Optimize"}]
+const loadSaveDistance = [{style: {position: "absolute", padding: 4, left: 10}, label: "Load"}, {style: {position: "absolute", padding: 4, left: 57}, label: "Save"}, {style: {position: "absolute", padding: 4, left: 134}, label: "Distance"}, {style: {position: "relative", padding: 4, left: 20, top: 30}}, {style: {position: "absolute", padding: 4, left: 204}, label: "Optimize"}]
 const listType = [{style: {position: "absolute", width: 300, height: 148, overflow:"auto", zIndex: 1015}}, {style:{position: "absolute", width: 300, height: 90, left: 10, bottom: 65, color: "#FFFFFF", overflow:"auto", zIndex: 1015}}]
 
 export default class SearchModule extends Component {
@@ -20,7 +20,7 @@ export default class SearchModule extends Component {
         this.state = {
             designerOpen: '', searchPlaces: "", filter: "", trips: [new TripObject("My Trip", [], "My Favorite Places")],
             distance: 0, distanceArr: null, stateIndex: 0, openDropdown: false, openPopover: false, popupInput: "", searchCoords: "",
-            searchListOpen: false, searchListArray: [], numberFound: 0, earthRadius: "3959.0", responseReq: "0.0"} }
+            searchListOpen: false, searchListArray: [], numberFound: 0, earthRadius: "3959.0", responseReq: "0.0", saveDropDown: false} }
 
     render(){
         return(
@@ -34,9 +34,9 @@ export default class SearchModule extends Component {
     addLoadSaveDistanceButtons(array){
         return(
             <div><Button size="sm" style={array[0].style} onClick={() => this.FileIOREF.openModal()}> {array[0].label}</Button>
-                <Button size="sm" style={array[1].style} onClick={() => this.getFormatForSave()}> {array[1].label} </Button>
                 <Button size="sm" style={array[2].style} onClick={() => {this.formatTripDistance()}}> {array[2].label} </Button>
                 <Button style={array[4].style} size="sm" onClick={() => {this.setOptimize()}}> {array[4].label} </Button>
+                {this.renderSaveDropDown()}
                 <p style={array[3].style}>Total Trip Distance: {this.state.distance} Mile(s)</p></div> ); }
 
     addATrip(){
@@ -164,6 +164,22 @@ export default class SearchModule extends Component {
         const fileContents = {requestType: "trip", requestVersion: 3, options: {title:this.state.trips[this.state.stateIndex].name, earthRadius: this.state.earthRadius}, places: tripSavePlaces, distances: this.state.distanceArr}
         const fileString = JSON.stringify(fileContents);
         this.FileIOREF.downloadFile(fileString, this.state.trips[this.state.stateIndex].name+'.json', 'application/json')}
+
+    renderSaveDropDown(){
+        return(
+          <ButtonDropdown direction="up" size="sm" style={{zIndex: 1100, left: 76}} isOpen={this.state.saveDropDown} toggle={() => this.toggleSaveDrop()}>
+              <DropdownToggle caret>Save</DropdownToggle>
+              <DropdownMenu>
+                  <DropdownItem onClick={()=> this.getFormatForSave()}>JSON</DropdownItem>
+                  <DropdownItem>CSV</DropdownItem>
+                  <DropdownItem>KML</DropdownItem>
+                  <DropdownItem>SVG</DropdownItem>
+              </DropdownMenu>
+          </ButtonDropdown>
+        );
+    }
+
+    toggleSaveDrop(){this.setState({saveDropDown: !this.state.saveDropDown})}
 
     renderDropdown(){
         return(
