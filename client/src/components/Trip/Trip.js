@@ -20,7 +20,7 @@ export default class SearchModule extends Component {
         this.state = {
             designerOpen: '', searchPlaces: "", filter: "", trips: [new TripObject("My Trip", [], "My Favorite Places")],
             distance: 0, distanceArr: null, stateIndex: 0, openDropdown: false, openPopover: false, popupInput: "", searchCoords: "",
-            searchListOpen: false, searchListArray: [], numberFound: 0, earthRadius: "3959.0", responseReq: "0.0", saveDropDown: false} }
+            searchListOpen: false, searchListArray: [], numberFound: 0, earthRadius: "3959.0", responseReq: "0.0", saveDropDown: false, filterText: ""} }
 
     render(){
         return(
@@ -79,11 +79,15 @@ export default class SearchModule extends Component {
     addPlaceOrDistance(array){ return( addPOrDHelper(array, labelStyle)); }
 
     addPlaceListItem(element, tripIndex){
-        let tripNote = this.state.trips[this.state.stateIndex].places[element][0].lat.toFixed(3) + ", " + this.state.trips[this.state.stateIndex].places[element][0].lng.toFixed(3)
+        let placesArray = this.state.trips[this.state.stateIndex].places
+        if(this.state.filterText !== ""){
+            placesArray = this.state.trips[this.state.stateIndex].filterPlaces(this.state.filterText)
+        }
+        let tripNote = placesArray[element][0].lat.toFixed(3) + ", " + placesArray[element][0].lng.toFixed(3)
         return(
             <div>
                 <ListGroupItem id="searchListStyle" className="vertical-center" tag="button" title={tripNote} action onClick={(e) => {e.stopPropagation(); this.onClickCall(element, tripIndex)}}>
-                    {this.state.trips[tripIndex].places[element][1] + 1} | {this.state.trips[tripIndex].places[element][2]}{this.helperAddPlaceListItem(element, tripIndex)}</ListGroupItem></div> );}
+                    {placesArray[element][1] + 1} | {placesArray[element][2]}{this.helperAddPlaceListItem(element, tripIndex)}</ListGroupItem></div> );}
 
     helperAddPlaceListItem(element, tripIndex) {
         const helpPlaceListItem = (e, tripIndex, methodName, params) => { e.stopPropagation(); this.state.trips[tripIndex][methodName](params); this.forceUpdate(); }
@@ -217,6 +221,11 @@ export default class SearchModule extends Component {
                 {this.addASpace()}
                 {this.addPlaceOrDistance(placesAndTrips[0])}
                 {this.addASpace()}
+                <Row style={{height: 37}}>
+                    <InputGroup>
+                        <Input className="justify-content-center" name="filterInput" placeholder={"Filter the list"} style={{backgroundColor: "#ffffff", width: 278, borderRadius: "3px 3px 3px 3px", border: "1px solid #FFFFFF", left: 27, height: 30, boxShadow: "1px 1px 1px 0 #000000", overflow: "hidden"}} onChange={() => this.updateInputState()}/>
+                    </InputGroup>
+                </Row>
                 <Row style={{height: 30}}>
                     <Button style={{position: "absolute", left: 90}} color={this.toggleButtonColor()} size="sm" onClick={this.props.setTripRecord}>Record</Button>
                     <Button style={buttonList[0].style} size="sm" onClick={() => this.addATrip()}>{buttonList[0].label}</Button>
@@ -241,7 +250,17 @@ export default class SearchModule extends Component {
                 {this.renderPlaceList(this.state.stateIndex, 1, listType)}
                 <Row style={{top:5}}>{this.addLoadSaveDistanceButtons(loadSaveDistance)}</Row></div> ); }
 
-    placeLoop(arr, ind){for (let i = 0; i < this.state.trips[ind].places.length; ++i) {arr.push(this.addPlaceListItem(i, ind));}}
+    placeLoop(arr, ind){
+        if(this.state.filterText !== ""){
+            for (let i = 0; i < this.state.trips[ind].filterPlaces(this.state.filterText).length; ++i) {
+                arr.push(this.addPlaceListItem(i, ind));
+            }
+        } else {
+            for (let i = 0; i < this.state.trips[ind].places.length; ++i) {
+                arr.push(this.addPlaceListItem(i, ind));
+            }
+        }
+    }
 
     tripLoop(arr, ind) {for (let i = 0; i < this.state.trips.length; ++i) {arr.push(this.addTripListItem(i, ind));}}
 
@@ -258,7 +277,8 @@ export default class SearchModule extends Component {
 
     toggleButtonColor(){if(this.props.recordingTrip === 1){ return "success" } else { return "danger" } }
 
-    updateInputState(){ if (event.target.name === "searchPlaces"){this.setState({searchPlaces: event.target.value});} }
+    updateInputState(){ if (event.target.name === "searchPlaces"){this.setState({searchPlaces: event.target.value});}
+                        else {this.setState({filterText: event.target.value})}}
 
     resetTripPlaces(){ this.state.trips[this.state.stateIndex].resetPlaces(); this.forceUpdate(); }
 
