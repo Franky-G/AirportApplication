@@ -140,6 +140,7 @@ export default class SearchModule extends Component {
             let lat = this.state.trips[indx].places[i][0].lat;
             lat = lat.toString()
             let long = this.state.trips[this.state.stateIndex].places[i][0].lng.toString();
+            console.log(this.state.trips[this.state.stateIndex].places[i][2])
             obj['places'].push({"name":this.state.trips[this.state.stateIndex].places[i][2],"latitude":lat,"longitude":long, "coordinates": this.state.trips[this.state.stateIndex].places[i][3]});
         }
         let distancePlaces = JSON.stringify(obj);
@@ -167,7 +168,14 @@ export default class SearchModule extends Component {
     }
 
     getFormatForSaveCSV(){
-        console.log(this.state.trips[this.state.stateIndex].name)
+        let places = this.formatTripDistance()
+        let strCSV = "name, latitude, longitude\n"
+        for (let i = 0; i < places.length; i++){
+            let tempStr = '"'+places[i].name+'"'+','+'"'+places[i].latitude+'"'+','+'"'+places[i].longitude+'"'+'\n'
+            strCSV = strCSV.concat(tempStr)
+        }
+        this.FileIOREF.downloadFile(strCSV, this.state.trips[this.state.stateIndex].name+'.csv', 'application/csv')
+
     }
 
     renderSaveDropDown(){
@@ -176,7 +184,7 @@ export default class SearchModule extends Component {
               <DropdownToggle caret>Save</DropdownToggle>
               <DropdownMenu>
                   <DropdownItem onClick={()=> this.getFormatForSaveJSON()}>JSON</DropdownItem>
-                  <DropdownItem onClick={()=> this.getFormatForSaveCSV()}>JSON</DropdownItem>
+                  <DropdownItem onClick={()=> this.getFormatForSaveCSV()}>CSV</DropdownItem>
                   <DropdownItem>KML</DropdownItem>
                   <DropdownItem>SVG</DropdownItem>
               </DropdownMenu>
