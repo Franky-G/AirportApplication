@@ -18,10 +18,10 @@ const MAP_LAYER_SAT_ATT = "&copy; <a href=\"Esri &mdash\">Esri, i-cubed, USDA, U
 const MAP_LAYER_SAT_URL = "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}.png"
 const MAP_LAYER_TOP_ATT = "&copy; <a href=\https://opentopomap.org/about#mitwirkende\">TopographicMap</a> contributors"
 const MAP_LAYER_TOP_URL = "https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png"
-// let layers = [
-//   {name: "Open Street Map", attribution: {MAP_LAYER_ATTRIBUTION_STREET}, link: {MAP_LAYER_URL_STREET}}, {name: "Open Street Map Black and White", attribution: {MAP_LAYER_BW_ATT}, link: {MAP_LAYER_BW_URL}},
-//   {name: "Satellite View", attribution: {MAP_LAYER_SAT_ATT}, link: {MAP_LAYER_SAT_URL}}, {name: "Topographic View", attribution: {MAP_LAYER_TOP_ATT}, link: {MAP_LAYER_TOP_URL}}
-// ]
+let layers = [
+  {name: "Open Street Map Black and White", attribution: MAP_LAYER_BW_ATT, link: MAP_LAYER_BW_URL}, {name: "Satellite View", attribution: MAP_LAYER_SAT_ATT, link: MAP_LAYER_SAT_URL},
+  {name: "Topographic View", attribution: MAP_LAYER_TOP_ATT, link: MAP_LAYER_TOP_URL}
+]
 const MAP_MIN_ZOOM = 1;
 const MAP_MAX_ZOOM = 19;
 const HOME_BUTTON_STYLE = {top: 5, left: 1, width: 15, position: "absolute",}
@@ -71,6 +71,14 @@ export default class Atlas extends Component {
     );
   }
 
+  helperMaps(name, attribution, link) {
+    return (
+        <LayersControl.BaseLayer name = {name}>
+          <TileLayer attribution = {attribution} url = {link}/>
+        </LayersControl.BaseLayer>
+    )
+  }
+
   renderLeafletMap() {
     return (
         <div id="container">
@@ -82,15 +90,7 @@ export default class Atlas extends Component {
                <LayersControl.BaseLayer checked name="Open Street Map">
                  <TileLayer attribution={MAP_LAYER_ATTRIBUTION_STREET} url={MAP_LAYER_URL_STREET}/>
                </LayersControl.BaseLayer>
-               <LayersControl.BaseLayer name="Open Street Map Black and White">
-                 <TileLayer attribution={MAP_LAYER_BW_ATT} url={MAP_LAYER_BW_URL}/>
-               </LayersControl.BaseLayer>
-               <LayersControl.BaseLayer name="Satellite View">
-                 <TileLayer attribution = {MAP_LAYER_SAT_ATT} url = {MAP_LAYER_SAT_URL}/>
-               </LayersControl.BaseLayer>
-               <LayersControl.BaseLayer name="Topographic View">
-                 <TileLayer attribution = {MAP_LAYER_TOP_ATT} url = {MAP_LAYER_TOP_URL}/>
-               </LayersControl.BaseLayer>
+               {layers.map(layer => (this.helperMaps(layer.name, layer.attribution, layer.link)))}
             </LayersControl>
             <WorldMarkers {...this.state}/>
             {this.getMapZoom()}
