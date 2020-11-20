@@ -12,6 +12,7 @@
 | ---- | ---- |
 | Jake Barth | 35 mins |
 | Jimit Bhalavat | 40 mins |
+| Kyle Cummings | 35 mins |
 
 ### Problems found
 
