@@ -166,7 +166,15 @@ export default class SearchModule extends Component {
     }
 
     getFormatForSaveCSV(){
-       console.log("test")
+        let places = this.formatTripDistance()
+        let strCSV = "name, type, latitude, longitude\n"
+        for (let i = 0; i < places.length; i++){
+            let tempStr = ""
+            if(places[i].type !== undefined){tempStr = '"'+places[i].name+'"'+','+'"'+places[i].type+'"'+','+'"'+places[i].latitude+'"'+','+'"'+places[i].longitude+'"'+'\n'}
+            else{tempStr = '"'+places[i].name+'"'+','+'"'+" "+'"'+','+'"'+places[i].latitude+'"'+','+'"'+places[i].longitude+'"'+'\n'}
+            strCSV = strCSV.concat(tempStr)
+        }
+
     }
 
     renderSaveDropDown(){
