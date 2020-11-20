@@ -117,14 +117,13 @@ export default class TripObject {
         if(regExpression === ""){
             return this.places;
         }
-        console.log(regExpression)
+        return this.filterChecks(regExpression);
+    }
+
+    filterChecks(regExpression){
         let regexArray = [];
         for(let i = 0; i < this.places.length; ++i){
             if(this.places[i][2].toLowerCase().includes(regExpression.toLowerCase())){
-                regexArray.push(this.places[i])
-                continue;
-            }
-            if(this.places[i][0].lat.toString().includes(Number.parseFloat(regExpression).toString()) || this.places[i][0].lng.toString().includes(Number.parseFloat(regExpression).toString())){
                 regexArray.push(this.places[i])
                 continue;
             }
@@ -135,3 +134,4 @@ export default class TripObject {
         return regexArray;
     }
 }
+

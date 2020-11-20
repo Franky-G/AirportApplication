@@ -251,14 +251,8 @@ export default class SearchModule extends Component {
                 <Row style={{top:5}}>{this.addLoadSaveDistanceButtons(loadSaveDistance)}</Row></div> ); }
 
     placeLoop(arr, ind){
-        if(this.state.filterText !== ""){
-            for (let i = 0; i < this.state.trips[ind].filterPlaces(this.state.filterText).length; ++i) {
-                arr.push(this.addPlaceListItem(i, ind));
-            }
-        } else {
-            for (let i = 0; i < this.state.trips[ind].places.length; ++i) {
-                arr.push(this.addPlaceListItem(i, ind));
-            }
+        for (let i = 0; i < this.state.trips[ind].filterPlaces(this.state.filterText).length; ++i) {
+            arr.push(this.addPlaceListItem(i, ind));
         }
     }
 
