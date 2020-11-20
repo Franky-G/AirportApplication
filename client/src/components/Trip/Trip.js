@@ -47,8 +47,7 @@ export default class SearchModule extends Component {
     addASpace(){ return( <Row style={{height:5}}/>);}
 
     async setOptimize(){
-        await this.setState({responseReq: "1.0"}, this.formatTripDistance);
-    }
+        await this.setState({responseReq: "1.0"}, this.formatTripDistance);}
 
     addInputField(array){
         return(
