@@ -175,7 +175,6 @@ export default class SearchModule extends Component {
             strCSV = strCSV.concat(tempStr)
         }
         this.FileIOREF.downloadFile(strCSV, this.state.trips[this.state.stateIndex].name+'.csv', 'application/csv')
-
     }
 
     renderSaveDropDown(){
