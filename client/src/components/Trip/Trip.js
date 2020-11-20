@@ -174,7 +174,7 @@ export default class SearchModule extends Component {
             else{tempStr = '"'+places[i].name+'"'+','+'"'+" "+'"'+','+'"'+places[i].latitude+'"'+','+'"'+places[i].longitude+'"'+'\n'}
             strCSV = strCSV.concat(tempStr)
         }
-
+        this.FileIOREF.downloadFile(strCSV, this.state.trips[this.state.stateIndex].name+'.csv', 'application/csv')
     }
 
     renderSaveDropDown(){
