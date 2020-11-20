@@ -127,10 +127,11 @@ export default class TripObject {
                 regexArray.push(this.places[i])
                 continue;
             }
-            if(this.places[i][0].lat.toString().includes(regExpression) || this.places[i][0].lng.toString().includes(regExpression)){
+            if(this.places[i][0].toString().includes(regExpression)){
                 regexArray.push(this.places[i])
             }
         }
+
         return regexArray;
     }
 }
