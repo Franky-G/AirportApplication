@@ -112,4 +112,27 @@ export default class TripObject {
         }
         this.places = array;
     }
+
+    filterPlaces(regExpression){
+        if(regExpression === ""){
+            return this.places;
+        }
+        return this.filterChecks(regExpression);
+    }
+
+    filterChecks(regExpression){
+        let regexArray = [];
+        for(let i = 0; i < this.places.length; ++i){
+            if(this.places[i][2].toLowerCase().includes(regExpression.toLowerCase())){
+                regexArray.push(this.places[i])
+                continue;
+            }
+            if(this.places[i][0].toString().includes(regExpression)){
+                regexArray.push(this.places[i])
+            }
+        }
+
+        return regexArray;
+    }
 }
+
