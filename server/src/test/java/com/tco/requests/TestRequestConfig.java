@@ -8,13 +8,15 @@ import org.junit.jupiter.api.DisplayName;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+
+
 public class TestRequestConfig {
 
+  private static boolean hasTravis = System.getenv("TRAVIS") != null && System.getenv("TRAVIS").equals("true");
   private RequestConfig conf;
 
   @BeforeEach
@@ -68,12 +70,13 @@ public class TestRequestConfig {
     assertEquals("balloonport", temp[2]);
   }
 
-//  @Test
-//  @DisplayName("Config Where Filter")
-//  public void testWhereFilterSupport() {
-//    String[] temp = conf.getFilters().get("where");
-//    assertEquals(29070, temp.length);
-//  }
+  @Test
+  @DisplayName("Config Where Filter")
+  public void testWhereFilterSupport() {
+    String[] temp = conf.getFilters().get("where");
+    if (!hasTravis) { assertEquals(29070, temp.length); }
+    else { assertEquals(3, temp.length); }
+  }
 
   @Test
   @DisplayName("Config Where Filter")

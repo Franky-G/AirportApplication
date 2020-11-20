@@ -115,15 +115,15 @@ public class TestRequestFind {
         else { assertEquals(1, found) ;}
     }
 
-//    @Test
-//    public void testNoMatchHASLimit(){
-//        fin = new RequestFind("", 14, Collections.emptyMap());
-//        fin.buildResponse();
-//        int found = fin.getFound();
-//
-//        if (!hasTravis) { assertEquals(14, found); }
-//        else { assertEquals(3, found) ;}
-//    }
+    @Test
+    public void testNoMatchHASLimit(){
+        fin = new RequestFind("", 14, Collections.emptyMap());
+        fin.buildResponse();
+        int found = fin.getFound();
+
+        if (!hasTravis) { assertEquals(14, found); }
+        else { assertEquals(3, found) ;}
+    }
 
     @Test
     public void testNarrow(){
@@ -210,17 +210,17 @@ public class TestRequestFind {
         else { assertEquals("Aappilattoq (Kujalleq) Heliport", name); }
     }
 
-//    @Test
-//    public void testNarrowFound(){
-//        Map<String,String[]> temp = new HashMap<>();
-//        temp.put("type", new String[] {"airport", "heliport"});
-//
-//        fin = new RequestFind("_", 4, temp);
-//        fin.buildResponse();
-//
-//        int found = fin.getFound();
-//
-//        if (!hasTravis) { assertEquals(47360, found); }
-//        else { assertEquals(1, found); }
-//    }
+    @Test
+    public void testNarrowFound(){
+        Map<String,String[]> temp = new HashMap<>();
+        temp.put("type", new String[] {"airport", "heliport"});
+
+        fin = new RequestFind("_", 4, temp);
+        fin.buildResponse();
+
+        int found = fin.getFound();
+
+        if (!hasTravis) { assertEquals(47360, found); }
+        else { assertEquals(1, found); }
+    }
 }
