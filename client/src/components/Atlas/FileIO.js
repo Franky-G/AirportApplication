@@ -1,4 +1,4 @@
-import {Form, FormGroup, Modal, ModalHeader, ModalBody, Input} from "reactstrap";
+import {Form, FormGroup, Modal, ModalHeader, ModalBody, ModalFooter, Button, Input} from "reactstrap";
 import React, {Component} from "react";
 
 export default class FileIO extends Component {
@@ -35,9 +35,18 @@ export default class FileIO extends Component {
         const input = <Input onChange = {() => {callback(event); this.setState({isOpen: false})}} type="file" name="file" id="exampleFile"/>
         return (
             <Modal isOpen={this.state.isOpen} toggle={this.openModal}>
-                <ModalHeader toggle={this.openModal}>Load a Trip</ModalHeader>
-                <ModalBody> <Form> <FormGroup> {input} </FormGroup> </Form> </ModalBody>
+                <ModalHeader toggle={this.openModal}>Load a Trip in json format</ModalHeader>
+                {this.loadModalContents(input)}
             </Modal>
+        );
+    }
+
+    loadModalContents(input){
+        return(
+            <div>
+                <ModalBody> <Form> <FormGroup> {input} </FormGroup> </Form> </ModalBody>
+                <ModalFooter><Button color="secondary" onClick={this.openModal}>Cancel</Button></ModalFooter>
+            </div>
         );
     }
 
