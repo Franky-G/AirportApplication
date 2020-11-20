@@ -9,7 +9,7 @@ const labelStyle = {opacity: 0.2, overflow:"hidden"}
 const inputArray = [{width: 228, label: "Add Place", width2: 70, name: "searchPlaces"}, {width: 229, label: "Filter", width2: 50, name: "filter"}]
 const placesAndTrips = [{height: 150, text: "Places"}, {height: 90, text: "Trips"}]
 const buttonList = [{style: {position: "absolute", right: 10}, label: "Add Trip"}, {style: {position: "absolute", left: 159}, label: "Reset"}]
-const loadSaveDistance = [{style: {position: "absolute", padding: 4, left: 10}, label: "Load"}, {style: {position: "absolute", padding: 4, left: 57}, label: "Save"}, {style: {position: "absolute", padding: 4, left: 134}, label: "Distance"}, {style: {position: "relative", padding: 4, left: 20, top: 30}}, {style: {position: "absolute", padding: 4, left: 204}, label: "Optimize"}]
+const loadSaveDistance = [{style: {position: "absolute", padding: 4, left: 10}, label: "Load"}, {style: {position: "absolute", padding: 4, left: 57}, label: "Save"}, {style: {position: "absolute", padding: 4, left: 134}, label: "Distance"}, {style: {position: "relative", padding: 4, left: 20}}, {style: {position: "absolute", padding: 4, left: 204}, label: "Optimize"}]
 const listType = [{style: {position: "absolute", width: 300, height: 148, overflow:"auto", zIndex: 1015}}, {style:{position: "absolute", width: 300, height: 90, left: 10, bottom: 65, color: "#FFFFFF", overflow:"auto", zIndex: 1015}}]
 
 export default class SearchModule extends Component {
