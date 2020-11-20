@@ -47,8 +47,7 @@ export default class SearchModule extends Component {
     addASpace(){ return( <Row style={{height:5}}/>);}
 
     async setOptimize(){
-        await this.setState({responseReq: "1.0"}, this.formatTripDistance);
-    }
+        await this.setState({responseReq: "1.0"}, this.formatTripDistance);}
 
     addInputField(array){
         return(
@@ -140,7 +139,7 @@ export default class SearchModule extends Component {
             let lat = this.state.trips[indx].places[i][0].lat;
             lat = lat.toString()
             let long = this.state.trips[this.state.stateIndex].places[i][0].lng.toString();
-            obj['places'].push({"name":this.state.trips[this.state.stateIndex].places[i][2],"latitude":lat,"longitude":long, "coordinates": this.state.trips[this.state.stateIndex].places[i][3]});
+            obj['places'].push({"name":this.state.trips[this.state.stateIndex].places[i][2],"latitude":lat,"longitude":long, "coordinates": this.state.trips[this.state.stateIndex].places[i][3], 'type':this.state.trips[this.state.stateIndex].places[i][4]});
         }
         let distancePlaces = JSON.stringify(obj);
         distancePlaces = distancePlaces.slice(10,distancePlaces.length-1);
@@ -159,19 +158,32 @@ export default class SearchModule extends Component {
             this.setState({responseReq: "0.0"})
         }); }
 
-    getFormatForSave() {
+    getFormatForSaveJSON() {
         let tripSavePlaces = this.formatTripDistance()
         const fileContents = {requestType: "trip", requestVersion: 3, options: {title:this.state.trips[this.state.stateIndex].name, earthRadius: this.state.earthRadius}, places: tripSavePlaces, distances: this.state.distanceArr}
         const fileString = JSON.stringify(fileContents);
-        this.FileIOREF.downloadFile(fileString, this.state.trips[this.state.stateIndex].name+'.json', 'application/json')}
+        this.FileIOREF.downloadFile(fileString, this.state.trips[this.state.stateIndex].name+'.json', 'application/json')
+    }
+
+    getFormatForSaveCSV(){
+        let places = this.formatTripDistance()
+        let strCSV = "name, type, latitude, longitude\n"
+        for (let i = 0; i < places.length; i++){
+            let tempStr = ""
+            if(places[i].type !== undefined){tempStr = '"'+places[i].name+'"'+','+'"'+places[i].type+'"'+','+'"'+places[i].latitude+'"'+','+'"'+places[i].longitude+'"'+'\n'}
+            else{tempStr = '"'+places[i].name+'"'+','+'"'+" "+'"'+','+'"'+places[i].latitude+'"'+','+'"'+places[i].longitude+'"'+'\n'}
+            strCSV = strCSV.concat(tempStr)
+        }
+        this.FileIOREF.downloadFile(strCSV, this.state.trips[this.state.stateIndex].name+'.csv', 'application/csv')
+    }
 
     renderSaveDropDown(){
         return(
           <ButtonDropdown direction="up" size="sm" style={{zIndex: 1100, left: 76}} isOpen={this.state.saveDropDown} toggle={() => this.setState({saveDropDown: !this.state.saveDropDown})}>
               <DropdownToggle caret>Save</DropdownToggle>
               <DropdownMenu>
-                  <DropdownItem onClick={()=> this.getFormatForSave()}>JSON</DropdownItem>
-                  <DropdownItem>CSV</DropdownItem>
+                  <DropdownItem onClick={()=> this.getFormatForSaveJSON()}>JSON</DropdownItem>
+                  <DropdownItem onClick={()=> this.getFormatForSaveCSV()}>CSV</DropdownItem>
                   <DropdownItem>KML</DropdownItem>
                   <DropdownItem>SVG</DropdownItem>
               </DropdownMenu>
@@ -277,6 +289,7 @@ export default class SearchModule extends Component {
                                 elementArray.push(places.data.places[i].name);
                                 elementArray.push(places.data.places[i].latitude);
                                 elementArray.push(places.data.places[i].longitude);
+                                elementArray.push(places.data.places[i].type);
                             } outerArray.push(elementArray); }
                         this.setState({searchListArray: outerArray, searchListOpen: true, numberFound: places.data.found});
                     } catch (error) { console.error(error) }
@@ -284,7 +297,7 @@ export default class SearchModule extends Component {
 
     addSearchItem(index){
         let tripsArray = this.state.trips
-        tripsArray[this.state.stateIndex].places.push([L.latLng(this.state.searchListArray[index][1], this.state.searchListArray[index][2]), this.state.trips[this.state.stateIndex].places.length, this.state.searchListArray[index][0]])
+        tripsArray[this.state.stateIndex].places.push([L.latLng(this.state.searchListArray[index][1], this.state.searchListArray[index][2]), this.state.trips[this.state.stateIndex].places.length, this.state.searchListArray[index][0],"NO INPUT CORDS" ,this.state.searchListArray[index][3]])
         this.setState({trips: tripsArray})}
 
     renderSearchList(){
