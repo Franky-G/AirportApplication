@@ -12,12 +12,10 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-
-
 public class TestRequestConfig {
 
-  private static boolean hasTravis = System.getenv("TRAVIS") != null && System.getenv("TRAVIS").equals("true");
   private RequestConfig conf;
+  private static boolean hasTravis = System.getenv("TRAVIS") != null && System.getenv("TRAVIS").equals("true");
 
   @BeforeEach
   public void createConfigurationForTestCases(){
@@ -75,7 +73,7 @@ public class TestRequestConfig {
   public void testWhereFilterSupport() {
     String[] temp = conf.getFilters().get("where");
     if (!hasTravis) { assertEquals(29070, temp.length); }
-    else { assertEquals(3, temp.length); }
+    else { assertEquals(153, temp.length); }
   }
 
   @Test
