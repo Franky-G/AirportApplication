@@ -140,8 +140,7 @@ export default class SearchModule extends Component {
             let lat = this.state.trips[indx].places[i][0].lat;
             lat = lat.toString()
             let long = this.state.trips[this.state.stateIndex].places[i][0].lng.toString();
-            console.log(this.state.trips[this.state.stateIndex].places[i][2])
-            obj['places'].push({"name":this.state.trips[this.state.stateIndex].places[i][2],"latitude":lat,"longitude":long, "coordinates": this.state.trips[this.state.stateIndex].places[i][3]});
+            obj['places'].push({"name":this.state.trips[this.state.stateIndex].places[i][2],"latitude":lat,"longitude":long, "coordinates": this.state.trips[this.state.stateIndex].places[i][3], 'type':this.state.trips[this.state.stateIndex].places[i][4]});
         }
         let distancePlaces = JSON.stringify(obj);
         distancePlaces = distancePlaces.slice(10,distancePlaces.length-1);
@@ -169,9 +168,11 @@ export default class SearchModule extends Component {
 
     getFormatForSaveCSV(){
         let places = this.formatTripDistance()
-        let strCSV = "name, latitude, longitude\n"
+        let strCSV = "name, type, latitude, longitude\n"
         for (let i = 0; i < places.length; i++){
-            let tempStr = '"'+places[i].name+'"'+','+'"'+places[i].latitude+'"'+','+'"'+places[i].longitude+'"'+'\n'
+            let tempStr = ""
+            if(places[i].type !== undefined){tempStr = '"'+places[i].name+'"'+','+'"'+places[i].type+'"'+','+'"'+places[i].latitude+'"'+','+'"'+places[i].longitude+'"'+'\n'}
+            else{tempStr = '"'+places[i].name+'"'+','+'"'+" "+'"'+','+'"'+places[i].latitude+'"'+','+'"'+places[i].longitude+'"'+'\n'}
             strCSV = strCSV.concat(tempStr)
         }
         this.FileIOREF.downloadFile(strCSV, this.state.trips[this.state.stateIndex].name+'.csv', 'application/csv')
@@ -290,6 +291,7 @@ export default class SearchModule extends Component {
                                 elementArray.push(places.data.places[i].name);
                                 elementArray.push(places.data.places[i].latitude);
                                 elementArray.push(places.data.places[i].longitude);
+                                elementArray.push(places.data.places[i].type);
                             } outerArray.push(elementArray); }
                         this.setState({searchListArray: outerArray, searchListOpen: true, numberFound: places.data.found});
                     } catch (error) { console.error(error) }
@@ -297,7 +299,7 @@ export default class SearchModule extends Component {
 
     addSearchItem(index){
         let tripsArray = this.state.trips
-        tripsArray[this.state.stateIndex].places.push([L.latLng(this.state.searchListArray[index][1], this.state.searchListArray[index][2]), this.state.trips[this.state.stateIndex].places.length, this.state.searchListArray[index][0]])
+        tripsArray[this.state.stateIndex].places.push([L.latLng(this.state.searchListArray[index][1], this.state.searchListArray[index][2]), this.state.trips[this.state.stateIndex].places.length, this.state.searchListArray[index][0],"NO INPUT CORDS" ,this.state.searchListArray[index][3]])
         this.setState({trips: tripsArray})}
 
     renderSearchList(){
