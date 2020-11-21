@@ -13,6 +13,7 @@
 | Jake Barth | 35 mins |
 | Jimit Bhalavat | 40 mins |
 | Kyle Cummings | 35 mins |
+| Frank Gansukh | 37 mins |
 
 ### Problems found
 
@@ -27,5 +28,6 @@
 | Optimization.java:50-52 | Var names should be changed. Meaning isn't clear follow best practices | low | kc7 | Issue #1042 |
 | Optimization.java:83-85 | Var tempDist is never used consider refactoring | low | kc7 | Issue #1043 |
 | Optimization.java:30 | Var assignment is redundant. Follow best practices and refactor | low | kc7 |  Issue #1044 |
-
-
+| Find.js:160 | Var "numFound" only called once within function.. thus redundant | low | frankyg | Issue #1047 |
+| Find.js:161 | Vat "maxFound" only called once withing function.. thus redundant | low | frankyg | Issue #1048 |
+| Optimization.java:132 | Primitive int "distDelta"'s scope could be lowered and declared in the nested for loop | low | frankyg | Issue #1049 |
