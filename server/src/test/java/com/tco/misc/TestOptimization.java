@@ -394,4 +394,42 @@ public class TestOptimization {
         tour = optPlaces3.createTour(3, expectedDistMatrix, places3, visitedArr, tour);
         assertEquals(Arrays.deepToString(expectedTour3),Arrays.deepToString(tour));
     }
+
+    @Test
+    @DisplayName("Testing 2-opt with places 3")
+    public void test2optPlaces3() {
+        Integer optimized[] = new Integer[places3.length];
+        Integer[][] distances = new Integer[places3.length][places3.length];
+        distances =  Optimization.createDistanceMatrix(places3, options, distances);
+        Boolean[] visitedArr = new Boolean[places3.length];
+        Integer[] tour = new Integer[places3.length];
+        tour = Optimization.createTour(0, distances,places3,visitedArr, tour);
+        optimized = Optimization.TwoOpt(distances, tour);
+        Integer expected0[] = {0, 2, 1, 3};
+        assertEquals(Arrays.deepToString(expected0),Arrays.deepToString(optimized));
+
+        tour = new Integer[places3.length];
+        visitedArr = new Boolean[places3.length];
+        tour = Optimization.createTour(1, distances,places3,visitedArr, tour);
+        optimized = new Integer[places3.length];
+        optimized = Optimization.TwoOpt(distances, tour);
+        Integer expected1[] = {1, 3, 0, 2};
+        assertEquals(Arrays.deepToString(expected1),Arrays.deepToString(optimized));
+
+        tour = new Integer[places3.length];
+        visitedArr = new Boolean[places3.length];
+        tour = Optimization.createTour(2, distances,places3,visitedArr, tour);
+        optimized = new Integer[places3.length];
+        optimized = Optimization.TwoOpt(distances, tour);
+        Integer expected2[] = {2, 0, 3, 1};
+        assertEquals(Arrays.deepToString(expected2),Arrays.deepToString(optimized));
+
+        tour = new Integer[places3.length];
+        visitedArr = new Boolean[places3.length];
+        tour = Optimization.createTour(3, distances,places3,visitedArr, tour);
+        optimized = new Integer[places3.length];
+        optimized = Optimization.TwoOpt(distances, tour);
+        Integer expected3[] = {3, 1, 2, 0};
+        assertEquals(Arrays.deepToString(expected3),Arrays.deepToString(optimized));
+    }
 }
