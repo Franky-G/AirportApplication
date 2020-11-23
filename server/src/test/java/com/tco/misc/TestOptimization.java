@@ -15,12 +15,14 @@ public class TestOptimization {
     Map<String, String>[] places;
     Map<String, String>[] places1;
     Map<String, String>[] places2;
+    Map<String, String>[] places3;
     Map<String, String> location;
     Map<String, String> options;
 
     private Optimization optPlaces;
     private Optimization optPlaces1;
     private Optimization optPlaces2;
+    private Optimization optPlaces3;
 
     @BeforeEach
     public void testJimit(){
@@ -106,6 +108,31 @@ public class TestOptimization {
         location.put("longitude" , "-94.988");
         places2[3] = location;
         //////////////////////////////////////////////////////////////////////////////
+        places3 = new HashMap[4];
+
+        location = new HashMap<>();
+        location.put("name" , "Random place 1");
+        location.put("latitude" , "-50.99576");
+        location.put("longitude" , "-65.0752");
+        places3[0] = location;
+
+        location = new HashMap<>();
+        location.put("name" , "Random place 2");
+        location.put("latitude" , "-47.35570");
+        location.put("longitude" , "93.19");
+        places3[1] = location;
+
+        location = new HashMap<>();
+        location.put("name" , "Random place 3");
+        location.put("latitude" , "-0.92176");
+        location.put("longitude" , "-107.38496");
+        places3[2] = location;
+
+        location = new HashMap<>();
+        location.put("name" , "Random place 4");
+        location.put("latitude" , "-17.20612");
+        location.put("longitude" , "79.800");
+        places3[3] = location;
     }
 
     @Test
@@ -336,5 +363,35 @@ public class TestOptimization {
         optimized = Optimization.TwoOpt(distances, tour);
         Integer expected4[] = {4, 1, 2, 3, 0};
         assertEquals(Arrays.deepToString(expected4),Arrays.deepToString(optimized));
+    }
+
+    @Test
+    @DisplayName("Testing create tour for Places 3")
+    public void testCreateTourPlaces3() {
+        Integer[] tour = new Integer[places3.length];
+        Boolean[] visitedArr = new Boolean[places3.length];
+        Integer[] expectedTour0 = {0, 2, 1, 3};
+        Integer[][] distanceMatrix = new Integer[places3.length][places3.length];
+        Integer[][] expectedDistMatrix = Optimization.createDistanceMatrix(places3, options, distanceMatrix);
+        tour =  optPlaces3.createTour(0, expectedDistMatrix, places3, visitedArr, tour);
+        assertEquals(Arrays.deepToString(expectedTour0),Arrays.deepToString(tour));
+
+        tour = new Integer[places3.length];
+        visitedArr = new Boolean[places3.length];
+        Integer[] expectedTour1 = {1, 3, 0, 2};
+        tour = optPlaces3.createTour(1, expectedDistMatrix, places3, visitedArr, tour);
+        assertEquals(Arrays.deepToString(expectedTour1),Arrays.deepToString(tour));
+
+        tour = new Integer[places3.length];
+        visitedArr = new Boolean[places3.length];
+        Integer[] expectedTour2 = {2, 0, 1, 3};
+        tour = optPlaces3.createTour(2, expectedDistMatrix, places3, visitedArr, tour);
+        assertEquals(Arrays.deepToString(expectedTour2),Arrays.deepToString(tour));
+
+        tour = new Integer[places3.length];
+        visitedArr = new Boolean[places3.length];
+        Integer[] expectedTour3 = {3, 1, 0, 2};
+        tour = optPlaces3.createTour(3, expectedDistMatrix, places3, visitedArr, tour);
+        assertEquals(Arrays.deepToString(expectedTour3),Arrays.deepToString(tour));
     }
 }
