@@ -165,3 +165,13 @@ function testSetFilterHelper2() {
 }
 
 test("Set Filter Helper Version 2", testSetFilterHelper2)
+
+function testSetFilterHelper3() {
+    const filter = shallow(<Find/>)
+    let type = ["airport", "balloonport", "heliport"]
+    let where = ["Mumbai", "India"]
+    let expected = filter.instance().setFilterHelper(type, where)
+    expect(expected).toEqual({"type": ["airport", "balloonport", "heliport"], "where": ["Mumbai", "India"]})
+}
+
+test("Set Filter Helper Version 3", testSetFilterHelper3)
