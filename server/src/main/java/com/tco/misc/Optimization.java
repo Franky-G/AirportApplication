@@ -81,7 +81,7 @@ public class Optimization {
         Long tempDist[] = new Long[places.length];
         Long tempTotalDist = 0L;
         if (tourTemp.length == 0) {
-            tempDist = new Long[tourTemp.length];
+            return 0L;
         }
         else {
             for (int i = 0; i < tourTemp.length - 1; i++) {
