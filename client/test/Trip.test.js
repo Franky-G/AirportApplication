@@ -212,3 +212,17 @@ function testUncertainForLoop() {
 }
 
 test("Testing Defects", testUncertainForLoop)
+
+function testValidation() {
+    const trip = shallow(<Trip/>)
+    trip.instance().validateCoords()
+}
+
+test("Test Add Trip", testValidation)
+
+function testAddTripListItem() {
+    const place = shallow(<Trip/>)
+    place.instance().addTripListItem(0)
+}
+
+test("Test Add Place List Item", testAddTripListItem)
