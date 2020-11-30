@@ -13,7 +13,7 @@ export default class WorldMarkers extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            marker: icon, lineType: "solid", lineColor: "green", lineWeight: 3,
         }
     }
 
@@ -37,6 +37,14 @@ export default class WorldMarkers extends Component {
                 <Marker key={markerType} ref={initMarker} position={positionMarker} icon={MARKER_ICON}/>
             </div>
         );
+    }
+
+    changeMarker(icon){
+
+    }
+
+    changePolyline(type){
+
     }
 
     getHomeMarker(){
