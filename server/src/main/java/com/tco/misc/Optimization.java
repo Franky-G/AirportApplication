@@ -27,8 +27,7 @@ public class Optimization {
         if(totalTime < (Double.parseDouble(options.get("response"))*1000)){
             tourBest = TwoOpt(distances, tourBest);
         }
-        Map<String, String>[] placesTemp = reorderPlaces(tourBest, places);
-        return placesTemp;
+        return reorderPlaces(tourBest, places);
     }
 
     public static Integer[][] createDistanceMatrix(Map<String, String>[] places, Map<String, String> options, Integer[][] distances) {
