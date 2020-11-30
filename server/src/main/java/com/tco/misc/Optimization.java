@@ -47,21 +47,21 @@ public class Optimization {
         tour = new Integer[places.length];
         tour[0] = startIndex;
         visitedArr[startIndex] = true;
-        int minCol = 0;
-        int minRow = startIndex;
+        int closestPlace = 0;
+        int currentPlace = startIndex;
         int counterIndex = 0;
         while(contains(visitedArr, false)) {
             int minDist = Integer.MAX_VALUE;
             for(int col = 0; col < places.length; col++) {
-                if (distances[minRow][col] < minDist && !visitedArr[col] && distances[minRow][col] != 0) {
-                    minCol = col;
-                    minDist = distances[minRow][col];
+                if (distances[currentPlace][col] < minDist && !visitedArr[col] && distances[currentPlace][col] != 0) {
+                    closestPlace = col;
+                    minDist = distances[currentPlace][col];
                 }
             }
             counterIndex++;
-            visitedArr[minCol] = true;
-            minRow = minCol;
-            tour[counterIndex] = minRow;
+            visitedArr[closestPlace] = true;
+            currentPlace = closestPlace;
+            tour[counterIndex] = currentPlace;
         }
         return tour;
     }
