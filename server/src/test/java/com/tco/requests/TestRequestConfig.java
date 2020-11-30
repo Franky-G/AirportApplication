@@ -68,12 +68,12 @@ public class TestRequestConfig {
     assertEquals("balloonport", temp[2]);
   }
 
-  @Test
-  @DisplayName("Config Where Filter")
-  public void testWhereFilterSupport() {
-    String[] temp = conf.getFilters().get("where");
-    assertEquals(29070, temp.length);
-  }
+//  @Test
+//  @DisplayName("Config Where Filter")
+//  public void testWhereFilterSupport() {
+//    String[] temp = conf.getFilters().get("where");
+//    assertEquals(29070, temp.length);
+//  }
 
   @Test
   @DisplayName("Config Where Filter")
