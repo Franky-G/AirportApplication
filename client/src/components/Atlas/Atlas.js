@@ -148,7 +148,7 @@ export default class Atlas extends Component {
   renderHomeButton(){
     return(
         <div id="overlayDiv">
-          <button className="home-btn" style={{top: 71}} onClick={() => this.homeButtonSetStateVars()}>
+          <button className="home-btn" style={{top: 95}} onClick={() => this.homeButtonSetStateVars()}>
             <span><img src={homeIcon} style={HOME_BUTTON_STYLE} title="Go Home" alt = "Home"/></span>
           </button>
         </div> );
@@ -156,7 +156,7 @@ export default class Atlas extends Component {
 
   renderOptionButton(){
     return(
-        <ButtonDropdown direction="right" style={{top: 183, zIndex: 1021, padding: 0}} isOpen={this.state.optionIsOpen} toggle={() => this.setState({optionIsOpen: !this.state.optionIsOpen})}>
+        <ButtonDropdown direction="right" style={{top: 207, zIndex: 1021, padding: 0}} isOpen={this.state.optionIsOpen} toggle={() => this.setState({optionIsOpen: !this.state.optionIsOpen})}>
           <DropdownToggle id="tripRecording" size="sm" title="Marker Options" caret style={{zIndex: 1022}}>O</DropdownToggle>
           <DropdownMenu>
             <DropdownItem onClick={() => this.markerREF.changeMarker()}>Change Marker</DropdownItem>
@@ -170,7 +170,7 @@ export default class Atlas extends Component {
   renderTripButton(){
     return(
         <ButtonDropdown direction="right" isOpen={this.state.dropdownOpen} toggle={() => this.setState({dropdownOpen: !this.state.dropdownOpen})}
-                        style={{position: "absolute", top: 164, zIndex: 1016, padding: 0, margin: 0, fontSize: 9, outline: 0}}>
+                        style={{position: "absolute", top: 189, zIndex: 1016, padding: 0, margin: 0, fontSize: 9, outline: 0}}>
           <DropdownToggle id="tripRecording" title="Trip Designer" className={this.state.tripStyle} caret size="sm"
                           style={{borderLeft: "2px solid rgba(0,0,0,0.3)", borderRight: "2px solid rgba(0,0,0,0.3)",
             borderBottom: "2px solid rgba(0,0,0,0.3)", borderTop: "1px solid rgba(0,0,0,0.2)", borderRadius: "0 0 0 0", outline: 0}}>
