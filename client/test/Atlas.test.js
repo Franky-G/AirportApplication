@@ -212,3 +212,10 @@ function testPrevLocation() {
 }
 
 test("Testing State PrevLocation", testPrevLocation)
+
+function testOptionButton() {
+  const button = shallow(<Atlas/>)
+  button.instance().renderOptionButton();
+}
+
+test("Testing option button", testOptionButton)
