@@ -44,7 +44,7 @@ export default class Atlas extends Component {
     this.state = {
       markerPosition: null, homeLocation: MAP_CENTER_DEFAULT, prevLocation: [null,null], mapCenter: MAP_CENTER_DEFAULT,
       whereIsMarker: null, polyDistance: [0,0], searchTextToIsEmpty: true, hasUserLocation: null,
-      tripRecord: false, dropdownOpen: false, recordingTrip: 0, tripStyle: "", atlasTripPlaces: [],
+      tripRecord: false, dropdownOpen: false, recordingTrip: 0, tripStyle: "", atlasTripPlaces: [], optionIsOpen: false,
     };
   }
 
@@ -82,6 +82,7 @@ export default class Atlas extends Component {
         <div id="container">
           {this.renderHomeButton()}
           {this.renderTripButton()}
+          {this.renderOptionButton()}
           <Map className={'mapStyle'} boxZoom={false} useFlyTo={true} zoom={zoomLevel} minZoom={MAP_MIN_ZOOM} maxZoom={MAP_MAX_ZOOM}
               maxBounds={MAP_BOUNDS} center={this.state.mapCenter} onClick={this.setMarker} id="theMap" viewport = {{}}>
              <LayersControl position = "topright">
@@ -90,7 +91,7 @@ export default class Atlas extends Component {
                </LayersControl.BaseLayer>
                {layers.map(layer => (this.helperMaps(layer.name, layer.attribution, layer.link)))}
             </LayersControl>
-            <WorldMarkers {...this.state}/>
+            <WorldMarkers {...this.state} ref={(ref) => this.markerREF=ref}/>
             {this.getMapZoom()}
           </Map></div>
     );
@@ -153,13 +154,26 @@ export default class Atlas extends Component {
         </div> );
   }
 
+  renderOptionButton(){
+    return(
+        <ButtonDropdown direction="right" style={{top: 183, zIndex: 1021, padding: 0}} isOpen={this.state.optionIsOpen} toggle={() => this.setState({optionIsOpen: !this.state.optionIsOpen})}>
+          <DropdownToggle id="tripRecording" size="sm" title="Marker Options" caret style={{zIndex: 1022}}>O</DropdownToggle>
+          <DropdownMenu>
+            <DropdownItem onClick={() => this.markerREF.changeMarker()}>Change Marker</DropdownItem>
+            <DropdownItem onClick={() => this.markerREF.changePolyline}> Change Polyline </DropdownItem>
+            <DropdownItem onClick={() => this.markerREF.resetMarkers()}>Default Markers</DropdownItem>
+          </DropdownMenu>
+        </ButtonDropdown>
+    );
+  }
+
   renderTripButton(){
     return(
-        <ButtonDropdown isOpen={this.state.dropdownOpen} toggle={() => this.setState({dropdownOpen: !this.state.dropdownOpen})}
+        <ButtonDropdown direction="right" isOpen={this.state.dropdownOpen} toggle={() => this.setState({dropdownOpen: !this.state.dropdownOpen})}
                         style={{position: "absolute", top: 164, zIndex: 1016, padding: 0, margin: 0, fontSize: 9, outline: 0}}>
           <DropdownToggle id="tripRecording" title="Trip Designer" className={this.state.tripStyle} caret size="sm"
                           style={{borderLeft: "2px solid rgba(0,0,0,0.3)", borderRight: "2px solid rgba(0,0,0,0.3)",
-            borderBottom: "2px solid rgba(0,0,0,0.3)", borderTop: "1px solid rgba(0,0,0,0.2)", borderRadius: "0 0 4px 4px", outline: 0}}>
+            borderBottom: "2px solid rgba(0,0,0,0.3)", borderTop: "1px solid rgba(0,0,0,0.2)", borderRadius: "0 0 0 0", outline: 0}}>
             T
           </DropdownToggle>
           <DropdownMenu>
