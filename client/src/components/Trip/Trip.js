@@ -183,7 +183,7 @@ export default class SearchModule extends Component {
 
     getFormatForSaveKML() {
             let places = this.formatTripDistance()
-            let kmlStr = '<?xml version="1.0" encoding="UTF-8"?>\n'+
+            var kmlStr = '<?xml version="1.0" encoding="UTF-8"?>\n'+
             '<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">\n'+
                             '\t<Document>\n'+
                               '\t\t<name>' + this.state.trips[this.state.stateIndex].name + '</name>\n'+
@@ -202,20 +202,20 @@ export default class SearchModule extends Component {
             let endLineTags = ' \t\t\t\t</coordinates>\n'+
                                                              '\t\t\t</LineString>\n'+
                                                            '\t\t</Placemark>\n'
-            kmlStr.concat(lineStr)
+            kmlStr = kmlStr.concat(lineStr)
             let points = []
             for (var i = 0; i < places.length; i++){
-                let coordString = places[i].latitude+','+places[i].longitude+',0'
+                let coordString = places[i].longitude+','+places[i].latitude//+',0'
                 let placeName = places[i].name
-                kmlStr.concat(coordString + '\n')
-                points.push('\t\t<Placemark>\n\t\t\t<name>' + placeName + '\n\t\t\t<Point>\n\t\t\t\t<coordinates> ' + coordString + '</coordinates>\n\t\t\t</Point>\n\t\t</Placemark>\n')
+                kmlStr = kmlStr.concat(coordString + '\n')
+                points.push('\t\t<Placemark>\n\t\t\t<name>' + placeName + '</name>\n' + '\t\t\t<Point>\n\t\t\t\t<coordinates> ' + coordString + '</coordinates>\n\t\t\t</Point>\n\t\t</Placemark>\n')
             }
-            kmlStr.concat(endLineTags)
+            kmlStr = kmlStr.concat(endLineTags)
             for (var i = 0; i < points.length; i++){
-                kmlStr.concat(points[i])
+                kmlStr = kmlStr.concat(points[i])
             }
-            kmlStr.concat("\t</Document>\n</kml>")
-            this.FileIOREF.downloadFile(kmlStr, this.state.trips[this.state.stateIndex].name+'.kml', 'application/kml')
+            kmlStr = kmlStr.concat("\t</Document>\n</kml>")
+            this.FileIOREF.downloadFile(kmlStr, this.state.trips[this.state.stateIndex].name+'.kml', 'application/vnd.google-earth.kml+xml')
     }
 
     renderSaveDropDown(){
