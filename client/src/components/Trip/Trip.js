@@ -190,7 +190,7 @@ export default class SearchModule extends Component {
                               '\t\t<open>1</open>\n'+
                               '\t\t<Style id="CrossStyle">\n'+
                                 '\t\t\t<LineStyle>\n'+
-                                  '\t\t\t\t<color>ffffffb6</color>\n'+
+                                  '\t\t\t\t<color>ff2b4d1e</color>\n'+
                                   '\t\t\t\t<width>4</width>\n'+
                                 '\t\t\t</LineStyle>\n'+
                               '\t\t</Style>\n'
