@@ -186,20 +186,8 @@ export default class SearchModule extends Component {
             var kmlStr = '<?xml version="1.0" encoding="UTF-8"?>\n'+
             '<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">\n'+
                             '\t<Document>\n'+
-                              '\t\t<name>' + this.state.trips[this.state.stateIndex].name + '</name>\n'+
-                              '\t\t<open>1</open>\n'+
-                              '\t\t<Style id="CrossStyle">\n'+
-                                '\t\t\t<LineStyle>\n'+
-                                  '\t\t\t\t<color>ffffffb6</color>\n'+
-                                  '\t\t\t\t<width>4</width>\n'+
-                                '\t\t\t</LineStyle>\n'+
-                              '\t\t</Style>\n'
-            let lineStr = '\t\t<Placemark>\n'+
-                             '\t\t\t<name>'+ this.state.trips[this.state.stateIndex].name + '</name>\n'+
-                             '\t\t\t<styleUrl>#CrossStyle</styleUrl>\n'+
-                             '\t\t\t<LineString>\n'+
-                                '\t\t\t\t<tessellate>1</tessellate>\n'+
-                                '\t\t\t\t<coordinates> '
+                              '\t\t<name>' + this.state.trips[this.state.stateIndex].name + '</name>\n'+'\t\t<open>1</open>\n'+'\t\t<Style id="CrossStyle">\n'+'\t\t\t<LineStyle>\n'+'\t\t\t\t<color>ffffffb6</color>\n'+'\t\t\t\t<width>4</width>\n'+'\t\t\t</LineStyle>\n'+'\t\t</Style>\n'
+            let lineStr = '\t\t<Placemark>\n'+'\t\t\t<name>'+ this.state.trips[this.state.stateIndex].name + '</name>\n'+'\t\t\t<styleUrl>#CrossStyle</styleUrl>\n'+'\t\t\t<LineString>\n'+'\t\t\t\t<tessellate>1</tessellate>\n'+'\t\t\t\t<coordinates> '
             let endLineTags = ' \t\t\t\t</coordinates>\n'+
                                                              '\t\t\t</LineString>\n'+
                                                            '\t\t</Placemark>\n'
