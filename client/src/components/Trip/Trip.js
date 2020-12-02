@@ -198,6 +198,7 @@ export default class SearchModule extends Component {
                              '\t\t\t<name>'+ this.state.trips[this.state.stateIndex].name + '</name>\n'+
                              '\t\t\t<styleUrl>#CrossStyle</styleUrl>\n'+
                              '\t\t\t<LineString>\n'+
+                                '\t\t\t\t<tessellate>1</tessellate>\n'+
                                 '\t\t\t\t<coordinates> '
             let endLineTags = ' \t\t\t\t</coordinates>\n'+
                                                              '\t\t\t</LineString>\n'+
@@ -205,7 +206,7 @@ export default class SearchModule extends Component {
             kmlStr = kmlStr.concat(lineStr)
             let points = []
             for (var i = 0; i < places.length; i++){
-                let coordString = places[i].longitude+','+places[i].latitude//+',0'
+                let coordString = places[i].longitude+','+places[i].latitude
                 let placeName = places[i].name
                 kmlStr = kmlStr.concat(coordString + '\n')
                 points.push('\t\t<Placemark>\n\t\t\t<name>' + placeName + '</name>\n' + '\t\t\t<Point>\n\t\t\t\t<coordinates> ' + coordString + '</coordinates>\n\t\t\t</Point>\n\t\t</Placemark>\n')
