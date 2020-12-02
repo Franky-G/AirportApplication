@@ -121,8 +121,7 @@ public class TestRequestFind {
         fin.buildResponse();
         int found = fin.getFound();
 
-        if (!hasTravis) { assertEquals(14, found); }
-        else { assertEquals(3, found) ;}
+        assertEquals(14, found);
     }
 
     @Test
@@ -221,6 +220,6 @@ public class TestRequestFind {
         int found = fin.getFound();
 
         if (!hasTravis) { assertEquals(47360, found); }
-        else { assertEquals(1, found); }
+        else { assertEquals(3, found); }
     }
 }
