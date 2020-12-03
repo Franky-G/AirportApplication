@@ -200,11 +200,14 @@ export default class SearchModule extends Component {
                 points.push('\t\t<Placemark>\n\t\t\t<name>' + placeName + '</name>\n' + '\t\t\t<Point>\n\t\t\t\t<coordinates> ' + coordString + '</coordinates>\n\t\t\t</Point>\n\t\t</Placemark>\n')
             }
             kmlStr = kmlStr.concat(endLineTags)
-            for (var i = 0; i < points.length; i++){
-                kmlStr = kmlStr.concat(points[i])
-            }
+            for (var i = 0; i < points.length; i++){ kmlStr = kmlStr.concat(points[i]) }
             kmlStr = kmlStr.concat("\t</Document>\n</kml>")
             this.FileIOREF.downloadFile(kmlStr, this.state.trips[this.state.stateIndex].name+'.kml', 'application/vnd.google-earth.kml+xml')
+    }
+
+    getFormatForSaveSVG() {
+        const filestring = '<?xml version="1.0" encoding="UTF-8"?>' + '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">\n' + '<image width="100%" height="100%" href="https://instructor-uploaded-content.s3.amazonaws.com/MAP.svg-6983777"/>\n' + '</svg>'
+        this.FileIOREF.downloadFile(filestring, this.state.trips[this.state.stateIndex].name+'.svg', 'application/svg')
     }
 
     renderSaveDropDown(){
@@ -215,7 +218,7 @@ export default class SearchModule extends Component {
                   <DropdownItem onClick={()=> this.getFormatForSaveJSON()}>JSON</DropdownItem>
                   <DropdownItem onClick={()=> this.getFormatForSaveCSV()}>CSV</DropdownItem>
                   <DropdownItem onClick={()=> this.getFormatForSaveKML()}>KML</DropdownItem>
-                  <DropdownItem>SVG</DropdownItem>
+                  <DropdownItem onClick={()=> this.getFormatForSaveSVG()}>SVG</DropdownItem>
               </DropdownMenu>
           </ButtonDropdown>
         );
