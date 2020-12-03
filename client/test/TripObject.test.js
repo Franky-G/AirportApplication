@@ -2,6 +2,7 @@ import './jestConfig/enzyme.config.js';
 import React from "react";
 import TripObject from "../src/components/Trip/TripObject";
 import {Map} from 'react-leaflet'; //Dont delete
+import Trip from "../src/components/Trip/Trip"
 
 function testAddPlaces(){
     const object = new TripObject("test", [L.latLng(0, 0)], "test note")
@@ -159,3 +160,18 @@ function testSetPlaceNote() {
 }
 
 test("Set place note", testSetPlaceNote)
+
+function testFilterPlaces() {
+    const object = new TripObject("test", [[L.latLng(0, 0), 0, "test"]], "test note")
+    object.filterPlaces("denver")
+}
+
+test("Test Filter Places", testFilterPlaces)
+
+function testFilterCheck() {
+    const object = new TripObject("test", [[L.latLng(0, 0), 0, "test"]], "test note")
+    let initial = object.filterChecks("denver")
+    expect(initial.length).toEqual(0)
+}
+
+test("Filter Checks", testFilterCheck)
