@@ -181,6 +181,32 @@ export default class SearchModule extends Component {
         this.FileIOREF.downloadFile(strCSV, this.state.trips[this.state.stateIndex].name+'.csv', 'application/csv')
     }
 
+    getFormatForSaveKML() {
+            let places = this.formatTripDistance()
+            var kmlStr = '<?xml version="1.0" encoding="UTF-8"?>\n'+
+            '<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2" xmlns:kml="http://www.opengis.net/kml/2.2" xmlns:atom="http://www.w3.org/2005/Atom">\n'+
+                            '\t<Document>\n'+
+                              '\t\t<name>' + this.state.trips[this.state.stateIndex].name + '</name>\n'+'\t\t<open>1</open>\n'+'\t\t<Style id="CrossStyle">\n'+'\t\t\t<LineStyle>\n'+'\t\t\t\t<color>ffffffb6</color>\n'+'\t\t\t\t<width>4</width>\n'+'\t\t\t</LineStyle>\n'+'\t\t</Style>\n'
+            let lineStr = '\t\t<Placemark>\n'+'\t\t\t<name>'+ this.state.trips[this.state.stateIndex].name + '</name>\n'+'\t\t\t<styleUrl>#CrossStyle</styleUrl>\n'+'\t\t\t<LineString>\n'+'\t\t\t\t<tessellate>1</tessellate>\n'+'\t\t\t\t<coordinates> '
+            let endLineTags = ' \t\t\t\t</coordinates>\n'+
+                                                             '\t\t\t</LineString>\n'+
+                                                           '\t\t</Placemark>\n'
+            kmlStr = kmlStr.concat(lineStr)
+            let points = []
+            for (var i = 0; i < places.length; i++){
+                let coordString = places[i].longitude+','+places[i].latitude
+                let placeName = places[i].name
+                kmlStr = kmlStr.concat(coordString + '\n')
+                points.push('\t\t<Placemark>\n\t\t\t<name>' + placeName + '</name>\n' + '\t\t\t<Point>\n\t\t\t\t<coordinates> ' + coordString + '</coordinates>\n\t\t\t</Point>\n\t\t</Placemark>\n')
+            }
+            kmlStr = kmlStr.concat(endLineTags)
+            for (var i = 0; i < points.length; i++){
+                kmlStr = kmlStr.concat(points[i])
+            }
+            kmlStr = kmlStr.concat("\t</Document>\n</kml>")
+            this.FileIOREF.downloadFile(kmlStr, this.state.trips[this.state.stateIndex].name+'.kml', 'application/vnd.google-earth.kml+xml')
+    }
+
     renderSaveDropDown(){
         return(
           <ButtonDropdown direction="up" size="sm" style={{zIndex: 1100, left: 76}} isOpen={this.state.saveDropDown} toggle={() => this.setState({saveDropDown: !this.state.saveDropDown})}>
@@ -188,7 +214,7 @@ export default class SearchModule extends Component {
               <DropdownMenu>
                   <DropdownItem onClick={()=> this.getFormatForSaveJSON()}>JSON</DropdownItem>
                   <DropdownItem onClick={()=> this.getFormatForSaveCSV()}>CSV</DropdownItem>
-                  <DropdownItem>KML</DropdownItem>
+                  <DropdownItem onClick={()=> this.getFormatForSaveKML()}>KML</DropdownItem>
                   <DropdownItem>SVG</DropdownItem>
               </DropdownMenu>
           </ButtonDropdown>
