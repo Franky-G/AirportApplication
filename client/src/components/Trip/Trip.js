@@ -206,8 +206,8 @@ export default class SearchModule extends Component {
     }
 
     getFormatForSaveSVG() {
-        const filestring = '<?xml version="1.0" encoding="UTF-8"?>' + '<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">\n' + '<image width="100%" height="100%" href="https://instructor-uploaded-content.s3.amazonaws.com/MAP.svg-6983777"/>\n' + '</svg>'
-        this.FileIOREF.downloadFile(filestring, this.state.trips[this.state.stateIndex].name+'.svg', 'application/svg')
+        const fileString = '<?xml version="1.0" encoding="UTF-8"?>' + '<svg xmlns="http://www.w3.org/2000/svg" width="1377" height="692">\n' + '<image width="100%" height="100%" href="https://instructor-uploaded-content.s3.amazonaws.com/MAP.svg-6983777"/>\n' + '</svg>'
+        this.FileIOREF.downloadFile(fileString, this.state.trips[this.state.stateIndex].name+'.svg', 'application/svg')
     }
 
     renderSaveDropDown(){
