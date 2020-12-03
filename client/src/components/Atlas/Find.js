@@ -157,12 +157,8 @@ export default class Find extends Component {
 
     renderSearchList(){
         let searchListArray = []
-        let numFound = this.state.numberFound
-        let maxFound = 20;
-        for(let j = 0; j < numFound; j++){
-            if(j >= maxFound){
-                break;
-            }
+        let foundLimit = Math.min(this.state.numberFound, 20)
+        for(let j = 0; j < foundLimit; j++){
             searchListArray.push(this.addListGroupItem(j));
         }
         return(
