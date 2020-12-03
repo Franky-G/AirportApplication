@@ -154,7 +154,7 @@ export default class Atlas extends Component {
 
   renderOptionButton(){
     return(
-        <ButtonDropdown direction="right" style={{top: 207, zIndex: 1021, padding: 0}} isOpen={this.state.optionIsOpen} toggle={() => this.setState({optionIsOpen: !this.state.optionIsOpen})}>
+        <ButtonDropdown direction="right" style={{top: 207, zIndex: 1016, padding: 0}} isOpen={this.state.optionIsOpen} toggle={() => this.setState({optionIsOpen: !this.state.optionIsOpen})}>
           <DropdownToggle id="tripRecording" size="sm" title="Marker Options" caret style={{zIndex: 1022}}>O</DropdownToggle>
           <DropdownMenu>
             <DropdownItem onClick={() => this.markerREF.changeMarker()}>Change Marker</DropdownItem>
