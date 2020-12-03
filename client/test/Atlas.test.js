@@ -88,13 +88,6 @@ function testMapZoom() {
 
 test("Get Map Zoom", testMapZoom)
 
-function testPrevArray() {
-  const prev = shallow(<Atlas/>)
-  prev.instance().checkPrevArray()
-}
-
-test("Checking Previous Array", testPrevArray)
-
 function testRenderLeafletMap() {
   const map = shallow(<Atlas/>)
   map.instance().renderLeafletMap()
