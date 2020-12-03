@@ -212,3 +212,11 @@ function testOptionButton() {
 }
 
 test("Testing option button", testOptionButton)
+
+function ResetAtlasPlaces() {
+  const places = shallow(<Atlas/>)
+  places.instance().resetAtlasTripPlaces()
+  expect(places.state().atlasTripPlaces).toEqual([])
+}
+
+test("Reset Places", ResetAtlasPlaces)
