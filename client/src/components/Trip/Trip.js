@@ -114,7 +114,7 @@ export default class SearchModule extends Component {
     spliceTrips(index){
         if(this.state.trips.length === 1){
             this.state.trips[0].resetPlaces()
-//            this.props.resetAtlasTripPlaces();
+            this.props.resetAtlasTripPlaces();
         }
         let array = this.state.trips;
         array.splice(index, 1)
