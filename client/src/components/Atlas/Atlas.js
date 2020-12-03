@@ -158,8 +158,7 @@ export default class Atlas extends Component {
           <DropdownToggle id="tripRecording" size="sm" title="Marker Options" caret style={{zIndex: 1022}}>O</DropdownToggle>
           <DropdownMenu>
             <DropdownItem onClick={() => this.markerREF.changeMarker()}>Change Marker</DropdownItem>
-            <DropdownItem onClick={() => this.markerREF.changePolyline}> Change Polyline </DropdownItem>
-            <DropdownItem onClick={() => this.markerREF.resetMarkers()}>Default Markers</DropdownItem>
+            <DropdownItem onClick={() => this.markerREF.openPolylineOptions()}> Change Polyline </DropdownItem>
           </DropdownMenu>
         </ButtonDropdown>
     );
