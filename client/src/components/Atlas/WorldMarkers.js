@@ -9,6 +9,7 @@ import Slider from '@material-ui/core/Slider';
 const MAP_CENTER_DEFAULT = [40.5734, -105.0865];
 const MARKER_ICON = L.icon({ iconUrl: icon, shadowUrl: iconShadow, iconAnchor: [12, 40] });
 const HOME_MARKER = L.icon({ iconUrl: homeMarker, shadowUrl: iconShadow, shadowAnchor: [12, 41], iconAnchor: [32, 55], iconSize: [60, 65]});
+const lineArray = [{state: "", label: "Solid"}, {state: "7 8", label: "Dashed"}, {state: "24 10 8 10", label: "Dotted"}]
 
 export default class WorldMarkers extends Component {
 
@@ -83,9 +84,9 @@ export default class WorldMarkers extends Component {
                             {this.helperLabelColor("Black")} {this.colorSpacer()}
                         </p>
                         <p className="vertical-center"> Line type: <span style={{width: 30}}/>
-                            <Label check><Input type="radio" name="radio2" onChange={() => this.setState({dashes: ""})}/>{"Solid"}</Label> <div className="px-3"/>
-                            <Label check><Input type="radio" name="radio2" onChange={() => this.setState({dashes: "7 8"})}/>{"Dashed"}</Label> <div className="px-3"/>
-                            <Label check><Input type="radio" name="radio2" onChange={() => this.setState({dashes: "24 10 8 10"})}/>{"Dotted"}</Label> <div className="px-3"/>
+                            {this.helperLabelLines(lineArray, 0)} {this.colorSpacer()}
+                            {this.helperLabelLines(lineArray, 1)} {this.colorSpacer()}
+                            {this.helperLabelLines(lineArray, 2)} {this.colorSpacer()}
                         </p>
                     </ModalBody>
                 </Modal>
@@ -99,6 +100,14 @@ export default class WorldMarkers extends Component {
                 <Label check><Input type="radio" name="radio1" onChange={() => this.setState({lineColor: color})}/>{color}</Label>
             </div>
         );
+    }
+
+    helperLabelLines(array, index){
+        return(
+            <div>
+                <Label check><Input type="radio" name="radio2" onChange={() => this.setState({dashes: array[index].state})}/>{array[index].label}</Label>
+            </div>
+        )
     }
 
     colorSpacer(){
@@ -161,11 +170,6 @@ export default class WorldMarkers extends Component {
         if(array[0] !== null && array[1] !== null && this.props.prevLocation[0] !== null && this.props.prevLocation[1] !== null) {
             return (
                 this.renderPolyline(array)
-            );
-        }
-        if(array[0] !== null && array[1] !== null){
-            return(
-                <div><Polyline color={this.state.lineColor} weight={this.state.lineWeight} dashArray={this.state.dashes} positions={array}/></div>
             );
         }
     }
