@@ -11,7 +11,7 @@
 | Name | Preparation Time |
 | ---- | ---- |
 | Jimit Bhalavat | 40 mins |
-|  |  |
+| Jake Barth | 40 mins |
 
 ### Problems found
 
@@ -22,3 +22,4 @@
 | WorldMarkers.js:157-159 | Loop uncertain to terminate causes Control Faults | low | jimit | |
 | WorldMarkers.js:9, 57 | Unnecessary global variable | low  | smunoz | |
 | Atlas.js:152 | Unnecessary dropdown button | low | smunoz | |
+| WorldMarkers.js:157-158 | Data fault could be cause by uninitialized value | low | jakebart | |
