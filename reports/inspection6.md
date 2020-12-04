@@ -11,7 +11,7 @@
 | Name | Preparation Time |
 | ---- | ---- |
 | Jimit Bhalavat | 40 mins |
-|  |  |
+| Jake Barth | 40 mins |
 
 ### Problems found
 
@@ -24,3 +24,5 @@
 | Atlas.js:152 | Unnecessary dropdown button | low | smunoz | |
 | WorldMarkers.js:140 | For loop hardcoded | med | kc7 | |
 | WorldMarkers.js:66-68 | Empty Funciton | low | kc7 | |
+| WorldMarkers.js:157-158 | Data fault could be cause by uninitialized value | low | jakebart | |
+
