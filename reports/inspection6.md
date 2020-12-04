@@ -25,6 +25,7 @@
 | WorldMarkers.js:157-159 | Loop uncertain to terminate causes Control Faults | low | jimit | Issue #1101 |
 | WorldMarkers.js:9, 57 | Unnecessary global variable | low  | smunoz | |
 | Atlas.js:152 | Unnecessary dropdown button | low | smunoz | |
+| WorldMarkers.js:155-170 | Trip polyline disappears when clicking home button | med | smunoz | |
 | WorldMarkers.js:140 | For loop hardcoded | med | kc7 | |
 | WorldMarkers.js:66-68 | Empty Funciton | low | kc7 | |
 | WorldMarkers.js:157-158 | Data fault could be caused by uninitialized value | low | jakebart | Issue #1102 |
