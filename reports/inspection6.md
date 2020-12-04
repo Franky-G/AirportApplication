@@ -2,8 +2,8 @@
  
 | Inspection | Details |
 | ----- | ----- |
-| Subject | *file and methods/line range to review for meeting* |
-| Meeting | *date, time, location* |
+| Subject | *WorldMarkers.js (1-190), Atlas.js (1-245)* |
+| Meeting | *12/04/20, 1:00 PM MST, Discord* |
 | Checklist | *Inspection [Checklist](https://github.com/csucs314f20/t10/blob/master/reports/checklist.md) for T10* |
 
 ### Roles
