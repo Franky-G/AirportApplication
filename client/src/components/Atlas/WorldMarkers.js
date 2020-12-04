@@ -74,7 +74,7 @@ export default class WorldMarkers extends Component {
                     <ModalHeader toggle={() => this.openPolylineOptions()}><b>Change Polyline Options</b></ModalHeader>
                     <ModalBody>
                         <p className="vertical-center">Line Width: {this.state.lineWeight} <span style={{width: 30}}/>
-                            <Slider style={{width:300}} value={this.state.lineWeight} max={10} min={1} step={1} onChange={(event,value) => {this.checkSlider(value)}}/>
+                            <Slider style={{width:300}} value={this.state.lineWeight} max={10} min={1} step={1} onChange={(event,value) => {if(this.checkSlider()){alert("Add 2 Points First");this.blur()} this.sliderChange(value)}}/>
                         </p>
                         <p className="vertical-center">Color: <span style={{width: 40}}/>
                             {this.helperLabelColor("Blue")} {this.colorSpacer()}
@@ -116,14 +116,8 @@ export default class WorldMarkers extends Component {
         );
     }
 
-    checkSlider(value){
-        if(this.props.atlasTripPlaces[1] === "" || this.props.prevLocation[1] === null){
-            return(
-                alert("Add 2 points first!")
-            );
-        } else {
-            this.sliderChange(value)
-        }
+    checkSlider(){
+        return (this.props.atlasTripPlaces[1] === "" || this.props.prevLocation[1] === null);
     }
 
     getHomeMarker(){
