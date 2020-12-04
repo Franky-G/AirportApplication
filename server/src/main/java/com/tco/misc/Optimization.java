@@ -128,12 +128,11 @@ public class Optimization {
         int n = myTour.length;
         Integer[] tour = makeArray(myTour, n+1);
         boolean improvement = true;
-        Integer distDelta;
         while (improvement) {
             improvement = false;
             for (int i = 0; i <= n-3; i++) {
                 for (int k = i+2; k <= n-1; k++) {
-                    distDelta = (distances[tour[i]][tour[k]] + distances[tour[i+1]][tour[k+1]])-(distances[tour[i]][tour[i+1]] + distances[tour[k]][tour[k+1]]);
+                    Integer distDelta = (distances[tour[i]][tour[k]] + distances[tour[i+1]][tour[k+1]])-(distances[tour[i]][tour[i+1]] + distances[tour[k]][tour[k+1]]);
                     if (distDelta < 0) {
                         TwoOptReverse(tour, i+1, k);
                         improvement = true;
