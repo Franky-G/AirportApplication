@@ -12,6 +12,7 @@
 | ---- | ---- |
 | Jimit Bhalavat | 40 mins |
 | Jake Barth | 40 mins |
+| Sean Munoz | 30 mins |
 
 ### Problems found
 
