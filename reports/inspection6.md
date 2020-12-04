@@ -14,6 +14,7 @@
 | Jake Barth | 40 mins |
 | Kyle Cummings | 40 mins |
 | Sean Munoz | 30 mins |
+| Frank Gansukh | 33 mins |
 
 ### Problems found
 
@@ -27,4 +28,5 @@
 | WorldMarkers.js:140 | For loop hardcoded | med | kc7 | |
 | WorldMarkers.js:66-68 | Empty Funciton | low | kc7 | |
 | WorldMarkers.js:157-158 | Data fault could be cause by uninitialized value | low | jakebart | |
-
+| WorldMarkers.js:140-142 | One line function "sliderChange" only called once | low | frankyg | |
+| Atlas.js:118-120 | One line function "getMapZoom" only called once | low | frankyg | |
