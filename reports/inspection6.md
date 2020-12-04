@@ -29,5 +29,5 @@
 | WorldMarkers.js:140 | For loop hardcoded | med | kc7 | Issue #1110 |
 | WorldMarkers.js:66-68 | Empty Funciton | low | kc7 | Issue #1111 |
 | WorldMarkers.js:157-158 | Data fault could be caused by uninitialized value | low | jakebart | Issue #1102 |
-| WorldMarkers.js:140-142 | One line function "sliderChange" only called once | low | frankyg | |
-| Atlas.js:118-120 | One line function "getMapZoom" only called once | low | frankyg | |
+| WorldMarkers.js:140-142 | One line function "sliderChange" only called once | low | frankyg | Issue #1104 |
+| Atlas.js:118-120 | One line function "getMapZoom" only called once | low | frankyg | Issue #1106 |
