@@ -220,3 +220,33 @@ function ResetAtlasPlaces() {
 }
 
 test("Reset Places", ResetAtlasPlaces)
+
+function testSetMarkerDefect() {
+  const marker = shallow(<Atlas/>)
+  let info = {latlng: {lat: 41, lng: -105}}
+  marker.instance().setMarker(info)
+  expect(marker.state().markerPosition).toEqual(info.latlng)
+}
+
+test("Set Marker", testSetMarkerDefect)
+
+function testTripClickedDefect() {
+  const trip = shallow(<Atlas/>)
+  let initial = trip.instance().tripClicked()
+  expect(initial).toEqual("danger")
+  trip.setState({recordingTrip: 1})
+  let expectation = trip.instance().tripClicked()
+  expect(expectation).toEqual("success")
+}
+
+test("Trip Clicked", testTripClickedDefect)
+
+function testTripRecordDefect() {
+  const trip = shallow(<Atlas/>)
+  trip.instance().setTripRecord()
+  expect(trip.state().recordingTrip).toEqual(1)
+  trip.setState({recordingTrip: 1})
+  expect(trip.state().recordingTrip).toEqual(1)
+}
+
+test("Test Set Trip Record", testTripRecordDefect)
