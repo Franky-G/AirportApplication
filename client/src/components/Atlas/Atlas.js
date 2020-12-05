@@ -149,8 +149,9 @@ export default class Atlas extends Component {
         <ButtonDropdown direction="right" style={{top: 207, zIndex: 1016, padding: 0}} isOpen={this.state.optionIsOpen} toggle={() => this.setState({optionIsOpen: !this.state.optionIsOpen})}>
           <DropdownToggle id="tripRecording" size="sm" title="Marker Options" caret style={{zIndex: 1022}}>O</DropdownToggle>
           <DropdownMenu>
-            <DropdownItem onClick={() => this.markerREF.changeMarker()}>Change Marker</DropdownItem>
-            <DropdownItem onClick={() => this.markerREF.openPolylineOptions()}> Change Polyline </DropdownItem>
+            <DropdownItem onClick={() => this.markerREF.openSettings()}> Settings </DropdownItem>
+            <DropdownItem onClick={() => this.markerREF.togglePolyline()}> Lines On/Off </DropdownItem>
+            <DropdownItem onClick={() => this.markerREF.toggleMarker()}> Markers On/Off </DropdownItem>
           </DropdownMenu>
         </ButtonDropdown>
     );
