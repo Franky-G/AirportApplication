@@ -220,3 +220,12 @@ function ResetAtlasPlaces() {
 }
 
 test("Reset Places", ResetAtlasPlaces)
+
+function testSetMarkerDefect() {
+  const marker = shallow(<Atlas/>)
+  let info = {latlng: {lat: 41, lng: -105}}
+  marker.instance().setMarker(info)
+  expect(marker.state().markerPosition).toEqual(info.latlng)
+}
+
+test("Set Marker", testSetMarkerDefect)
