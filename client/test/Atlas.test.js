@@ -229,3 +229,14 @@ function testSetMarkerDefect() {
 }
 
 test("Set Marker", testSetMarkerDefect)
+
+function testTripClickedDefect() {
+  const trip = shallow(<Atlas/>)
+  let initial = trip.instance().tripClicked()
+  expect(initial).toEqual("danger")
+  trip.setState({recordingTrip: 1})
+  let expectation = trip.instance().tripClicked()
+  expect(expectation).toEqual("success")
+}
+
+test("Trip Clicked", testTripClickedDefect)
