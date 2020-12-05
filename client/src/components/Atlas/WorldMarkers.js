@@ -117,11 +117,12 @@ export default class WorldMarkers extends Component {
     changeSettings(){
         return(
             <div ref={this.setModalRef} tabIndex="0">
-                <Modal isOpen={this.state.polyOpen} toggle={this.openPolylineOptions}>
-                    <ModalHeader toggle={() => this.openPolylineOptions()}><b>Marker and Line Settings</b></ModalHeader>
+                <Modal isOpen={this.state.polyOpen} toggle={this.openSettings}>
+                    <ModalHeader toggle={() => this.openSettings()}><b>Marker and Line Settings</b></ModalHeader>
                     <ModalBody>
                         <p className="vertical-center">Line Width: {this.state.lineWeight} <span style={{width: 30}}/>
-                            <Slider style={{width:300}} value={this.state.lineWeight} max={10} min={1} step={1} onChange={(event,value) => {if(this.checkSlider()){alert("Add 2 Points First");this.blur()} this.sliderChange(value)}}/>
+                            <Slider style={{width:300}} value={this.state.lineWeight} max={10} min={1} step={1}
+                                    onChange={(event,value) => {if(this.checkSlider()){alert("Add 2 Points First");this.blur()} this.sliderChange(value)}}/>
                         </p>
                         {this.formatSettings()}
                     </ModalBody>

@@ -8,6 +8,11 @@ import SearchModule from "./SearchModule";
 import Trip from "../Trip/Trip"
 import WorldMarkers from "./WorldMarkers";
 
+//----- Attribution ----- //
+// Feeling Lucky Icon - https://www.onlinewebfonts.com/icon/561191
+// Trip Icon - https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyoPgXCb-ylzSXatPkogyK2LTAY59d1_JEKQ&usqp=CAU
+// Settings Icon - https://simpleicon.com/wp-content/uploads/setting2.png
+
 const MAP_BOUNDS = [[-90, -180], [90, 180]];
 const MAP_CENTER_DEFAULT = [40.5734, -105.0865];
 const MAP_LAYER_ATTRIBUTION_STREET = "&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors";
@@ -147,7 +152,9 @@ export default class Atlas extends Component {
   renderOptionButton(){
     return(
         <ButtonDropdown direction="right" style={{top: 207, zIndex: 1016, padding: 0}} isOpen={this.state.optionIsOpen} toggle={() => this.setState({optionIsOpen: !this.state.optionIsOpen})}>
-          <DropdownToggle id="tripRecording" size="sm" title="Marker Options" caret style={{zIndex: 1022}}>O</DropdownToggle>
+          <DropdownToggle id="tripRecording" size="sm" title="Marker Options" style={{zIndex: 1022}}>
+            <img src={"https://imgur.com/0xsjZO2.jpg"} alt="O" title="Settings" style={{position: "absolute", left: 5, top: 6, width: 20, height: 20}}/>
+          </DropdownToggle>
           <DropdownMenu>
             <DropdownItem onClick={() => this.markerREF.openSettings()}> Settings </DropdownItem>
             <DropdownItem onClick={() => this.markerREF.togglePolyline()}> Lines On/Off </DropdownItem>
@@ -161,10 +168,10 @@ export default class Atlas extends Component {
     return(
         <ButtonDropdown direction="right" isOpen={this.state.dropdownOpen} toggle={() => this.setState({dropdownOpen: !this.state.dropdownOpen})}
                         style={{position: "absolute", top: 189, zIndex: 1016, padding: 0, margin: 0, fontSize: 9, outline: 0}}>
-          <DropdownToggle id="tripRecording" title="Trip Designer" className={this.state.tripStyle} caret size="sm"
+          <DropdownToggle id="tripRecording" title="Trip Designer" className={this.state.tripStyle} size="sm"
                           style={{borderLeft: "2px solid rgba(0,0,0,0.3)", borderRight: "2px solid rgba(0,0,0,0.3)",
             borderBottom: "2px solid rgba(0,0,0,0.3)", borderTop: "1px solid rgba(0,0,0,0.2)", borderRadius: "0 0 0 0", outline: 0}}>
-            T
+            <img src={"https://imgur.com/mL18C3f.jpg"} alt="T" title="Trip Designer" style={{position: "absolute", left: 5, top: 6, width: 20, height: 20}}/>
           </DropdownToggle>
           <DropdownMenu>
             <DropdownItem onClick={() => this.tripREF.closeTripUI()}>Open Trip Designer</DropdownItem>
