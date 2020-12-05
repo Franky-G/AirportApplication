@@ -240,3 +240,13 @@ function testTripClickedDefect() {
 }
 
 test("Trip Clicked", testTripClickedDefect)
+
+function testTripRecordDefect() {
+  const trip = shallow(<Atlas/>)
+  trip.instance().setTripRecord()
+  expect(trip.state().recordingTrip).toEqual(1)
+  trip.setState({recordingTrip: 1})
+  expect(trip.state().recordingTrip).toEqual(1)
+}
+
+test("Test Set Trip Record", testTripRecordDefect)
