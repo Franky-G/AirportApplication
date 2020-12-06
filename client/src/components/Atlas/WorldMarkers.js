@@ -13,8 +13,6 @@ const icon3 = new L.Icon({iconUrl: 'https://imgur.com/fyKEMnS.jpg', iconSize: ne
 const icon4 = new L.Icon({iconUrl: 'https://imgur.com/lgn5Mpi.jpg', iconSize: new L.Point(30, 33), iconAnchor: [15, 32]});
 const icon5 = new L.Icon({iconUrl: 'https://imgur.com/wsuH1XQ.jpg', iconSize: new L.Point(30, 33), iconAnchor: [9, 27]});
 const icon6 = new L.Icon({iconUrl: icon, iconSize: new L.Point(30, 40), iconAnchor: [15, 40]});
-const MAP_CENTER_DEFAULT = [40.5734, -105.0865];
-const MARKER_ICON = L.icon({ iconUrl: icon, shadowUrl: iconShadow, iconAnchor: [12, 40] });
 const HOME_MARKER = L.icon({ iconUrl: homeMarker, shadowUrl: iconShadow, shadowAnchor: [12, 41], iconAnchor: [32, 55], iconSize: [60, 65]});
 const lineArray = [{state: "", label: "Solid"}, {state: "7 8", label: "Dashed"}, {state: "24 10 8 10", label: "Dotted"}]
 const markerArray =[{source: "https://imgur.com/Wr4R0ei.jpg", label: "Blue", icon: icon1}, {source: "https://imgur.com/S9WRG9G.jpg", label: "Red", icon: icon2},
@@ -26,9 +24,9 @@ export default class WorldMarkers extends Component {
     constructor(props) {
         super(props);
         this.setModalRef = this.setModalRef.bind(this);
-        this.openSettings = this.openSettings.bind(this);
+        this.toggleSettings = this.toggleSettings.bind(this);
         this.state = {
-            marker: icon, lineType: null, lineColor: "green", lineWeight: 3, polyOpen: false, dashes: "", markerOpen: false, markerNumber: 5,
+            marker: icon, lineType: null, lineColor: "green", lineWeight: 3, settingsOpen: false, dashes: "", markerOpen: false, markerNumber: 0,
             togglePolyline: true, toggleMarker: true,
         }
     }
@@ -55,7 +53,7 @@ export default class WorldMarkers extends Component {
 
     handleClickOutside(event) {
         if (this.modalRef && !this.modalRef.contains(event.target)) {
-            this.openSettings()
+            this.toggleSettings()
         }
     }
 
@@ -65,7 +63,7 @@ export default class WorldMarkers extends Component {
 
     addAMarker(markerType){
         const initMarker = ref => { if (ref) { ref.leafletElement.openPopup()}};
-        let positionMarker = MAP_CENTER_DEFAULT;
+        let positionMarker;
         if(markerType < 2) {
             positionMarker = this.props.prevLocation[markerType]
         } else {
@@ -82,16 +80,16 @@ export default class WorldMarkers extends Component {
         return(
             <div>
                 <p className="vertical-center">Color: <span style={{width: 40}}/>
-                    {this.helperLabelColor("Blue")} {this.colorSpacer()}
-                    {this.helperLabelColor("Red")} {this.colorSpacer()}
-                    {this.helperLabelColor("Green")} {this.colorSpacer()}
-                    {this.helperLabelColor("Purple")} {this.colorSpacer()}
-                    {this.helperLabelColor("Black")} {this.colorSpacer()}
+                    {this.helperLabelColor("Blue")} <div className="px-3"/>
+                    {this.helperLabelColor("Red")} <div className="px-3"/>
+                    {this.helperLabelColor("Green")} <div className="px-3"/>
+                    {this.helperLabelColor("Purple")} <div className="px-3"/>
+                    {this.helperLabelColor("Black")} <div className="px-3"/>
                 </p>
                 <p className="vertical-center"> Line type: <span style={{width: 30}}/>
-                    {this.helperLabelLines(lineArray, 0)} {this.colorSpacer()}
-                    {this.helperLabelLines(lineArray, 1)} {this.colorSpacer()}
-                    {this.helperLabelLines(lineArray, 2)} {this.colorSpacer()}
+                    {this.helperLabelLines(lineArray, 0)} <div className="px-3"/>
+                    {this.helperLabelLines(lineArray, 1)} <div className="px-3"/>
+                    {this.helperLabelLines(lineArray, 2)} <div className="px-3"/>
                 </p>
                 <Row style={{height: 80}}>
                     {this.colorSpacer()} {this.helperMarkerButton(0)}
@@ -109,8 +107,8 @@ export default class WorldMarkers extends Component {
     changeSettings(){
         return(
             <div ref={this.setModalRef} tabIndex="0">
-                <Modal isOpen={this.state.polyOpen} toggle={this.openSettings}>
-                    <ModalHeader toggle={() => this.openSettings()}><b>Marker and Line Settings</b></ModalHeader>
+                <Modal isOpen={this.state.settingsOpen} toggle={this.toggleSettings}>
+                    <ModalHeader toggle={() => this.toggleSettings(3)}><b>Marker and Line Settings</b></ModalHeader>
                     <ModalBody>
                         <p className="vertical-center">Line Width: {this.state.lineWeight} <span style={{width: 30}}/>
                             <Slider style={{width:300}} value={this.state.lineWeight} max={10} min={1} step={1}
@@ -189,7 +187,7 @@ export default class WorldMarkers extends Component {
     renderWhereIsMarker(){
         const initMarker = ref => { if (ref) { ref.leafletElement.openPopup() } };
         return (
-            <Marker ref={initMarker} position={this.props.whereIsMarker} icon={MARKER_ICON}/>
+            <Marker ref={initMarker} position={this.props.whereIsMarker} icon={markerArray[this.state.markerNumber].icon}/>
         );
     }
 
@@ -202,33 +200,34 @@ export default class WorldMarkers extends Component {
             array.push(this.props.prevLocation[0])
             array.push(this.props.prevLocation[1])
         }
-        if(array[0] !== null && array[1] !== null && this.props.prevLocation[0] !== null && this.props.prevLocation[1] !== null) {
+        if((array[0] !== null && array[1] !== null) || (this.props.prevLocation[0] !== null && this.props.prevLocation[1] !== null)) {
             return (this.renderPolyline(array));
-        }
-        if(array[0] !== null && array[1] !== null){
-            return(<Polyline color={this.state.lineColor} weight={this.state.lineWeight} dashArray={this.state.dashes} positions={array}/>);
         }
     }
 
     renderPolyline(array){
+        let placesPoly = this.props.atlasTripPlaces.length >= 2;
+        let distancePoly = this.props.prevLocation[1] !== null;
         const initMarker = ref => {if (ref) {ref.leafletElement.openPopup()}}
         return(
             <div>
-                <Polyline color={this.state.lineColor} weight={this.state.lineWeight} dashArray={this.state.dashes} positions={array}/>
-                <Polyline ref={initMarker} color={this.state.lineColor} weight={this.state.lineWeight} dashArray={this.state.dashes} positions={this.props.prevLocation} >
+                {placesPoly && <Polyline color={this.state.lineColor} weight={this.state.lineWeight} dashArray={this.state.dashes} positions={array}/>}
+                {distancePoly && <Polyline ref={initMarker} color={this.state.lineColor} weight={this.state.lineWeight} dashArray={this.state.dashes} positions={this.props.prevLocation} >
                     <Popup autoPan={false} className="popupStyle">
                         Distance: {this.props.polyDistance} M
                     </Popup>
-                </Polyline>
+                </Polyline>}
             </div>
         );
     }
 
-    togglePolyline(){
-        this.setState({togglePolyline: !this.state.togglePolyline})
-    }
-
-    toggleMarker(){
-        this.setState({toggleMarker: !this.state.toggleMarker})
+    toggleSettings(value){
+        if(value === 0) {
+            this.setState({togglePolyline: !this.state.togglePolyline})
+        } else if(value === 1) {
+            this.setState({toggleMarker: !this.state.toggleMarker})
+        } else {
+            this.setState({settingsOpen: !this.state.settingsOpen})
+        }
     }
 }

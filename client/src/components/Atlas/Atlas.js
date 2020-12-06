@@ -156,9 +156,9 @@ export default class Atlas extends Component {
             <img src={"https://imgur.com/0xsjZO2.jpg"} alt="O" title="Settings" style={{position: "absolute", left: 5, top: 6, width: 20, height: 20}}/>
           </DropdownToggle>
           <DropdownMenu>
-            <DropdownItem onClick={() => this.markerREF.openSettings()}> Settings </DropdownItem>
-            <DropdownItem onClick={() => this.markerREF.togglePolyline()}> Lines On/Off </DropdownItem>
-            <DropdownItem onClick={() => this.markerREF.toggleMarker()}> Markers On/Off </DropdownItem>
+            <DropdownItem onClick={() => this.markerREF.toggleSettings(3)}> Settings </DropdownItem>
+            <DropdownItem onClick={() => this.markerREF.toggleSettings(0)}> Lines On/Off </DropdownItem>
+            <DropdownItem onClick={() => this.markerREF.toggleSettings(1)}> Markers On/Off </DropdownItem>
           </DropdownMenu>
         </ButtonDropdown>
     );
@@ -168,9 +168,7 @@ export default class Atlas extends Component {
     return(
         <ButtonDropdown direction="right" isOpen={this.state.dropdownOpen} toggle={() => this.setState({dropdownOpen: !this.state.dropdownOpen})}
                         style={{position: "absolute", top: 189, zIndex: 1016, padding: 0, margin: 0, fontSize: 9, outline: 0}}>
-          <DropdownToggle id="tripRecording" title="Trip Designer" className={this.state.tripStyle} size="sm"
-                          style={{borderLeft: "2px solid rgba(0,0,0,0.3)", borderRight: "2px solid rgba(0,0,0,0.3)",
-            borderBottom: "2px solid rgba(0,0,0,0.3)", borderTop: "1px solid rgba(0,0,0,0.2)", borderRadius: "0 0 0 0", outline: 0}}>
+          <DropdownToggle id="tripRecording" title="Trip Designer" size="sm">
             <img src={"https://imgur.com/mL18C3f.jpg"} alt="T" title="Trip Designer" style={{position: "absolute", left: 5, top: 6, width: 20, height: 20}}/>
           </DropdownToggle>
           <DropdownMenu>
