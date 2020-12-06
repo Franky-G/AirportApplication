@@ -26,7 +26,6 @@ export default class WorldMarkers extends Component {
     constructor(props) {
         super(props);
         this.setModalRef = this.setModalRef.bind(this);
-        this.setModalRef1 = this.setModalRef1.bind(this);
         this.openSettings = this.openSettings.bind(this);
         this.state = {
             marker: icon, lineType: null, lineColor: "green", lineWeight: 3, polyOpen: false, dashes: "", markerOpen: false, markerNumber: 5,
@@ -56,19 +55,12 @@ export default class WorldMarkers extends Component {
 
     handleClickOutside(event) {
         if (this.modalRef && !this.modalRef.contains(event.target)) {
-            this.openPolylineOptions()
-        }
-        if (this.modalRef1 && !this.modalRef1.contains(event.target)) {
-            this.openMarkerOptions()
+            this.openSettings()
         }
     }
 
     setModalRef(node) {
         this.modalRef = node;
-    }
-
-    setModalRef1(node) {
-        this.modalRef1 = node;
     }
 
     addAMarker(markerType){
@@ -122,7 +114,7 @@ export default class WorldMarkers extends Component {
                     <ModalBody>
                         <p className="vertical-center">Line Width: {this.state.lineWeight} <span style={{width: 30}}/>
                             <Slider style={{width:300}} value={this.state.lineWeight} max={10} min={1} step={1}
-                                    onChange={(event,value) => {if(this.checkSlider()){alert("Add 2 Points First");this.blur()} this.sliderChange(value)}}/>
+                                    onChange={(event,value) => {if(this.checkSlider()){alert("Add 2 Points First")} else {this.setState({lineWeight: value})}}}/>
                         </p>
                         {this.formatSettings()}
                     </ModalBody>
@@ -162,7 +154,12 @@ export default class WorldMarkers extends Component {
     }
 
     checkSlider(){
-        return (this.props.atlasTripPlaces[1] === "" || this.props.prevLocation[1] === null);
+        if(this.props.atlasTripPlaces.length < 2){
+            return this.props.prevLocation[1] === null;
+        }
+        if(this.props.prevLocation[1] === null){
+            return this.props.atlasTripPlaces.length < 2;
+        }
     }
 
     getHomeMarker(){
@@ -179,15 +176,10 @@ export default class WorldMarkers extends Component {
         for (let i = 0; i < 2; ++i) {
             if (this.props.prevLocation[i] !== null) { markerSet.push(this.addAMarker(i)); }
         }
-        if (this.props.atlasTripPlaces !== null)
-            for (let i = 3; i < this.props.atlasTripPlaces.length + 3; ++i) {
-                 { markerSet.push(this.addAMarker(i)); }
-            }
+        for (let i = 3; i < this.props.atlasTripPlaces.length + 3; ++i) {
+            { markerSet.push(this.addAMarker(i)); }
+        }
         return ( <div>{markerSet.map((element, index) => (<div key={index}>{element}</div>))} </div> );
-    }
-
-    sliderChange(value){
-        this.setState({lineWeight: value});
     }
 
     openSettings(){
