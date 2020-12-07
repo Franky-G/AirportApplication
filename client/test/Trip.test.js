@@ -226,3 +226,10 @@ function testAddTripListItem() {
 }
 
 test("Test Add Place List Item", testAddTripListItem)
+
+function testRenderSave() {
+    const save = shallow(<Trip/>)
+    save.instance().renderSaveDropDown()
+}
+
+test("Save Drop Down Menu", testRenderSave)
