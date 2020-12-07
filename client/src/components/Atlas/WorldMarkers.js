@@ -92,14 +92,14 @@ export default class WorldMarkers extends Component {
                     {this.helperLabelLines(lineArray, 2)} <div className="px-3"/>
                 </p>
                 <Row style={{height: 80}}>
-                    {this.colorSpacer()} {this.helperMarkerButton(0)}
+                    <div className="px-3"/> {this.helperMarkerButton(0)}
                     {this.helperMarkerButton(1)}
                     {this.helperMarkerButton(2)}
                     {this.helperMarkerButton(3)}
                     {this.helperMarkerButton(4)}
                     {this.helperMarkerButton(5)}
                 </Row>
-                <Row>{this.colorSpacer()}Markers courtesy of: <span className="px-1"/><a href="https://www.vecteezy.com/vector-art/646870-mapping-pins-icon">{" "}Vecteezy</a></Row>
+                <Row><div className="px-3"/> Markers courtesy of: <span className="px-1"/><a href="https://www.vecteezy.com/vector-art/646870-mapping-pins-icon">{" "}Vecteezy</a></Row>
             </div>
         );
     }
@@ -142,12 +142,6 @@ export default class WorldMarkers extends Component {
             <button  style={{top: 5, width: 70, height: 70, backgroundColor: "#FFFFFF", border: "2px solid #1E4D2B", borderRadius: "10px"}}>
                 <span><img src={markerArray[index].source} style={{width: 50, height: 55}} title={markerArray[index].label} onClick={() => this.setState({markerNumber: index})} alt="Marker Type"/></span>
             </button>
-        );
-    }
-
-    colorSpacer(){
-        return(
-            <div className="px-3"/>
         );
     }
 
