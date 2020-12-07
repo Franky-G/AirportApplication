@@ -79,7 +79,8 @@
   outline:none !important;
 }
 
-#searchListStyle{
+.searchListStyle.searchListStyle, .searchListStyle.searchListStyle:focus, .searchListStyle.searchListStyle:active,
+.searchListStyle.searchListStyle:active:focus, .searchListStyle.searchListStyle:hover{
   margin: 0;
   padding: 8px;
   height: 45px;

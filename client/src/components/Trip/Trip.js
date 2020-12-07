@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Row, InputGroup, PopoverHeader, PopoverBody, Popover, Button, ListGroupItem, ListGroup, ButtonDropdown, DropdownMenu, DropdownToggle, DropdownItem, InputGroupAddon, Container} from "reactstrap";
+import {Row, InputGroup, UncontrolledPopover, PopoverHeader, PopoverBody, Popover, Button, ListGroupItem, ListGroup, ButtonDropdown, DropdownMenu, DropdownToggle, DropdownItem, InputGroupAddon, Container} from "reactstrap";
 import Input from "@material-ui/core/Input";
 import {sendServerRequest} from "../../utils/restfulAPI";
 import FileIO from "../Atlas/FileIO"
@@ -20,7 +20,8 @@ export default class SearchModule extends Component {
         this.state = {
             designerOpen: '', searchPlaces: "", filter: "", trips: [new TripObject("My Trip", [], "My Favorite Places")],
             distance: 0, distanceArr: null, stateIndex: 0, openDropdown: false, openPopover: false, popupInput: "", searchCoords: "",
-            searchListOpen: false, searchListArray: [], numberFound: 0, earthRadius: "3959.0", responseReq: "0.0", saveDropDown: false, filterText: ""} }
+            searchListOpen: false, searchListArray: [], numberFound: 0, earthRadius: "3959.0", responseReq: "0.0", saveDropDown: false, filterText: "",
+            placePopoverOpen: false,} }
 
     render(){
         return(
@@ -85,8 +86,32 @@ export default class SearchModule extends Component {
         let tripNote = placesArray[element][0].lat.toFixed(3) + ", " + placesArray[element][0].lng.toFixed(3)
         return(
             <div>
-                <ListGroupItem id="searchListStyle" className="vertical-center" tag="button" title={tripNote} action onClick={(e) => {e.stopPropagation(); this.onClickCall(element, tripIndex)}}>
+                <ListGroupItem id={"place" + element} className="vertical-center searchListStyle" tag="button" action
+                               onMouseEnter={() => this.togglePlacePopover()} onMouseLeave={() => this.togglePlacePopover()} onClick={(e) => {e.stopPropagation(); this.onClickCall(element, tripIndex)}}>
+                    <UncontrolledPopover trigger="hover" placement="bottom" target={"place" + element} offset="100" style={{maxWidth: 200}} hideArrow="true">
+                        <PopoverHeader>Place Details</PopoverHeader>
+                        <PopoverBody>
+                            {tripNote}
+                            {this.placeDetails(element, placesArray)}
+                        </PopoverBody>
+                    </UncontrolledPopover>
                     {placesArray[element][1] + 1} | {placesArray[element][2]}{this.helperAddPlaceListItem(element, tripIndex)}</ListGroupItem></div> );}
+
+    togglePlacePopover(){
+        this.setState({placePopoverOpen: !this.state.placePopoverOpen})
+    }
+
+    placeDetails(element, placesArray){
+        if(placesArray[element].length !== 3){
+            return(
+                <div>
+                    {placesArray[element][5]}<br/>
+                    {placesArray[element][6]}<br/>
+                    {placesArray[element][7]}<br/>
+                </div>
+            );
+        }
+    }
 
     helperAddPlaceListItem(element, tripIndex) {
         const helpPlaceListItem = (e, tripIndex, methodName, params) => { e.stopPropagation(); this.state.trips[tripIndex][methodName](params); this.forceUpdate(); }
@@ -98,7 +123,7 @@ export default class SearchModule extends Component {
 
     addTripListItem(index){
         return(
-            <ListGroupItem id="searchListStyle" tag="button" title={this.state.trips[this.state.stateIndex].note} action onClick={(e) => {e.stopPropagation(); this.setState({stateIndex: index})}}>
+            <ListGroupItem className="searchListStyle" tag="button" title={this.state.trips[this.state.stateIndex].note} action onClick={(e) => {e.stopPropagation(); this.setState({stateIndex: index})}}>
                 {this.state.trips[index].name}
                 <div className="vertical-center justify-content-center" style={{position: "absolute", right: 5, top: 5, width: 30, height: 30, backgroundColor: "#1E4D2B", color: "#FFFFFF", borderRadius: 8, border: "1px solid #000000"}}
                      onClick={(e) => {e.stopPropagation(); this.spliceTrips(index); this.forceUpdate()}}>X</div></ListGroupItem> ); }
@@ -341,6 +366,9 @@ export default class SearchModule extends Component {
                                 elementArray.push(places.data.places[i].latitude);
                                 elementArray.push(places.data.places[i].longitude);
                                 elementArray.push(places.data.places[i].type);
+                                elementArray.push(places.data.places[i].country)
+                                elementArray.push(places.data.places[i].region)
+                                elementArray.push(places.data.places[i].municipality)
                             } outerArray.push(elementArray); }
                         this.setState({searchListArray: outerArray, searchListOpen: true, numberFound: places.data.found});
                     } catch (error) { console.error(error) }
@@ -348,14 +376,14 @@ export default class SearchModule extends Component {
 
     addSearchItem(index){
         let tripsArray = this.state.trips
-        tripsArray[this.state.stateIndex].places.push([L.latLng(this.state.searchListArray[index][1], this.state.searchListArray[index][2]), this.state.trips[this.state.stateIndex].places.length, this.state.searchListArray[index][0],"NO INPUT CORDS" ,this.state.searchListArray[index][3]])
+        tripsArray[this.state.stateIndex].places.push([L.latLng(this.state.searchListArray[index][1], this.state.searchListArray[index][2]), this.state.trips[this.state.stateIndex].places.length, this.state.searchListArray[index][0],"NO INPUT CORDS" ,this.state.searchListArray[index][3], this.state.searchListArray[index][4], this.state.searchListArray[index][5], this.state.searchListArray[index][6]])
         this.setState({trips: tripsArray})}
 
     renderSearchList(){
         let SLArray = []
         for(let i = 0; i < this.state.numberFound; ++i){
             if(i >= 20){break;}
-            SLArray.push(<ListGroupItem id="searchListStyle" style={{maxWidth: 268, height: 55}} tag="button" action onClick={() => {this.addSearchItem(i); this.setState({searchListOpen: false})}}>{this.state.searchListArray[i][0]}</ListGroupItem>);
+            SLArray.push(<ListGroupItem className="searchListStyle" style={{maxWidth: 268, height: 55}} tag="button" action onClick={() => {this.addSearchItem(i); this.setState({searchListOpen: false})}}>{this.state.searchListArray[i][0]}</ListGroupItem>);
         }
         return(
             <div tabIndex="0">
