@@ -206,7 +206,15 @@ export default class SearchModule extends Component {
     }
 
     getFormatForSaveSVG() {
-        const fileString = '<?xml version="1.0" encoding="UTF-8"?>' + '<svg xmlns="http://www.w3.org/2000/svg" width="1377" height="692">\n' + '<image width="100%" height="100%" href="https://instructor-uploaded-content.s3.amazonaws.com/MAP.svg-6983777"/>\n' + '</svg>'
+        let places = this.formatTripDistance()
+        var fileString = '<?xml version="1.0" encoding="UTF-8"?>' + '<svg xmlns="http://www.w3.org/2000/svg" width="360" height="180">\n' + '<image width="100%" height="100%" href="https://instructor-uploaded-content.s3.amazonaws.com/MAP.svg-6983777"/>\n' +
+            '<g transform="matrix(1,0,0,-1,180,90)">\n' + '<polyline points="'
+        for (var i = 0; i < places.length; i++) {
+            let coordString = places[i].longitude + ',' + places[i].latitude + ' '
+            fileString = fileString.concat(coordString)
+        }
+        fileString = fileString.concat(places[0].longitude + ',' + places[0].latitude + '" style = "fill:none;stroke:black;stroke-width:1" />\n')
+        fileString = fileString.concat('</g>' + '</svg>')
         this.FileIOREF.downloadFile(fileString, this.state.trips[this.state.stateIndex].name+'.svg', 'application/svg')
     }
 

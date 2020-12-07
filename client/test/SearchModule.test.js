@@ -112,3 +112,10 @@ function testSearchModule() {
 }
 
 test("Search Module", testSearchModule)
+
+function testLucky() {
+    const lucky = shallow(<SearchModule/>)
+    lucky.instance().renderLuckyButton()
+}
+
+test("Lucky Button", testLucky)
