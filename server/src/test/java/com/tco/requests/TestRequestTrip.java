@@ -61,10 +61,10 @@ public class TestRequestTrip {
     }
 
     @Test
-    @DisplayName("Version number is equal to 5")
+    @DisplayName("Version number is equal to 4")
     public void testVersion() {
         int version = trip.getRequestVersion();
-        assertEquals(5, version);
+        assertEquals(4, version);
     }
 
     @Test
@@ -140,10 +140,10 @@ public class TestRequestTrip {
     }
 
     @Test
-    @DisplayName("Version number is equal to 5 Trip 2")
+    @DisplayName("Version number is equal to 4 Trip 2")
     public void testVersionTrip2() {
         int version = trip2.getRequestVersion();
-        assertEquals(5, version);
+        assertEquals(4, version);
     }
 
     @Test
