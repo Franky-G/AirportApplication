@@ -28,6 +28,7 @@ let layers = [ {name: "Open Street Map Black and White", attribution: MAP_LAYER_
 const MAP_MIN_ZOOM = 1;
 const MAP_MAX_ZOOM = 19;
 const HOME_BUTTON_STYLE = {top: 5, left: 1, width: 15, position: "absolute",}
+const dropdownStyle = {position: "absolute", left: 5, top: 6, width: 20, height: 20}
 let zoomLevel = 15;
 function error(err) { console.warn(`ERROR(${err.code}): ${err.message}`); }
 
@@ -153,7 +154,7 @@ export default class Atlas extends Component {
     return(
         <ButtonDropdown direction="right" style={{top: 207, zIndex: 1016, padding: 0}} isOpen={this.state.optionIsOpen} toggle={() => this.setState({optionIsOpen: !this.state.optionIsOpen})}>
           <DropdownToggle id="tripRecording" size="sm" title="Marker Options" style={{zIndex: 1022}}>
-            <img src={"https://imgur.com/0xsjZO2.jpg"} alt="O" title="Settings" style={{position: "absolute", left: 5, top: 6, width: 20, height: 20}}/>
+            <img src={"https://imgur.com/0xsjZO2.jpg"} alt="O" title="Settings" style={dropdownStyle}/>
           </DropdownToggle>
           <DropdownMenu>
             <DropdownItem onClick={() => this.markerREF.toggleSettings(3)}> Settings </DropdownItem>
@@ -169,7 +170,7 @@ export default class Atlas extends Component {
         <ButtonDropdown direction="right" isOpen={this.state.dropdownOpen} toggle={() => this.setState({dropdownOpen: !this.state.dropdownOpen})}
                         style={{position: "absolute", top: 189, zIndex: 1016, padding: 0, margin: 0, fontSize: 9, outline: 0}}>
           <DropdownToggle id="tripRecording" title="Trip Designer" size="sm">
-            <img src={"https://imgur.com/mL18C3f.jpg"} alt="T" title="Trip Designer" style={{position: "absolute", left: 5, top: 6, width: 20, height: 20}}/>
+            <img style={dropdownStyle} alt="T" src={"https://imgur.com/mL18C3f.jpg"}  title="Trip Designer" />
           </DropdownToggle>
           <DropdownMenu>
             <DropdownItem onClick={() => this.tripREF.closeTripUI()}>Open Trip Designer</DropdownItem>
