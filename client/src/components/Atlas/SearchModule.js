@@ -100,7 +100,9 @@ export default class SearchModule extends Component {
 
     renderLuckyButton() {
         return(
-            <button className="home-btn" title="Feeling Lucky?" style={{position: "absolute", left: 25, top: 126, zIndex: 1014}} onClick={() => this.findREF.sendFindServerRequest("78LuckyBoy78", 1, {})}>L</button>
+            <button className="home-btn" title="Feeling Lucky?" style={{position: "absolute", left: 25, top: 126, zIndex: 1014}} onClick={() => this.findREF.sendFindServerRequest("78LuckyBoy78", 1, {})}>
+                <img src={"https://imgur.com/YzDYoUN.jpg"} alt="L" style={{position: "absolute", left: 5, top: 8, width: 20, height: 15}}/>
+            </button>
         );
     }
 

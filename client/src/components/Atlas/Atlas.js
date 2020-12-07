@@ -8,6 +8,11 @@ import SearchModule from "./SearchModule";
 import Trip from "../Trip/Trip"
 import WorldMarkers from "./WorldMarkers";
 
+//----- Attribution ----- //
+// Feeling Lucky Icon - https://www.onlinewebfonts.com/icon/561191
+// Trip Icon - https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQyoPgXCb-ylzSXatPkogyK2LTAY59d1_JEKQ&usqp=CAU
+// Settings Icon - https://simpleicon.com/wp-content/uploads/setting2.png
+
 const MAP_BOUNDS = [[-90, -180], [90, 180]];
 const MAP_CENTER_DEFAULT = [40.5734, -105.0865];
 const MAP_LAYER_ATTRIBUTION_STREET = "&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors";
@@ -23,6 +28,7 @@ let layers = [ {name: "Open Street Map Black and White", attribution: MAP_LAYER_
 const MAP_MIN_ZOOM = 1;
 const MAP_MAX_ZOOM = 19;
 const HOME_BUTTON_STYLE = {top: 5, left: 1, width: 15, position: "absolute",}
+const dropdownStyle = {position: "absolute", left: 5, top: 6, width: 20, height: 20}
 let zoomLevel = 15;
 function error(err) { console.warn(`ERROR(${err.code}): ${err.message}`); }
 
@@ -147,10 +153,13 @@ export default class Atlas extends Component {
   renderOptionButton(){
     return(
         <ButtonDropdown direction="right" style={{top: 207, zIndex: 1016, padding: 0}} isOpen={this.state.optionIsOpen} toggle={() => this.setState({optionIsOpen: !this.state.optionIsOpen})}>
-          <DropdownToggle id="tripRecording" size="sm" title="Marker Options" caret style={{zIndex: 1022}}>O</DropdownToggle>
+          <DropdownToggle id="tripRecording" size="sm" title="Marker Options" style={{zIndex: 1022}}>
+            <img src={"https://imgur.com/0xsjZO2.jpg"} alt="O" title="Settings" style={dropdownStyle}/>
+          </DropdownToggle>
           <DropdownMenu>
-            <DropdownItem onClick={() => this.markerREF.changeMarker()}>Change Marker</DropdownItem>
-            <DropdownItem onClick={() => this.markerREF.openPolylineOptions()}> Change Polyline </DropdownItem>
+            <DropdownItem onClick={() => this.markerREF.toggleSettings(3)}> Settings </DropdownItem>
+            <DropdownItem onClick={() => this.markerREF.toggleSettings(0)}> Lines On/Off </DropdownItem>
+            <DropdownItem onClick={() => this.markerREF.toggleSettings(1)}> Markers On/Off </DropdownItem>
           </DropdownMenu>
         </ButtonDropdown>
     );
@@ -160,10 +169,8 @@ export default class Atlas extends Component {
     return(
         <ButtonDropdown direction="right" isOpen={this.state.dropdownOpen} toggle={() => this.setState({dropdownOpen: !this.state.dropdownOpen})}
                         style={{position: "absolute", top: 189, zIndex: 1016, padding: 0, margin: 0, fontSize: 9, outline: 0}}>
-          <DropdownToggle id="tripRecording" title="Trip Designer" className={this.state.tripStyle} caret size="sm"
-                          style={{borderLeft: "2px solid rgba(0,0,0,0.3)", borderRight: "2px solid rgba(0,0,0,0.3)",
-            borderBottom: "2px solid rgba(0,0,0,0.3)", borderTop: "1px solid rgba(0,0,0,0.2)", borderRadius: "0 0 0 0", outline: 0}}>
-            T
+          <DropdownToggle id="tripRecording" title="Trip Designer" size="sm">
+            <img style={dropdownStyle} alt="T" src={"https://imgur.com/mL18C3f.jpg"}  title="Trip Designer" />
           </DropdownToggle>
           <DropdownMenu>
             <DropdownItem onClick={() => this.tripREF.closeTripUI()}>Open Trip Designer</DropdownItem>
