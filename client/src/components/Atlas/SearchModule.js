@@ -7,6 +7,7 @@ import WhereIs from "./WhereIs";
 import RadioButtons from "./RadioButtons";
 import Find from "./Find";
 import Fade from "@material-ui/core/Fade";
+import luckyIcon from "../../static/images/img_561191.png";
 
 const inputFieldStyleFrom = {zIndex: 1002, height: 34, top: 10, left: 70, position: "absolute"}
 
@@ -101,7 +102,7 @@ export default class SearchModule extends Component {
     renderLuckyButton() {
         return(
             <button className="home-btn" title="Feeling Lucky?" style={{position: "absolute", left: 25, top: 126, zIndex: 1014}} onClick={() => this.findREF.sendFindServerRequest("78LuckyBoy78", 1, {})}>
-                <img src={"https://imgur.com/YzDYoUN.jpg"} alt="L" style={{position: "absolute", left: 5, top: 8, width: 20, height: 15}}/>
+                <img src={luckyIcon} alt="L" style={{position: "absolute", left: 5, top: 8, width: 20, height: 15}}/>
             </button>
         );
     }

@@ -5,13 +5,18 @@ import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import {Modal, ModalBody, ModalHeader, Label, Input, Row} from "reactstrap";
 import Slider from '@material-ui/core/Slider';
+import blueIcon from "../../static/images/blueMarker.png";
+import redIcon from "../../static/images/redMarker.png";
+import greenIcon from "../../static/images/greenMarker.png";
+import orangeIcon from "../../static/images/orangeMarker.png";
+import pinIcon from "../../static/images/pinMarker.png";
 //import homeIcon from "../../static/images/homeButtonIcon.png";
 
-const icon1 = new L.Icon({iconUrl: "https://imgur.com/Wr4R0ei.jpg", iconSize: new L.Point(30, 33), iconAnchor: [15, 32]});
-const icon2 = new L.Icon({iconUrl: 'https://imgur.com/S9WRG9G.jpg', iconSize: new L.Point(30, 33), iconAnchor: [15, 32]});
-const icon3 = new L.Icon({iconUrl: 'https://imgur.com/fyKEMnS.jpg', iconSize: new L.Point(30, 33), iconAnchor: [15, 32]});
-const icon4 = new L.Icon({iconUrl: 'https://imgur.com/lgn5Mpi.jpg', iconSize: new L.Point(30, 33), iconAnchor: [15, 32]});
-const icon5 = new L.Icon({iconUrl: 'https://imgur.com/wsuH1XQ.jpg', iconSize: new L.Point(30, 33), iconAnchor: [9, 27]});
+const icon1 = new L.Icon({iconUrl: blueIcon, iconSize: new L.Point(30, 33), iconAnchor: [15, 32]});
+const icon2 = new L.Icon({iconUrl: redIcon, iconSize: new L.Point(30, 33), iconAnchor: [15, 32]});
+const icon3 = new L.Icon({iconUrl: greenIcon, iconSize: new L.Point(30, 33), iconAnchor: [15, 32]});
+const icon4 = new L.Icon({iconUrl: orangeIcon, iconSize: new L.Point(30, 33), iconAnchor: [15, 32]});
+const icon5 = new L.Icon({iconUrl: pinIcon, iconSize: new L.Point(30, 33), iconAnchor: [9, 27]});
 const icon6 = new L.Icon({iconUrl: icon, iconSize: new L.Point(30, 40), iconAnchor: [15, 40]});
 const HOME_MARKER = L.icon({ iconUrl: homeMarker, shadowUrl: iconShadow, shadowAnchor: [12, 41], iconAnchor: [32, 55], iconSize: [60, 65]});
 const lineArray = [{state: "", label: "Solid"}, {state: "7 8", label: "Dashed"}, {state: "24 10 8 10", label: "Dotted"}]
@@ -112,7 +117,7 @@ export default class WorldMarkers extends Component {
                     <ModalBody>
                         <p className="vertical-center">Line Width: {this.state.lineWeight} <span style={{width: 30}}/>
                             <Slider style={{width:300}} value={this.state.lineWeight} max={10} min={1} step={1}
-                                    onChange={(event,value) => {if(this.checkSlider()){alert("Add 2 Points First")} else {this.setState({lineWeight: value})}}}/>
+                                    onChange={(event,value) => {if(this.checkSlider()){alert("Add 2 Points First"); this.blur()} else {this.setState({lineWeight: value})}}}/>
                         </p>
                         {this.formatSettings()}
                     </ModalBody>

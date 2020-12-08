@@ -7,6 +7,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import SearchModule from "./SearchModule";
 import Trip from "../Trip/Trip"
 import WorldMarkers from "./WorldMarkers";
+import tripIcon from "../../static/images/road-2-xxl.png";
+import settingIcon from "../../static/images/setting2.png";
 
 //----- Attribution ----- //
 // Feeling Lucky Icon - https://www.onlinewebfonts.com/icon/561191
@@ -154,7 +156,7 @@ export default class Atlas extends Component {
     return(
         <ButtonDropdown direction="right" style={{top: 207, zIndex: 1016, padding: 0}} isOpen={this.state.optionIsOpen} toggle={() => this.setState({optionIsOpen: !this.state.optionIsOpen})}>
           <DropdownToggle id="tripRecording" size="sm" title="Marker Options" style={{zIndex: 1022}}>
-            <img src={"https://imgur.com/0xsjZO2.jpg"} alt="O" title="Settings" style={dropdownStyle}/>
+            <img src={settingIcon} alt="O" title="Settings" style={dropdownStyle}/>
           </DropdownToggle>
           <DropdownMenu>
             <DropdownItem onClick={() => this.markerREF.toggleSettings(3)}> Settings </DropdownItem>
@@ -170,7 +172,7 @@ export default class Atlas extends Component {
         <ButtonDropdown direction="right" isOpen={this.state.dropdownOpen} toggle={() => this.setState({dropdownOpen: !this.state.dropdownOpen})}
                         style={{position: "absolute", top: 189, zIndex: 1016, padding: 0, margin: 0, fontSize: 9, outline: 0}}>
           <DropdownToggle id="tripRecording" title="Trip Designer" size="sm">
-            <img style={dropdownStyle} alt="T" src={"https://imgur.com/mL18C3f.jpg"}  title="Trip Designer" />
+            <img style={dropdownStyle} alt="T" src={tripIcon}  title="Trip Designer" />
           </DropdownToggle>
           <DropdownMenu>
             <DropdownItem onClick={() => this.tripREF.closeTripUI()}>Open Trip Designer</DropdownItem>
