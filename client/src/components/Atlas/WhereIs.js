@@ -50,10 +50,8 @@ export default class SearchModule extends Component {
                     <Col style={{left: 283, top: 55}}>
                         <Button className="p-1 distanceButtonStyle" style={{background: "radial-gradient(#C8C372,#1E4D2B)",
                             color: "#000000", border: "1px solid #C8C372", fontSize:12,}}
-                                onClick={() => this.props.searchBarCoordsIntermediate(this.state.searchWhereIsTextFrom +
-                                    ','+this.state.searchWhereIsTextTo)} title="Where Is?"> Go To </Button></Col>
+                                onClick={() => this.middleCordsFunc()} title="Where Is?"> Go To </Button></Col>
                     <p className="searchTypeStyle">
-                        {this.fetchAddressData(this.state.searchWhereIsTextFrom, this.state.searchWhereIsTextTo)}
                         <small>
                             {this.state.address}
 
@@ -66,11 +64,18 @@ export default class SearchModule extends Component {
         );
     }
 
+    middleCordsFunc(){
+        this.props.searchBarCoordsIntermediate(this.state.searchWhereIsTextFrom +
+            ','+this.state.searchWhereIsTextTo)
+        this.fetchAddressData(this.state.searchWhereIsTextFrom, this.state.searchWhereIsTextTo)
+    }
+
      fetchAddressData(lat, lng){
         fetch(`https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&langCode=EN&location=${lng},${lat}`)
             .then(res => res.json())
             .then(myJson => {
-                this.setState({address : myJson.address.LongLabel})
+                    console.log("HI JIMUT")
+                    this.setState({address : myJson.address.LongLabel})
             })
 
     }
