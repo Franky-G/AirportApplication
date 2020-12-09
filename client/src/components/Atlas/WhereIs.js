@@ -11,7 +11,7 @@ export default class SearchModule extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            address: ''
         }
     }
 
@@ -53,11 +53,20 @@ export default class SearchModule extends Component {
                                 onClick={() => this.props.searchBarCoordsIntermediate(this.state.searchWhereIsTextFrom +
                                     ','+this.state.searchWhereIsTextTo)} title="Where Is?"> Go To </Button></Col>
                     <p className="searchTypeStyle">
-                        Coordinates: ({this.state.searchWhereIsTextFrom},{this.state.searchWhereIsTextTo})<br/>
+                        <br/>
                         Enter Any Format
                     </p>
                 </div>
             </Fade>
         );
+    }
+
+     fetchAddressData(lat, lng){
+        fetch(`https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&langCode=EN&location=${lng},${lat}`)
+            .then(res => res.json())
+            .then(myJson => {
+                this.setState({address : myJson.address.LongLabel})
+            })
+
     }
 }
