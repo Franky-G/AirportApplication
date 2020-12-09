@@ -11,7 +11,7 @@ export default class SearchModule extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            address: ''
         }
     }
 
@@ -50,14 +50,31 @@ export default class SearchModule extends Component {
                     <Col style={{left: 283, top: 55}}>
                         <Button className="p-1 distanceButtonStyle" style={{background: "radial-gradient(#C8C372,#1E4D2B)",
                             color: "#000000", border: "1px solid #C8C372", fontSize:12,}}
-                                onClick={() => this.props.searchBarCoordsIntermediate(this.state.searchWhereIsTextFrom +
-                                    ','+this.state.searchWhereIsTextTo)} title="Where Is?"> Go To </Button></Col>
+                                onClick={() => this.middleCordsFunc()} title="Where Is?"> Go To </Button></Col>
                     <p className="searchTypeStyle">
-                        Coordinates: ({this.state.searchWhereIsTextFrom},{this.state.searchWhereIsTextTo})<br/>
-                        Enter Any Format
+                        <small>
+                            {this.state.address} <br/>
+                        Enter Any Format!
+                        </small>
                     </p>
                 </div>
             </Fade>
         );
+    }
+
+    middleCordsFunc(){
+        this.props.searchBarCoordsIntermediate(this.state.searchWhereIsTextFrom +
+            ','+this.state.searchWhereIsTextTo);
+        this.fetchAddressData(this.state.searchWhereIsTextFrom, this.state.searchWhereIsTextTo);
+    }
+
+     fetchAddressData(lat, lng){
+         let cordParse = require('coordinate-parser');
+         let cordLocation = new cordParse(lat+','+lng);
+        fetch(`https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&langCode=EN&location=${cordLocation.getLongitude()},${cordLocation.getLatitude()}`)
+            .then(res => res.json())
+            .then(myJson => {
+                    this.setState({address : myJson.address.LongLabel});
+            })
     }
 }
