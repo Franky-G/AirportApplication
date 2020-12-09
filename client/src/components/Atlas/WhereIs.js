@@ -53,6 +53,8 @@ export default class SearchModule extends Component {
                                 onClick={() => this.props.searchBarCoordsIntermediate(this.state.searchWhereIsTextFrom +
                                     ','+this.state.searchWhereIsTextTo)} title="Where Is?"> Go To </Button></Col>
                     <p className="searchTypeStyle">
+                        {this.fetchAddressData(this.state.searchWhereIsTextFrom, this.state.searchWhereIsTextTo)}
+                        {this.state.address}
                         <br/>
                         Enter Any Format
                     </p>
