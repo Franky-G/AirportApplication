@@ -66,17 +66,17 @@ export default class SearchModule extends Component {
 
     middleCordsFunc(){
         this.props.searchBarCoordsIntermediate(this.state.searchWhereIsTextFrom +
-            ','+this.state.searchWhereIsTextTo)
-        this.fetchAddressData(this.state.searchWhereIsTextFrom, this.state.searchWhereIsTextTo)
+            ','+this.state.searchWhereIsTextTo);
+        this.fetchAddressData(this.state.searchWhereIsTextFrom, this.state.searchWhereIsTextTo);
     }
 
      fetchAddressData(lat, lng){
-        fetch(`https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&langCode=EN&location=${lng},${lat}`)
+         let cordParse = require('coordinate-parser');
+         let cordLocation = new cordParse(lat+','+lng);
+        fetch(`https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/reverseGeocode?f=pjson&langCode=EN&location=${cordLocation.getLongitude()},${cordLocation.getLatitude()}`)
             .then(res => res.json())
             .then(myJson => {
-                    console.log("HI JIMUT")
-                    this.setState({address : myJson.address.LongLabel})
+                    this.setState({address : myJson.address.LongLabel});
             })
-
     }
 }
