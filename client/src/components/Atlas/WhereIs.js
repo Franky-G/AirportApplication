@@ -53,9 +53,7 @@ export default class SearchModule extends Component {
                                 onClick={() => this.middleCordsFunc()} title="Where Is?"> Go To </Button></Col>
                     <p className="searchTypeStyle">
                         <small>
-                            {this.state.address}
-
-                        <br/>
+                            {this.state.address} <br/>
                         Enter Any Format!
                         </small>
                     </p>
