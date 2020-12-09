@@ -54,9 +54,12 @@ export default class SearchModule extends Component {
                                     ','+this.state.searchWhereIsTextTo)} title="Where Is?"> Go To </Button></Col>
                     <p className="searchTypeStyle">
                         {this.fetchAddressData(this.state.searchWhereIsTextFrom, this.state.searchWhereIsTextTo)}
-                        {this.state.address}
+                        <small>
+                            {this.state.address}
+
                         <br/>
                         Enter Any Format!
+                        </small>
                     </p>
                 </div>
             </Fade>
