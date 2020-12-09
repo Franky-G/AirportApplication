@@ -56,7 +56,7 @@ export default class SearchModule extends Component {
                         {this.fetchAddressData(this.state.searchWhereIsTextFrom, this.state.searchWhereIsTextTo)}
                         {this.state.address}
                         <br/>
-                        Enter Any Format
+                        Enter Any Format!
                     </p>
                 </div>
             </Fade>
