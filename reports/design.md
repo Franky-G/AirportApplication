@@ -274,22 +274,22 @@ The changes in class diagram for Sprint 4 are:
 This epic will allow the user to save their trip in multiple formats in addition to json. The supported formats will be CSV format for loading into spreadsheets, KML format for loading into Google tools, SVG format for browser and graphic tools.
 
 #### Place Details
-This epic will allow the user to know more than just latitude/longitude when they see where they are. This epic will use reverse geocoding to convert latitude/longitude to a textual description. The additional information will be displayed on the marker as well as the trip itinerary.
+This epic will allow the user to know more than just latitude/longitude when they see where they are. This epic will use reverse geocoding to convert latitude/longitude to a textual description.
 
 #### Place Display
-This epic will allow the user to know more about the places when they make a selection. Region, country and other useful information will be displayed along with links to information about places.
+This epic will allow the user to know more about the places when they make a selection. Region, country and other useful information will be displayed.
 
 #### Filter Trip
 This epic will allow the user to search for places in their trip when the list of destinations grows. Only desired places are displayed.
 
 #### Markers
-This epic will allow the user would to choose from an assortment of markers and lines for the trip. The markers will be different images, sizes, colors and lines will be different styles, weights, colors.
+This epic will allow the user to choose from an assortment of markers and lines for the trip. The markers will be different images, sizes, colors and lines will be different styles, width, colors.
 
 #### Maps
-This epic will allow the user to choose from a selection of different map backgrounds, such as satellite or topographic.
+This epic will allow the user to choose from a selection of different map backgrounds, such as satellite, topographic, open street map black and white, and the default map is open street map.
 
 ### Component Hierarchy
-![Component Hierarchy Sprint 3](https://github.com/csucs314f20/t10/blob/master/reports/images/Sprint3ComponentHierarchy.png)
+![Component Hierarchy Sprint 5](https://github.com/csucs314f20/t10/blob/master/reports/images/Sprint5ComponentHierarchy.png)
 
 * App renders the major components on the screen.
 * About renders information about the team, along with team's mission statement and short bios for each teammember, along with their contact information. 
@@ -301,10 +301,10 @@ This epic will allow the user to choose from a selection of different map backgr
   * Search Module works to find distance along with the coordinate parser, which allows the user to enter multiple formats of coordinates.
   * Where Is allows the user to enter coordinates of multiple formats and as soon as the user click the "Go To" button, the map drops a marker at that coordinates.
 * Trip will allow the user to build a trip and modify a trip. This functions will allow the user to build a trip with support of unlimited destinations, modify their existing trip with multiple functionality. 
-* A new optimize button allows the user to optimize their trip based on nearest neighbor and 2-opt. A new trip is created with the label optimized and the places are sorted based on optimization. A new total distance is also displayed in the Trip designer. For the user's convenience, the optimized trip is displayed on the map using polylines, and as soon as the user clicks on a place, a marker is dropped at that place.
+* An optimize button allows the user to optimize their trip based on nearest neighbor and 2-opt. A new trip is created with the label optimized and the places are sorted based on optimization. A new total distance is also displayed in the Trip designer. For the user's convenience, the optimized trip is displayed on the map using polylines, and as soon as the user clicks on a place, a marker is dropped at that place.
 
 ### Class Diagram
-![Class Diagram Sprint 3](https://github.com/csucs314f20/t10/blob/master/reports/images/Sprint3ClassDiagram.png)
+![Class Diagram Sprint 5](https://github.com/csucs314f20/t10/blob/master/reports/images/Sprint5ClassDiagram.png)
 
 The class diagram for Sprint 5 are:
 * Config: The filters element contains two properties. The type property identifies the different kinds of places available. The where property identifies locations by geographic elements.
